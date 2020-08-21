@@ -1,229 +1,16 @@
 Dim coll As Collection
 
 Sub test()
-Dim slide As slide
-Dim shape As shape
-Set slide = Application.ActivePresentation.Slides.AddSlide(1, ActivePresentation.SlideMaster.CustomLayouts(1))
-If Application.ActiveWindow.Selection.Type = ppSelectionShapes Then
-End If
-'With Application.ActiveWindow.Selection.ShapeRange
-Set shape = slide.Shapes.AddTextbox(Office.msoTextOrientationHorizontal, 18.33252, 49.47677, 72.51126, 29.08126)
-shape.TextFrame2.textrange.text = "VIBDAO"
-Call shape.Fill.Solid
-With shape
-      .AlternativeText = ""
-      With .AnimationSettings
-        .AdvanceMode = ppAdvanceOnClick
-        .AdvanceTime = 2147484
-        .AfterEffect = ppAfterEffectNothing
-        .Animate = 0
-        .AnimateBackground = 0
-        .AnimateTextInReverse = 0
-        '.ChartUnitEffect = ppAnimateChartMixed
-        With .DimColor
-          .RGB = RGB(150, 150, 150)
-          .SchemeColor = 8
-          '.Type = msoColorTypeScheme ' Read-only
-        End With
-        .EntryEffect = ppEffectCut
-        .TextLevelEffect = ppAnimateLevelNone
-        .TextUnitEffect = ppAnimateByParagraph
-      End With
-      .AutoShapeType = msoShapeRectangle
-      ''.BackgroundStyle = msoBackgroundStyleNotAPreset parameter has not a valid value
-      .BlackWhiteMode = msoBlackWhiteAutomatic
-      With .callout
-        ''.AutoAttach = 0 this object does not manage this action
-        '.AutoLength = 0 ' Read-only
-      End With
-      '.Child = 0
-      '.ConnectionSiteCount = 4
-      '.Connector = 0
-      With .CustomerData
-        '.Count = 0 ' Read-only
-      End With
-      With .Fill
-        With .BackColor
-          .Brightness = 0
-          ''.ObjectThemeColor = Office.msoNotThemeColor ' value is outside of range
-          .RGB = RGB(255, 255, 255)
-          ''.SchemeColor = 0 ' value is outside of range
-          .TintAndShade = 0
-          '.Type = msoColorTypeRGB ' Read-only
-        End With
-        With .ForeColor
-          .Brightness = 0
-          ''.ObjectThemeColor = msoNotThemeColor ' value is outside of range = 0 can be read but cannot be set
-          .RGB = RGB(0, 112, 192)
-          ''.SchemeColor = ppNotSchemeColor ' value is outside of range = 0 can be read but cannot be set
-          .TintAndShade = 0
-          '.Type = msoColorTypeRGB ' Read-only
-        End With
-        '.GradientVariant = 0 ' Read-only'
-        ' 0 = No gradient variant used
-        '.Pattern = msoPatternMixed ' Read-only
-        '.PresetGradientType = msoGradientColorMixed ' Read-only
-        '.PresetTexture = msoPresetTextureMixed ' Read-only
-        ''.RotateWithObject = msoFalse ' = 0
-        .Transparency = 0
-        '.Type = msoFillSolid ' Read-only
-        .Visible = -1
-      End With
-      With .Glow
-        With .color
-          ''.Brightness = -2147483648#
-          ''.ObjectThemeColor = Office.msoThemeColorMixed
-          '.RGB = transparent?
-          ''.SchemeColor = -2
-          ''.TintAndShade = -2147483648#
-          '.Type = msoColorTypeMixed
-        End With
-        .Radius = 0
-        ''.Transparency = -2147483648#
-      End With
-      '.HasChart = 0 ' Read-only
-      '.HasTable = 0 ' Read-only
-      '.HasTextFrame = -1 ' Read-only
-      .Height = 29.08126
-      '.HorizontalFlip = 0
-      '.Id = 4
-      .Left = 18.33252
-      With .Line
-        With .BackColor
-          .Brightness = 0
-          ''.ObjectThemeColor = Office.msoNotThemeColor
-          .RGB = RGB(255, 255, 255)
-          ''.SchemeColor = 0
-          .TintAndShade = 0
-          '.Type = msoColorTypeRGB ' Read-only
-        End With
-        ''.BeginArrowheadLength = msoArrowheadLengthMixed ' value is outside of range
-        ''.BeginArrowheadStyle = msoArrowheadStyleMixed ' value is outside of range
-        ''.BeginArrowheadWidth = msoArrowheadWidthMixed
-        ''.DashStyle = msoLineDashStyleMixed
-        ''.EndArrowheadLength = msoArrowheadLengthMixed
-        ''.EndArrowheadStyle = msoArrowheadStyleMixed
-        ''.EndArrowheadWidth = msoArrowheadWidthMixed
-        With .ForeColor
-          .Brightness = 0
-          '.ObjectThemeColor = Office.msoNotThemeColor
-          .RGB = RGB(255, 255, 255)
-          '.SchemeColor = 0
-          .TintAndShade = 0
-          '.Type = msoColorTypeRGB ' Read-only
-        End With
-        ''.InsetPen = -2 ' value is outside of range
-        ''.Pattern = msoPatternMixed ' value is outside of range
-        ''.Style = msoLineStyleMixed ' value is outside of range
-        ''.Transparency = -2147483648# ' value is outside of range
-        .Visible = 0
-        ''.Weight = -2147483648# ' value is outside of range
-      End With
-      .LockAspectRatio = 0
-      .Name = "TextBox 3"
-      With .PictureFormat
-        .TransparentBackground = 0
-      End With
-      With .Reflection
-        .Blur = 0
-        ''.offset = -2147483648# ' value is outside of range
-        .Size = 100
-        ''.Transparency = -2147483648# ' value is outside of range
-        .Type = 0
-      End With
-      .Rotation = 0
-      With .Shadow
-        '.Blur = 5
-        With .ForeColor
-          ''.Brightness = -2147483648# ' value is outside of range
-          ''.ObjectThemeColor = Office.msoThemeColorMixed ' value is outside of range
-          '.RGB = transparent?
-          ''.SchemeColor = -2 ' value is outside of range
-          ''.TintAndShade = -2147483648# ' value is outside of range
-          '.Type = msoColorTypeMixed ' Read-only
-        End With
-        '.Obscured = 0
-        .OffsetX = 2.079952
-        '.OffsetY = 2.079952
-        '.RotateWithShape = 0
-        '.Size = 100
-        ''.Style = msoShadowStyleMixed ' value is outside of range
-        ''.Transparency = -2147483648# ' value is outside of range
-        ''.Type = msoShadowMixed ' value is outside of range
-        '.Visible = 0
-      End With
-      ''.ShapeStyle = msoShapeStyleNotAPreset ' value is outside of range
-      With .SoftEdge
-        .Radius = 0
-        .Type = Office.msoSoftEdgeTypeNone
-      End With
-      With .Tags
-      End With
-      With .ThreeD
-        .BevelBottomDepth = 0
-        .BevelBottomInset = 0
-        .BevelBottomType = 1
-        .BevelTopDepth = 0
-        .BevelTopInset = 0
-        .BevelTopType = 1
-        With .ContourColor
-          ''.Brightness = 0 ' the method has failed
-          ''.ObjectThemeColor = Office.msoThemeColorMixed
-          .RGB = RGB(0, 0, 0)
-          ''.SchemeColor = -2
-          .TintAndShade = 0
-          '.Type = msoColorTypeMixed ' Read-only
-        End With
-        .ContourWidth = 0
-        .Depth = 36
-        With .ExtrusionColor
-          ''.Brightness = 0 ' the method has failed
-          ''.ObjectThemeColor = Office.msoThemeColorMixed
-          .RGB = RGB(255, 255, 255)
-          ''.SchemeColor = -2
-          .TintAndShade = 0
-          '.Type = msoColorTypeMixed ' Read-only
-        End With
-        .ExtrusionColorType = msoExtrusionColorAutomatic
-        .FieldOfView = 45
-        .LightAngle = 0
-        ''.Perspective = -2 ' value is outside of range
-        '.PresetCamera = msoPresetCameraMixed ' Read-only
-        '.PresetExtrusionDirection = msoExtrusionColorTypeMixed ' Read-only
-        ''.PresetLighting = msoLightRigMixed ' value is outside of range
-        ''.PresetLightingDirection = msoPresetLightingDirectionMixed ' value is outside of range
-        ''.PresetLightingSoftness = msoPresetLightingSoftnessMixed ' value is outside of range
-        ''.PresetMaterial = Office.MsoPresetMaterial.msoPresetMaterialMixed ' value is outside of range
-        '.PresetThreeDFormat = msoPresetThreeDFormatMixed ' Read-only
-        .ProjectText = -1
-        .RotationX = 0
-        .RotationY = 0
-        .RotationZ = 0
-        .Visible = 0
-        ''.Z = -2147483648# ' value is outside of range
-      End With
-      .Title = ""
-      .Top = 49.47677
-      '.Type = msoTextBox
-      '.VerticalFlip = 0
-      '.Vertices = ""
-      .Visible = -1
-      .Width = 72.51126
-      '.ZOrderPosition = 1
-    End With
-    'End With
+    Dim shape As shape
+    Set shape = Application.ActiveWindow.Selection.ShapeRange.Item(1)
 End Sub
 
 Sub selected_object_to_vba()
     Dim sel As Selection
-    
+
     Set coll = New Collection
 
     Set sel = Application.ActiveWindow.Selection
-    
-code = code & "Dim slide As Slide" & Chr(13)
-code = code & "Dim shape As Shape" & Chr(13)
-code = code & "Set slide = Application.ActivePresentation.Slides.AddSlide(1, ActivePresentation.SlideMaster.CustomLayouts(1))" & Chr(13)
 
     Select Case sel.Type ' PpSelectionType
     Case ppSelectionNone: code = code & ""
@@ -251,10 +38,20 @@ code = code & "Set slide = Application.ActivePresentation.Slides.AddSlide(1, Act
     If code = "" Then
         MsgBox "invalid selection type"
     Else
+
+code2 = ""
+code2 = code2 & "Sub test_" & Format(Now(), "yyyyMMdd_hhmmss") & "()" & Chr(13)
+code2 = code2 & "Dim slide As Slide" & Chr(13)
+code2 = code2 & "Dim shape As Shape" & Chr(13)
+code2 = code2 & "Set slide = Application.ActivePresentation.Slides.AddSlide(1, ActivePresentation.SlideMaster.CustomLayouts(1))" & Chr(13)
+code2 = code2 & code
+code2 = code2 & "End Sub" & Chr(13)
+
         Open "C:\Users\Sandra\Documents\VBA PPT.txt" For Output As 1
-        Print #1, code
+        Print #1, code2
         Close #1
     End If
+
 End Sub
 
 Function alreadyProcessed(object As Object) As Boolean
@@ -477,7 +274,7 @@ End Function
 Function TabStop(iTabStop As TabStop, indent As Integer) As String
 code = ""
 code = code & Space(indent) & ".Position = " & iTabStop.Position & Chr(13)
-code = code & Space(indent) & ".Type = " & PpTabStopType(iTabStop.Type) & Chr(13)
+code = code & Space(indent) & "'.Type = " & PpTabStopType(iTabStop.Type) & " ' Read-only" & Chr(13)
 TabStops = code
 End Function
 
@@ -539,7 +336,7 @@ code = code & Space(indent) & "With .Font" & Chr(13) & Font(iBulletFormat.Font, 
 code = code & Space(indent) & ".RelativeSize = " & iBulletFormat.RelativeSize & Chr(13)
 code = code & Space(indent) & ".StartValue = " & CLng(iBulletFormat.StartValue) & Chr(13)
 code = code & Space(indent) & ".Style = " & PpNumberedBulletStyle(iBulletFormat.Style) & Chr(13)
-code = code & Space(indent) & ".Type = " & PpBulletType(iBulletFormat.Type) & Chr(13)
+code = code & Space(indent) & "'.Type = " & PpBulletType(iBulletFormat.Type) & " ' Read-only" & Chr(13)
 code = code & Space(indent) & ".UseTextColor = " & iBulletFormat.UseTextColor & Chr(13)
 code = code & Space(indent) & ".UseTextFont = " & iBulletFormat.UseTextFont & Chr(13)
 BulletFormat = code
@@ -696,40 +493,12 @@ ColorScheme = code
 End Function
 
 Function ShapeRange(iShapeRange As ShapeRange, indent As Integer) As String
+' ShapeRange is to know if a property/method of several Shape objects has the same value or is "mixed", or to
+'            change this property/call this method for several Shape objects at once.
 Dim a As Shapes
 'a.AddChart(
 code = ""
-Select Case iShapeRange.Type
-    Case msoAutoShape: code = code & "Set shape = slide.Shapes.AddAutoShape(?)" & Chr(13)
-    Case msoCallout: code = code & "Set shape = slide.Shapes.AddCallout(" & MsoCalloutType(iShapeRange.callout.Type) _
-        & "," & number(iShapeRange.Left) & "," & number(iShapeRange.Top) & "," & number(iShapeRange.Width) & "," & number(iShapeRange.Height) & Chr(13)
-    Case msoCanvas: code = code & "Set = slide.Shapes.AddTextbox " & Chr(13)
-    Case msoChart: code = code & "Set = slide.Shapes.AddTextbox " & Chr(13)
-    Case msoComment: code = code & "Set = slide.Shapes.AddTextbox " & Chr(13)
-    Case msoDiagram: code = code & "Set = slide.Shapes.AddTextbox " & Chr(13)
-    Case msoEmbeddedOLEObject: code = code & "Set = slide.Shapes.AddTextbox " & Chr(13)
-    Case msoFormControl: code = code & "Set = slide.Shapes.AddTextbox " & Chr(13)
-    Case msoFreeform: code = code & "Set = slide.Shapes.AddTextbox " & Chr(13)
-    Case msoGroup: code = code & "Set = slide.Shapes.AddTextbox " & Chr(13)
-    Case msoInk: code = code & "Set = slide.Shapes.AddTextbox " & Chr(13)
-    Case msoInkComment: code = code & "Set = slide.Shapes.AddTextbox " & Chr(13)
-    Case msoLine: code = code & "Set = slide.Shapes.AddTextbox " & Chr(13)
-    Case msoLinkedOLEObject: code = code & "Set = slide.Shapes.AddTextbox " & Chr(13)
-    Case msoLinkedPicture: code = code & "Set = slide.Shapes.AddTextbox " & Chr(13)
-    Case msoMedia: code = code & "Set = slide.Shapes.AddTextbox " & Chr(13)
-    Case msoOLEControlObject: code = code & "Set = slide.Shapes.AddTextbox " & Chr(13)
-    Case msoPicture: code = code & "Set = slide.Shapes.AddTextbox " & Chr(13)
-    Case msoPlaceholder: code = code & "Set = slide.Shapes.AddTextbox " & Chr(13)
-    Case msoScriptAnchor: code = code & "Set = slide.Shapes.AddTextbox " & Chr(13)
-    Case msoShapeTypeMixed: code = code & "Set = slide.Shapes.AddTextbox " & Chr(13)
-    Case msoSlicer: code = code & "Set = slide.Shapes.AddTextbox " & Chr(13)
-    Case msoSmartArt: code = code & "Set = slide.Shapes.AddTextbox " & Chr(13)
-    Case msoTable: code = code & "Set = slide.Shapes.AddTextbox " & Chr(13)
-    Case msoTextBox: code = code & "Set shape = slide.Shapes.AddTextbox(" & MsoTextOrientation(iShapeRange.TextFrame2.Orientation) _
-        & "," & number(iShapeRange.Left) & "," & number(iShapeRange.Top) & "," & number(iShapeRange.Width) & "," & number(iShapeRange.Height) & ")" & Chr(13)
-    Case msoTextEffect: code = "msoTextEffect"
-End Select
-code = code & "With shape" & Chr(13)
+If 0 = 1 Then
 code = code & Space(indent) & "With .ActionSettings" & Chr(13) & ActionSettings(iShapeRange.ActionSettings, indent + 2) & Space(indent) & "End With" & Chr(13)
 If iShapeRange.Count = 1 Then
   code = code & Space(indent) & ".AlternativeText = " & InQuotes(iShapeRange.AlternativeText) & Chr(13)
@@ -753,7 +522,9 @@ End If
 code = code & Space(indent) & "'.Count = " & iShapeRange.Count & " ' Read-Only" & Chr(13)
 'code = code & Space(indent) & "With .CustomerData" & CustomerData(ishaperange.CustomerData, indent + 2) & Space(indent) & "End With" & Chr(13)
 code = code & Space(indent) & "With .Fill" & Chr(13) & FillFormat(iShapeRange.Fill, indent + 2) & Space(indent) & "End With" & Chr(13)
-code = code & Space(indent) & "With .Glow" & Chr(13) & GlowFormat(iShapeRange.Glow, indent + 2) & Space(indent) & "End With" & Chr(13)
+If iGlowFormat.color.Type <> msoColorTypeMixed Then
+    code = code & Space(indent) & "With .Glow" & Chr(13) & GlowFormat(iShapeRange.Glow, indent + 2) & Space(indent) & "End With" & Chr(13)
+End If
 ' "Invalid request. Command cannot be applied to a shape range with multiple shapes.", for these members: AlternativeText, GroupItems, id, name, tags, title, vertices.
 If iShapeRange.Type = msoGroup And iShapeRange.Count = 1 Then
   code = code & Space(indent) & "With .GroupItems = " & Chr(13) & GroupShapes(iShapeRange.GroupItems, indent + 2) & Space(indent) & "End With" & Chr(13)
@@ -790,10 +561,16 @@ code = code & Space(indent) & "With .PictureFormat" & Chr(13) & PictureFormat(iS
 If iShapeRange.Type = msoPlaceholder Then
   code = code & Space(indent) & "With .PlaceholderFormat" & Chr(13) & PlaceholderFormat(iShapeRange.PlaceholderFormat, indent + 2) & Space(indent) & "End With" & Chr(13) ' Read-Only
 End If
-code = code & Space(indent) & "With .Reflection" & Chr(13) & ReflectionFormat(iShapeRange.Reflection, indent + 2) & Space(indent) & "End With" & Chr(13) ' Read-Only
+If iShapeRange.Reflection.Type <> msoReflectionTypeMixed And iShapeRange.Reflection.Type <> msoReflectionTypeNone Then
+    code = code & Space(indent) & "With .Reflection" & Chr(13) & ReflectionFormat(iShapeRange.Reflection, indent + 2) & Space(indent) & "End With" & Chr(13) ' Read-Only
+End If
 code = code & Space(indent) & ".Rotation = " & iShapeRange.Rotation & Chr(13)
-code = code & Space(indent) & "With .Shadow" & Chr(13) & ShadowFormat(iShapeRange.Shadow, indent + 2) & Space(indent) & "End With" & Chr(13) ' Read-Only
-code = code & Space(indent) & ".ShapeStyle = " & MsoShapeStyleIndex(iShapeRange.ShapeStyle) & Chr(13)
+If iShapeRange.Shadow.Style <> msoShadowStyleMixed Then
+    code = code & Space(indent) & "With .Shadow" & Chr(13) & ShadowFormat(iShapeRange.Shadow, indent + 2) & Space(indent) & "End With" & Chr(13) ' Read-Only
+End If
+If iShapeRange.ShapeStyle <> msoShapeStyleNotAPreset Then
+    code = code & Space(indent) & ".ShapeStyle = " & MsoShapeStyleIndex(iShapeRange.ShapeStyle) & Chr(13)
+End If
 If iShapeRange.Type = msoSmartArt Then
   code = code & Space(indent) & "With .SmartArt" & Chr(13) & SmartArt(iShapeRange.SmartArt, indent + 2) & Space(indent) & "End With" & Chr(13) ' Read-Only
 End If
@@ -804,7 +581,9 @@ End If
 code = code & Space(indent) & "With .Tags" & Chr(13) & Tags(iShapeRange.Tags, indent + 2) & Space(indent) & "End With" & Chr(13) ' Read-Only
 code = code & Space(indent) & "With .TextEffect" & Chr(13) & TextEffectFormat(iShapeRange.TextEffect, indent + 2) & Space(indent) & "End With" & Chr(13) ' Read-Only
 code = code & Space(indent) & "With .TextFrame2" & Chr(13) & TextFrame2(iShapeRange.TextFrame2, indent + 2) & Space(indent) & "End With" & Chr(13) ' Read-Only
-code = code & Space(indent) & "With .ThreeD" & Chr(13) & ThreeDFormat(iShapeRange.ThreeD, indent + 2) & Space(indent) & "End With" & Chr(13) ' Read-Only
+If iShapeRange.ThreeD.PresetThreeDFormat <> msoPresetThreeDFormatMixed Then
+    code = code & Space(indent) & "With .ThreeD" & Chr(13) & ThreeDFormat(iShapeRange.ThreeD, indent + 2) & Space(indent) & "End With" & Chr(13) ' Read-Only
+End If
 code = code & Space(indent) & ".Title = " & InQuotes(iShapeRange.Title) & Chr(13)
 code = code & Space(indent) & ".Top = " & number(iShapeRange.Top) & Chr(13)
 code = code & Space(indent) & "'.Type = " & MsoShapeType(iShapeRange.Type) & " ' Read-Only" & Chr(13)
@@ -813,10 +592,10 @@ code = code & Space(indent) & "'.Vertices = " & InQuotes(iShapeRange.Vertices) &
 code = code & Space(indent) & ".Visible = " & iShapeRange.Visible & Chr(13)
 code = code & Space(indent) & ".Width = " & number(iShapeRange.Width) & Chr(13)
 code = code & Space(indent) & "'.ZOrderPosition = " & iShapeRange.ZOrderPosition & " ' Read-Only" & Chr(13) ' can be changed via method zorder
+End If
 For i = 1 To iShapeRange.Count
     code = code & Space(indent) & "With .Item(" & i & ") ' Read-Only" & Chr(13) & shape(iShapeRange.Item(i), indent + 2) & Space(indent) & "End With" & Chr(13)
 Next
-code = code & Space(indent) & "End With" & Chr(13)
 ShapeRange = code
 End Function
 
@@ -825,6 +604,7 @@ Function InQuotes(text) As String
 End Function
 
 Function ThreeDFormat(iThreeDFormat As ThreeDFormat, indent As Integer) As String
+If iThreeDFormat.PresetThreeDFormat = msoPresetThreeDFormatMixed Then Err.Raise 9999
 code = ""
 code = code & Space(indent) & ".BevelBottomDepth = " & iThreeDFormat.BevelBottomDepth & Chr(13)
 code = code & Space(indent) & ".BevelBottomInset = " & iThreeDFormat.BevelBottomInset & Chr(13)
@@ -832,10 +612,14 @@ code = code & Space(indent) & ".BevelBottomType = " & iThreeDFormat.BevelBottomT
 code = code & Space(indent) & ".BevelTopDepth = " & iThreeDFormat.BevelTopDepth & Chr(13)
 code = code & Space(indent) & ".BevelTopInset = " & iThreeDFormat.BevelTopInset & Chr(13)
 code = code & Space(indent) & ".BevelTopType = " & iThreeDFormat.BevelTopType & Chr(13)
-code = code & Space(indent) & "With .ContourColor" & Chr(13) & ColorFormat(iThreeDFormat.ContourColor, indent + 2) & Space(indent) & "End With" & Chr(13)
+If iThreeDFormat.ContourColor.Type <> msoColorTypeMixed Then
+    code = code & Space(indent) & "With .ContourColor" & Chr(13) & ColorFormat(iThreeDFormat.ContourColor, indent + 2) & Space(indent) & "End With" & Chr(13)
+End If
 code = code & Space(indent) & ".ContourWidth = " & iThreeDFormat.ContourWidth & Chr(13)
 code = code & Space(indent) & ".Depth = " & iThreeDFormat.Depth & Chr(13)
-code = code & Space(indent) & "With .ExtrusionColor" & Chr(13) & ColorFormat(iThreeDFormat.ExtrusionColor, indent + 2) & Space(indent) & "End With" & Chr(13)
+If iThreeDFormat.ExtrusionColor.Type <> msoColorTypeMixed Then
+    code = code & Space(indent) & "With .ExtrusionColor" & Chr(13) & ColorFormat(iThreeDFormat.ExtrusionColor, indent + 2) & Space(indent) & "End With" & Chr(13)
+End If
 code = code & Space(indent) & ".ExtrusionColorType = " & MsoExtrusionColorType(iThreeDFormat.ExtrusionColorType) & Chr(13)
 code = code & Space(indent) & ".FieldOfView = " & iThreeDFormat.FieldOfView & Chr(13)
 code = code & Space(indent) & ".LightAngle = " & iThreeDFormat.LightAngle & Chr(13)
@@ -871,10 +655,14 @@ code = code & Space(indent) & ".Orientation = " & MsoTextOrientation(iTextFrame2
 code = code & Space(indent) & ".PathFormat = " & MsoPathFormat(iTextFrame2.PathFormat) & Chr(13)
 code = code & Space(indent) & "With .Ruler" & Chr(13) & Ruler2(iTextFrame2.Ruler, indent + 2) & Space(indent) & "End With" & Chr(13)
 code = code & Space(indent) & "With .TextRange" & Chr(13) & TextRange2(iTextFrame2.textrange, indent + 2) & Space(indent) & "End With" & Chr(13)
-code = code & Space(indent) & "With .ThreeD" & Chr(13) & ThreeDFormat(iTextFrame2.ThreeD, indent + 2) & Space(indent) & "End With" & Chr(13)
+If iTextFrame2.ThreeD.PresetThreeDFormat <> msoPresetThreeDFormatMixed Then
+    code = code & Space(indent) & "With .ThreeD" & Chr(13) & ThreeDFormat(iTextFrame2.ThreeD, indent + 2) & Space(indent) & "End With" & Chr(13)
+End If
 code = code & Space(indent) & ".VerticalAnchor = " & MsoVerticalAnchor(iTextFrame2.VerticalAnchor) & Chr(13)
 code = code & Space(indent) & ".WarpFormat = " & MsoWarpFormat(iTextFrame2.WarpFormat) & Chr(13)
+If iTextFrame2.WordArtFormat <> msoTextEffectMixed Then
 code = code & Space(indent) & ".WordArtFormat = " & MsoPresetTextEffect(iTextFrame2.WordArtFormat) & Chr(13)
+End If
 code = code & Space(indent) & ".WordWrap = " & iTextFrame2.WordWrap & Chr(13)
 TextFrame2 = code
 End Function
@@ -933,7 +721,7 @@ code = code & Space(indent) & "'.Number = " & iBulletFormat2.number & " ' Read-o
 code = code & Space(indent) & ".RelativeSize = " & iBulletFormat2.RelativeSize & Chr(13)
 code = code & Space(indent) & ".StartValue = " & iBulletFormat2.StartValue & Chr(13)
 code = code & Space(indent) & ".Style = " & MsoNumberedBulletStyle(iBulletFormat2.Style) & Chr(13)
-code = code & Space(indent) & ".Type = " & MsoBulletType(iBulletFormat2.Type) & Chr(13)
+code = code & Space(indent) & "'.Type = " & MsoBulletType(iBulletFormat2.Type) & " ' Read-only" & Chr(13)
 code = code & Space(indent) & ".UseTextColor = " & iBulletFormat2.UseTextColor & Chr(13)
 code = code & Space(indent) & ".UseTextFont = " & iBulletFormat2.UseTextFont & Chr(13)
 code = code & Space(indent) & ".Visible = " & iBulletFormat2.Visible & Chr(13)
@@ -975,8 +763,12 @@ code = code & Space(indent) & "'.Embeddable = " & iFont2.Embeddable & " ' Read-o
 code = code & Space(indent) & "'.Embedded = " & iFont2.Embedded & " ' Read-only" & Chr(13)
 code = code & Space(indent) & ".Equalize = " & iFont2.Equalize & Chr(13)
 'code = code & Space(indent) & "With .Fill" & Chr(13) & FillFormat(iFont2.Fill, indent + 2) & Space(indent) & "End With" & Chr(13)
-code = code & Space(indent) & "With .Glow" & Chr(13) & GlowFormat(iFont2.Glow, indent + 2) & Space(indent) & "End With" & Chr(13)
+If iFont2.Glow.color.Type <> msoColorTypeMixed Then
+    code = code & Space(indent) & "With .Glow" & Chr(13) & GlowFormat(iFont2.Glow, indent + 2) & Space(indent) & "End With" & Chr(13)
+End If
+If iFont2.Highlight.Type <> msoColorTypeMixed Then
 code = code & Space(indent) & "With .Highlight" & Chr(13) & ColorFormat2(iFont2.Highlight, indent + 2) & Space(indent) & "End With" & Chr(13)
+End If
 code = code & Space(indent) & ".Italic = " & iFont2.Italic & Chr(13)
 code = code & Space(indent) & ".Kerning = " & iFont2.Kerning & Chr(13)
 'code = code & Space(indent) & "With .Line" & Chr(13) & LineFormat(iFont2.Line, indent + 2) & Space(indent) & "End With" & Chr(13)
@@ -985,8 +777,12 @@ code = code & Space(indent) & ".NameAscii = " & InQuotes(iFont2.NameAscii) & Chr
 code = code & Space(indent) & ".NameComplexScript = " & InQuotes(iFont2.NameComplexScript) & Chr(13)
 code = code & Space(indent) & ".NameFarEast = " & InQuotes(iFont2.NameFarEast) & Chr(13)
 code = code & Space(indent) & ".NameOther = " & InQuotes(iFont2.NameOther) & Chr(13)
-code = code & Space(indent) & "With .Reflection" & Chr(13) & ReflectionFormat(iFont2.Reflection, indent + 2) & Space(indent) & "End With" & Chr(13)
-'code = code & Space(indent) & "With .Shadow" & Chr(13) & ShadowFormat(iFont2.Shadow, indent + 2) & Space(indent) & "End With" & Chr(13)
+If iFont2.Reflection.Type <> msoReflectionTypeMixed And iFont2.Reflection.Type <> msoReflectionTypeNone Then
+    code = code & Space(indent) & "With .Reflection" & Chr(13) & ReflectionFormat(iFont2.Reflection, indent + 2) & Space(indent) & "End With" & Chr(13)
+End If
+If iFont2.Shadow.Style <> msoShadowStyleMixed Then
+    code = code & Space(indent) & "With .Shadow" & Chr(13) & ShadowFormat(iFont2.Shadow, indent + 2) & Space(indent) & "End With" & Chr(13)
+End If
 code = code & Space(indent) & ".Size = " & iFont2.Size & Chr(13)
 code = code & Space(indent) & ".Smallcaps = " & iFont2.Smallcaps & Chr(13)
 code = code & Space(indent) & ".SoftEdgeFormat = " & MsoSoftEdgeType(iFont2.SoftEdgeFormat) & Chr(13)
@@ -997,7 +793,9 @@ code = code & Space(indent) & ".Subscript = " & iFont2.Subscript & Chr(13)
 code = code & Space(indent) & ".Superscript = " & iFont2.Superscript & Chr(13)
 'code = code & Space(indent) & "With .UnderlineColor" & Chr(13) & ColorFormat(iFont2.UnderlineColor, indent + 2) & Space(indent) & "End With" & Chr(13)
 code = code & Space(indent) & ".UnderlineStyle = " & MsoTextUnderlineType(iFont2.UnderlineStyle) & Chr(13)
+If iFont2.WordArtFormat <> msoTextEffectMixed Then
 code = code & Space(indent) & ".WordArtformat = " & MsoPresetTextEffect(iFont2.WordArtFormat) & Chr(13)
+End If
 Font2 = code
 End Function
 
@@ -1027,7 +825,7 @@ End Function
 Function TabStop2(iTabStop2 As Office.TabStop2, indent As Integer) As String
 code = ""
 code = code & Space(indent) & ".Position = " & iTabStop2.Position & Chr(13)
-code = code & Space(indent) & ".Type = " & MsoTabStopType(iTabStop2.Type) & Chr(13)
+code = code & Space(indent) & "'.Type = " & MsoTabStopType(iTabStop2.Type) & " ' Read-only" & Chr(13)
 TabStop2 = code
 End Function
 
@@ -1073,7 +871,7 @@ End Function
 Function SoftEdgeFormat(iSoftEdgeFormat As SoftEdgeFormat, indent As Integer) As String
 code = ""
 code = code & Space(indent) & ".Radius = " & iSoftEdgeFormat.Radius & Chr(13)
-code = code & Space(indent) & ".Type = " & MsoSoftEdgeType(iSoftEdgeFormat.Type) & Chr(13)
+code = code & Space(indent) & "'.Type = " & MsoSoftEdgeType(iSoftEdgeFormat.Type) & " ' Read-only" & Chr(13)
 SoftEdgeFormat = code
 End Function
 
@@ -1085,9 +883,12 @@ SmartArt = code
 End Function
 
 Function ShadowFormat(iShadowFormat As ShadowFormat, indent As Integer) As String
+If iShapeRange.Shadow.Style = msoShadowStyleMixed Then Err.Raise 9999
 code = ""
 code = code & Space(indent) & ".Blur = " & iShadowFormat.Blur & Chr(13)
-code = code & Space(indent) & "With .ForeColor" & Chr(13) & ColorFormat(iShadowFormat.ForeColor, indent + 2) & Space(indent) & "End With" & Chr(13)
+If iShadowFormat.ForeColor.Type <> msoColorTypeMixed Then
+    code = code & Space(indent) & "With .ForeColor" & Chr(13) & ColorFormat(iShadowFormat.ForeColor, indent + 2) & Space(indent) & "End With" & Chr(13)
+End If
 code = code & Space(indent) & ".Obscured = " & iShadowFormat.Obscured & Chr(13)
 If iShadowFormat.Style <> msoShadowStyleMixed Then
     code = code & Space(indent) & ".OffsetX = " & number(iShadowFormat.OffsetX) & Chr(13) ' If .Type = MsoShadowStyleMixed then .Type = MsoShadowStyleOuterShadow
@@ -1097,7 +898,7 @@ code = code & Space(indent) & ".RotateWithShape = " & iShadowFormat.RotateWithSh
 code = code & Space(indent) & ".Size = " & iShadowFormat.Size & Chr(13)
 code = code & Space(indent) & ".Style = " & MsoShadowStyle(iShadowFormat.Style) & Chr(13) ' msoShadowStyleMixed on a Shape object means "no shadow"
 code = code & Space(indent) & ".Transparency = " & CLng(iShadowFormat.Transparency) & Chr(13)
-code = code & Space(indent) & ".Type = " & MsoShadowType(iShadowFormat.Type) & Chr(13)
+code = code & Space(indent) & "'.Type = " & MsoShadowType(iShadowFormat.Type) & " ' Read-only" & Chr(13)
 code = code & Space(indent) & ".Visible = " & iShadowFormat.Visible & Chr(13)
 ShadowFormat = code
 End Function
@@ -1107,12 +908,13 @@ Function number(iNumber) As String
 End Function
 
 Function ReflectionFormat(iReflectionFormat As ReflectionFormat, indent As Integer) As String
+If iReflectionFormat.Type = msoReflectionTypeMixed Then Err.Raise 9999
 code = ""
 code = code & Space(indent) & ".Blur = " & iReflectionFormat.Blur & Chr(13)
 code = code & Space(indent) & ".Offset = " & CLng(iReflectionFormat.offset) & Chr(13)
 code = code & Space(indent) & ".Size = " & iReflectionFormat.Size & Chr(13)
 code = code & Space(indent) & ".Transparency = " & CLng(iReflectionFormat.Transparency) & Chr(13)
-code = code & Space(indent) & ".Type = " & iReflectionFormat.Type & Chr(13)
+code = code & Space(indent) & "'.Type = " & MsoReflectionType(iReflectionFormat.Type) & " ' Read-only" & Chr(13)
 'code = code & Space(indent) & "With .x" & Chr(13) & ColorFormat(iReflectionFormat.Blur, indent + 2) & Space(indent) & "End With" & Chr(13)
 ReflectionFormat = code
 End Function
@@ -1121,7 +923,7 @@ Function PlaceholderFormat(iPlaceholderFormat As PlaceholderFormat, indent As In
 code = ""
 code = code & Space(indent) & ".ContainedType = " & MsoShapeType(iPlaceholderFormat.ContainedType) & Chr(13)
 code = code & Space(indent) & ".Name = " & InQuotes(iPlaceholderFormat.Name) & Chr(13)
-code = code & Space(indent) & ".Type = " & PpPlaceholderType(iPlaceholderFormat.Type) & Chr(13)
+code = code & Space(indent) & "'.Type = " & PpPlaceholderType(iPlaceholderFormat.Type) & " ' Read-only" & Chr(13)
 PlaceholderFormat = code
 End Function
 
@@ -1178,6 +980,7 @@ End Function
 
 Function LineFormat(iLineFormat As LineFormat, indent As Integer) As String
 code = ""
+If iLineFormat.Style = msoLineStyleMixed Then Err.Raise 9999
 code = code & Space(indent) & "With .BackColor" & Chr(13) & ColorFormat(iLineFormat.BackColor, indent + 2) & Space(indent) & "End With" & Chr(13)
 code = code & Space(indent) & ".BeginArrowheadLength = " & MsoArrowheadLength(iLineFormat.BeginArrowheadLength) & Chr(13)
 code = code & Space(indent) & ".BeginArrowheadStyle = " & MsoArrowheadStyle(iLineFormat.BeginArrowheadStyle) & Chr(13)
@@ -1197,6 +1000,7 @@ LineFormat = code
 End Function
 
 Function GlowFormat(iGlowFormat As GlowFormat, indent As Integer) As String
+If iGlowFormat.color.Type = msoColorTypeMixed Then Err.Raise 9999
 code = ""
 code = code & Space(indent) & "With .Color" & Chr(13) & ColorFormat2(iGlowFormat.color, indent + 2) & Space(indent) & "End With" & Chr(13)
 code = code & Space(indent) & ".Radius = " & iGlowFormat.Radius & Chr(13)
@@ -1214,14 +1018,49 @@ End Function
 
 Function shape(iShape As shape, indent As Integer) As String
 code = ""
+Select Case iShape.Type
+    Case msoAutoShape: code = code & "Set shape = slide.Shapes.AddAutoShape(?)" & Chr(13)
+    Case msoCallout: code = code & "Set shape = slide.Shapes.AddCallout(" & MsoCalloutType(iShape.callout.Type) _
+        & "," & number(iShape.Left) & "," & number(iShape.Top) & "," & number(iShape.Width) & "," & number(iShape.Height) & Chr(13)
+    Case msoCanvas: code = code & "Set = slide.Shapes.AddTextbox " & Chr(13)
+    Case msoChart: code = code & "Set = slide.Shapes.AddTextbox " & Chr(13)
+    Case msoComment: code = code & "Set = slide.Shapes.AddTextbox " & Chr(13)
+    Case msoDiagram: code = code & "Set = slide.Shapes.AddTextbox " & Chr(13)
+    Case msoEmbeddedOLEObject: code = code & "Set = slide.Shapes.AddTextbox " & Chr(13)
+    Case msoFormControl: code = code & "Set = slide.Shapes.AddTextbox " & Chr(13)
+    Case msoFreeform: code = code & "Set = slide.Shapes.AddTextbox " & Chr(13)
+    Case msoGroup: code = code & "Set = slide.Shapes.AddTextbox " & Chr(13)
+    Case msoInk: code = code & "Set = slide.Shapes.AddTextbox " & Chr(13)
+    Case msoInkComment: code = code & "Set = slide.Shapes.AddTextbox " & Chr(13)
+    Case msoLine: code = code & "Set = slide.Shapes.AddTextbox " & Chr(13)
+    Case msoLinkedOLEObject: code = code & "Set = slide.Shapes.AddTextbox " & Chr(13)
+    Case msoLinkedPicture: code = code & "Set = slide.Shapes.AddTextbox " & Chr(13)
+    Case msoMedia: code = code & "Set = slide.Shapes.AddTextbox " & Chr(13)
+    Case msoOLEControlObject: code = code & "Set = slide.Shapes.AddTextbox " & Chr(13)
+    Case msoPicture: code = code & "Set = slide.Shapes.AddTextbox " & Chr(13)
+    Case msoPlaceholder: code = code & "Set = slide.Shapes.AddTextbox " & Chr(13)
+    Case msoScriptAnchor: code = code & "Set = slide.Shapes.AddTextbox " & Chr(13)
+    Case msoShapeTypeMixed: code = code & "Set = slide.Shapes.AddTextbox " & Chr(13)
+    Case msoSlicer: code = code & "Set = slide.Shapes.AddTextbox " & Chr(13)
+    Case msoSmartArt: code = code & "Set = slide.Shapes.AddTextbox " & Chr(13)
+    Case msoTable: code = code & "Set = slide.Shapes.AddTextbox " & Chr(13)
+    Case msoTextBox: code = code & "Set shape = slide.Shapes.AddTextbox(" & MsoTextOrientation(iShape.TextFrame2.Orientation) _
+        & "," & number(iShape.Left) & "," & number(iShape.Top) & "," & number(iShape.Width) & "," & number(iShape.Height) & ")" & Chr(13)
+    Case msoTextEffect: code = "msoTextEffect"
+End Select
+code = code & "With shape" & Chr(13)
 code = code & Space(indent) & "With .ActionSettings" & Chr(13) & ActionSettings(iShape.ActionSettings, indent + 2) & Space(indent) & "End With" & Chr(13)
 code = code & Space(indent) & "With .Adjustments" & Chr(13) & Adjustments(iShape.Adjustments, indent + 2) & Space(indent) & "End With" & Chr(13)
 code = code & Space(indent) & ".AlternativeText = " & InQuotes(iShape.AlternativeText) & Chr(13)
 code = code & Space(indent) & "With .AnimationSettings" & Chr(13) & AnimationSettings(iShape.AnimationSettings, indent + 2) & Space(indent) & "End With" & Chr(13)
 code = code & Space(indent) & ".AutoShapeType = " & MsoAutoShapeType(iShape.AutoShapeType) & Chr(13)
-code = code & Space(indent) & ".BackgroundStyle = " & MsoBackgroundStyleIndex(iShape.BackgroundStyle) & Chr(13)
+If iShape.BackgroundStyle <> msoBackgroundStyleNotAPreset Then
+    code = code & Space(indent) & ".BackgroundStyle = " & MsoBackgroundStyleIndex(iShape.BackgroundStyle) & Chr(13)
+End If
 code = code & Space(indent) & ".BlackWhiteMode = " & MsoBlackWhiteMode(iShape.BlackWhiteMode) & Chr(13)
-code = code & Space(indent) & "With .Callout" & Chr(13) & CalloutFormat(iShape.callout, indent + 2) & Space(indent) & "End With" & Chr(13)
+If iShape.Type = msoCallout Then
+    code = code & Space(indent) & "With .Callout" & Chr(13) & CalloutFormat(iShape.callout, indent + 2) & Space(indent) & "End With" & Chr(13)
+End If
 If iShape.Type = msoChart Then
     code = code & Space(indent) & "With .Chart" & Chr(13) & Chart(iShape.Chart, indent + 2) & Space(indent) & "End With" & Chr(13)
 End If
@@ -1233,7 +1072,9 @@ If iShape.Connector = msoTrue Then
 End If
 code = code & Space(indent) & "With .CustomerData" & Chr(13) & CustomerData(iShape.CustomerData, indent + 2) & Space(indent) & "End With" & Chr(13)
 code = code & Space(indent) & "With .Fill" & Chr(13) & FillFormat(iShape.Fill, indent + 2) & Space(indent) & "End With" & Chr(13)
-code = code & Space(indent) & "With .Glow" & Chr(13) & GlowFormat(iShape.Glow, indent + 2) & Space(indent) & "End With" & Chr(13)
+If iShape.Glow.color.Type <> msoColorTypeMixed Then
+    code = code & Space(indent) & "With .Glow" & Chr(13) & GlowFormat(iShape.Glow, indent + 2) & Space(indent) & "End With" & Chr(13)
+End If
 ' "Invalid request. Command cannot be applied to a shape range with multiple shapes.", for these members: AlternativeText, GroupItems, id, name, tags, title, vertices.
 If iShape.Type = msoGroup Then
   code = code & Space(indent) & "With .GroupItems = " & Chr(13) & GroupShapes(iShape.GroupItems, indent + 2) & Space(indent) & "End With" & Chr(13)
@@ -1246,9 +1087,11 @@ code = code & Space(indent) & "'.HasTable = " & iShape.HasTable & " ' Read-only"
 code = code & Space(indent) & "'.HasTextFrame = " & iShape.HasTextFrame & " ' Read-only" & Chr(13)
 code = code & Space(indent) & ".Height = " & number(iShape.Height) & Chr(13)
 code = code & Space(indent) & "'.HorizontalFlip = " & iShape.HorizontalFlip & " ' Read-only" & Chr(13)
-code = code & Space(indent) & ".id = " & iShape.Id & Chr(13) ' Read-Only
+code = code & Space(indent) & "'.id = " & iShape.Id & " ' Read-only" & Chr(13)
 code = code & Space(indent) & ".Left = " & number(iShape.Left) & Chr(13)
-code = code & Space(indent) & "With .Line" & Chr(13) & LineFormat(iShape.Line, indent + 2) & Space(indent) & "End With" & Chr(13) ' Read-Only
+If iShape.Line.Style <> msoLineStyleMixed Then
+    code = code & Space(indent) & "With .Line" & Chr(13) & LineFormat(iShape.Line, indent + 2) & Space(indent) & "End With" & Chr(13) ' Read-Only
+End If
 If iShape.Type = msoLinkedOLEObject Or iShape.Type = msoLinkedPicture Then
   code = code & Space(indent) & "With .LinkFormat" & Chr(13) & LinkFormat(iShape.LinkFormat, indent + 2) & Space(indent) & "End With" & Chr(13) ' Read-Only
 End If
@@ -1268,10 +1111,16 @@ code = code & Space(indent) & "With .PictureFormat" & Chr(13) & PictureFormat(iS
 If iShape.Type = msoPlaceholder Then
   code = code & Space(indent) & "With .PlaceholderFormat" & Chr(13) & PlaceholderFormat(iShape.PlaceholderFormat, indent + 2) & Space(indent) & "End With" & Chr(13) ' Read-Only
 End If
-code = code & Space(indent) & "With .Reflection" & Chr(13) & ReflectionFormat(iShape.Reflection, indent + 2) & Space(indent) & "End With" & Chr(13) ' Read-Only
+If iShape.Reflection.Type <> msoReflectionTypeMixed And iShape.Reflection.Type <> msoReflectionTypeNone Then
+    code = code & Space(indent) & "With .Reflection" & Chr(13) & ReflectionFormat(iShape.Reflection, indent + 2) & Space(indent) & "End With" & Chr(13) ' Read-Only
+End If
 code = code & Space(indent) & ".Rotation = " & iShape.Rotation & Chr(13)
-code = code & Space(indent) & "With .Shadow" & Chr(13) & ShadowFormat(iShape.Shadow, indent + 2) & Space(indent) & "End With" & Chr(13) ' Read-Only
-code = code & Space(indent) & ".ShapeStyle = " & MsoShapeStyleIndex(iShape.ShapeStyle) & Chr(13)
+If iShape.Shadow.Style <> msoShadowStyleMixed Then
+    code = code & Space(indent) & "With .Shadow" & Chr(13) & ShadowFormat(iShape.Shadow, indent + 2) & Space(indent) & "End With" & Chr(13) ' Read-Only
+End If
+If iShape.ShapeStyle <> msoShapeStyleNotAPreset Then
+    code = code & Space(indent) & ".ShapeStyle = " & MsoShapeStyleIndex(iShape.ShapeStyle) & Chr(13)
+End If
 If iShape.Type = msoSmartArt Then
   code = code & Space(indent) & "With .SmartArt" & Chr(13) & SmartArt(iShape.SmartArt, indent + 2) & Space(indent) & "End With" & Chr(13) ' Read-Only
 End If
@@ -1281,8 +1130,10 @@ If iShape.Type = msoTable Then
 End If
 code = code & Space(indent) & "With .Tags" & Chr(13) & Tags(iShape.Tags, indent + 2) & Space(indent) & "End With" & Chr(13) ' Read-Only
 'code = code & Space(indent) & "With .TextEffect" & Chr(13) & TextEffectFormat(iShape.TextEffect, indent + 2) & Space(indent) & "End With" & Chr(13) ' Read-Only
-'code = code & Space(indent) & "With .TextFrame2" & Chr(13) & TextFrame2(iShape.TextFrame2, indent + 2) & Space(indent) & "End With" & Chr(13) ' Read-Only
-code = code & Space(indent) & "With .ThreeD" & Chr(13) & ThreeDFormat(iShape.ThreeD, indent + 2) & Space(indent) & "End With" & Chr(13) ' Read-Only
+code = code & Space(indent) & "With .TextFrame2" & Chr(13) & TextFrame2(iShape.TextFrame2, indent + 2) & Space(indent) & "End With" & Chr(13) ' Read-Only
+If iShape.ThreeD.PresetThreeDFormat <> msoPresetThreeDFormatMixed Then
+    code = code & Space(indent) & "With .ThreeD" & Chr(13) & ThreeDFormat(iShape.ThreeD, indent + 2) & Space(indent) & "End With" & Chr(13) ' Read-Only
+End If
 code = code & Space(indent) & ".Title = " & InQuotes(iShape.Title) & Chr(13)
 code = code & Space(indent) & ".Top = " & number(iShape.Top) & Chr(13)
 code = code & Space(indent) & "'.Type = " & MsoShapeType(iShape.Type) & " ' Read-only" & Chr(13)
@@ -1291,6 +1142,7 @@ code = code & Space(indent) & "'.Vertices = " & InQuotes(iShape.Vertices) & " ' 
 code = code & Space(indent) & ".Visible = " & iShape.Visible & Chr(13)
 code = code & Space(indent) & ".Width = " & number(iShape.Width) & Chr(13)
 code = code & Space(indent) & "'.ZOrderPosition = " & iShape.ZOrderPosition & " ' Read-only" & Chr(13)
+code = code & Space(indent) & "End With" & Chr(13)
 shape = code
 End Function
 
@@ -1344,20 +1196,36 @@ Adjustments = code
 End Function
 
 Function ActionSettings(iActionSettings As ActionSettings, indent As Integer) As String
+'A collection that contains the two ActionSetting objects for a shape or text range. One ActionSetting object
+'represents how the specified object reacts when the user clicks it during a slide show, and the other
+'ActionSetting object represents how the specified object reacts when the user moves the mouse pointer over it during a slide show.
+'Example
+'Use the ActionSettings property to return the ActionSettings collection. Use ActionSettings (index), where index
+'is either ppMouseClick (1) or ppMouseOver (2), to return a single ActionSetting object. The following example specifies
+'that the CalculateTotal macro be run whenever the mouse pointer passes over the shape during a slide show.
+'-----------------
+'With ActivePresentation.Slides(1).Shapes(3).ActionSettings(ppMouseOver)
+'    .Action = ppActionRunMacro
+'    .Run = "CalculateTotal"
+'    .AnimateAction = True
+'End With
+'-----------------
 code = ""
-code = code & Space(indent) & "'.Count = " & iActionSettings.Count & " ' Read-only" & Chr(13)
-For i = 1 To iActionSettings.Count
-  code = code & Space(indent) & "With .item(" & CStr(i) & ")" & Chr(13) & ActionSetting(iActionSettings.Item(i), indent + 2) & Space(indent) & "End With" & Chr(13)
-Next
+code = code & Space(indent) & "'.Count = " & iActionSettings.Count & " ' Read-only" & Chr(13) ' Count property is always 2 even if there's no action
+If iActionSettings.Item(ppMouseClick).Action <> ppActionNone Then
+    code = code & Space(indent) & "With .item(ppMouseClick)" & Chr(13) & ActionSetting(iActionSettings.Item(ppMouseClick), indent + 2) & Space(indent) & "End With" & Chr(13)
+End If
+If iActionSettings.Item(ppMouseOver).Action <> ppActionNone Then
+    code = code & Space(indent) & "With .item(ppMouseOver)" & Chr(13) & ActionSetting(iActionSettings.Item(ppMouseOver), indent + 2) & Space(indent) & "End With" & Chr(13)
+End If
 ActionSettings = code
 End Function
 
 Function ActionSetting(iActionSetting As ActionSetting, indent As Integer) As String
+If iActionSetting.Action = ppActionNone Then Err.Raise 9999
 code = ""
 code = code & Space(indent) & ".Action = " & PpActionType(iActionSetting.Action) & Chr(13)
-If iActionSetting.Action <> ppActionNone Then
-    code = code & Space(indent) & ".ActionVerb = " & InQuotes(iActionSetting.ActionVerb) & Chr(13)
-End If
+code = code & Space(indent) & ".ActionVerb = " & InQuotes(iActionSetting.ActionVerb) & Chr(13)
 code = code & Space(indent) & ".AnimateAction = " & iActionSetting.AnimateAction & Chr(13)
 code = code & Space(indent) & "With .Hyperlink" & Chr(13) & Hyperlink(iActionSetting.Hyperlink, indent + 2) & Space(indent) & "End With" & Chr(13)
 code = code & Space(indent) & ".Run = " & InQuotes(iActionSetting.Run) & Chr(13)
@@ -1373,25 +1241,28 @@ Function SoundEffect(iSoundEffect As SoundEffect, indent As Integer) As String
 code = ""
 If iSoundEffect.Type = ppSoundNone Then Err.Raise 9999
 code = code & Space(indent) & ".Name = " & InQuotes(iSoundEffect.Name) & Chr(13)
-code = code & Space(indent) & ".Type" & PpSoundEffectType(iSoundEffect.Type) & Chr(13)
+code = code & Space(indent) & "'.Type" & PpSoundEffectType(iSoundEffect.Type) & " ' Read-only" & Chr(13)
 SoundEffect = code
 End Function
 
 Function Hyperlink(iHyperlink As Hyperlink, indent As Integer) As String
 code = ""
 code = code & Space(indent) & ".Address = " & InQuotes(iHyperlink.Address) & Chr(13)
-code = code & Space(indent) & ".EmailSubject = " & InQuotes(iHyperlink.EmailSubject) & Chr(13)
+code = code & Space(indent) & ".EmailSubject = " & InQuotes(iHyperlink.EmailSubject) & Chr(13) ' This kind of object cannot have a hyperlink associated with it
 code = code & Space(indent) & ".ScreenTip = " & InQuotes(iHyperlink.ScreenTip) & Chr(13)
 code = code & Space(indent) & ".ShowAndReturn = " & iHyperlink.ShowAndReturn & Chr(13)
 code = code & Space(indent) & ".SubAddress = " & InQuotes(iHyperlink.SubAddress) & Chr(13)
 'code = code & Space(indent) & ".TextToDisplay = " & InQuotes(iHyperlink.TextToDisplay) & Chr(13)
-code = code & Space(indent) & ".Type = " & MsoHyperlinkType(iHyperlink.Type) & Chr(13)
+code = code & Space(indent) & "'.Type = " & MsoHyperlinkType(iHyperlink.Type) & " ' Read-only" & Chr(13)
 Hyperlink = code
 End Function
 
 Function FillFormat(iFillFormat As FillFormat, indent As Integer) As String
+' Choosing "No fill" sets Transparency = 1, Type = msoFillMixed, Visible = msoFalse
+' If either Visible is set to msoTrue or Transparency is set to 1, that will be like choosing "No fill"
 code = ""
 code = code & Space(indent) & "With .BackColor" & Chr(13) & ColorFormat(iFillFormat.BackColor, indent + 2) & Space(indent) & "End With" & Chr(13)
+' method Background : Specifies that the shape's fill should match the slide background. If you change the slide background after applying this method to a fill, the fill will also change.
 code = code & Space(indent) & "With .ForeColor" & Chr(13) & ColorFormat(iFillFormat.ForeColor, indent + 2) & Space(indent) & "End With" & Chr(13)
 code = code & Space(indent) & "'.GradientVariant = " & CLng(iFillFormat.GradientVariant) & " ' Read-only'" & Chr(13)
 If iFillFormat.GradientVariant = 0 Then
@@ -1406,12 +1277,27 @@ Else
     code = code & Space(indent) & "' Unknown Gradient variant" & Chr(13)
 End If
 code = code & Space(indent) & "'.Pattern = " & MsoPatternType(iFillFormat.Pattern) & " ' Read-only" & Chr(13)
+If iFillFormat.Pattern <> msoPatternMixed Then
+    code = code & Space(indent) & "Call .Patterned(" & MsoPatternType(iFillFormat.Pattern) & ")" & Chr(13)
+End If
 If iFillFormat.Type = msoFillPicture Then
     code = code & Space(indent) & "With .PictureEffects" & Chr(13) & PictureEffects(iFillFormat.PictureEffects, indent + 2) & Space(indent) & "End With" & Chr(13)
 End If
 code = code & Space(indent) & "'.PresetGradientType = " & MsoPresetGradientType(iFillFormat.PresetGradientType) & " ' Read-only" & Chr(13)
+If iFillFormat.PresetGradientType <> msoGradientColorMixed Then
+    code = code & Space(indent) & "Call .PresetGradient(" & MsoPresetGradientType(iFillFormat.PresetGradientType) & ")" & Chr(13)
+End If
 code = code & Space(indent) & "'.PresetTexture = " & MsoPresetTexture(iFillFormat.PresetTexture) & " ' Read-only" & Chr(13)
-code = code & Space(indent) & ".RotateWithObject = " & iFillFormat.RotateWithObject & Chr(13)
+If iFillFormat.PresetTexture <> msoPresetTextureMixed Then
+    code = code & Space(indent) & "Call .PresetTextured(" & MsoPresetTexture(iFillFormat.PresetTexture) & ")" & Chr(13)
+End If
+
+' RotateWithObject: theoretically Writeable but on a msoTextBox shape, changing it to msoFalse or msoTrue does the error "value out of range".
+'                   The setting of the RotateWithObject property corresponds to the setting of the Rotate with shape box
+'                   on the Fill pane of the Format Picture dialog box in the Microsoft PowerPoint user interface (under
+'                   Drawing Tools, on the Format Tab, in the Shape Styles group, click Format Shape.)
+code = code & Space(indent) & "'.RotateWithObject = " & iFillFormat.RotateWithObject & Chr(13)
+
 If iFillFormat.Type = msoFillTextured Then
     code = code & Space(indent) & ".TextureAlignment = " & MsoTextureAlignment(iFillFormat.TextureAlignment) & Chr(13)
     code = code & Space(indent) & ".TextureHorizontalScale = " & number(iFillFormat.TextureHorizontalScale) & Chr(13)
@@ -1423,7 +1309,7 @@ If iFillFormat.Type = msoFillTextured Then
     code = code & Space(indent) & ".TextureVerticalScale = " & number(iFillFormat.TextureVerticalScale) & Chr(13)
 End If
 code = code & Space(indent) & ".Transparency = " & number(iFillFormat.Transparency) & Chr(13)
-code = code & Space(indent) & "If .Type = " & MsoFillType(iFillFormat.Type) & " Then ' Read-only" & Chr(13) & "End If" & Chr(13)
+code = code & Space(indent) & "If .Type = " & MsoFillType(iFillFormat.Type) & " Then ' Read-only" & Chr(13) & Space(indent) & "End If" & Chr(13)
 If iFillFormat.Type = msoFillSolid Then
     code = code & Space(indent) & "Call .Solid" & Chr(13)
 End If
@@ -1444,7 +1330,7 @@ Function PictureEffect(iPictureEffect As PictureEffect, indent As Integer) As St
 code = ""
 code = code & Space(indent) & "With .EffectParameters" & Chr(13) & EffectParameters(iPictureEffect.EffectParameters, indent + 2) & Space(indent) & "End With" & Chr(13)
 code = code & Space(indent) & ".Position = " & CLng(iPictureEffect.Position) & Chr(13)
-code = code & Space(indent) & ".Type = " & MsoPictureEffectType(iPictureEffect.Type) & Chr(13)
+code = code & Space(indent) & "'.Type = " & MsoPictureEffectType(iPictureEffect.Type) & " ' Read-only" & Chr(13)
 code = code & Space(indent) & ".Visible = " & iPictureEffect.Visible & Chr(13)
 PictureEffect = code
 End Function
@@ -1467,23 +1353,32 @@ GradientStop = code
 End Function
 
 Function ColorFormat2(iColorFormat As Office.ColorFormat, indent As Integer) As String
+If iColorFormat.Type = msoColorTypeMixed Then Raise 9999
 code = ""
 code = code & Space(indent) & ".Brightness = " & CLng(iColorFormat.Brightness) & Chr(13)
-code = code & Space(indent) & ".ObjectThemeColor = " & MsoThemeColorIndex(iColorFormat.ObjectThemeColor) & Chr(13)
+If iColorFormat.ObjectThemeColor <> msoNotThemeColor Then
+    code = code & Space(indent) & ".ObjectThemeColor = " & MsoThemeColorIndex(iColorFormat.ObjectThemeColor) & Chr(13)
+End If
 code = code & Space(indent) & ".RGB = " & RGBcolor(iColorFormat.RGB) & Chr(13)
-code = code & Space(indent) & ".SchemeColor = " & PpColorSchemeIndex(iColorFormat.SchemeColor) & Chr(13)
+If iColorFormat.Type = msoColorTypeScheme Then
+    code = code & Space(indent) & ".SchemeColor = " & PpColorSchemeIndex(iColorFormat.SchemeColor) & Chr(13)
+End If
 code = code & Space(indent) & ".TintAndShade = " & CLng(iColorFormat.TintAndShade) & Chr(13)
 code = code & Space(indent) & "'.Type = " & MsoColorType(iColorFormat.Type) & " ' Read-only" & Chr(13)
 ColorFormat2 = code
 End Function
 
 Function ColorFormat(iColorFormat As ColorFormat, indent As Integer) As String
-On Error Resume Next
+If iColorFormat.Type = msoColorTypeMixed Then Err.Raise 9999
 code = ""
 code = code & Space(indent) & ".Brightness = " & CLng(iColorFormat.Brightness) & Chr(13)
-code = code & Space(indent) & ".ObjectThemeColor = " & MsoThemeColorIndex(iColorFormat.ObjectThemeColor) & Chr(13)
+If iColorFormat.ObjectThemeColor <> msoNotThemeColor Then
+    code = code & Space(indent) & ".ObjectThemeColor = " & MsoThemeColorIndex(iColorFormat.ObjectThemeColor) & Chr(13)
+End If
 code = code & Space(indent) & ".RGB = " & RGBcolor(iColorFormat.RGB) & Chr(13)
-code = code & Space(indent) & ".SchemeColor = " & iColorFormat.SchemeColor & Chr(13)
+If iColorFormat.Type = msoColorTypeScheme Then
+    code = code & Space(indent) & ".SchemeColor = " & iColorFormat.SchemeColor & Chr(13)
+End If
 code = code & Space(indent) & ".TintAndShade = " & CLng(iColorFormat.TintAndShade) & Chr(13)
 code = code & Space(indent) & "'.Type = " & MsoColorType(iColorFormat.Type) & " ' Read-only" & Chr(13)
 ColorFormat = code
@@ -1515,7 +1410,7 @@ code = code & Space(indent) & "'.Drop = " & number(iCalloutFormat.Drop) & " ' Re
 code = code & Space(indent) & "'.DropType = " & MsoCalloutDropType(iCalloutFormat.DropType) & " ' Read-only" & Chr(13)
 code = code & Space(indent) & ".Gap = " & number(iCalloutFormat.Gap) & Chr(13)
 code = code & Space(indent) & "'.Length = " & number(iCalloutFormat.Length) & " ' Read-only" & Chr(13)
-code = code & Space(indent) & ".Type = " & MsoCalloutType(iCalloutFormat.Type) & Chr(13)
+code = code & Space(indent) & "'.Type = " & MsoCalloutType(iCalloutFormat.Type) & " ' Read-only" & Chr(13)
 CalloutFormat = code
 End Function
 
@@ -1529,8 +1424,26 @@ code = code & Space(indent) & ".BeginConnected = " & iConnectorFormat.BeginConne
 code = code & Space(indent) & ".BeginConnectionSite = " & iConnectorFormat.BeginConnectionSite & Chr(13)
 code = code & Space(indent) & ".EndConnected = " & iConnectorFormat.EndConnected & Chr(13)
 code = code & Space(indent) & ".EndConnectionSite = " & iConnectorFormat.EndConnectionSite & Chr(13)
-code = code & Space(indent) & ".Type = " & iConnectorFormat.Type & Chr(13)
+code = code & Space(indent) & "'.Type = " & iConnectorFormat.Type & " ' Read-only" & Chr(13)
 ConnectorFormat = code
+End Function
+
+Function MsoReflectionType(iMsoReflectionType As MsoReflectionType) As String
+code = ""
+Select Case iMsoReflectionType
+Case msoReflectionType1: code = "msoReflectionType1"
+Case msoReflectionType2: code = "msoReflectionType2"
+Case msoReflectionType3: code = "msoReflectionType3"
+Case msoReflectionType4: code = "msoReflectionType4"
+Case msoReflectionType5: code = "msoReflectionType5"
+Case msoReflectionType6: code = "msoReflectionType6"
+Case msoReflectionType7: code = "msoReflectionType7"
+Case msoReflectionType8: code = "msoReflectionType8"
+Case msoReflectionType9: code = "msoReflectionType9"
+Case msoReflectionTypeMixed: code = "msoReflectionTypeMixed"
+Case msoReflectionTypeNone: code = "msoReflectionTypeNone"
+End Select
+MsoReflectionType = code
 End Function
 
 Function PpColorSchemeIndex(iPpColorSchemeIndex As PpColorSchemeIndex) As String
@@ -2658,8 +2571,6 @@ Case msoPresetThreeDFormatMixed: code = "msoPresetThreeDFormatMixed"
 End Select
 MsoPresetThreeDFormat = code
 End Function
-
-
 
 Function MsoExtrusionColorType(iMsoExtrusionColorType As MsoExtrusionColorType) As String
 code = ""
