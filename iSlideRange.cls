@@ -40,3 +40,73 @@ Public SlideNumber As Long
 
 
 'ActiveWindow.Selection.SlideRange.TimeLine
+
+
+Public Function compare(propertyName As String, iSlideRange As iSlideRange, indent As Integer) As String
+
+    On Error GoTo err_
+
+    If IsCompared(Me) Then Exit Function
+
+    code = ""
+
+    With Me
+    End With
+
+    If code <> "" Then
+        code = Space(indent - 4) & "With " & propertyName & Chr(13) _
+            & code _
+            & Space(indent - 4) & "End With" & Chr(13)
+    End If
+
+    compare = code
+
+    Exit Function
+
+err_:
+    #If DEBUG_MODE = 1 Then
+        Stop
+    #Else
+        err.Raise err.number 'rethrows with same source and description
+    #End If
+
+End Function
+
+Public Sub init(iSlideRange As SlideRange)
+
+    On Error GoTo err_
+
+    With Me
+        Set .Application = New_iApplication(iSlideRange.Application)
+        'Set .Background = New_iShapeRange(iSlideRange.Background)
+        .BackgroundStyle = iSlideRange.BackgroundStyle
+        .Count = iSlideRange.Count
+        .DisplayMasterShapes = iSlideRange.DisplayMasterShapes
+        .FollowMasterBackground = iSlideRange.FollowMasterBackground
+        .HasNotesPage = iSlideRange.HasNotesPage
+        .Layout = iSlideRange.Layout
+        .Name = iSlideRange.Name
+        If iSlideRange.HasNotesPage = msoTrue Then
+            Set .NotesPage = New_iSlideRange(iSlideRange.NotesPage)
+        End If
+        Set .Parent = iSlideRange.Parent
+        .PrintSteps = iSlideRange.PrintSteps
+        .SectionIndex = iSlideRange.SectionIndex
+        Set .Shapes = New_iShapes(iSlideRange.Shapes)
+        .SlideID = iSlideRange.SlideID
+        .SlideIndex = iSlideRange.SlideIndex
+        .SlideNumber = iSlideRange.SlideNumber
+    End With
+
+    Exit Sub
+
+err_:
+    #If DEBUG_MODE = 1 Then
+        Stop
+    #Else
+        err.Raise err.number 'rethrows with same source and description
+    #End If
+
+End Sub
+
+

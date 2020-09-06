@@ -29,3 +29,66 @@ Public WordWrap As MsoTriState
 'ActiveWindow.Selection.ShapeRange.TextFrame.WordWrap
 
 
+Public Function compare(propertyName As String, iTextFrame As iTextFrame, indent As Integer) As String
+
+    On Error GoTo err_
+
+    If IsCompared(Me) Then Exit Function
+
+    code = ""
+
+    With Me
+    End With
+
+    If code <> "" Then
+        code = Space(indent - 4) & "With " & propertyName & Chr(13) _
+            & code _
+            & Space(indent - 4) & "End With" & Chr(13)
+    End If
+
+    compare = code
+
+    Exit Function
+
+err_:
+    #If DEBUG_MODE = 1 Then
+        Stop
+    #Else
+        err.Raise err.number 'rethrows with same source and description
+    #End If
+
+End Function
+
+Public Sub init(iTextFrame As TextFrame)
+
+    On Error GoTo err_
+
+    With Me
+        Set .Application = iTextFrame.Application
+        .AutoSize = iTextFrame.AutoSize
+        .Creator = iTextFrame.Creator
+        .HasText = iTextFrame.HasText
+        .HorizontalAnchor = iTextFrame.HorizontalAnchor
+        .MarginBottom = iTextFrame.MarginBottom
+        .MarginLeft = iTextFrame.MarginLeft
+        .MarginRight = iTextFrame.MarginRight
+        .MarginTop = iTextFrame.MarginTop
+        .Orientation = iTextFrame.Orientation
+        Set .Parent = iTextFrame.Parent
+        Set .TextRange = New_iTextRange(iTextFrame.TextRange)
+        .VerticalAnchor = iTextFrame.VerticalAnchor
+        .WordWrap = iTextFrame.WordWrap
+    End With
+
+    Exit Sub
+
+err_:
+    #If DEBUG_MODE = 1 Then
+        Stop
+    #Else
+        err.Raise err.number 'rethrows with same source and description
+    #End If
+
+End Sub
+
+

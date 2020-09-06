@@ -13,13 +13,20 @@ Public Size As Single
 Public Transparency As Single
 Public iType As MsoReflectionType
 
-Public Sub class_initialize()
 
-End Sub
+Public Function compare(propertyName As String, iReflectionFormat As iReflectionFormat, indent As Integer) As String
 
-Public Function compare(ByVal iReflectionFormat As iReflectionFormat, indent As Integer) As String
+    On Error GoTo err_
+
+    If IsCompared(Me) Then Exit Function
+
+    If iReflectionFormat.iType = msoReflectionTypeNone _
+            Or iReflectionFormat.iType = msoReflectionTypeMixed Then
+        Exit Function
+    End If
 
     code = ""
+
     With Me
         If .Blur <> iReflectionFormat.Blur Then
             code = code & Space(indent) & ".Blur = " & SingleToVBA(.Blur) & Chr(13)
@@ -34,19 +41,39 @@ Public Function compare(ByVal iReflectionFormat As iReflectionFormat, indent As 
             code = code & Space(indent) & ".Transparency = " & SingleToVBA(.Transparency) & Chr(13)
         End If
         If .iType <> iReflectionFormat.iType Then
-            code = code & Space(indent) & ".iType = " & MsoReflectionType(.iType) & Chr(13)
+            code = code & Space(indent) & ".Type = " & MsoReflectionType(.iType) & Chr(13)
         End If
     End With
 
+    If code <> "" Then
+        code = Space(indent - 4) & "With " & propertyName & Chr(13) _
+            & code _
+            & Space(indent - 4) & "End With" & Chr(13)
+    End If
+
     compare = code
+
+    Exit Function
+
+err_:
+    #If DEBUG_MODE = 1 Then
+        Stop
+    #Else
+        err.Raise err.number 'rethrows with same source and description
+    #End If
 
 End Function
 
-Public Sub Init(iReflectionFormat As ReflectionFormat)
+Public Sub init(iReflectionFormat As ReflectionFormat)
 
     On Error GoTo err_
 
     With Me
+        .Blur = iReflectionFormat.Blur
+        .Offset = iReflectionFormat.Offset
+        .Size = iReflectionFormat.Size
+        .Transparency = iReflectionFormat.Transparency
+        .iType = iReflectionFormat.Type
     End With
 
     Exit Sub
@@ -60,4 +87,9 @@ err_:
 
 End Sub
 
+
+Sub DefaultValues()
+    With Me
+    End With
+End Sub
 

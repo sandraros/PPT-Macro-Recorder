@@ -1,201 +1,48 @@
 Attribute VB_Name = "OfficeEnumerations"
-Function MsoTriState(iMsoTriState As Office.MsoTriState) As String
+Function MsoArrowheadStyle(iMsoArrowheadStyle As MsoArrowheadStyle) As String
 code = ""
-Select Case iMsoTriState
-Case msoCTrue: code = "msoCTrue"
-Case msoFalse: code = "msoFalse"
-Case msoTriStateMixed: code = "msoTriStateMixed"
-Case msoTriStateToggle: code = "msoTriStateToggle"
-Case msoTrue: code = "msoTrue"
+Select Case iMsoArrowheadStyle
+Case msoArrowheadDiamond: code = "msoArrowheadDiamond"
+Case msoArrowheadNone: code = "msoArrowheadNone"
+Case msoArrowheadOpen: code = "msoArrowheadOpen"
+Case msoArrowheadOval: code = "msoArrowheadOval"
+Case msoArrowheadStealth: code = "msoArrowheadStealth"
+Case msoArrowheadStyleMixed: code = "msoArrowheadStyleMixed"
+Case msoArrowheadTriangle: code = "msoArrowheadTriangle"
 End Select
-MsoTriState = code
+MsoArrowheadStyle = code
 End Function
 
-Function MsoGradientStyle(iMsoGradientStyle As MsoGradientStyle) As String
+Function MsoArrowheadLength(iMsoArrowheadLength As MsoArrowheadLength) As String
 code = ""
-Select Case iMsoGradientStyle
-Case msoGradientDiagonalDown: code = "msoGradientDiagonalDown"
-Case msoGradientDiagonalUp: code = "msoGradientDiagonalUp"
-Case msoGradientFromCenter: code = "msoGradientFromCenter"
-Case msoGradientFromCorner: code = "msoGradientFromCorner"
-Case msoGradientFromTitle: code = "msoGradientFromTitle"
-Case msoGradientHorizontal: code = "msoGradientHorizontal"
-Case msoGradientMixed: code = "msoGradientMixed"
-Case msoGradientVertical: code = "msoGradientVertical"
+Select Case iMsoArrowheadLength
+Case msoArrowheadLengthMedium: code = "msoArrowheadLengthMedium"
+Case msoArrowheadLengthMixed: code = "msoArrowheadLengthMixed"
+Case msoArrowheadLong: code = "msoArrowheadLong"
+Case msoArrowheadShort: code = "msoArrowheadShort"
 End Select
-MsoGradientStyle = code
+MsoArrowheadLength = code
 End Function
 
-Function MsoReflectionType(iMsoReflectionType As MsoReflectionType) As String
+Function MsoArrowheadWidth(iMsoArrowheadWidth As MsoArrowheadWidth) As String
 code = ""
-Select Case iMsoReflectionType
-Case msoReflectionType1: code = "msoReflectionType1"
-Case msoReflectionType2: code = "msoReflectionType2"
-Case msoReflectionType3: code = "msoReflectionType3"
-Case msoReflectionType4: code = "msoReflectionType4"
-Case msoReflectionType5: code = "msoReflectionType5"
-Case msoReflectionType6: code = "msoReflectionType6"
-Case msoReflectionType7: code = "msoReflectionType7"
-Case msoReflectionType8: code = "msoReflectionType8"
-Case msoReflectionType9: code = "msoReflectionType9"
-Case msoReflectionTypeMixed: code = "msoReflectionTypeMixed"
-Case msoReflectionTypeNone: code = "msoReflectionTypeNone"
+Select Case iMsoArrowheadWidth
+Case msoArrowheadNarrow: code = "msoArrowheadNarrow"
+Case msoArrowheadWide: code = "msoArrowheadWide"
+Case msoArrowheadWidthMedium: code = "msoArrowheadWidthMedium"
+Case msoArrowheadWidthMixed: code = "msoArrowheadWidthMixed"
 End Select
-MsoReflectionType = code
+MsoArrowheadWidth = code
 End Function
 
-Function MsoCalloutType(iMsoCalloutType As MsoCalloutType) As String
+Function MsoAutomationSecurity(iMsoAutomationSecurity As Office.MsoAutomationSecurity) As String
 code = ""
-Select Case iMsoCalloutType
-Case msoCalloutFour: code = "msoCalloutFour"
-Case msoCalloutMixed: code = "msoCalloutMixed"
-Case msoCalloutOne: code = "msoCalloutOne"
-Case msoCalloutThree: code = "msoCalloutThree"
-Case msoCalloutTwo: code = "msoCalloutTwo"
+Select Case iMsoAutomationSecurity
+Case msoAutomationSecurityByUI: code = "msoAutomationSecurityByUI"
+Case msoAutomationSecurityForceDisable: code = "msoAutomationSecurityForceDisable"
+Case msoAutomationSecurityLow: code = "msoAutomationSecurityLow"
 End Select
-MsoCalloutType = code
-End Function
-
-Function MsoCalloutDropType(iMsoCalloutDropType As MsoCalloutDropType) As String
-code = ""
-Select Case iMsoCalloutDropType
-Case msoCalloutDropBottom: code = "msoCalloutDropBottom"
-Case msoCalloutDropCenter: code = "msoCalloutDropCenter"
-Case msoCalloutDropCustom: code = "msoCalloutDropCustom"
-Case msoCalloutDropMixed: code = "msoCalloutDropMixed"
-Case msoCalloutDropTop: code = "msoCalloutDropTop"
-End Select
-MsoCalloutDropType = code
-End Function
-
-Function MsoCalloutAngleType(iMsoCalloutAngleType As MsoCalloutAngleType) As String
-code = ""
-Select Case iMsoCalloutAngleType
-Case msoCalloutAngle30: code = "msoCalloutAngle30"
-Case msoCalloutAngle45: code = "msoCalloutAngle45"
-Case msoCalloutAngle60: code = "msoCalloutAngle60"
-Case msoCalloutAngle90: code = "msoCalloutAngle90"
-Case msoCalloutAngleAutomatic: code = "msoCalloutAngleAutomatic"
-Case msoCalloutAngleMixed: code = "msoCalloutAngleMixed"
-End Select
-MsoCalloutAngleType = code
-End Function
-
-Function MsoFillType(iMsoFillType As MsoFillType) As String
-code = ""
-Select Case iMsoFillType
-Case msoFillBackground: code = "msoFillBackground"
-Case msoFillGradient: code = "msoFillGradient"
-Case msoFillMixed: code = "msoFillMixed"
-Case msoFillPatterned: code = "msoFillPatterned"
-Case msoFillPicture: code = "msoFillPicture"
-Case msoFillSolid: code = "msoFillSolid"
-Case msoFillTextured: code = "msoFillTextured"
-End Select
-MsoFillType = code
-End Function
-
-Function MsoTextureType(iMsoTextureType As MsoTextureType) As String
-code = ""
-Select Case iMsoTextureType
-Case msoTexturePreset: code = "msoTexturePreset"
-Case msoTextureTypeMixed: code = "msoTextureTypeMixed"
-Case msoTextureUserDefined: code = "msoTextureUserDefined"
-End Select
-MsoTextureType = code
-End Function
-
-Function MsoTextureAlignment(iMsoTextureAlignment As MsoTextureAlignment) As String
-code = ""
-Select Case iMsoTextureAlignment
-Case msoTextureAlignmentMixed: code = "msoTextureAlignmentMixed"
-Case msoTextureBottom: code = "msoTextureBottom"
-Case msoTextureBottomLeft: code = "msoTextureBottomLeft"
-Case msoTextureBottomRight: code = "msoTextureBottomRight"
-Case msoTextureCenter: code = "msoTextureCenter"
-Case msoTextureLeft: code = "msoTextureLeft"
-Case msoTextureRight: code = "msoTextureRight"
-Case msoTextureTop: code = "msoTextureTop"
-Case msoTextureTopLeft: code = "msoTextureTopLeft"
-Case msoTextureTopRight: code = "msoTextureTopRight"
-End Select
-MsoTextureAlignment = code
-End Function
-
-Function MsoPresetTexture(iMsoPresetTexture As MsoPresetTexture) As String
-code = ""
-Select Case iMsoPresetTexture
-Case msoPresetTextureMixed: code = "msoPresetTextureMixed"
-Case msoTextureBlueTissuePaper: code = "msoTextureBlueTissuePaper"
-Case msoTextureBouquet: code = "msoTextureBouquet"
-Case msoTextureBrownMarble: code = "msoTextureBrownMarble"
-Case msoTextureCanvas: code = "msoTextureCanvas"
-Case msoTextureCork: code = "msoTextureCork"
-Case msoTextureDenim: code = "msoTextureDenim"
-Case msoTextureFishFossil: code = "msoTextureFishFossil"
-Case msoTextureGranite: code = "msoTextureGranite"
-Case msoTextureGreenMarble: code = "msoTextureGreenMarble"
-Case msoTextureMediumWood: code = "msoTextureMediumWood"
-Case msoTextureNewsprint: code = "msoTextureNewsprint"
-Case msoTextureOak: code = "msoTextureOak"
-Case msoTexturePaperBag: code = "msoTexturePaperBag"
-Case msoTexturePapyrus: code = "msoTexturePapyrus"
-Case msoTextureParchment: code = "msoTextureParchment"
-Case msoTexturePinkTissuePaper: code = "msoTexturePinkTissuePaper"
-Case msoTexturePurpleMesh: code = "msoTexturePurpleMesh"
-Case msoTextureRecycledPaper: code = "msoTextureRecycledPaper"
-Case msoTextureSand: code = "msoTextureSand"
-Case msoTextureStationery: code = "msoTextureStationery"
-Case msoTextureWalnut: code = "msoTextureWalnut"
-Case msoTextureWaterDroplets: code = "msoTextureWaterDroplets"
-Case msoTextureWhiteMarble: code = "msoTextureWhiteMarble"
-Case msoTextureWovenMat: code = "msoTextureWovenMat"
-End Select
-MsoPresetTexture = code
-End Function
-
-Function MsoPresetGradientType(iMsoPresetGradientType As MsoPresetGradientType) As String
-code = ""
-Select Case iMsoPresetGradientType
-Case msoGradientBrass: code = "msoGradientBrass"
-Case msoGradientCalmWater: code = "msoGradientCalmWater"
-Case msoGradientChrome: code = "msoGradientChrome"
-Case msoGradientChromeII: code = "msoGradientChromeII"
-Case msoGradientDaybreak: code = "msoGradientDaybreak"
-Case msoGradientDesert: code = "msoGradientDesert"
-Case msoGradientEarlySunset: code = "msoGradientEarlySunset"
-Case msoGradientFire: code = "msoGradientFire"
-Case msoGradientFog: code = "msoGradientFog"
-Case msoGradientGold: code = "msoGradientGold"
-Case msoGradientGoldII: code = "msoGradientGoldII"
-Case msoGradientHorizon: code = "msoGradientHorizon"
-Case msoGradientLateSunset: code = "msoGradientLateSunset"
-Case msoGradientMahogany: code = "msoGradientMahogany"
-Case msoGradientMoss: code = "msoGradientMoss"
-Case msoGradientNightfall: code = "msoGradientNightfall"
-Case msoGradientOcean: code = "msoGradientOcean"
-Case msoGradientParchment: code = "msoGradientParchment"
-Case msoGradientPeacock: code = "msoGradientPeacock"
-Case msoGradientRainbow: code = "msoGradientRainbow"
-Case msoGradientRainbowII: code = "msoGradientRainbowII"
-Case msoGradientSapphire: code = "msoGradientSapphire"
-Case msoGradientSilver: code = "msoGradientSilver"
-Case msoGradientWheat: code = "msoGradientWheat"
-Case msoPresetGradientMixed: code = "msoPresetGradientMixed"
-End Select
-MsoPresetGradientType = code
-End Function
-
-Function MsoGradientColorType(iMsoGradientColorType As MsoGradientColorType) As String
-code = ""
-Select Case iMsoGradientColorType
-Case msoGradientColorMixed: code = "msoGradientColorMixed"
-Case msoGradientMultiColor: code = "msoGradientMultiColor"
-Case msoGradientOneColor: code = "msoGradientOneColor"
-Case msoGradientPresetColors: code = "msoGradientPresetColors"
-Case msoGradientTwoColors: code = "msoGradientTwoColors"
-End Select
-MsoGradientColorType = code
+MsoAutomationSecurity = code
 End Function
 
 Function MsoAutoShapeType(iMsoAutoShapeType As MsoAutoShapeType) As String
@@ -389,279 +236,37 @@ End Select
 MsoAutoShapeType = code
 End Function
 
-Function MsoPresetCamera(iMsoPresetCamera As MsoPresetCamera) As String
+Function MsoAutoSize(iMsoAutoSize As Office.MsoAutoSize) As String
 code = ""
-Select Case iMsoPresetCamera
-Case msoCameraIsometricBottomDown: code = "msoCameraIsometricBottomDown"
-Case msoCameraIsometricBottomUp: code = "msoCameraIsometricBottomUp"
-Case msoCameraIsometricLeftDown: code = "msoCameraIsometricLeftDown"
-Case msoCameraIsometricLeftUp: code = "msoCameraIsometricLeftUp"
-Case msoCameraIsometricOffAxis1Left: code = "msoCameraIsometricOffAxis1Left"
-Case msoCameraIsometricOffAxis1Right: code = "msoCameraIsometricOffAxis1Right"
-Case msoCameraIsometricOffAxis1Top: code = "msoCameraIsometricOffAxis1Top"
-Case msoCameraIsometricOffAxis2Left: code = "msoCameraIsometricOffAxis2Left"
-Case msoCameraIsometricOffAxis2Right: code = "msoCameraIsometricOffAxis2Right"
-Case msoCameraIsometricOffAxis2Top: code = "msoCameraIsometricOffAxis2Top"
-Case msoCameraIsometricOffAxis3Bottom: code = "msoCameraIsometricOffAxis3Bottom"
-Case msoCameraIsometricOffAxis3Left: code = "msoCameraIsometricOffAxis3Left"
-Case msoCameraIsometricOffAxis3Right: code = "msoCameraIsometricOffAxis3Right"
-Case msoCameraIsometricOffAxis4Bottom: code = "msoCameraIsometricOffAxis4Bottom"
-Case msoCameraIsometricOffAxis4Left: code = "msoCameraIsometricOffAxis4Left"
-Case msoCameraIsometricOffAxis4Right: code = "msoCameraIsometricOffAxis4Right"
-Case msoCameraIsometricRightDown: code = "msoCameraIsometricRightDown"
-Case msoCameraIsometricRightUp: code = "msoCameraIsometricRightUp"
-Case msoCameraIsometricTopDown: code = "msoCameraIsometricTopDown"
-Case msoCameraIsometricTopUp: code = "msoCameraIsometricTopUp"
-Case msoCameraLegacyObliqueBottom: code = "msoCameraLegacyObliqueBottom"
-Case msoCameraLegacyObliqueBottomLeft: code = "msoCameraLegacyObliqueBottomLeft"
-Case msoCameraLegacyObliqueBottomRight: code = "msoCameraLegacyObliqueBottomRight"
-Case msoCameraLegacyObliqueFront: code = "msoCameraLegacyObliqueFront"
-Case msoCameraLegacyObliqueLeft: code = "msoCameraLegacyObliqueLeft"
-Case msoCameraLegacyObliqueRight: code = "msoCameraLegacyObliqueRight"
-Case msoCameraLegacyObliqueTop: code = "msoCameraLegacyObliqueTop"
-Case msoCameraLegacyObliqueTopLeft: code = "msoCameraLegacyObliqueTopLeft"
-Case msoCameraLegacyObliqueTopRight: code = "msoCameraLegacyObliqueTopRight"
-Case msoCameraLegacyPerspectiveBottom: code = "msoCameraLegacyPerspectiveBottom"
-Case msoCameraLegacyPerspectiveBottomLeft: code = "msoCameraLegacyPerspectiveBottomLeft"
-Case msoCameraLegacyPerspectiveBottomRight: code = "msoCameraLegacyPerspectiveBottomRight"
-Case msoCameraLegacyPerspectiveFront: code = "msoCameraLegacyPerspectiveFront"
-Case msoCameraLegacyPerspectiveLeft: code = "msoCameraLegacyPerspectiveLeft"
-Case msoCameraLegacyPerspectiveRight: code = "msoCameraLegacyPerspectiveRight"
-Case msoCameraLegacyPerspectiveTop: code = "msoCameraLegacyPerspectiveTop"
-Case msoCameraLegacyPerspectiveTopLeft: code = "msoCameraLegacyPerspectiveTopLeft"
-Case msoCameraObliqueBottom: code = "msoCameraObliqueBottom"
-Case msoCameraObliqueBottomLeft: code = "msoCameraObliqueBottomLeft"
-Case msoCameraObliqueBottomRight: code = "msoCameraObliqueBottomRight"
-Case msoCameraObliqueLeft: code = "msoCameraObliqueLeft"
-Case msoCameraObliqueRight: code = "msoCameraObliqueRight"
-Case msoCameraObliqueTop: code = "msoCameraObliqueTop"
-Case msoCameraObliqueTopLeft: code = "msoCameraObliqueTopLeft"
-Case msoCameraObliqueTopRight: code = "msoCameraObliqueTopRight"
-Case msoCameraOrthographicFront: code = "msoCameraOrthographicFront"
-Case msoCameraPerspectiveAbove: code = "msoCameraPerspectiveAbove"
-Case msoCameraPerspectiveAboveLeftFacing: code = "msoCameraPerspectiveAboveLeftFacing"
-Case msoCameraPerspectiveAboveRightFacing: code = "msoCameraPerspectiveAboveRightFacing"
-Case msoCameraPerspectiveBelow: code = "msoCameraPerspectiveBelow"
-Case msoCameraPerspectiveContrastingLeftFacing: code = "msoCameraPerspectiveContrastingLeftFacing"
-Case msoCameraPerspectiveContrastingRightFacing: code = "msoCameraPerspectiveContrastingRightFacing"
-Case msoCameraPerspectiveFront: code = "msoCameraPerspectiveFront"
-Case msoCameraPerspectiveHeroicExtremeLeftFacing: code = "msoCameraPerspectiveHeroicExtremeLeftFacing"
-Case msoCameraPerspectiveHeroicExtremeRightFacing: code = "msoCameraPerspectiveHeroicExtremeRightFacing"
-Case msoCameraPerspectiveHeroicLeftFacing: code = "msoCameraPerspectiveHeroicLeftFacing"
-Case msoCameraPerspectiveHeroicRightFacing: code = "msoCameraPerspectiveHeroicRightFacing"
-Case msoCameraPerspectiveLeft: code = "msoCameraPerspectiveLeft"
-Case msoCameraPerspectiveRelaxed: code = "msoCameraPerspectiveRelaxed"
-Case msoCameraPerspectiveRelaxedModerately: code = "msoCameraPerspectiveRelaxedModerately"
-Case msoCameraPerspectiveRight: code = "msoCameraPerspectiveRight"
-Case msoPresetCameraMixed: code = "msoPresetCameraMixed"
+Select Case iMsoAutoSize
+Case Office.msoAutoSizeMixed: code = "Office.msoAutoSizeMixed"
+Case Office.msoAutoSizeNone: code = "Office.msoAutoSizeNone"
+Case Office.msoAutoSizeShapeToFitText: code = "Office.msoAutoSizeShapeToFitText"
+Case Office.msoAutoSizeTextToFitShape: code = "Office.msoAutoSizeTextToFitShape"
 End Select
-MsoPresetCamera = code
+MsoAutoSize = code
 End Function
 
-Function MsoPresetExtrusionDirection(iMsoPresetExtrusionDirection As MsoPresetExtrusionDirection) As String
+Function MsoBackgroundStyleIndex(iMsoBackgroundStyleIndex As MsoBackgroundStyleIndex) As String
 code = ""
-Select Case iMsoPresetExtrusionDirection
-Case msoExtrusionBottom: code = "msoExtrusionBottom"
-Case msoExtrusionBottomLeft: code = "msoExtrusionBottomLeft"
-Case msoExtrusionBottomRight: code = "msoExtrusionBottomRight"
-Case msoExtrusionColorAutomatic: code = "msoExtrusionColorAutomatic"
-Case msoExtrusionColorCustom: code = "msoExtrusionColorCustom"
-Case msoExtrusionColorTypeMixed: code = "msoExtrusionColorTypeMixed"
-Case msoExtrusionLeft: code = "msoExtrusionLeft"
-Case msoExtrusionNone: code = "msoExtrusionNone"
-Case msoExtrusionRight: code = "msoExtrusionRight"
-Case msoExtrusionTop: code = "msoExtrusionTop"
-Case msoExtrusionTopLeft: code = "msoExtrusionTopLeft"
-Case msoExtrusionTopRight: code = "msoExtrusionTopRight"
+Select Case iMsoBackgroundStyleIndex
+Case msoBackgroundStyleMixed: code = "msoBackgroundStyleMixed"
+Case msoBackgroundStyleNotAPreset: code = "msoBackgroundStyleNotAPreset"
+Case msoBackgroundStylePreset1: code = "msoBackgroundStylePreset1"
+Case msoBackgroundStylePreset2: code = "msoBackgroundStylePreset2"
+Case msoBackgroundStylePreset3: code = "msoBackgroundStylePreset3"
+Case msoBackgroundStylePreset4: code = "msoBackgroundStylePreset4"
+Case msoBackgroundStylePreset5: code = "msoBackgroundStylePreset5"
+Case msoBackgroundStylePreset6: code = "msoBackgroundStylePreset6"
+Case msoBackgroundStylePreset7: code = "msoBackgroundStylePreset7"
+Case msoBackgroundStylePreset8: code = "msoBackgroundStylePreset8"
+Case msoBackgroundStylePreset9: code = "msoBackgroundStylePreset9"
+Case msoBackgroundStylePreset10: code = "msoBackgroundStylePreset10"
+Case msoBackgroundStylePreset11: code = "msoBackgroundStylePreset11"
+Case msoBackgroundStylePreset12: code = "msoBackgroundStylePreset12"
 End Select
-MsoPresetExtrusionDirection = code
+MsoBackgroundStyleIndex = code
 End Function
-
-Function MsoLightRigType(iMsoLightRigType As MsoLightRigType) As String
-code = ""
-Select Case iMsoLightRigType
-Case msoLightRigBalanced: code = "msoLightRigBalanced"
-Case msoLightRigBrightRoom: code = "msoLightRigBrightRoom"
-Case msoLightRigChilly: code = "msoLightRigChilly"
-Case msoLightRigContrasting: code = "msoLightRigContrasting"
-Case msoLightRigFlat: code = "msoLightRigFlat"
-Case msoLightRigFlood: code = "msoLightRigFlood"
-Case msoLightRigFreezing: code = "msoLightRigFreezing"
-Case msoLightRigGlow: code = "msoLightRigGlow"
-Case msoLightRigHarsh: code = "msoLightRigHarsh"
-Case msoLightRigLegacyFlat1: code = "msoLightRigLegacyFlat1"
-Case msoLightRigLegacyFlat2: code = "msoLightRigLegacyFlat2"
-Case msoLightRigLegacyFlat3: code = "msoLightRigLegacyFlat3"
-Case msoLightRigLegacyFlat4: code = "msoLightRigLegacyFlat4"
-Case msoLightRigLegacyHarsh1: code = "msoLightRigLegacyHarsh1"
-Case msoLightRigLegacyHarsh2: code = "msoLightRigLegacyHarsh2"
-Case msoLightRigLegacyHarsh3: code = "msoLightRigLegacyHarsh3"
-Case msoLightRigLegacyHarsh4: code = "msoLightRigLegacyHarsh4"
-Case msoLightRigLegacyNormal1: code = "msoLightRigLegacyNormal1"
-Case msoLightRigLegacyNormal2: code = "msoLightRigLegacyNormal2"
-Case msoLightRigLegacyNormal3: code = "msoLightRigLegacyNormal3"
-Case msoLightRigLegacyNormal4: code = "msoLightRigLegacyNormal4"
-Case msoLightRigMixed: code = "msoLightRigMixed"
-Case msoLightRigMorning: code = "msoLightRigMorning"
-Case msoLightRigSoft: code = "msoLightRigSoft"
-Case msoLightRigSunrise: code = "msoLightRigSunrise"
-Case msoLightRigSunset: code = "msoLightRigSunset"
-Case msoLightRigThreePoint: code = "msoLightRigThreePoint"
-Case msoLightRigTwoPoint: code = "msoLightRigTwoPoint"
-End Select
-MsoLightRigType = code
-End Function
-
-Function MsoPresetLightingDirection(iMsoPresetLightingDirection As MsoPresetLightingDirection) As String
-code = ""
-Select Case iMsoPresetLightingDirection
-Case msoLightingBottom: code = "msoLightingBottom"
-Case msoLightingBottomLeft: code = "msoLightingBottomLeft"
-Case msoLightingBottomRight: code = "msoLightingBottomRight"
-Case msoLightingLeft: code = "msoLightingLeft"
-Case msoLightingNone: code = "msoLightingNone"
-Case msoLightingRight: code = "msoLightingRight"
-Case msoLightingTop: code = "msoLightingTop"
-Case msoLightingTopLeft: code = "msoLightingTopLeft"
-Case msoLightingTopRight: code = "msoLightingTopRight"
-Case msoPresetLightingDirectionMixed: code = "msoPresetLightingDirectionMixed"
-End Select
-MsoPresetLightingDirection = code
-End Function
-
-Function MsoPresetLightingSoftness(iMsoPresetLightingSoftness As MsoPresetLightingSoftness) As String
-code = ""
-Select Case iMsoPresetLightingSoftness
-Case msoLightingBright: code = "msoLightingBright"
-Case msoLightingDim: code = "msoLightingDim"
-Case msoLightingNormal: code = "msoLightingNormal"
-Case msoPresetLightingSoftnessMixed: code = "msoPresetLightingSoftnessMixed"
-End Select
-MsoPresetLightingSoftness = code
-End Function
-
-Function MsoPresetMaterial(iMsoPresetMaterial As MsoPresetMaterial) As String
-code = ""
-Select Case iMsoPresetMaterial
-Case Office.MsoPresetMaterial.msoMaterialClear: code = "Office.MsoPresetMaterial.msoMaterialClear"
-Case Office.MsoPresetMaterial.msoMaterialDarkEdge: code = "Office.MsoPresetMaterial.msoMaterialDarkEdge"
-Case Office.MsoPresetMaterial.msoMaterialFlat: code = "Office.MsoPresetMaterial.msoMaterialFlat"
-Case Office.MsoPresetMaterial.msoMaterialMatte: code = "Office.MsoPresetMaterial.msoMaterialMatte"
-Case Office.MsoPresetMaterial.msoMaterialMatte2: code = "Office.MsoPresetMaterial.msoMaterialMatte2"
-Case Office.MsoPresetMaterial.msoMaterialMetal: code = "Office.MsoPresetMaterial.msoMaterialMetal"
-Case Office.MsoPresetMaterial.msoMaterialMetal2: code = "Office.MsoPresetMaterial.msoMaterialMetal2"
-Case Office.MsoPresetMaterial.msoMaterialPlastic: code = "Office.MsoPresetMaterial.msoMaterialPlastic"
-Case Office.MsoPresetMaterial.msoMaterialPlastic2: code = "Office.MsoPresetMaterial.msoMaterialPlastic2"
-Case Office.MsoPresetMaterial.msoMaterialPowder: code = "Office.MsoPresetMaterial.msoMaterialPowder"
-Case Office.MsoPresetMaterial.msoMaterialSoftEdge: code = "Office.MsoPresetMaterial.msoMaterialSoftEdge"
-Case Office.MsoPresetMaterial.msoMaterialSoftMetal: code = "Office.MsoPresetMaterial.msoMaterialSoftMetal"
-Case Office.MsoPresetMaterial.msoMaterialTranslucentPowder: code = "Office.MsoPresetMaterial.msoMaterialTranslucentPowder"
-Case Office.MsoPresetMaterial.msoMaterialWarmMatte: code = "Office.MsoPresetMaterial.msoMaterialWarmMatte"
-Case Office.MsoPresetMaterial.msoMaterialWireFrame: code = "Office.MsoPresetMaterial.msoMaterialWireFrame"
-Case Office.MsoPresetMaterial.msoPresetMaterialMixed: code = "Office.MsoPresetMaterial.msoPresetMaterialMixed"
-End Select
-MsoPresetMaterial = code
-End Function
-
-Function MsoPresetThreeDFormat(iMsoPresetThreeDFormat As MsoPresetThreeDFormat) As String
-code = ""
-Select Case iMsoPresetThreeDFormat
-Case msoThreeD1: code = "msoThreeD1"
-Case msoThreeD2: code = "msoThreeD2"
-Case msoThreeD3: code = "msoThreeD3"
-Case msoThreeD4: code = "msoThreeD4"
-Case msoThreeD5: code = "msoThreeD5"
-Case msoThreeD6: code = "msoThreeD6"
-Case msoThreeD7: code = "msoThreeD7"
-Case msoThreeD8: code = "msoThreeD8"
-Case msoThreeD9: code = "msoThreeD9"
-Case msoThreeD10: code = "msoThreeD10"
-Case msoThreeD11: code = "msoThreeD11"
-Case msoThreeD12: code = "msoThreeD12"
-Case msoThreeD13: code = "msoThreeD13"
-Case msoThreeD14: code = "msoThreeD14"
-Case msoThreeD15: code = "msoThreeD15"
-Case msoThreeD16: code = "msoThreeD16"
-Case msoThreeD17: code = "msoThreeD17"
-Case msoThreeD18: code = "msoThreeD18"
-Case msoThreeD19: code = "msoThreeD19"
-Case msoThreeD20: code = "msoThreeD20"
-Case msoPresetThreeDFormatMixed: code = "msoPresetThreeDFormatMixed"
-End Select
-MsoPresetThreeDFormat = code
-End Function
-
-Function MsoExtrusionColorType(iMsoExtrusionColorType As MsoExtrusionColorType) As String
-code = ""
-Select Case iMsoExtrusionColorType
-Case msoExtrusionColorAutomatic: code = "msoExtrusionColorAutomatic"
-Case msoExtrusionColorCustom: code = "msoExtrusionColorCustom"
-Case msoExtrusionColorTypeMixed: code = "msoExtrusionColorTypeMixed"
-End Select
-MsoExtrusionColorType = code
-End Function
-
-Function MsoBulletType(iMsoBulletType As MsoBulletType) As String
-code = ""
-Select Case iMsoBulletType
-Case msoBulletMixed: code = "msoBulletMixed"
-Case msoBulletNone: code = "msoBulletNone"
-Case msoBulletNumbered: code = "msoBulletNumbered"
-Case msoBulletPicture: code = "msoBulletPicture"
-Case msoBulletUnnumbered: code = "msoBulletUnnumbered"
-End Select
-MsoBulletType = code
-End Function
-
-Function MsoNumberedBulletStyle(iMsoNumberedBulletStyle As MsoNumberedBulletStyle) As String
-code = ""
-Select Case iMsoNumberedBulletStyle
-Case msoBulletAlphaLCParenBoth: code = "msoBulletAlphaLCParenBoth"
-Case msoBulletAlphaLCParenRight: code = "msoBulletAlphaLCParenRight"
-Case msoBulletAlphaLCPeriod: code = "msoBulletAlphaLCPeriod"
-Case msoBulletAlphaUCParenBoth: code = "msoBulletAlphaUCParenBoth"
-Case msoBulletAlphaUCParenRight: code = "msoBulletAlphaUCParenRight"
-Case msoBulletAlphaUCPeriod: code = "msoBulletAlphaUCPeriod"
-Case msoBulletArabicAbjadDash: code = "msoBulletArabicAbjadDash"
-Case msoBulletArabicAlphaDash: code = "msoBulletArabicAlphaDash"
-Case msoBulletArabicDBPeriod: code = "msoBulletArabicDBPeriod"
-Case msoBulletArabicDBPlain: code = "msoBulletArabicDBPlain"
-Case msoBulletArabicParenBoth: code = "msoBulletArabicParenBoth"
-Case msoBulletArabicParenRight: code = "msoBulletArabicParenRight"
-Case msoBulletArabicPeriod: code = "msoBulletArabicPeriod"
-Case msoBulletArabicPlain: code = "msoBulletArabicPlain"
-Case msoBulletCircleNumDBPlain: code = "msoBulletCircleNumDBPlain"
-Case msoBulletCircleNumWDBlackPlain: code = "msoBulletCircleNumWDBlackPlain"
-Case msoBulletCircleNumWDWhitePlain: code = "msoBulletCircleNumWDWhitePlain"
-Case msoBulletHebrewAlphaDash: code = "msoBulletHebrewAlphaDash"
-Case msoBulletHindiAlpha1Period: code = "msoBulletHindiAlpha1Period"
-Case msoBulletHindiAlphaPeriod: code = "msoBulletHindiAlphaPeriod"
-Case msoBulletHindiNumParenRight: code = "msoBulletHindiNumParenRight"
-Case msoBulletHindiNumPeriod: code = "msoBulletHindiNumPeriod"
-Case msoBulletKanjiKoreanPeriod: code = "msoBulletKanjiKoreanPeriod"
-Case msoBulletKanjiKoreanPlain: code = "msoBulletKanjiKoreanPlain"
-Case msoBulletKanjiSimpChinDBPeriod: code = "msoBulletKanjiSimpChinDBPeriod"
-Case msoBulletRomanLCParenBoth: code = "msoBulletRomanLCParenBoth"
-Case msoBulletRomanLCParenRight: code = "msoBulletRomanLCParenRight"
-Case msoBulletRomanLCPeriod: code = "msoBulletRomanLCPeriod"
-Case msoBulletRomanUCParenBoth: code = "msoBulletRomanUCParenBoth"
-Case msoBulletRomanUCParenRight: code = "msoBulletRomanUCParenRight"
-Case msoBulletRomanUCPeriod: code = "msoBulletRomanUCPeriod"
-Case msoBulletSimpChinPeriod: code = "msoBulletSimpChinPeriod"
-Case msoBulletSimpChinPlain: code = "msoBulletSimpChinPlain"
-Case msoBulletStyleMixed: code = "msoBulletStyleMixed"
-Case msoBulletThaiAlphaParenBoth: code = "msoBulletThaiAlphaParenBoth"
-Case msoBulletThaiAlphaParenRight: code = "msoBulletThaiAlphaParenRight"
-Case msoBulletThaiAlphaPeriod: code = "msoBulletThaiAlphaPeriod"
-Case msoBulletThaiNumParenBoth: code = "msoBulletThaiNumParenBoth"
-Case msoBulletThaiNumParenRight: code = "msoBulletThaiNumParenRight"
-Case msoBulletThaiNumPeriod: code = "msoBulletThaiNumPeriod"
-Case msoBulletTradChinPeriod: code = "msoBulletTradChinPeriod"
-Case msoBulletTradChinPlain: code = "msoBulletTradChinPlain"
-End Select
-MsoNumberedBulletStyle = code
-End Function
-
 
 Function MsoBaselineAlignment(iMsoBaselineAlignment As MsoBaselineAlignment) As String
 code = ""
@@ -676,137 +281,233 @@ End Select
 MsoBaselineAlignment = code
 End Function
 
-Function MsoParagraphAlignment(iMsoParagraphAlignment As MsoParagraphAlignment) As String
+Function MsoBlackWhiteMode(iMsoBlackWhiteMode As Office.MsoBlackWhiteMode) As String
 code = ""
-Select Case iMsoParagraphAlignment
-Case msoAlignCenter: code = "msoAlignCenter"
-Case msoAlignDistribute: code = "msoAlignDistribute"
-Case msoAlignJustify: code = "msoAlignJustify"
-Case msoAlignJustifyLow: code = "msoAlignJustifyLow"
-Case msoAlignLeft: code = "msoAlignLeft"
-Case msoAlignMixed: code = "msoAlignMixed"
-Case msoAlignRight: code = "msoAlignRight"
-Case msoAlignThaiDistribute: code = "msoAlignThaiDistribute"
+Select Case iMsoBlackWhiteMode
+Case msoBlackWhiteAutomatic: code = "msoBlackWhiteAutomatic"
+Case msoBlackWhiteBlack: code = "msoBlackWhiteBlack"
+Case msoBlackWhiteBlackTextAndLine: code = "msoBlackWhiteBlackTextAndLine"
+Case msoBlackWhiteDontShow: code = "msoBlackWhiteDontShow"
+Case msoBlackWhiteGrayOutline: code = "msoBlackWhiteGrayOutline"
+Case msoBlackWhiteGrayScale: code = "msoBlackWhiteGrayScale"
+Case msoBlackWhiteHighContrast: code = "msoBlackWhiteHighContrast"
+Case msoBlackWhiteInverseGrayScale: code = "msoBlackWhiteInverseGrayScale"
+Case msoBlackWhiteLightGrayScale: code = "msoBlackWhiteLightGrayScale"
+Case msoBlackWhiteMixed: code = "msoBlackWhiteMixed"
+Case msoBlackWhiteWhite: code = "msoBlackWhiteWhite"
 End Select
-MsoParagraphAlignment = code
+MsoBlackWhiteMode = code
 End Function
 
-Function MsoTextUnderlineType(iMsoTextUnderlineType As MsoTextUnderlineType) As String
+Function MsoBulletType(iMsoBulletType As MsoBulletType) As String
 code = ""
-Select Case iMsoTextUnderlineType
-Case msoNoUnderline: code = "msoNoUnderline"
-Case msoUnderlineDashHeavyLine: code = "msoUnderlineDashHeavyLine"
-Case msoUnderlineDashLine: code = "msoUnderlineDashLine"
-Case msoUnderlineDashLongHeavyLine: code = "msoUnderlineDashLongHeavyLine"
-Case msoUnderlineDashLongLine: code = "msoUnderlineDashLongLine"
-Case msoUnderlineDotDashHeavyLine: code = "msoUnderlineDotDashHeavyLine"
-Case msoUnderlineDotDashLine: code = "msoUnderlineDotDashLine"
-Case msoUnderlineDotDotDashHeavyLine: code = "msoUnderlineDotDotDashHeavyLine"
-Case msoUnderlineDotDotDashLine: code = "msoUnderlineDotDotDashLine"
-Case msoUnderlineDottedHeavyLine: code = "msoUnderlineDottedHeavyLine"
-Case msoUnderlineDottedLine: code = "msoUnderlineDottedLine"
-Case msoUnderlineDoubleLine: code = "msoUnderlineDoubleLine"
-Case msoUnderlineHeavyLine: code = "msoUnderlineHeavyLine"
-Case msoUnderlineMixed: code = "msoUnderlineMixed"
-Case msoUnderlineSingleLine: code = "msoUnderlineSingleLine"
-Case msoUnderlineWavyDoubleLine: code = "msoUnderlineWavyDoubleLine"
-Case msoUnderlineWavyHeavyLine: code = "msoUnderlineWavyHeavyLine"
-Case msoUnderlineWavyLine: code = "msoUnderlineWavyLine"
-Case msoUnderlineWords: code = "msoUnderlineWords"
+Select Case iMsoBulletType
+Case msoBulletMixed: code = "msoBulletMixed"
+Case msoBulletNone: code = "msoBulletNone"
+Case msoBulletNumbered: code = "msoBulletNumbered"
+Case msoBulletPicture: code = "msoBulletPicture"
+Case msoBulletUnnumbered: code = "msoBulletUnnumbered"
 End Select
-MsoTextUnderlineType = code
+MsoBulletType = code
 End Function
 
-Function MsoTextStrike(iMsoTextStrike As MsoTextStrike) As String
+Function MsoCalloutAngleType(iMsoCalloutAngleType As MsoCalloutAngleType) As String
 code = ""
-Select Case iMsoTextStrike
-Case msoDoubleStrike: code = "msoDoubleStrike"
-Case msoNoStrike: code = "msoNoStrike"
-Case msoSingleStrike: code = "msoSingleStrike"
-Case msoStrikeMixed: code = "msoStrikeMixed"
+Select Case iMsoCalloutAngleType
+Case msoCalloutAngle30: code = "msoCalloutAngle30"
+Case msoCalloutAngle45: code = "msoCalloutAngle45"
+Case msoCalloutAngle60: code = "msoCalloutAngle60"
+Case msoCalloutAngle90: code = "msoCalloutAngle90"
+Case msoCalloutAngleAutomatic: code = "msoCalloutAngleAutomatic"
+Case msoCalloutAngleMixed: code = "msoCalloutAngleMixed"
 End Select
-MsoTextStrike = code
+MsoCalloutAngleType = code
 End Function
 
-Function MsoTextCaps(iMsoTextCaps As MsoTextCaps) As String
+Function MsoCalloutDropType(iMsoCalloutDropType As MsoCalloutDropType) As String
 code = ""
-Select Case iMsoTextCaps
-Case msoAllCaps: code = "msoAllCaps"
-Case msoCapsMixed: code = "msoCapsMixed"
-Case msoNoCaps: code = "msoNoCaps"
-Case msoSmallCaps: code = "msoSmallCaps"
+Select Case iMsoCalloutDropType
+Case msoCalloutDropBottom: code = "msoCalloutDropBottom"
+Case msoCalloutDropCenter: code = "msoCalloutDropCenter"
+Case msoCalloutDropCustom: code = "msoCalloutDropCustom"
+Case msoCalloutDropMixed: code = "msoCalloutDropMixed"
+Case msoCalloutDropTop: code = "msoCalloutDropTop"
 End Select
-MsoTextCaps = code
+MsoCalloutDropType = code
 End Function
 
-Function MsoTextDirection(iMsoTextDirection As MsoTextDirection) As String
+Function MsoCalloutType(iMsoCalloutType As MsoCalloutType) As String
 code = ""
-Select Case iMsoTextDirection
-Case msoTextDirectionLeftToRight: code = "msoTextDirectionLeftToRight"
-Case msoTextDirectionMixed: code = "msoTextDirectionMixed"
-Case msoTextDirectionRightToLeft: code = "msoTextDirectionRightToLeft"
+Select Case iMsoCalloutType
+Case msoCalloutFour: code = "msoCalloutFour"
+Case msoCalloutMixed: code = "msoCalloutMixed"
+Case msoCalloutOne: code = "msoCalloutOne"
+Case msoCalloutThree: code = "msoCalloutThree"
+Case msoCalloutTwo: code = "msoCalloutTwo"
 End Select
-MsoTextDirection = code
+MsoCalloutType = code
 End Function
 
-Function MsoVerticalAnchor(iMsoVerticalAnchor As MsoVerticalAnchor) As String
+Function MsoColorType(iMsoColorType As MsoColorType) As String
 code = ""
-Select Case iMsoVerticalAnchor
-Case msoAnchorBottom: code = "msoAnchorBottom"
-Case msoAnchorBottomBaseLine: code = "msoAnchorBottomBaseLine"
-Case msoAnchorCenter: code = "msoAnchorCenter"
-Case msoAnchorMiddle: code = "msoAnchorMiddle"
-Case msoAnchorNone: code = "msoAnchorNone"
-Case msoAnchorTop: code = "msoAnchorTop"
-Case msoAnchorTopBaseline: code = "msoAnchorTopBaseline"
-Case msoVerticalAnchorMixed: code = "msoVerticalAnchorMixed"
+Select Case iMsoColorType
+Case msoColorTypeCMS: code = "msoColorTypeCMS"
+Case msoColorTypeCMYK: code = "msoColorTypeCMYK"
+Case msoColorTypeInk: code = "msoColorTypeInk"
+Case msoColorTypeMixed: code = "msoColorTypeMixed"
+Case msoColorTypeRGB: code = "msoColorTypeRGB"
+Case msoColorTypeScheme: code = "msoColorTypeScheme"
 End Select
-MsoVerticalAnchor = code
+MsoColorType = code
 End Function
 
-Function MsoWarpFormat(iMsoWarpFormat As Office.MsoWarpFormat) As String
+Function MsoConnectorType(iMsoConnectorType As MsoConnectorType) As String
 code = ""
-Select Case iMsoWarpFormat
-Case msoWarpFormat1: code = "msoWarpFormat1"
-Case msoWarpFormat2: code = "msoWarpFormat2"
-Case msoWarpFormat3: code = "msoWarpFormat3"
-Case msoWarpFormat4: code = "msoWarpFormat4"
-Case msoWarpFormat5: code = "msoWarpFormat5"
-Case msoWarpFormat6: code = "msoWarpFormat6"
-Case msoWarpFormat7: code = "msoWarpFormat7"
-Case msoWarpFormat8: code = "msoWarpFormat8"
-Case msoWarpFormat9: code = "msoWarpFormat9"
-Case msoWarpFormat10: code = "msoWarpFormat10"
-Case msoWarpFormat11: code = "msoWarpFormat11"
-Case msoWarpFormat12: code = "msoWarpFormat12"
-Case msoWarpFormat13: code = "msoWarpFormat13"
-Case msoWarpFormat14: code = "msoWarpFormat14"
-Case msoWarpFormat15: code = "msoWarpFormat15"
-Case msoWarpFormat16: code = "msoWarpFormat16"
-Case msoWarpFormat17: code = "msoWarpFormat17"
-Case msoWarpFormat18: code = "msoWarpFormat18"
-Case msoWarpFormat19: code = "msoWarpFormat19"
-Case msoWarpFormat20: code = "msoWarpFormat20"
-Case msoWarpFormat21: code = "msoWarpFormat21"
-Case msoWarpFormat22: code = "msoWarpFormat22"
-Case msoWarpFormat23: code = "msoWarpFormat23"
-Case msoWarpFormat24: code = "msoWarpFormat24"
-Case msoWarpFormat25: code = "msoWarpFormat25"
-Case msoWarpFormat26: code = "msoWarpFormat26"
-Case msoWarpFormat27: code = "msoWarpFormat27"
-Case msoWarpFormat28: code = "msoWarpFormat28"
-Case msoWarpFormat29: code = "msoWarpFormat29"
-Case msoWarpFormat30: code = "msoWarpFormat30"
-Case msoWarpFormat31: code = "msoWarpFormat31"
-Case msoWarpFormat32: code = "msoWarpFormat32"
-Case msoWarpFormat33: code = "msoWarpFormat33"
-Case msoWarpFormat34: code = "msoWarpFormat34"
-Case msoWarpFormat35: code = "msoWarpFormat35"
-Case msoWarpFormat36: code = "msoWarpFormat36"
-Case msoWarpFormat37: code = "msoWarpFormat37"
-Case msoWarpFormatMixed: code = "msoWarpFormatMixed"
+Select Case iMsoConnectorType
+Case msoConnectorCurve: code = "msoConnectorCurve"
+Case msoConnectorElbow: code = "msoConnectorElbow"
+Case msoConnectorStraight: code = "msoConnectorStraight"
+Case msoConnectorTypeMixed: code = "msoConnectorTypeMixed"
 End Select
-MsoWarpFormat = code
+MsoBackgroundStyleIndex = code
+End Function
+
+Function MsoExtrusionColorType(iMsoExtrusionColorType As MsoExtrusionColorType) As String
+code = ""
+Select Case iMsoExtrusionColorType
+Case msoExtrusionColorAutomatic: code = "msoExtrusionColorAutomatic"
+Case msoExtrusionColorCustom: code = "msoExtrusionColorCustom"
+Case msoExtrusionColorTypeMixed: code = "msoExtrusionColorTypeMixed"
+End Select
+MsoExtrusionColorType = code
+End Function
+
+Function MsoFarEastLineBreakLanguageID(iMsoFarEastLineBreakLanguageID As MsoFarEastLineBreakLanguageID) As String
+code = ""
+Select Case iMsoFarEastLineBreakLanguageID
+Case MsoFarEastLineBreakLanguageJapanese: code = "MsoFarEastLineBreakLanguageJapanese"
+Case MsoFarEastLineBreakLanguageKorean: code = "MsoFarEastLineBreakLanguageKorean"
+Case MsoFarEastLineBreakLanguageSimplifiedChinese: code = "MsoFarEastLineBreakLanguageSimplifiedChinese"
+Case MsoFarEastLineBreakLanguageTraditionalChinese: code = "MsoFarEastLineBreakLanguageTraditionalChinese"
+End Select
+MsoFeatureInstall = code
+End Function
+
+Function MsoFeatureInstall(iMsoFeatureInstall As MsoFeatureInstall) As String
+code = ""
+Select Case iMsoFeatureInstall
+Case msoFeatureInstallNone: code = "msoFeatureInstallNone"
+Case msoFeatureInstallOnDemand: code = "msoFeatureInstallOnDemand"
+Case msoFeatureInstallOnDemandWithUI: code = "msoFeatureInstallOnDemandWithUI"
+End Select
+MsoFeatureInstall = code
+End Function
+
+Function MsoFileValidationMode(iMsoFileValidationMode As MsoFileValidationMode) As String
+code = ""
+Select Case iMsoFileValidationMode
+Case msoFileValidationDefault: code = "msoFileValidationDefault"
+Case msoFileValidationSkip: code = "msoFileValidationSkip"
+End Select
+MsoFileValidationMode = code
+End Function
+
+Function MsoFillType(iMsoFillType As MsoFillType) As String
+code = ""
+Select Case iMsoFillType
+Case msoFillBackground: code = "msoFillBackground"
+Case msoFillGradient: code = "msoFillGradient"
+Case msoFillMixed: code = "msoFillMixed"
+Case msoFillPatterned: code = "msoFillPatterned"
+Case msoFillPicture: code = "msoFillPicture"
+Case msoFillSolid: code = "msoFillSolid"
+Case msoFillTextured: code = "msoFillTextured"
+End Select
+MsoFillType = code
+End Function
+
+Function MsoGradientStyle(iMsoGradientStyle As MsoGradientStyle) As String
+code = ""
+Select Case iMsoGradientStyle
+Case msoGradientDiagonalDown: code = "msoGradientDiagonalDown"
+Case msoGradientDiagonalUp: code = "msoGradientDiagonalUp"
+Case msoGradientFromCenter: code = "msoGradientFromCenter"
+Case msoGradientFromCorner: code = "msoGradientFromCorner"
+Case msoGradientFromTitle: code = "msoGradientFromTitle"
+Case msoGradientHorizontal: code = "msoGradientHorizontal"
+Case msoGradientMixed: code = "msoGradientMixed"
+Case msoGradientVertical: code = "msoGradientVertical"
+End Select
+MsoGradientStyle = code
+End Function
+
+Function MsoGraphicStyleIndex(iMsoGraphicStyleIndex As MsoGraphicStyleIndex) As String
+code = ""
+Select Case iMsoGraphicStyleIndex
+Case msoGraphicStyleMixed: code = "msoGraphicStyleMixed"
+Case msoGraphicStyleNotAPreset: code = "msoGraphicStyleNotAPreset"
+Case msoGraphicStylePreset1: code = "msoGraphicStylePreset1"
+Case msoGraphicStylePreset2: code = "msoGraphicStylePreset2"
+Case msoGraphicStylePreset3: code = "msoGraphicStylePreset3"
+Case msoGraphicStylePreset4: code = "msoGraphicStylePreset4"
+Case msoGraphicStylePreset5: code = "msoGraphicStylePreset5"
+Case msoGraphicStylePreset6: code = "msoGraphicStylePreset6"
+Case msoGraphicStylePreset7: code = "msoGraphicStylePreset7"
+Case msoGraphicStylePreset8: code = "msoGraphicStylePreset8"
+Case msoGraphicStylePreset9: code = "msoGraphicStylePreset9"
+Case msoGraphicStylePreset10: code = "msoGraphicStylePreset10"
+Case msoGraphicStylePreset11: code = "msoGraphicStylePreset11"
+Case msoGraphicStylePreset12: code = "msoGraphicStylePreset12"
+Case msoGraphicStylePreset13: code = "msoGraphicStylePreset13"
+Case msoGraphicStylePreset14: code = "msoGraphicStylePreset14"
+Case msoGraphicStylePreset15: code = "msoGraphicStylePreset15"
+Case msoGraphicStylePreset16: code = "msoGraphicStylePreset16"
+Case msoGraphicStylePreset17: code = "msoGraphicStylePreset17"
+Case msoGraphicStylePreset18: code = "msoGraphicStylePreset18"
+Case msoGraphicStylePreset19: code = "msoGraphicStylePreset19"
+Case msoGraphicStylePreset20: code = "msoGraphicStylePreset20"
+Case msoGraphicStylePreset21: code = "msoGraphicStylePreset21"
+Case msoGraphicStylePreset22: code = "msoGraphicStylePreset22"
+Case msoGraphicStylePreset23: code = "msoGraphicStylePreset23"
+Case msoGraphicStylePreset24: code = "msoGraphicStylePreset24"
+Case msoGraphicStylePreset25: code = "msoGraphicStylePreset25"
+Case msoGraphicStylePreset26: code = "msoGraphicStylePreset26"
+Case msoGraphicStylePreset27: code = "msoGraphicStylePreset27"
+Case msoGraphicStylePreset28: code = "msoGraphicStylePreset28"
+End Select
+MsoGraphicStyleIndex = code
+End Function
+
+Function MsoGradientColorType(iMsoGradientColorType As MsoGradientColorType) As String
+code = ""
+Select Case iMsoGradientColorType
+Case msoGradientColorMixed: code = "msoGradientColorMixed"
+Case msoGradientMultiColor: code = "msoGradientMultiColor"
+Case msoGradientOneColor: code = "msoGradientOneColor"
+Case msoGradientPresetColors: code = "msoGradientPresetColors"
+Case msoGradientTwoColors: code = "msoGradientTwoColors"
+End Select
+MsoGradientColorType = code
+End Function
+
+Function MsoHorizontalAnchor(iMsoHorizontalAnchor As Office.MsoHorizontalAnchor) As String
+code = ""
+Select Case iMsoHorizontalAnchor
+Case Office.msoAnchorCenter: code = "Office.msoAnchorCenter"
+Case Office.msoAnchorNone: code = "Office.msoAnchorNone"
+Case Office.msoHorizontalAnchorMixed: code = "Office.msoHorizontalAnchorMixed"
+End Select
+MsoHorizontalAnchor = code
+End Function
+
+Function MsoHyperlinkType(iMsoHyperlinkType As Office.MsoHyperlinkType) As String
+code = ""
+Select Case iMsoHyperlinkType
+Case msoHyperlinkInlineShape: code = "msoHyperlinkInlineShape"
+Case msoHyperlinkRange: code = "msoHyperlinkRange"
+Case msoHyperlinkShape: code = "msoHyperlinkShape"
+End Select
+MsoHyperlinkType = code
 End Function
 
 Function MsoLanguageID(iMsoLanguageID As Office.MsoLanguageID) As String
@@ -1037,6 +738,138 @@ End Select
 MsoLanguageID = code
 End Function
 
+Function MsoLightRigType(iMsoLightRigType As MsoLightRigType) As String
+code = ""
+Select Case iMsoLightRigType
+Case msoLightRigBalanced: code = "msoLightRigBalanced"
+Case msoLightRigBrightRoom: code = "msoLightRigBrightRoom"
+Case msoLightRigChilly: code = "msoLightRigChilly"
+Case msoLightRigContrasting: code = "msoLightRigContrasting"
+Case msoLightRigFlat: code = "msoLightRigFlat"
+Case msoLightRigFlood: code = "msoLightRigFlood"
+Case msoLightRigFreezing: code = "msoLightRigFreezing"
+Case msoLightRigGlow: code = "msoLightRigGlow"
+Case msoLightRigHarsh: code = "msoLightRigHarsh"
+Case msoLightRigLegacyFlat1: code = "msoLightRigLegacyFlat1"
+Case msoLightRigLegacyFlat2: code = "msoLightRigLegacyFlat2"
+Case msoLightRigLegacyFlat3: code = "msoLightRigLegacyFlat3"
+Case msoLightRigLegacyFlat4: code = "msoLightRigLegacyFlat4"
+Case msoLightRigLegacyHarsh1: code = "msoLightRigLegacyHarsh1"
+Case msoLightRigLegacyHarsh2: code = "msoLightRigLegacyHarsh2"
+Case msoLightRigLegacyHarsh3: code = "msoLightRigLegacyHarsh3"
+Case msoLightRigLegacyHarsh4: code = "msoLightRigLegacyHarsh4"
+Case msoLightRigLegacyNormal1: code = "msoLightRigLegacyNormal1"
+Case msoLightRigLegacyNormal2: code = "msoLightRigLegacyNormal2"
+Case msoLightRigLegacyNormal3: code = "msoLightRigLegacyNormal3"
+Case msoLightRigLegacyNormal4: code = "msoLightRigLegacyNormal4"
+Case msoLightRigMixed: code = "msoLightRigMixed"
+Case msoLightRigMorning: code = "msoLightRigMorning"
+Case msoLightRigSoft: code = "msoLightRigSoft"
+Case msoLightRigSunrise: code = "msoLightRigSunrise"
+Case msoLightRigSunset: code = "msoLightRigSunset"
+Case msoLightRigThreePoint: code = "msoLightRigThreePoint"
+Case msoLightRigTwoPoint: code = "msoLightRigTwoPoint"
+End Select
+MsoLightRigType = code
+End Function
+
+Function MsoLineDashStyle(iMsoLineDashStyle As MsoLineDashStyle) As String
+code = ""
+Select Case iMsoLineDashStyle
+Case msoLineDash: code = "msoLineDash"
+Case msoLineDashDot: code = "msoLineDashDot"
+Case msoLineDashDotDot: code = "msoLineDashDotDot"
+Case msoLineDashStyleMixed: code = "msoLineDashStyleMixed"
+Case msoLineLongDash: code = "msoLineLongDash"
+Case msoLineLongDashDot: code = "msoLineLongDashDot"
+Case msoLineLongDashDotDot: code = "msoLineLongDashDotDot"
+Case msoLineRoundDot: code = "msoLineRoundDot"
+Case msoLineSolid: code = "msoLineSolid"
+Case msoLineSquareDot: code = "msoLineSquareDot"
+Case msoLineSysDash: code = "msoLineSysDash"
+Case msoLineSysDashDot: code = "msoLineSysDashDot"
+Case msoLineSysDot: code = "msoLineSysDot"
+End Select
+MsoLineDashStyle = code
+End Function
+
+Function MsoLineStyle(iMsoLineStyle As MsoLineStyle) As String
+code = ""
+Select Case iMsoLineStyle
+Case msoLineSingle: code = "msoLineSingle"
+Case msoLineStyleMixed: code = "msoLineStyleMixed"
+Case msoLineThickBetweenThin: code = "msoLineThickBetweenThin"
+Case msoLineThickThin: code = "msoLineThickThin"
+Case msoLineThinThick: code = "msoLineThinThick"
+Case msoLineThinThin: code = "msoLineThinThin"
+End Select
+MsoLineStyle = code
+End Function
+
+Function MsoNumberedBulletStyle(iMsoNumberedBulletStyle As MsoNumberedBulletStyle) As String
+code = ""
+Select Case iMsoNumberedBulletStyle
+Case msoBulletAlphaLCParenBoth: code = "msoBulletAlphaLCParenBoth"
+Case msoBulletAlphaLCParenRight: code = "msoBulletAlphaLCParenRight"
+Case msoBulletAlphaLCPeriod: code = "msoBulletAlphaLCPeriod"
+Case msoBulletAlphaUCParenBoth: code = "msoBulletAlphaUCParenBoth"
+Case msoBulletAlphaUCParenRight: code = "msoBulletAlphaUCParenRight"
+Case msoBulletAlphaUCPeriod: code = "msoBulletAlphaUCPeriod"
+Case msoBulletArabicAbjadDash: code = "msoBulletArabicAbjadDash"
+Case msoBulletArabicAlphaDash: code = "msoBulletArabicAlphaDash"
+Case msoBulletArabicDBPeriod: code = "msoBulletArabicDBPeriod"
+Case msoBulletArabicDBPlain: code = "msoBulletArabicDBPlain"
+Case msoBulletArabicParenBoth: code = "msoBulletArabicParenBoth"
+Case msoBulletArabicParenRight: code = "msoBulletArabicParenRight"
+Case msoBulletArabicPeriod: code = "msoBulletArabicPeriod"
+Case msoBulletArabicPlain: code = "msoBulletArabicPlain"
+Case msoBulletCircleNumDBPlain: code = "msoBulletCircleNumDBPlain"
+Case msoBulletCircleNumWDBlackPlain: code = "msoBulletCircleNumWDBlackPlain"
+Case msoBulletCircleNumWDWhitePlain: code = "msoBulletCircleNumWDWhitePlain"
+Case msoBulletHebrewAlphaDash: code = "msoBulletHebrewAlphaDash"
+Case msoBulletHindiAlpha1Period: code = "msoBulletHindiAlpha1Period"
+Case msoBulletHindiAlphaPeriod: code = "msoBulletHindiAlphaPeriod"
+Case msoBulletHindiNumParenRight: code = "msoBulletHindiNumParenRight"
+Case msoBulletHindiNumPeriod: code = "msoBulletHindiNumPeriod"
+Case msoBulletKanjiKoreanPeriod: code = "msoBulletKanjiKoreanPeriod"
+Case msoBulletKanjiKoreanPlain: code = "msoBulletKanjiKoreanPlain"
+Case msoBulletKanjiSimpChinDBPeriod: code = "msoBulletKanjiSimpChinDBPeriod"
+Case msoBulletRomanLCParenBoth: code = "msoBulletRomanLCParenBoth"
+Case msoBulletRomanLCParenRight: code = "msoBulletRomanLCParenRight"
+Case msoBulletRomanLCPeriod: code = "msoBulletRomanLCPeriod"
+Case msoBulletRomanUCParenBoth: code = "msoBulletRomanUCParenBoth"
+Case msoBulletRomanUCParenRight: code = "msoBulletRomanUCParenRight"
+Case msoBulletRomanUCPeriod: code = "msoBulletRomanUCPeriod"
+Case msoBulletSimpChinPeriod: code = "msoBulletSimpChinPeriod"
+Case msoBulletSimpChinPlain: code = "msoBulletSimpChinPlain"
+Case msoBulletStyleMixed: code = "msoBulletStyleMixed"
+Case msoBulletThaiAlphaParenBoth: code = "msoBulletThaiAlphaParenBoth"
+Case msoBulletThaiAlphaParenRight: code = "msoBulletThaiAlphaParenRight"
+Case msoBulletThaiAlphaPeriod: code = "msoBulletThaiAlphaPeriod"
+Case msoBulletThaiNumParenBoth: code = "msoBulletThaiNumParenBoth"
+Case msoBulletThaiNumParenRight: code = "msoBulletThaiNumParenRight"
+Case msoBulletThaiNumPeriod: code = "msoBulletThaiNumPeriod"
+Case msoBulletTradChinPeriod: code = "msoBulletTradChinPeriod"
+Case msoBulletTradChinPlain: code = "msoBulletTradChinPlain"
+End Select
+MsoNumberedBulletStyle = code
+End Function
+
+Function MsoParagraphAlignment(iMsoParagraphAlignment As MsoParagraphAlignment) As String
+code = ""
+Select Case iMsoParagraphAlignment
+Case msoAlignCenter: code = "msoAlignCenter"
+Case msoAlignDistribute: code = "msoAlignDistribute"
+Case msoAlignJustify: code = "msoAlignJustify"
+Case msoAlignJustifyLow: code = "msoAlignJustifyLow"
+Case msoAlignLeft: code = "msoAlignLeft"
+Case msoAlignMixed: code = "msoAlignMixed"
+Case msoAlignRight: code = "msoAlignRight"
+Case msoAlignThaiDistribute: code = "msoAlignThaiDistribute"
+End Select
+MsoParagraphAlignment = code
+End Function
+
 Function MsoPathFormat(iMsoPathFormat As Office.MsoPathFormat) As String
 code = ""
 Select Case iMsoPathFormat
@@ -1050,39 +883,309 @@ End Select
 MsoPathFormat = code
 End Function
 
-Function MsoTextOrientation(iMsoTextOrientation As Office.MsoTextOrientation) As String
+Function MsoPatternType(iMsoPatternType As MsoPatternType) As String
 code = ""
-Select Case iMsoTextOrientation
-Case Office.msoTextOrientationDownward: code = "Office.msoTextOrientationDownward"
-Case Office.msoTextOrientationHorizontal: code = "Office.msoTextOrientationHorizontal"
-Case Office.msoTextOrientationHorizontalRotatedFarEast: code = "Office.msoTextOrientationHorizontalRotatedFarEast"
-Case Office.msoTextOrientationMixed: code = "Office.msoTextOrientationMixed"
-Case Office.msoTextOrientationUpward: code = "Office.msoTextOrientationUpward"
-Case Office.msoTextOrientationVertical: code = "Office.msoTextOrientationVertical"
-Case Office.msoTextOrientationVerticalFarEast: code = "Office.msoTextOrientationVerticalFarEast"
+Select Case iMsoPatternType
+Case msoPattern10Percent: code = "msoPattern10Percent"
+Case msoPattern20Percent: code = "msoPattern20Percent"
+Case msoPattern25Percent: code = "msoPattern25Percent"
+Case msoPattern30Percent: code = "msoPattern30Percent"
+Case msoPattern40Percent: code = "msoPattern40Percent"
+Case msoPattern50Percent: code = "msoPattern50Percent"
+Case msoPattern5Percent: code = "msoPattern5Percent"
+Case msoPattern60Percent: code = "msoPattern60Percent"
+Case msoPattern70Percent: code = "msoPattern70Percent"
+Case msoPattern75Percent: code = "msoPattern75Percent"
+Case msoPattern80Percent: code = "msoPattern80Percent"
+Case msoPattern90Percent: code = "msoPattern90Percent"
+Case msoPatternCross: code = "msoPatternCross"
+Case msoPatternDarkDownwardDiagonal: code = "msoPatternDarkDownwardDiagonal"
+Case msoPatternDarkHorizontal: code = "msoPatternDarkHorizontal"
+Case msoPatternDarkUpwardDiagonal: code = "msoPatternDarkUpwardDiagonal"
+Case msoPatternDarkVertical: code = "msoPatternDarkVertical"
+Case msoPatternDashedDownwardDiagonal: code = "msoPatternDashedDownwardDiagonal"
+Case msoPatternDashedHorizontal: code = "msoPatternDashedHorizontal"
+Case msoPatternDashedUpwardDiagonal: code = "msoPatternDashedUpwardDiagonal"
+Case msoPatternDashedVertical: code = "msoPatternDashedVertical"
+Case msoPatternDiagonalBrick: code = "msoPatternDiagonalBrick"
+Case msoPatternDiagonalCross: code = "msoPatternDiagonalCross"
+Case msoPatternDivot: code = "msoPatternDivot"
+Case msoPatternDottedDiamond: code = "msoPatternDottedDiamond"
+Case msoPatternDottedGrid: code = "msoPatternDottedGrid"
+Case msoPatternDownwardDiagonal: code = "msoPatternDownwardDiagonal"
+Case msoPatternHorizontal: code = "msoPatternHorizontal"
+Case msoPatternHorizontalBrick: code = "msoPatternHorizontalBrick"
+Case msoPatternLargeCheckerBoard: code = "msoPatternLargeCheckerBoard"
+Case msoPatternLargeConfetti: code = "msoPatternLargeConfetti"
+Case msoPatternLargeGrid: code = "msoPatternLargeGrid"
+Case msoPatternLightDownwardDiagonal: code = "msoPatternLightDownwardDiagonal"
+Case msoPatternLightHorizontal: code = "msoPatternLightHorizontal"
+Case msoPatternLightUpwardDiagonal: code = "msoPatternLightUpwardDiagonal"
+Case msoPatternLightVertical: code = "msoPatternLightVertical"
+Case msoPatternMixed: code = "msoPatternMixed"
+Case msoPatternNarrowHorizontal: code = "msoPatternNarrowHorizontal"
+Case msoPatternNarrowVertical: code = "msoPatternNarrowVertical"
+Case msoPatternOutlinedDiamond: code = "msoPatternOutlinedDiamond"
+Case msoPatternPlaid: code = "msoPatternPlaid"
+Case msoPatternShingle: code = "msoPatternShingle"
+Case msoPatternSmallCheckerBoard: code = "msoPatternSmallCheckerBoard"
+Case msoPatternSmallConfetti: code = "msoPatternSmallConfetti"
+Case msoPatternSmallGrid: code = "msoPatternSmallGrid"
+Case msoPatternSolidDiamond: code = "msoPatternSolidDiamond"
+Case msoPatternSphere: code = "msoPatternSphere"
+Case msoPatternTrellis: code = "msoPatternTrellis"
+Case msoPatternUpwardDiagonal: code = "msoPatternUpwardDiagonal"
+Case msoPatternVertical: code = "msoPatternVertical"
+Case msoPatternWave: code = "msoPatternWave"
+Case msoPatternWeave: code = "msoPatternWeave"
+Case msoPatternWideDownwardDiagonal: code = "msoPatternWideDownwardDiagonal"
+Case msoPatternWideUpwardDiagonal: code = "msoPatternWideUpwardDiagonal"
+Case msoPatternZigZag: code = "msoPatternZigZag"
 End Select
-MsoTextOrientation = code
+MsoPatternType = code
 End Function
 
-Function MsoHorizontalAnchor(iMsoHorizontalAnchor As Office.MsoHorizontalAnchor) As String
+Function MsoPictureColorType(iMsoPictureColorType As MsoPictureColorType) As String
 code = ""
-Select Case iMsoHorizontalAnchor
-Case Office.msoAnchorCenter: code = "Office.msoAnchorCenter"
-Case Office.msoAnchorNone: code = "Office.msoAnchorNone"
-Case Office.msoHorizontalAnchorMixed: code = "Office.msoHorizontalAnchorMixed"
+Select Case iMsoPictureColorType
+Case msoPictureAutomatic: code = "msoPictureAutomatic"
+Case msoPictureBlackAndWhite: code = "msoPictureBlackAndWhite"
+Case msoPictureGrayscale: code = "msoPictureGrayscale"
+Case msoPictureMixed: code = "msoPictureMixed"
+Case msoPictureWatermark: code = "msoPictureWatermark"
 End Select
-MsoHorizontalAnchor = code
+MsoPictureColorType = code
 End Function
 
-Function MsoAutoSize(iMsoAutoSize As Office.MsoAutoSize) As String
+Function MsoPresetCamera(iMsoPresetCamera As MsoPresetCamera) As String
 code = ""
-Select Case iMsoAutoSize
-Case Office.msoAutoSizeMixed: code = "Office.msoAutoSizeMixed"
-Case Office.msoAutoSizeNone: code = "Office.msoAutoSizeNone"
-Case Office.msoAutoSizeShapeToFitText: code = "Office.msoAutoSizeShapeToFitText"
-Case Office.msoAutoSizeTextToFitShape: code = "Office.msoAutoSizeTextToFitShape"
+Select Case iMsoPresetCamera
+Case msoCameraIsometricBottomDown: code = "msoCameraIsometricBottomDown"
+Case msoCameraIsometricBottomUp: code = "msoCameraIsometricBottomUp"
+Case msoCameraIsometricLeftDown: code = "msoCameraIsometricLeftDown"
+Case msoCameraIsometricLeftUp: code = "msoCameraIsometricLeftUp"
+Case msoCameraIsometricOffAxis1Left: code = "msoCameraIsometricOffAxis1Left"
+Case msoCameraIsometricOffAxis1Right: code = "msoCameraIsometricOffAxis1Right"
+Case msoCameraIsometricOffAxis1Top: code = "msoCameraIsometricOffAxis1Top"
+Case msoCameraIsometricOffAxis2Left: code = "msoCameraIsometricOffAxis2Left"
+Case msoCameraIsometricOffAxis2Right: code = "msoCameraIsometricOffAxis2Right"
+Case msoCameraIsometricOffAxis2Top: code = "msoCameraIsometricOffAxis2Top"
+Case msoCameraIsometricOffAxis3Bottom: code = "msoCameraIsometricOffAxis3Bottom"
+Case msoCameraIsometricOffAxis3Left: code = "msoCameraIsometricOffAxis3Left"
+Case msoCameraIsometricOffAxis3Right: code = "msoCameraIsometricOffAxis3Right"
+Case msoCameraIsometricOffAxis4Bottom: code = "msoCameraIsometricOffAxis4Bottom"
+Case msoCameraIsometricOffAxis4Left: code = "msoCameraIsometricOffAxis4Left"
+Case msoCameraIsometricOffAxis4Right: code = "msoCameraIsometricOffAxis4Right"
+Case msoCameraIsometricRightDown: code = "msoCameraIsometricRightDown"
+Case msoCameraIsometricRightUp: code = "msoCameraIsometricRightUp"
+Case msoCameraIsometricTopDown: code = "msoCameraIsometricTopDown"
+Case msoCameraIsometricTopUp: code = "msoCameraIsometricTopUp"
+Case msoCameraLegacyObliqueBottom: code = "msoCameraLegacyObliqueBottom"
+Case msoCameraLegacyObliqueBottomLeft: code = "msoCameraLegacyObliqueBottomLeft"
+Case msoCameraLegacyObliqueBottomRight: code = "msoCameraLegacyObliqueBottomRight"
+Case msoCameraLegacyObliqueFront: code = "msoCameraLegacyObliqueFront"
+Case msoCameraLegacyObliqueLeft: code = "msoCameraLegacyObliqueLeft"
+Case msoCameraLegacyObliqueRight: code = "msoCameraLegacyObliqueRight"
+Case msoCameraLegacyObliqueTop: code = "msoCameraLegacyObliqueTop"
+Case msoCameraLegacyObliqueTopLeft: code = "msoCameraLegacyObliqueTopLeft"
+Case msoCameraLegacyObliqueTopRight: code = "msoCameraLegacyObliqueTopRight"
+Case msoCameraLegacyPerspectiveBottom: code = "msoCameraLegacyPerspectiveBottom"
+Case msoCameraLegacyPerspectiveBottomLeft: code = "msoCameraLegacyPerspectiveBottomLeft"
+Case msoCameraLegacyPerspectiveBottomRight: code = "msoCameraLegacyPerspectiveBottomRight"
+Case msoCameraLegacyPerspectiveFront: code = "msoCameraLegacyPerspectiveFront"
+Case msoCameraLegacyPerspectiveLeft: code = "msoCameraLegacyPerspectiveLeft"
+Case msoCameraLegacyPerspectiveRight: code = "msoCameraLegacyPerspectiveRight"
+Case msoCameraLegacyPerspectiveTop: code = "msoCameraLegacyPerspectiveTop"
+Case msoCameraLegacyPerspectiveTopLeft: code = "msoCameraLegacyPerspectiveTopLeft"
+Case msoCameraObliqueBottom: code = "msoCameraObliqueBottom"
+Case msoCameraObliqueBottomLeft: code = "msoCameraObliqueBottomLeft"
+Case msoCameraObliqueBottomRight: code = "msoCameraObliqueBottomRight"
+Case msoCameraObliqueLeft: code = "msoCameraObliqueLeft"
+Case msoCameraObliqueRight: code = "msoCameraObliqueRight"
+Case msoCameraObliqueTop: code = "msoCameraObliqueTop"
+Case msoCameraObliqueTopLeft: code = "msoCameraObliqueTopLeft"
+Case msoCameraObliqueTopRight: code = "msoCameraObliqueTopRight"
+Case msoCameraOrthographicFront: code = "msoCameraOrthographicFront"
+Case msoCameraPerspectiveAbove: code = "msoCameraPerspectiveAbove"
+Case msoCameraPerspectiveAboveLeftFacing: code = "msoCameraPerspectiveAboveLeftFacing"
+Case msoCameraPerspectiveAboveRightFacing: code = "msoCameraPerspectiveAboveRightFacing"
+Case msoCameraPerspectiveBelow: code = "msoCameraPerspectiveBelow"
+Case msoCameraPerspectiveContrastingLeftFacing: code = "msoCameraPerspectiveContrastingLeftFacing"
+Case msoCameraPerspectiveContrastingRightFacing: code = "msoCameraPerspectiveContrastingRightFacing"
+Case msoCameraPerspectiveFront: code = "msoCameraPerspectiveFront"
+Case msoCameraPerspectiveHeroicExtremeLeftFacing: code = "msoCameraPerspectiveHeroicExtremeLeftFacing"
+Case msoCameraPerspectiveHeroicExtremeRightFacing: code = "msoCameraPerspectiveHeroicExtremeRightFacing"
+Case msoCameraPerspectiveHeroicLeftFacing: code = "msoCameraPerspectiveHeroicLeftFacing"
+Case msoCameraPerspectiveHeroicRightFacing: code = "msoCameraPerspectiveHeroicRightFacing"
+Case msoCameraPerspectiveLeft: code = "msoCameraPerspectiveLeft"
+Case msoCameraPerspectiveRelaxed: code = "msoCameraPerspectiveRelaxed"
+Case msoCameraPerspectiveRelaxedModerately: code = "msoCameraPerspectiveRelaxedModerately"
+Case msoCameraPerspectiveRight: code = "msoCameraPerspectiveRight"
+Case msoPresetCameraMixed: code = "msoPresetCameraMixed"
 End Select
-MsoAutoSize = code
+MsoPresetCamera = code
+End Function
+
+Function MsoPresetExtrusionDirection(iMsoPresetExtrusionDirection As MsoPresetExtrusionDirection) As String
+code = ""
+Select Case iMsoPresetExtrusionDirection
+Case msoExtrusionBottom: code = "msoExtrusionBottom"
+Case msoExtrusionBottomLeft: code = "msoExtrusionBottomLeft"
+Case msoExtrusionBottomRight: code = "msoExtrusionBottomRight"
+Case msoExtrusionColorAutomatic: code = "msoExtrusionColorAutomatic"
+Case msoExtrusionColorCustom: code = "msoExtrusionColorCustom"
+Case msoExtrusionColorTypeMixed: code = "msoExtrusionColorTypeMixed"
+Case msoExtrusionLeft: code = "msoExtrusionLeft"
+Case msoExtrusionNone: code = "msoExtrusionNone"
+Case msoExtrusionRight: code = "msoExtrusionRight"
+Case msoExtrusionTop: code = "msoExtrusionTop"
+Case msoExtrusionTopLeft: code = "msoExtrusionTopLeft"
+Case msoExtrusionTopRight: code = "msoExtrusionTopRight"
+End Select
+MsoPresetExtrusionDirection = code
+End Function
+
+Function MsoPresetGradientType(iMsoPresetGradientType As MsoPresetGradientType) As String
+code = ""
+Select Case iMsoPresetGradientType
+Case msoGradientBrass: code = "msoGradientBrass"
+Case msoGradientCalmWater: code = "msoGradientCalmWater"
+Case msoGradientChrome: code = "msoGradientChrome"
+Case msoGradientChromeII: code = "msoGradientChromeII"
+Case msoGradientDaybreak: code = "msoGradientDaybreak"
+Case msoGradientDesert: code = "msoGradientDesert"
+Case msoGradientEarlySunset: code = "msoGradientEarlySunset"
+Case msoGradientFire: code = "msoGradientFire"
+Case msoGradientFog: code = "msoGradientFog"
+Case msoGradientGold: code = "msoGradientGold"
+Case msoGradientGoldII: code = "msoGradientGoldII"
+Case msoGradientHorizon: code = "msoGradientHorizon"
+Case msoGradientLateSunset: code = "msoGradientLateSunset"
+Case msoGradientMahogany: code = "msoGradientMahogany"
+Case msoGradientMoss: code = "msoGradientMoss"
+Case msoGradientNightfall: code = "msoGradientNightfall"
+Case msoGradientOcean: code = "msoGradientOcean"
+Case msoGradientParchment: code = "msoGradientParchment"
+Case msoGradientPeacock: code = "msoGradientPeacock"
+Case msoGradientRainbow: code = "msoGradientRainbow"
+Case msoGradientRainbowII: code = "msoGradientRainbowII"
+Case msoGradientSapphire: code = "msoGradientSapphire"
+Case msoGradientSilver: code = "msoGradientSilver"
+Case msoGradientWheat: code = "msoGradientWheat"
+Case msoPresetGradientMixed: code = "msoPresetGradientMixed"
+End Select
+MsoPresetGradientType = code
+End Function
+
+Function MsoPresetTexture(iMsoPresetTexture As MsoPresetTexture) As String
+code = ""
+Select Case iMsoPresetTexture
+Case msoPresetTextureMixed: code = "msoPresetTextureMixed"
+Case msoTextureBlueTissuePaper: code = "msoTextureBlueTissuePaper"
+Case msoTextureBouquet: code = "msoTextureBouquet"
+Case msoTextureBrownMarble: code = "msoTextureBrownMarble"
+Case msoTextureCanvas: code = "msoTextureCanvas"
+Case msoTextureCork: code = "msoTextureCork"
+Case msoTextureDenim: code = "msoTextureDenim"
+Case msoTextureFishFossil: code = "msoTextureFishFossil"
+Case msoTextureGranite: code = "msoTextureGranite"
+Case msoTextureGreenMarble: code = "msoTextureGreenMarble"
+Case msoTextureMediumWood: code = "msoTextureMediumWood"
+Case msoTextureNewsprint: code = "msoTextureNewsprint"
+Case msoTextureOak: code = "msoTextureOak"
+Case msoTexturePaperBag: code = "msoTexturePaperBag"
+Case msoTexturePapyrus: code = "msoTexturePapyrus"
+Case msoTextureParchment: code = "msoTextureParchment"
+Case msoTexturePinkTissuePaper: code = "msoTexturePinkTissuePaper"
+Case msoTexturePurpleMesh: code = "msoTexturePurpleMesh"
+Case msoTextureRecycledPaper: code = "msoTextureRecycledPaper"
+Case msoTextureSand: code = "msoTextureSand"
+Case msoTextureStationery: code = "msoTextureStationery"
+Case msoTextureWalnut: code = "msoTextureWalnut"
+Case msoTextureWaterDroplets: code = "msoTextureWaterDroplets"
+Case msoTextureWhiteMarble: code = "msoTextureWhiteMarble"
+Case msoTextureWovenMat: code = "msoTextureWovenMat"
+End Select
+MsoPresetTexture = code
+End Function
+
+Function MsoPresetLightingDirection(iMsoPresetLightingDirection As MsoPresetLightingDirection) As String
+code = ""
+Select Case iMsoPresetLightingDirection
+Case msoLightingBottom: code = "msoLightingBottom"
+Case msoLightingBottomLeft: code = "msoLightingBottomLeft"
+Case msoLightingBottomRight: code = "msoLightingBottomRight"
+Case msoLightingLeft: code = "msoLightingLeft"
+Case msoLightingNone: code = "msoLightingNone"
+Case msoLightingRight: code = "msoLightingRight"
+Case msoLightingTop: code = "msoLightingTop"
+Case msoLightingTopLeft: code = "msoLightingTopLeft"
+Case msoLightingTopRight: code = "msoLightingTopRight"
+Case msoPresetLightingDirectionMixed: code = "msoPresetLightingDirectionMixed"
+End Select
+MsoPresetLightingDirection = code
+End Function
+
+Function MsoPresetLightingSoftness(iMsoPresetLightingSoftness As MsoPresetLightingSoftness) As String
+code = ""
+Select Case iMsoPresetLightingSoftness
+Case msoLightingBright: code = "msoLightingBright"
+Case msoLightingDim: code = "msoLightingDim"
+Case msoLightingNormal: code = "msoLightingNormal"
+Case msoPresetLightingSoftnessMixed: code = "msoPresetLightingSoftnessMixed"
+End Select
+MsoPresetLightingSoftness = code
+End Function
+
+Function MsoPresetMaterial(iMsoPresetMaterial As MsoPresetMaterial) As String
+code = ""
+Select Case iMsoPresetMaterial
+Case Office.MsoPresetMaterial.msoMaterialClear: code = "Office.MsoPresetMaterial.msoMaterialClear"
+Case Office.MsoPresetMaterial.msoMaterialDarkEdge: code = "Office.MsoPresetMaterial.msoMaterialDarkEdge"
+Case Office.MsoPresetMaterial.msoMaterialFlat: code = "Office.MsoPresetMaterial.msoMaterialFlat"
+Case Office.MsoPresetMaterial.msoMaterialMatte: code = "Office.MsoPresetMaterial.msoMaterialMatte"
+Case Office.MsoPresetMaterial.msoMaterialMatte2: code = "Office.MsoPresetMaterial.msoMaterialMatte2"
+Case Office.MsoPresetMaterial.msoMaterialMetal: code = "Office.MsoPresetMaterial.msoMaterialMetal"
+Case Office.MsoPresetMaterial.msoMaterialMetal2: code = "Office.MsoPresetMaterial.msoMaterialMetal2"
+Case Office.MsoPresetMaterial.msoMaterialPlastic: code = "Office.MsoPresetMaterial.msoMaterialPlastic"
+Case Office.MsoPresetMaterial.msoMaterialPlastic2: code = "Office.MsoPresetMaterial.msoMaterialPlastic2"
+Case Office.MsoPresetMaterial.msoMaterialPowder: code = "Office.MsoPresetMaterial.msoMaterialPowder"
+Case Office.MsoPresetMaterial.msoMaterialSoftEdge: code = "Office.MsoPresetMaterial.msoMaterialSoftEdge"
+Case Office.MsoPresetMaterial.msoMaterialSoftMetal: code = "Office.MsoPresetMaterial.msoMaterialSoftMetal"
+Case Office.MsoPresetMaterial.msoMaterialTranslucentPowder: code = "Office.MsoPresetMaterial.msoMaterialTranslucentPowder"
+Case Office.MsoPresetMaterial.msoMaterialWarmMatte: code = "Office.MsoPresetMaterial.msoMaterialWarmMatte"
+Case Office.MsoPresetMaterial.msoMaterialWireFrame: code = "Office.MsoPresetMaterial.msoMaterialWireFrame"
+Case Office.MsoPresetMaterial.msoPresetMaterialMixed: code = "Office.MsoPresetMaterial.msoPresetMaterialMixed"
+End Select
+MsoPresetMaterial = code
+End Function
+
+Function MsoPresetThreeDFormat(iMsoPresetThreeDFormat As MsoPresetThreeDFormat) As String
+code = ""
+Select Case iMsoPresetThreeDFormat
+Case msoThreeD1: code = "msoThreeD1"
+Case msoThreeD2: code = "msoThreeD2"
+Case msoThreeD3: code = "msoThreeD3"
+Case msoThreeD4: code = "msoThreeD4"
+Case msoThreeD5: code = "msoThreeD5"
+Case msoThreeD6: code = "msoThreeD6"
+Case msoThreeD7: code = "msoThreeD7"
+Case msoThreeD8: code = "msoThreeD8"
+Case msoThreeD9: code = "msoThreeD9"
+Case msoThreeD10: code = "msoThreeD10"
+Case msoThreeD11: code = "msoThreeD11"
+Case msoThreeD12: code = "msoThreeD12"
+Case msoThreeD13: code = "msoThreeD13"
+Case msoThreeD14: code = "msoThreeD14"
+Case msoThreeD15: code = "msoThreeD15"
+Case msoThreeD16: code = "msoThreeD16"
+Case msoThreeD17: code = "msoThreeD17"
+Case msoThreeD18: code = "msoThreeD18"
+Case msoThreeD19: code = "msoThreeD19"
+Case msoThreeD20: code = "msoThreeD20"
+Case msoPresetThreeDFormatMixed: code = "msoPresetThreeDFormatMixed"
+End Select
+MsoPresetThreeDFormat = code
 End Function
 
 Function MsoPresetTextEffect(iMsoPresetTextEffect As Office.MsoPresetTextEffect) As String
@@ -1172,33 +1275,22 @@ End Select
 MsoPresetTextEffectShape = code
 End Function
 
-Function MsoTextEffectAlignment(iMsoTextEffectAlignment As Office.MsoTextEffectAlignment) As String
+Function MsoReflectionType(iMsoReflectionType As MsoReflectionType) As String
 code = ""
-Select Case iMsoTextEffectAlignment
-Case Office.msoTextEffectAlignmentCentered: code = "Office.msoTextEffectAlignmentCentered"
-Case Office.msoTextEffectAlignmentLeft: code = "Office.msoTextEffectAlignmentLeft"
-Case Office.msoTextEffectAlignmentLetterJustify: code = "Office.msoTextEffectAlignmentLetterJustify"
-Case Office.msoTextEffectAlignmentMixed: code = "Office.msoTextEffectAlignmentMixed"
-Case Office.msoTextEffectAlignmentRight: code = "Office.msoTextEffectAlignmentRight"
-Case Office.msoTextEffectAlignmentStretchJustify: code = "Office.msoTextEffectAlignmentStretchJustify"
-Case Office.msoTextEffectAlignmentWordJustify: code = "Office.msoTextEffectAlignmentWordJustify"
+Select Case iMsoReflectionType
+Case msoReflectionType1: code = "msoReflectionType1"
+Case msoReflectionType2: code = "msoReflectionType2"
+Case msoReflectionType3: code = "msoReflectionType3"
+Case msoReflectionType4: code = "msoReflectionType4"
+Case msoReflectionType5: code = "msoReflectionType5"
+Case msoReflectionType6: code = "msoReflectionType6"
+Case msoReflectionType7: code = "msoReflectionType7"
+Case msoReflectionType8: code = "msoReflectionType8"
+Case msoReflectionType9: code = "msoReflectionType9"
+Case msoReflectionTypeMixed: code = "msoReflectionTypeMixed"
+Case msoReflectionTypeNone: code = "msoReflectionTypeNone"
 End Select
-MsoTextEffectAlignment = code
-End Function
-
-Function MsoSoftEdgeType(iMsoSoftEdgeType As Office.MsoSoftEdgeType) As String
-code = ""
-Select Case iMsoSoftEdgeType
-Case Office.msoSoftEdgeType1: code = "Office.msoSoftEdgeType1"
-Case Office.msoSoftEdgeType2: code = "Office.msoSoftEdgeType2"
-Case Office.msoSoftEdgeType3: code = "Office.msoSoftEdgeType3"
-Case Office.msoSoftEdgeType4: code = "Office.msoSoftEdgeType4"
-Case Office.msoSoftEdgeType5: code = "Office.msoSoftEdgeType5"
-Case Office.msoSoftEdgeType6: code = "Office.msoSoftEdgeType6"
-Case Office.msoSoftEdgeTypeMixed: code = "Office.msoSoftEdgeTypeMixed"
-Case Office.msoSoftEdgeTypeNone: code = "Office.msoSoftEdgeTypeNone"
-End Select
-MsoSoftEdgeType = code
+MsoReflectionType = code
 End Function
 
 Function MsoShadowStyle(iMsoShadowStyle As MsoShadowStyle) As String
@@ -1260,51 +1352,6 @@ Case msoShadow43: code = "msoShadow43"
 Case msoShadowMixed: code = "msoShadowMixed"
 End Select
 MsoShadowType = code
-End Function
-
-Function MsoPictureColorType(iMsoPictureColorType As MsoPictureColorType) As String
-code = ""
-Select Case iMsoPictureColorType
-Case msoPictureAutomatic: code = "msoPictureAutomatic"
-Case msoPictureBlackAndWhite: code = "msoPictureBlackAndWhite"
-Case msoPictureGrayscale: code = "msoPictureGrayscale"
-Case msoPictureMixed: code = "msoPictureMixed"
-Case msoPictureWatermark: code = "msoPictureWatermark"
-End Select
-MsoPictureColorType = code
-End Function
-
-Function MsoShapeType(iMsoShapeType As MsoShapeType) As String
-code = ""
-Select Case iMsoShapeType
-Case msoAutoShape: code = "msoAutoShape"
-Case msoCallout: code = "msoCallout"
-Case msoCanvas: code = "msoCanvas"
-Case msoChart: code = "msoChart"
-Case msoComment: code = "msoComment"
-Case msoDiagram: code = "msoDiagram"
-Case msoEmbeddedOLEObject: code = "msoEmbeddedOLEObject"
-Case msoFormControl: code = "msoFormControl"
-Case msoFreeform: code = "msoFreeform"
-Case msoGroup: code = "msoGroup"
-Case msoInk: code = "msoInk"
-Case msoInkComment: code = "msoInkComment"
-Case msoLine: code = "msoLine"
-Case msoLinkedOLEObject: code = "msoLinkedOLEObject"
-Case msoLinkedPicture: code = "msoLinkedPicture"
-Case msoMedia: code = "msoMedia"
-Case msoOLEControlObject: code = "msoOLEControlObject"
-Case msoPicture: code = "msoPicture"
-Case msoPlaceholder: code = "msoPlaceholder"
-Case msoScriptAnchor: code = "msoScriptAnchor"
-Case msoShapeTypeMixed: code = "msoShapeTypeMixed"
-Case msoSlicer: code = "msoSlicer"
-Case msoSmartArt: code = "msoSmartArt"
-Case msoTable: code = "msoTable"
-Case msoTextBox: code = "msoTextBox"
-Case msoTextEffect: code = "msoTextEffect"
-End Select
-MsoShapeType = code
 End Function
 
 Function MsoShapeStyleIndex(iMsoShapeStyleIndex As MsoShapeStyleIndex) As String
@@ -1379,6 +1426,179 @@ End Select
 MsoShapeStyleIndex = code
 End Function
 
+Function MsoShapeType(iMsoShapeType As MsoShapeType) As String
+code = ""
+Select Case iMsoShapeType
+Case msoAutoShape: code = "msoAutoShape"
+Case msoCallout: code = "msoCallout"
+Case msoCanvas: code = "msoCanvas"
+Case msoChart: code = "msoChart"
+Case msoComment: code = "msoComment"
+Case msoDiagram: code = "msoDiagram"
+Case msoEmbeddedOLEObject: code = "msoEmbeddedOLEObject"
+Case msoFormControl: code = "msoFormControl"
+Case msoFreeform: code = "msoFreeform"
+Case msoGroup: code = "msoGroup"
+Case msoInk: code = "msoInk"
+Case msoInkComment: code = "msoInkComment"
+Case msoLine: code = "msoLine"
+Case msoLinkedOLEObject: code = "msoLinkedOLEObject"
+Case msoLinkedPicture: code = "msoLinkedPicture"
+Case msoMedia: code = "msoMedia"
+Case msoOLEControlObject: code = "msoOLEControlObject"
+Case msoPicture: code = "msoPicture"
+Case msoPlaceholder: code = "msoPlaceholder"
+Case msoScriptAnchor: code = "msoScriptAnchor"
+Case msoShapeTypeMixed: code = "msoShapeTypeMixed"
+Case msoSlicer: code = "msoSlicer"
+Case msoSmartArt: code = "msoSmartArt"
+Case msoTable: code = "msoTable"
+Case msoTextBox: code = "msoTextBox"
+Case msoTextEffect: code = "msoTextEffect"
+End Select
+MsoShapeType = code
+End Function
+
+Function MsoSoftEdgeType(iMsoSoftEdgeType As Office.MsoSoftEdgeType) As String
+code = ""
+Select Case iMsoSoftEdgeType
+Case Office.msoSoftEdgeType1: code = "Office.msoSoftEdgeType1"
+Case Office.msoSoftEdgeType2: code = "Office.msoSoftEdgeType2"
+Case Office.msoSoftEdgeType3: code = "Office.msoSoftEdgeType3"
+Case Office.msoSoftEdgeType4: code = "Office.msoSoftEdgeType4"
+Case Office.msoSoftEdgeType5: code = "Office.msoSoftEdgeType5"
+Case Office.msoSoftEdgeType6: code = "Office.msoSoftEdgeType6"
+Case Office.msoSoftEdgeTypeMixed: code = "Office.msoSoftEdgeTypeMixed"
+Case Office.msoSoftEdgeTypeNone: code = "Office.msoSoftEdgeTypeNone"
+End Select
+MsoSoftEdgeType = code
+End Function
+
+Function MsoTabStopType(iMsoTabStopType As MsoTabStopType) As String
+code = ""
+Select Case iMsoTabStopType
+Case msoTabStopCenter: code = "msoTabStopCenter"
+Case msoTabStopDecimal: code = "msoTabStopDecimal"
+Case msoTabStopLeft: code = "msoTabStopLeft"
+Case msoTabStopMixed: code = "msoTabStopMixed"
+Case msoTabStopRight: code = "msoTabStopRight"
+End Select
+MsoTabStopType = code
+End Function
+
+Function MsoTextCaps(iMsoTextCaps As MsoTextCaps) As String
+code = ""
+Select Case iMsoTextCaps
+Case msoAllCaps: code = "msoAllCaps"
+Case msoCapsMixed: code = "msoCapsMixed"
+Case msoNoCaps: code = "msoNoCaps"
+Case msoSmallCaps: code = "msoSmallCaps"
+End Select
+MsoTextCaps = code
+End Function
+
+Function MsoTextDirection(iMsoTextDirection As MsoTextDirection) As String
+code = ""
+Select Case iMsoTextDirection
+Case msoTextDirectionLeftToRight: code = "msoTextDirectionLeftToRight"
+Case msoTextDirectionMixed: code = "msoTextDirectionMixed"
+Case msoTextDirectionRightToLeft: code = "msoTextDirectionRightToLeft"
+End Select
+MsoTextDirection = code
+End Function
+
+Function MsoTextEffectAlignment(iMsoTextEffectAlignment As Office.MsoTextEffectAlignment) As String
+code = ""
+Select Case iMsoTextEffectAlignment
+Case Office.msoTextEffectAlignmentCentered: code = "Office.msoTextEffectAlignmentCentered"
+Case Office.msoTextEffectAlignmentLeft: code = "Office.msoTextEffectAlignmentLeft"
+Case Office.msoTextEffectAlignmentLetterJustify: code = "Office.msoTextEffectAlignmentLetterJustify"
+Case Office.msoTextEffectAlignmentMixed: code = "Office.msoTextEffectAlignmentMixed"
+Case Office.msoTextEffectAlignmentRight: code = "Office.msoTextEffectAlignmentRight"
+Case Office.msoTextEffectAlignmentStretchJustify: code = "Office.msoTextEffectAlignmentStretchJustify"
+Case Office.msoTextEffectAlignmentWordJustify: code = "Office.msoTextEffectAlignmentWordJustify"
+End Select
+MsoTextEffectAlignment = code
+End Function
+
+Function MsoTextOrientation(iMsoTextOrientation As Office.MsoTextOrientation) As String
+code = ""
+Select Case iMsoTextOrientation
+Case Office.msoTextOrientationDownward: code = "Office.msoTextOrientationDownward"
+Case Office.msoTextOrientationHorizontal: code = "Office.msoTextOrientationHorizontal"
+Case Office.msoTextOrientationHorizontalRotatedFarEast: code = "Office.msoTextOrientationHorizontalRotatedFarEast"
+Case Office.msoTextOrientationMixed: code = "Office.msoTextOrientationMixed"
+Case Office.msoTextOrientationUpward: code = "Office.msoTextOrientationUpward"
+Case Office.msoTextOrientationVertical: code = "Office.msoTextOrientationVertical"
+Case Office.msoTextOrientationVerticalFarEast: code = "Office.msoTextOrientationVerticalFarEast"
+End Select
+MsoTextOrientation = code
+End Function
+
+Function MsoTextStrike(iMsoTextStrike As MsoTextStrike) As String
+code = ""
+Select Case iMsoTextStrike
+Case msoDoubleStrike: code = "msoDoubleStrike"
+Case msoNoStrike: code = "msoNoStrike"
+Case msoSingleStrike: code = "msoSingleStrike"
+Case msoStrikeMixed: code = "msoStrikeMixed"
+End Select
+MsoTextStrike = code
+End Function
+
+Function MsoTextUnderlineType(iMsoTextUnderlineType As MsoTextUnderlineType) As String
+code = ""
+Select Case iMsoTextUnderlineType
+Case msoNoUnderline: code = "msoNoUnderline"
+Case msoUnderlineDashHeavyLine: code = "msoUnderlineDashHeavyLine"
+Case msoUnderlineDashLine: code = "msoUnderlineDashLine"
+Case msoUnderlineDashLongHeavyLine: code = "msoUnderlineDashLongHeavyLine"
+Case msoUnderlineDashLongLine: code = "msoUnderlineDashLongLine"
+Case msoUnderlineDotDashHeavyLine: code = "msoUnderlineDotDashHeavyLine"
+Case msoUnderlineDotDashLine: code = "msoUnderlineDotDashLine"
+Case msoUnderlineDotDotDashHeavyLine: code = "msoUnderlineDotDotDashHeavyLine"
+Case msoUnderlineDotDotDashLine: code = "msoUnderlineDotDotDashLine"
+Case msoUnderlineDottedHeavyLine: code = "msoUnderlineDottedHeavyLine"
+Case msoUnderlineDottedLine: code = "msoUnderlineDottedLine"
+Case msoUnderlineDoubleLine: code = "msoUnderlineDoubleLine"
+Case msoUnderlineHeavyLine: code = "msoUnderlineHeavyLine"
+Case msoUnderlineMixed: code = "msoUnderlineMixed"
+Case msoUnderlineSingleLine: code = "msoUnderlineSingleLine"
+Case msoUnderlineWavyDoubleLine: code = "msoUnderlineWavyDoubleLine"
+Case msoUnderlineWavyHeavyLine: code = "msoUnderlineWavyHeavyLine"
+Case msoUnderlineWavyLine: code = "msoUnderlineWavyLine"
+Case msoUnderlineWords: code = "msoUnderlineWords"
+End Select
+MsoTextUnderlineType = code
+End Function
+
+Function MsoTextureAlignment(iMsoTextureAlignment As MsoTextureAlignment) As String
+code = ""
+Select Case iMsoTextureAlignment
+Case msoTextureAlignmentMixed: code = "msoTextureAlignmentMixed"
+Case msoTextureBottom: code = "msoTextureBottom"
+Case msoTextureBottomLeft: code = "msoTextureBottomLeft"
+Case msoTextureBottomRight: code = "msoTextureBottomRight"
+Case msoTextureCenter: code = "msoTextureCenter"
+Case msoTextureLeft: code = "msoTextureLeft"
+Case msoTextureRight: code = "msoTextureRight"
+Case msoTextureTop: code = "msoTextureTop"
+Case msoTextureTopLeft: code = "msoTextureTopLeft"
+Case msoTextureTopRight: code = "msoTextureTopRight"
+End Select
+MsoTextureAlignment = code
+End Function
+
+Function MsoTextureType(iMsoTextureType As MsoTextureType) As String
+code = ""
+Select Case iMsoTextureType
+Case msoTexturePreset: code = "msoTexturePreset"
+Case msoTextureTypeMixed: code = "msoTextureTypeMixed"
+Case msoTextureUserDefined: code = "msoTextureUserDefined"
+End Select
+MsoTextureType = code
+End Function
+
 Function MsoThemeColorIndex(iMsoThemeColorIndex As Office.MsoThemeColorIndex) As String
 code = ""
 Select Case iMsoThemeColorIndex
@@ -1404,198 +1624,74 @@ End Select
 MsoThemeColorIndex = code
 End Function
 
-Function MsoLineStyle(iMsoLineStyle As MsoLineStyle) As String
+Function MsoTriState(iMsoTriState As Office.MsoTriState) As String
 code = ""
-Select Case iMsoLineStyle
-Case msoLineSingle: code = "msoLineSingle"
-Case msoLineStyleMixed: code = "msoLineStyleMixed"
-Case msoLineThickBetweenThin: code = "msoLineThickBetweenThin"
-Case msoLineThickThin: code = "msoLineThickThin"
-Case msoLineThinThick: code = "msoLineThinThick"
-Case msoLineThinThin: code = "msoLineThinThin"
+Select Case iMsoTriState
+Case msoCTrue: code = "msoCTrue"
+Case msoFalse: code = "msoFalse"
+Case msoTriStateMixed: code = "msoTriStateMixed"
+Case msoTriStateToggle: code = "msoTriStateToggle"
+Case msoTrue: code = "msoTrue"
 End Select
-MsoLineStyle = code
+MsoTriState = code
 End Function
 
-Function MsoPatternType(iMsoPatternType As MsoPatternType) As String
+Function MsoVerticalAnchor(iMsoVerticalAnchor As MsoVerticalAnchor) As String
 code = ""
-Select Case iMsoPatternType
-Case msoPattern10Percent: code = "msoPattern10Percent"
-Case msoPattern20Percent: code = "msoPattern20Percent"
-Case msoPattern25Percent: code = "msoPattern25Percent"
-Case msoPattern30Percent: code = "msoPattern30Percent"
-Case msoPattern40Percent: code = "msoPattern40Percent"
-Case msoPattern50Percent: code = "msoPattern50Percent"
-Case msoPattern5Percent: code = "msoPattern5Percent"
-Case msoPattern60Percent: code = "msoPattern60Percent"
-Case msoPattern70Percent: code = "msoPattern70Percent"
-Case msoPattern75Percent: code = "msoPattern75Percent"
-Case msoPattern80Percent: code = "msoPattern80Percent"
-Case msoPattern90Percent: code = "msoPattern90Percent"
-Case msoPatternCross: code = "msoPatternCross"
-Case msoPatternDarkDownwardDiagonal: code = "msoPatternDarkDownwardDiagonal"
-Case msoPatternDarkHorizontal: code = "msoPatternDarkHorizontal"
-Case msoPatternDarkUpwardDiagonal: code = "msoPatternDarkUpwardDiagonal"
-Case msoPatternDarkVertical: code = "msoPatternDarkVertical"
-Case msoPatternDashedDownwardDiagonal: code = "msoPatternDashedDownwardDiagonal"
-Case msoPatternDashedHorizontal: code = "msoPatternDashedHorizontal"
-Case msoPatternDashedUpwardDiagonal: code = "msoPatternDashedUpwardDiagonal"
-Case msoPatternDashedVertical: code = "msoPatternDashedVertical"
-Case msoPatternDiagonalBrick: code = "msoPatternDiagonalBrick"
-Case msoPatternDiagonalCross: code = "msoPatternDiagonalCross"
-Case msoPatternDivot: code = "msoPatternDivot"
-Case msoPatternDottedDiamond: code = "msoPatternDottedDiamond"
-Case msoPatternDottedGrid: code = "msoPatternDottedGrid"
-Case msoPatternDownwardDiagonal: code = "msoPatternDownwardDiagonal"
-Case msoPatternHorizontal: code = "msoPatternHorizontal"
-Case msoPatternHorizontalBrick: code = "msoPatternHorizontalBrick"
-Case msoPatternLargeCheckerBoard: code = "msoPatternLargeCheckerBoard"
-Case msoPatternLargeConfetti: code = "msoPatternLargeConfetti"
-Case msoPatternLargeGrid: code = "msoPatternLargeGrid"
-Case msoPatternLightDownwardDiagonal: code = "msoPatternLightDownwardDiagonal"
-Case msoPatternLightHorizontal: code = "msoPatternLightHorizontal"
-Case msoPatternLightUpwardDiagonal: code = "msoPatternLightUpwardDiagonal"
-Case msoPatternLightVertical: code = "msoPatternLightVertical"
-Case msoPatternMixed: code = "msoPatternMixed"
-Case msoPatternNarrowHorizontal: code = "msoPatternNarrowHorizontal"
-Case msoPatternNarrowVertical: code = "msoPatternNarrowVertical"
-Case msoPatternOutlinedDiamond: code = "msoPatternOutlinedDiamond"
-Case msoPatternPlaid: code = "msoPatternPlaid"
-Case msoPatternShingle: code = "msoPatternShingle"
-Case msoPatternSmallCheckerBoard: code = "msoPatternSmallCheckerBoard"
-Case msoPatternSmallConfetti: code = "msoPatternSmallConfetti"
-Case msoPatternSmallGrid: code = "msoPatternSmallGrid"
-Case msoPatternSolidDiamond: code = "msoPatternSolidDiamond"
-Case msoPatternSphere: code = "msoPatternSphere"
-Case msoPatternTrellis: code = "msoPatternTrellis"
-Case msoPatternUpwardDiagonal: code = "msoPatternUpwardDiagonal"
-Case msoPatternVertical: code = "msoPatternVertical"
-Case msoPatternWave: code = "msoPatternWave"
-Case msoPatternWeave: code = "msoPatternWeave"
-Case msoPatternWideDownwardDiagonal: code = "msoPatternWideDownwardDiagonal"
-Case msoPatternWideUpwardDiagonal: code = "msoPatternWideUpwardDiagonal"
-Case msoPatternZigZag: code = "msoPatternZigZag"
+Select Case iMsoVerticalAnchor
+Case msoAnchorBottom: code = "msoAnchorBottom"
+Case msoAnchorBottomBaseLine: code = "msoAnchorBottomBaseLine"
+Case msoAnchorCenter: code = "msoAnchorCenter"
+Case msoAnchorMiddle: code = "msoAnchorMiddle"
+Case msoAnchorNone: code = "msoAnchorNone"
+Case msoAnchorTop: code = "msoAnchorTop"
+Case msoAnchorTopBaseline: code = "msoAnchorTopBaseline"
+Case msoVerticalAnchorMixed: code = "msoVerticalAnchorMixed"
 End Select
-MsoPatternType = code
+MsoVerticalAnchor = code
 End Function
 
-Function MsoLineDashStyle(iMsoLineDashStyle As MsoLineDashStyle) As String
+Function MsoWarpFormat(iMsoWarpFormat As Office.MsoWarpFormat) As String
 code = ""
-Select Case iMsoLineDashStyle
-Case msoLineDash: code = "msoLineDash"
-Case msoLineDashDot: code = "msoLineDashDot"
-Case msoLineDashDotDot: code = "msoLineDashDotDot"
-Case msoLineDashStyleMixed: code = "msoLineDashStyleMixed"
-Case msoLineLongDash: code = "msoLineLongDash"
-Case msoLineLongDashDot: code = "msoLineLongDashDot"
-Case msoLineLongDashDotDot: code = "msoLineLongDashDotDot"
-Case msoLineRoundDot: code = "msoLineRoundDot"
-Case msoLineSolid: code = "msoLineSolid"
-Case msoLineSquareDot: code = "msoLineSquareDot"
-Case msoLineSysDash: code = "msoLineSysDash"
-Case msoLineSysDashDot: code = "msoLineSysDashDot"
-Case msoLineSysDot: code = "msoLineSysDot"
+Select Case iMsoWarpFormat
+Case msoWarpFormat1: code = "msoWarpFormat1"
+Case msoWarpFormat2: code = "msoWarpFormat2"
+Case msoWarpFormat3: code = "msoWarpFormat3"
+Case msoWarpFormat4: code = "msoWarpFormat4"
+Case msoWarpFormat5: code = "msoWarpFormat5"
+Case msoWarpFormat6: code = "msoWarpFormat6"
+Case msoWarpFormat7: code = "msoWarpFormat7"
+Case msoWarpFormat8: code = "msoWarpFormat8"
+Case msoWarpFormat9: code = "msoWarpFormat9"
+Case msoWarpFormat10: code = "msoWarpFormat10"
+Case msoWarpFormat11: code = "msoWarpFormat11"
+Case msoWarpFormat12: code = "msoWarpFormat12"
+Case msoWarpFormat13: code = "msoWarpFormat13"
+Case msoWarpFormat14: code = "msoWarpFormat14"
+Case msoWarpFormat15: code = "msoWarpFormat15"
+Case msoWarpFormat16: code = "msoWarpFormat16"
+Case msoWarpFormat17: code = "msoWarpFormat17"
+Case msoWarpFormat18: code = "msoWarpFormat18"
+Case msoWarpFormat19: code = "msoWarpFormat19"
+Case msoWarpFormat20: code = "msoWarpFormat20"
+Case msoWarpFormat21: code = "msoWarpFormat21"
+Case msoWarpFormat22: code = "msoWarpFormat22"
+Case msoWarpFormat23: code = "msoWarpFormat23"
+Case msoWarpFormat24: code = "msoWarpFormat24"
+Case msoWarpFormat25: code = "msoWarpFormat25"
+Case msoWarpFormat26: code = "msoWarpFormat26"
+Case msoWarpFormat27: code = "msoWarpFormat27"
+Case msoWarpFormat28: code = "msoWarpFormat28"
+Case msoWarpFormat29: code = "msoWarpFormat29"
+Case msoWarpFormat30: code = "msoWarpFormat30"
+Case msoWarpFormat31: code = "msoWarpFormat31"
+Case msoWarpFormat32: code = "msoWarpFormat32"
+Case msoWarpFormat33: code = "msoWarpFormat33"
+Case msoWarpFormat34: code = "msoWarpFormat34"
+Case msoWarpFormat35: code = "msoWarpFormat35"
+Case msoWarpFormat36: code = "msoWarpFormat36"
+Case msoWarpFormat37: code = "msoWarpFormat37"
+Case msoWarpFormatMixed: code = "msoWarpFormatMixed"
 End Select
-MsoLineDashStyle = code
+MsoWarpFormat = code
 End Function
-
-Function MsoArrowheadStyle(iMsoArrowheadStyle As MsoArrowheadStyle) As String
-code = ""
-Select Case iMsoArrowheadStyle
-Case msoArrowheadDiamond: code = "msoArrowheadDiamond"
-Case msoArrowheadNone: code = "msoArrowheadNone"
-Case msoArrowheadOpen: code = "msoArrowheadOpen"
-Case msoArrowheadOval: code = "msoArrowheadOval"
-Case msoArrowheadStealth: code = "msoArrowheadStealth"
-Case msoArrowheadStyleMixed: code = "msoArrowheadStyleMixed"
-Case msoArrowheadTriangle: code = "msoArrowheadTriangle"
-End Select
-MsoArrowheadStyle = code
-End Function
-
-Function MsoArrowheadLength(iMsoArrowheadLength As MsoArrowheadLength) As String
-code = ""
-Select Case iMsoArrowheadLength
-Case msoArrowheadLengthMedium: code = "msoArrowheadLengthMedium"
-Case msoArrowheadLengthMixed: code = "msoArrowheadLengthMixed"
-Case msoArrowheadLong: code = "msoArrowheadLong"
-Case msoArrowheadShort: code = "msoArrowheadShort"
-End Select
-MsoArrowheadLength = code
-End Function
-
-Function MsoArrowheadWidth(iMsoArrowheadWidth As MsoArrowheadWidth) As String
-code = ""
-Select Case iMsoArrowheadWidth
-Case msoArrowheadNarrow: code = "msoArrowheadNarrow"
-Case msoArrowheadWide: code = "msoArrowheadWide"
-Case msoArrowheadWidthMedium: code = "msoArrowheadWidthMedium"
-Case msoArrowheadWidthMixed: code = "msoArrowheadWidthMixed"
-End Select
-MsoArrowheadWidth = code
-End Function
-
-Function MsoColorType(iMsoColorType As MsoColorType) As String
-code = ""
-Select Case iMsoColorType
-Case msoColorTypeCMS: code = "msoColorTypeCMS"
-Case msoColorTypeCMYK: code = "msoColorTypeCMYK"
-Case msoColorTypeInk: code = "msoColorTypeInk"
-Case msoColorTypeMixed: code = "msoColorTypeMixed"
-Case msoColorTypeRGB: code = "msoColorTypeRGB"
-Case msoColorTypeScheme: code = "msoColorTypeScheme"
-End Select
-MsoColorType = code
-End Function
-
-Function MsoConnectorType(iMsoConnectorType As MsoConnectorType) As String
-code = ""
-Select Case iMsoConnectorType
-Case msoConnectorCurve: code = "msoConnectorCurve"
-Case msoConnectorElbow: code = "msoConnectorElbow"
-Case msoConnectorStraight: code = "msoConnectorStraight"
-Case msoConnectorTypeMixed: code = "msoConnectorTypeMixed"
-End Select
-MsoBackgroundStyleIndex = code
-End Function
-
-
-Function MsoBackgroundStyleIndex(iMsoBackgroundStyleIndex As MsoBackgroundStyleIndex) As String
-code = ""
-Select Case iMsoBackgroundStyleIndex
-Case msoBackgroundStyleMixed: code = "msoBackgroundStyleMixed"
-Case msoBackgroundStyleNotAPreset: code = "msoBackgroundStyleNotAPreset"
-Case msoBackgroundStylePreset1: code = "msoBackgroundStylePreset1"
-Case msoBackgroundStylePreset2: code = "msoBackgroundStylePreset2"
-Case msoBackgroundStylePreset3: code = "msoBackgroundStylePreset3"
-Case msoBackgroundStylePreset4: code = "msoBackgroundStylePreset4"
-Case msoBackgroundStylePreset5: code = "msoBackgroundStylePreset5"
-Case msoBackgroundStylePreset6: code = "msoBackgroundStylePreset6"
-Case msoBackgroundStylePreset7: code = "msoBackgroundStylePreset7"
-Case msoBackgroundStylePreset8: code = "msoBackgroundStylePreset8"
-Case msoBackgroundStylePreset9: code = "msoBackgroundStylePreset9"
-Case msoBackgroundStylePreset10: code = "msoBackgroundStylePreset10"
-Case msoBackgroundStylePreset11: code = "msoBackgroundStylePreset11"
-Case msoBackgroundStylePreset12: code = "msoBackgroundStylePreset12"
-End Select
-MsoBackgroundStyleIndex = code
-End Function
-
-Function MsoBlackWhiteMode(iMsoBlackWhiteMode As Office.MsoBlackWhiteMode) As String
-code = ""
-Select Case iMsoBlackWhiteMode
-Case msoBlackWhiteAutomatic: code = "msoBlackWhiteAutomatic"
-Case msoBlackWhiteBlack: code = "msoBlackWhiteBlack"
-Case msoBlackWhiteBlackTextAndLine: code = "msoBlackWhiteBlackTextAndLine"
-Case msoBlackWhiteDontShow: code = "msoBlackWhiteDontShow"
-Case msoBlackWhiteGrayOutline: code = "msoBlackWhiteGrayOutline"
-Case msoBlackWhiteGrayScale: code = "msoBlackWhiteGrayScale"
-Case msoBlackWhiteHighContrast: code = "msoBlackWhiteHighContrast"
-Case msoBlackWhiteInverseGrayScale: code = "msoBlackWhiteInverseGrayScale"
-Case msoBlackWhiteLightGrayScale: code = "msoBlackWhiteLightGrayScale"
-Case msoBlackWhiteMixed: code = "msoBlackWhiteMixed"
-Case msoBlackWhiteWhite: code = "msoBlackWhiteWhite"
-End Select
-MsoBlackWhiteMode = code
-End Function
-

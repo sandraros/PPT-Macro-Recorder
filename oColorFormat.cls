@@ -2,25 +2,22 @@ VERSION 1.0 CLASS
 BEGIN
   MultiUse = -1  'True
 END
-Attribute VB_Name = "iColorFormat"
+Attribute VB_Name = "oColorFormat"
 Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = False
-'PowerPoint.ColorFormat
+' OFFICE.COLORFORMAT
 
 Public Brightness As Single
 Public ObjectThemeColor As MsoThemeColorIndex
 Public RGB As MsoRGBType
-Public SchemeColor As PpColorSchemeIndex
+Public SchemeColor As Long
 Public TintAndShade As Single
 Public iType As MsoColorType ' Type
 
 
-'ActiveWindow.Selection.ShapeRange.TextFrame2.TextRange.Font.Fill.ForeColor
-
-
-Public Function compare(propertyName As String, iColorFormat As iColorFormat, indent As Integer) As String
+Public Function compare(propertyName As String, iColorFormat As oColorFormat, indent As Integer) As String
 
     On Error GoTo err_
 
@@ -43,7 +40,8 @@ Public Function compare(propertyName As String, iColorFormat As iColorFormat, in
         End If
         If .iType = msoColorTypeScheme And _
             (.iType <> iColorFormat.iType Or .SchemeColor <> iColorFormat.SchemeColor) Then
-            code = code & Space(indent) & ".SchemeColor = " & PpColorSchemeIndex(.SchemeColor) & Chr(13)
+            ' Not sure if there is an enumeration for SchemeColor values (class Office.ColorFormat)
+            code = code & Space(indent) & ".SchemeColor = " & ToVBA(.SchemeColor) & Chr(13)
         End If
         If .TintAndShade <> iColorFormat.TintAndShade Then
             code = code & Space(indent) & ".TintAndShade = " & SingleToVBA(.TintAndShade) & Chr(13)
@@ -72,11 +70,13 @@ err_:
 
 End Function
 
-Public Sub init(iColorFormat As PowerPoint.ColorFormat)
+Public Sub init(iColorFormat As Office.ColorFormat)
 
     On Error GoTo err_
 
-    If iColorFormat.Type = msoColorTypeMixed Then Exit Sub
+    If iColorFormat.Type = msoColorTypeMixed Then
+        Exit Sub
+    End If
 
     With Me
         .Brightness = iColorFormat.Brightness

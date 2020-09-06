@@ -1,4 +1,135 @@
 Attribute VB_Name = "PowerPointEnumerations"
+Function PpActionType(iPpActionType As PpActionType) As String
+code = ""
+Select Case iPpActionType
+Case ppActionEndShow: code = "ppActionEndShow"
+Case ppActionFirstSlide: code = "ppActionFirstSlide"
+Case ppActionHyperlink: code = "ppActionHyperlink"
+Case ppActionLastSlide: code = "ppActionLastSlide"
+Case ppActionLastSlideViewed: code = "ppActionLastSlideViewed"
+Case ppActionMixed: code = "ppActionMixed"
+Case ppActionNamedSlideShow: code = "ppActionNamedSlideShow"
+Case ppActionNextSlide: code = "ppActionNextSlide"
+Case ppActionNone: code = "ppActionNone"
+Case ppActionOLEVerb: code = "ppActionOLEVerb"
+Case ppActionPlay: code = "ppActionPlay"
+Case ppActionPreviousSlide: code = "ppActionPreviousSlide"
+Case ppActionRunMacro: code = "ppActionRunMacro"
+Case ppActionRunProgram: code = "ppActionRunProgram"
+End Select
+PpActionType = code
+End Function
+
+Function PpAdvanceMode(iPpAdvanceMode As PpAdvanceMode) As String
+code = ""
+Select Case iPpAdvanceMode
+Case ppAdvanceModeMixed: code = "ppAdvanceModeMixed"
+Case ppAdvanceOnClick: code = "ppAdvanceOnClick"
+Case ppAdvanceOnTime: code = "ppAdvanceOnTime"
+End Select
+PpAdvanceMode = code
+End Function
+
+Function PpAfterEffect(iPpAfterEffect As PpAfterEffect) As String
+code = ""
+Select Case iPpAfterEffect
+Case ppAfterEffectDim: code = "ppAfterEffectDim"
+Case ppAfterEffectHide: code = "ppAfterEffectHide"
+Case ppAfterEffectHideOnClick: code = "ppAfterEffectHideOnClick"
+Case ppAfterEffectMixed: code = "ppAfterEffectMixed"
+Case ppAfterEffectNothing: code = "ppAfterEffectNothing"
+End Select
+PpAfterEffect = code
+End Function
+
+Function PpAlertLevel(iPpAlertLevel As PpAlertLevel) As String
+code = ""
+Select Case iPpAlertLevel
+Case pp: code = ""
+End Select
+PpAlertLevel = code
+End Function
+
+Function PpArrangeStyle(iPpArrangeStyle As PpArrangeStyle) As String
+code = ""
+Select Case iPpArrangeStyle
+Case pp: code = ""
+End Select
+PpArrangeStyle = code
+End Function
+
+Function PpAutoSize(iPpAutoSize As PpAutoSize) As String
+code = ""
+Select Case iPpAutoSize
+Case ppAutoSizeMixed: code = "ppAutoSizeMixed"
+Case ppAutoSizeNone: code = "ppAutoSizeNone"
+Case ppAutoSizeShapeToFitText: code = "ppAutoSizeShapeToFitText"
+End Select
+PpAutoSize = code
+End Function
+
+Function PpBaselineAlignment(iPpBaselineAlignment As PpBaselineAlignment) As String
+code = ""
+Select Case iPpBaselineAlignment
+Case ppBaselineAlignAuto: code = "ppBaselineAlignAuto"
+Case ppBaselineAlignBaseline: code = "ppBaselineAlignBaseline"
+Case ppBaselineAlignCenter: code = "ppBaselineAlignCenter"
+Case ppBaselineAlignFarEast50: code = "ppBaselineAlignFarEast50"
+Case ppBaselineAlignMixed: code = "ppBaselineAlignMixed"
+Case ppBaselineAlignTop: code = "ppBaselineAlignTop"
+End Select
+PpBaselineAlignment = code
+End Function
+
+Function PpBorderType(iPpBorderType As PpBorderType) As String
+code = ""
+Select Case iPpBorderType
+Case pp: code = ""
+End Select
+PpBorderType = code
+End Function
+
+Function PpBulletType(iPpBulletType As PpBulletType) As String
+code = ""
+Select Case iPpBulletType
+Case ppBulletMixed: code = "ppBulletMixed"
+Case ppBulletNone: code = "ppBulletNone"
+Case ppBulletNumbered: code = "ppBulletNumbered"
+Case ppBulletPicture: code = "ppBulletPicture"
+Case ppBulletUnnumbered: code = "ppBulletUnnumbered"
+End Select
+PpBulletType = code
+End Function
+
+Function PpChangeCase(iPpChangeCase As PpChangeCase) As String
+code = ""
+Select Case iPpChangeCase
+Case pp: code = ""
+End Select
+PpChangeCase = code
+End Function
+
+Function PpChartUnitEffect(iPpChartUnitEffect As PpChartUnitEffect) As String
+code = ""
+Select Case iPpChartUnitEffect
+Case ppAnimateByCategory: code = "ppAnimateByCategory"
+Case ppAnimateByCategoryElements: code = "ppAnimateByCategoryElements"
+Case ppAnimateBySeries: code = "ppAnimateBySeries"
+Case ppAnimateBySeriesElements: code = "ppAnimateBySeriesElements"
+Case ppAnimateChartAllAtOnce: code = "ppAnimateChartAllAtOnce"
+Case ppAnimateChartMixed: code = "ppAnimateChartMixed"
+End Select
+PpChartUnitEffect = code
+End Function
+
+Function PpCheckInVersionType(iPpCheckInVersionType As PpCheckInVersionType) As String
+code = ""
+Select Case iPpCheckInVersionType
+Case pp: code = ""
+End Select
+PpCheckInVersionType = code
+End Function
+
 Function PpColorSchemeIndex(iPpColorSchemeIndex As PpColorSchemeIndex) As String
 code = ""
 Select Case iPpColorSchemeIndex
@@ -16,87 +147,26 @@ End Select
 PpColorSchemeIndex = code
 End Function
 
-Function PpAutoSize(iPpAutoSize As PpAutoSize) As String
+Function PpDateTimeFormat(iPpDateTimeFormat As PpDateTimeFormat) As String
 code = ""
-Select Case iPpAutoSize
-Case ppAutoSizeMixed: code = "ppAutoSizeMixed"
-Case ppAutoSizeNone: code = "ppAutoSizeNone"
-Case ppAutoSizeShapeToFitText: code = "ppAutoSizeShapeToFitText"
+Select Case iPpDateTimeFormat
+Case ppDateTimeddddMMMMddyyyy: code = "ppDateTimeddddMMMMddyyyy"
+Case ppDateTimedMMMMyyyy: code = "ppDateTimedMMMMyyyy"
+Case ppDateTimedMMMyy: code = "ppDateTimedMMMyy"
+Case ppDateTimeFigureOut: code = "ppDateTimeFigureOut"
+Case ppDateTimeFormatMixed: code = "ppDateTimeFormatMixed"
+Case ppDateTimeHmm: code = "ppDateTimeHmm"
+Case ppDateTimehmmAMPM: code = "ppDateTimehmmAMPM"
+Case ppDateTimeHmmss: code = "ppDateTimeHmmss"
+Case ppDateTimehmmssAMPM: code = "ppDateTimehmmssAMPM"
+Case ppDateTimeMdyy: code = "ppDateTimeMdyy"
+Case ppDateTimeMMddyyHmm: code = "ppDateTimeMMddyyHmm"
+Case ppDateTimeMMddyyhmmAMPM: code = "ppDateTimeMMddyyhmmAMPM"
+Case ppDateTimeMMMMdyyyy: code = "ppDateTimeMMMMdyyyy"
+Case ppDateTimeMMMMyy: code = "ppDateTimeMMMMyy"
+Case ppDateTimeMMyy: code = "ppDateTimeMMyy"
 End Select
-PpAutoSize = code
-End Function
-
-Function PpTabStopType(iPpTabStopType As PpTabStopType) As String
-code = ""
-Select Case iPpTabStopType
-Case ppTabStopCenter: code = "ppTabStopCenter"
-Case ppTabStopDecimal: code = "ppTabStopDecimal"
-Case ppTabStopLeft: code = "ppTabStopLeft"
-Case ppTabStopMixed: code = "ppTabStopMixed"
-Case ppTabStopRight: code = "ppTabStopRight"
-End Select
-PpTabStopType = code
-End Function
-
-Function PpBulletType(iPpBulletType As PpBulletType) As String
-code = ""
-Select Case iPpBulletType
-Case ppBulletMixed: code = "ppBulletMixed"
-Case ppBulletNone: code = "ppBulletNone"
-Case ppBulletNumbered: code = "ppBulletNumbered"
-Case ppBulletPicture: code = "ppBulletPicture"
-Case ppBulletUnnumbered: code = "ppBulletUnnumbered"
-End Select
-PpBulletType = code
-End Function
-
-Function PpNumberedBulletStyle(iPpNumberedBulletStyle As PpNumberedBulletStyle) As String
-code = ""
-Select Case iPpNumberedBulletStyle
-Case ppBulletAlphaLCParenBoth: code = "ppBulletAlphaLCParenBoth"
-Case ppBulletAlphaLCParenRight: code = "ppBulletAlphaLCParenRight"
-Case ppBulletAlphaLCPeriod: code = "ppBulletAlphaLCPeriod"
-Case ppBulletAlphaUCParenBoth: code = "ppBulletAlphaUCParenBoth"
-Case ppBulletAlphaUCParenRight: code = "ppBulletAlphaUCParenRight"
-Case ppBulletAlphaUCPeriod: code = "ppBulletAlphaUCPeriod"
-Case ppBulletArabicAbjadDash: code = "ppBulletArabicAbjadDash"
-Case ppBulletArabicAlphaDash: code = "ppBulletArabicAlphaDash"
-Case ppBulletArabicDBPeriod: code = "ppBulletArabicDBPeriod"
-Case ppBulletArabicDBPlain: code = "ppBulletArabicDBPlain"
-Case ppBulletArabicParenBoth: code = "ppBulletArabicParenBoth"
-Case ppBulletArabicParenRight: code = "ppBulletArabicParenRight"
-Case ppBulletArabicPeriod: code = "ppBulletArabicPeriod"
-Case ppBulletArabicPlain: code = "ppBulletArabicPlain"
-Case ppBulletCircleNumDBPlain: code = "ppBulletCircleNumDBPlain"
-Case ppBulletCircleNumWDBlackPlain: code = "ppBulletCircleNumWDBlackPlain"
-Case ppBulletCircleNumWDWhitePlain: code = "ppBulletCircleNumWDWhitePlain"
-Case ppBulletHebrewAlphaDash: code = "ppBulletHebrewAlphaDash"
-Case ppBulletHindiAlpha1Period: code = "ppBulletHindiAlpha1Period"
-Case ppBulletHindiAlphaPeriod: code = "ppBulletHindiAlphaPeriod"
-Case ppBulletHindiNumParenRight: code = "ppBulletHindiNumParenRight"
-Case ppBulletHindiNumPeriod: code = "ppBulletHindiNumPeriod"
-Case ppBulletKanjiKoreanPeriod: code = "ppBulletKanjiKoreanPeriod"
-Case ppBulletKanjiKoreanPlain: code = "ppBulletKanjiKoreanPlain"
-Case ppBulletKanjiSimpChinDBPeriod: code = "ppBulletKanjiSimpChinDBPeriod"
-Case ppBulletRomanLCParenBoth: code = "ppBulletRomanLCParenBoth"
-Case ppBulletRomanLCParenRight: code = "ppBulletRomanLCParenRight"
-Case ppBulletRomanLCPeriod: code = "ppBulletRomanLCPeriod"
-Case ppBulletRomanUCParenBoth: code = "ppBulletRomanUCParenBoth"
-Case ppBulletRomanUCParenRight: code = "ppBulletRomanUCParenRight"
-Case ppBulletRomanUCPeriod: code = "ppBulletRomanUCPeriod"
-Case ppBulletSimpChinPeriod: code = "ppBulletSimpChinPeriod"
-Case ppBulletSimpChinPlain: code = "ppBulletSimpChinPlain"
-Case ppBulletStyleMixed: code = "ppBulletStyleMixed"
-Case ppBulletThaiAlphaParenBoth: code = "ppBulletThaiAlphaParenBoth"
-Case ppBulletThaiAlphaParenRight: code = "ppBulletThaiAlphaParenRight"
-Case ppBulletThaiAlphaPeriod: code = "ppBulletThaiAlphaPeriod"
-Case ppBulletThaiNumParenBoth: code = "ppBulletThaiNumParenBoth"
-Case ppBulletThaiNumParenRight: code = "ppBulletThaiNumParenRight"
-Case ppBulletThaiNumPeriod: code = "ppBulletThaiNumPeriod"
-Case ppBulletTradChinPeriod: code = "ppBulletTradChinPeriod"
-Case ppBulletTradChinPlain: code = "ppBulletTradChinPlain"
-End Select
-PpNumberedBulletStyle = code
+PpDateTimeFormat = code
 End Function
 
 Function PpDirection(iPpDirection As PpDirection) As String
@@ -107,97 +177,6 @@ Case ppDirectionMixed: code = "ppDirectionMixed"
 Case ppDirectionRightToLeft: code = "ppDirectionRightToLeft"
 End Select
 PpDirection = code
-End Function
-
-Function PpBaselineAlignment(iPpBaselineAlignment As PpBaselineAlignment) As String
-code = ""
-Select Case iPpBaselineAlignment
-Case ppBaselineAlignAuto: code = "ppBaselineAlignAuto"
-Case ppBaselineAlignBaseline: code = "ppBaselineAlignBaseline"
-Case ppBaselineAlignCenter: code = "ppBaselineAlignCenter"
-Case ppBaselineAlignFarEast50: code = "ppBaselineAlignFarEast50"
-Case ppBaselineAlignMixed: code = "ppBaselineAlignMixed"
-Case ppBaselineAlignTop: code = "ppBaselineAlignTop"
-End Select
-PpBaselineAlignment = code
-End Function
-
-Function PpParagraphAlignment(iPpParagraphAlignment As PpParagraphAlignment) As String
-code = ""
-Select Case iPpParagraphAlignment
-Case ppAlignCenter: code = "ppAlignCenter"
-Case ppAlignDistribute: code = "ppAlignDistribute"
-Case ppAlignJustify: code = "ppAlignJustify"
-Case ppAlignJustifyLow: code = "ppAlignJustifyLow"
-Case ppAlignLeft: code = "ppAlignLeft"
-Case ppAlignmentMixed: code = "ppAlignmentMixed"
-Case ppAlignRight: code = "ppAlignRight"
-Case ppAlignThaiDistribute: code = "ppAlignThaiDistribute"
-End Select
-PpParagraphAlignment = code
-End Function
-
-Function PpTransitionSpeed(iPpTransitionSpeed As PpTransitionSpeed) As String
-code = ""
-Select Case iPpTransitionSpeed
-Case ppTransitionSpeedFast: code = "ppTransitionSpeedFast"
-Case ppTransitionSpeedMedium: code = "ppTransitionSpeedMedium"
-Case ppTransitionSpeedMixed: code = "ppTransitionSpeedMixed"
-Case ppTransitionSpeedSlow: code = "ppTransitionSpeedSlow"
-End Select
-PpTransitionSpeed = code
-End Function
-
-Function PpPlaceholderType(iPpPlaceholderType As PpPlaceholderType) As String
-code = ""
-Select Case iPpPlaceholderType
-Case ppPlaceholderBitmap: code = "ppPlaceholderBitmap"
-Case ppPlaceholderBody: code = "ppPlaceholderBody"
-Case ppPlaceholderCenterTitle: code = "ppPlaceholderCenterTitle"
-Case ppPlaceholderChart: code = "ppPlaceholderChart"
-Case ppPlaceholderDate: code = "ppPlaceholderDate"
-Case ppPlaceholderFooter: code = "ppPlaceholderFooter"
-Case ppPlaceholderHeader: code = "ppPlaceholderHeader"
-Case ppPlaceholderMediaClip: code = "ppPlaceholderMediaClip"
-Case ppPlaceholderMixed: code = "ppPlaceholderMixed"
-Case ppPlaceholderObject: code = "ppPlaceholderObject"
-Case ppPlaceholderOrgChart: code = "ppPlaceholderOrgChart"
-Case ppPlaceholderPicture: code = "ppPlaceholderPicture"
-Case ppPlaceholderSlideNumber: code = "ppPlaceholderSlideNumber"
-Case ppPlaceholderSubtitle: code = "ppPlaceholderSubtitle"
-Case ppPlaceholderTable: code = "ppPlaceholderTable"
-Case ppPlaceholderTitle: code = "ppPlaceholderTitle"
-Case ppPlaceholderVerticalBody: code = "ppPlaceholderVerticalBody"
-Case ppPlaceholderVerticalObject: code = "ppPlaceholderVerticalObject"
-Case ppPlaceholderVerticalTitle: code = "ppPlaceholderVerticalTitle"
-End Select
-PpPlaceholderType = code
-End Function
-
-Function PpTextUnitEffect(iPpTextUnitEffect As PpTextUnitEffect) As String
-code = ""
-Select Case iPpTextUnitEffect
-Case ppAnimateByCharacter: code = "ppAnimateByCharacter"
-Case ppAnimateByParagraph: code = "ppAnimateByParagraph"
-Case ppAnimateByWord: code = "ppAnimateByWord"
-Case ppAnimateUnitMixed: code = "ppAnimateUnitMixed"
-End Select
-PpTextUnitEffect = code
-End Function
-
-Function PpTextLevelEffect(iPpTextLevelEffect As PpTextLevelEffect) As String
-code = ""
-Select Case iPpTextLevelEffect
-Case ppAnimateByAllLevels: code = "ppAnimateByAllLevels"
-Case ppAnimateByFifthLevel: code = "ppAnimateByFifthLevel"
-Case ppAnimateByFirstLevel: code = "ppAnimateByFirstLevel"
-Case ppAnimateByFourthLevel: code = "ppAnimateByFourthLevel"
-Case ppAnimateBySecondLevel: code = "ppAnimateBySecondLevel"
-Case ppAnimateByThirdLevel: code = "ppAnimateByThirdLevel"
-Case ppAnimateLevelMixed: code = "ppAnimateLevelMixed"
-Case ppAnimateLevelNone: code = "ppAnimateLevelNone"
-End Select
-PpTextLevelEffect = code
 End Function
 
 Function PpEntryEffect(iPpEntryEffect As PpEntryEffect) As String
@@ -377,61 +356,285 @@ End Select
 PpEntryEffect = code
 End Function
 
-Function PpChartUnitEffect(iPpChartUnitEffect As PpChartUnitEffect) As String
+Function PpFarEastLineBreakLevel(iPpFarEastLineBreakLevel As PpFarEastLineBreakLevel) As String
 code = ""
-Select Case iPpChartUnitEffect
-Case ppAnimateByCategory: code = "ppAnimateByCategory"
-Case ppAnimateByCategoryElements: code = "ppAnimateByCategoryElements"
-Case ppAnimateBySeries: code = "ppAnimateBySeries"
-Case ppAnimateBySeriesElements: code = "ppAnimateBySeriesElements"
-Case ppAnimateChartAllAtOnce: code = "ppAnimateChartAllAtOnce"
-Case ppAnimateChartMixed: code = "ppAnimateChartMixed"
+Select Case iPpFarEastLineBreakLevel
+Case pp: code = ""
 End Select
-PpChartUnitEffect = code
+PpFarEastLineBreakLevel = code
 End Function
 
-Function PpAfterEffect(iPpAfterEffect As PpAfterEffect) As String
+Function PpFixedFormatIntent(iPpFixedFormatIntent As PpFixedFormatIntent) As String
 code = ""
-Select Case iPpAfterEffect
-Case ppAfterEffectDim: code = "ppAfterEffectDim"
-Case ppAfterEffectHide: code = "ppAfterEffectHide"
-Case ppAfterEffectHideOnClick: code = "ppAfterEffectHideOnClick"
-Case ppAfterEffectMixed: code = "ppAfterEffectMixed"
-Case ppAfterEffectNothing: code = "ppAfterEffectNothing"
+Select Case iPpFixedFormatIntent
+Case pp: code = ""
 End Select
-PpAfterEffect = code
+PpFixedFormatIntent = code
 End Function
 
-Function PpAdvanceMode(iPpAdvanceMode As PpAdvanceMode) As String
+Function PpFixedFormatType(iPpFixedFormatType As PpFixedFormatType) As String
 code = ""
-Select Case iPpAdvanceMode
-Case ppAdvanceModeMixed: code = "ppAdvanceModeMixed"
-Case ppAdvanceOnClick: code = "ppAdvanceOnClick"
-Case ppAdvanceOnTime: code = "ppAdvanceOnTime"
+Select Case iPpFixedFormatType
+Case pp: code = ""
 End Select
-PpAdvanceMode = code
+PpFixedFormatType = code
 End Function
 
-Function PpDateTimeFormat(iPpDateTimeFormat As PpDateTimeFormat) As String
+Function PpFollowColors(iPpFollowColors As PpFollowColors) As String
 code = ""
-Select Case iPpDateTimeFormat
-Case ppDateTimeddddMMMMddyyyy: code = "ppDateTimeddddMMMMddyyyy"
-Case ppDateTimedMMMMyyyy: code = "ppDateTimedMMMMyyyy"
-Case ppDateTimedMMMyy: code = "ppDateTimedMMMyy"
-Case ppDateTimeFigureOut: code = "ppDateTimeFigureOut"
-Case ppDateTimeFormatMixed: code = "ppDateTimeFormatMixed"
-Case ppDateTimeHmm: code = "ppDateTimeHmm"
-Case ppDateTimehmmAMPM: code = "ppDateTimehmmAMPM"
-Case ppDateTimeHmmss: code = "ppDateTimeHmmss"
-Case ppDateTimehmmssAMPM: code = "ppDateTimehmmssAMPM"
-Case ppDateTimeMdyy: code = "ppDateTimeMdyy"
-Case ppDateTimeMMddyyHmm: code = "ppDateTimeMMddyyHmm"
-Case ppDateTimeMMddyyhmmAMPM: code = "ppDateTimeMMddyyhmmAMPM"
-Case ppDateTimeMMMMdyyyy: code = "ppDateTimeMMMMdyyyy"
-Case ppDateTimeMMMMyy: code = "ppDateTimeMMMMyy"
-Case ppDateTimeMMyy: code = "ppDateTimeMMyy"
+Select Case iPpFollowColors
+Case pp: code = ""
 End Select
-PpDateTimeFormat = code
+PpFollowColors = code
+End Function
+
+Function PpFrameColors(iPpFrameColors As PpFrameColors) As String
+code = ""
+Select Case iPpFrameColors
+Case pp: code = ""
+End Select
+PpFrameColors = code
+End Function
+
+Function PpGuideOrientation(iPpGuideOrientation As PpGuideOrientation) As String
+code = ""
+Select Case iPpGuideOrientation
+Case pp: code = ""
+End Select
+PpGuideOrientation = code
+End Function
+
+Function PpHTMLVersion(iPpHTMLVersion As PpHTMLVersion) As String
+code = ""
+Select Case iPpHTMLVersion
+Case pp: code = ""
+End Select
+PpHTMLVersion = code
+End Function
+
+Function PpIndentControl(iPpIndentControl As PpIndentControl) As String
+code = ""
+Select Case iPpIndentControl
+Case pp: code = ""
+End Select
+PpIndentControl = code
+End Function
+
+Function PpMediaTaskStatus(iPpMediaTaskStatus As PpMediaTaskStatus) As String
+code = ""
+Select Case iPpMediaTaskStatus
+Case pp: code = ""
+End Select
+PpMediaTaskStatus = code
+End Function
+
+Function PpMediaType(iPpMediaType As PpMediaType) As String
+code = ""
+Select Case iPpMediaType
+End Select
+PpMediaType = code
+End Function
+
+Function PpMouseActivation(iPpMouseActivation As PpMouseActivation) As String
+code = ""
+Select Case iPpMouseActivation
+Case pp: code = ""
+End Select
+PpMouseActivation = code
+End Function
+
+Function PpNumberedBulletStyle(iPpNumberedBulletStyle As PpNumberedBulletStyle) As String
+code = ""
+Select Case iPpNumberedBulletStyle
+Case ppBulletAlphaLCParenBoth: code = "ppBulletAlphaLCParenBoth"
+Case ppBulletAlphaLCParenRight: code = "ppBulletAlphaLCParenRight"
+Case ppBulletAlphaLCPeriod: code = "ppBulletAlphaLCPeriod"
+Case ppBulletAlphaUCParenBoth: code = "ppBulletAlphaUCParenBoth"
+Case ppBulletAlphaUCParenRight: code = "ppBulletAlphaUCParenRight"
+Case ppBulletAlphaUCPeriod: code = "ppBulletAlphaUCPeriod"
+Case ppBulletArabicAbjadDash: code = "ppBulletArabicAbjadDash"
+Case ppBulletArabicAlphaDash: code = "ppBulletArabicAlphaDash"
+Case ppBulletArabicDBPeriod: code = "ppBulletArabicDBPeriod"
+Case ppBulletArabicDBPlain: code = "ppBulletArabicDBPlain"
+Case ppBulletArabicParenBoth: code = "ppBulletArabicParenBoth"
+Case ppBulletArabicParenRight: code = "ppBulletArabicParenRight"
+Case ppBulletArabicPeriod: code = "ppBulletArabicPeriod"
+Case ppBulletArabicPlain: code = "ppBulletArabicPlain"
+Case ppBulletCircleNumDBPlain: code = "ppBulletCircleNumDBPlain"
+Case ppBulletCircleNumWDBlackPlain: code = "ppBulletCircleNumWDBlackPlain"
+Case ppBulletCircleNumWDWhitePlain: code = "ppBulletCircleNumWDWhitePlain"
+Case ppBulletHebrewAlphaDash: code = "ppBulletHebrewAlphaDash"
+Case ppBulletHindiAlpha1Period: code = "ppBulletHindiAlpha1Period"
+Case ppBulletHindiAlphaPeriod: code = "ppBulletHindiAlphaPeriod"
+Case ppBulletHindiNumParenRight: code = "ppBulletHindiNumParenRight"
+Case ppBulletHindiNumPeriod: code = "ppBulletHindiNumPeriod"
+Case ppBulletKanjiKoreanPeriod: code = "ppBulletKanjiKoreanPeriod"
+Case ppBulletKanjiKoreanPlain: code = "ppBulletKanjiKoreanPlain"
+Case ppBulletKanjiSimpChinDBPeriod: code = "ppBulletKanjiSimpChinDBPeriod"
+Case ppBulletRomanLCParenBoth: code = "ppBulletRomanLCParenBoth"
+Case ppBulletRomanLCParenRight: code = "ppBulletRomanLCParenRight"
+Case ppBulletRomanLCPeriod: code = "ppBulletRomanLCPeriod"
+Case ppBulletRomanUCParenBoth: code = "ppBulletRomanUCParenBoth"
+Case ppBulletRomanUCParenRight: code = "ppBulletRomanUCParenRight"
+Case ppBulletRomanUCPeriod: code = "ppBulletRomanUCPeriod"
+Case ppBulletSimpChinPeriod: code = "ppBulletSimpChinPeriod"
+Case ppBulletSimpChinPlain: code = "ppBulletSimpChinPlain"
+Case ppBulletStyleMixed: code = "ppBulletStyleMixed"
+Case ppBulletThaiAlphaParenBoth: code = "ppBulletThaiAlphaParenBoth"
+Case ppBulletThaiAlphaParenRight: code = "ppBulletThaiAlphaParenRight"
+Case ppBulletThaiAlphaPeriod: code = "ppBulletThaiAlphaPeriod"
+Case ppBulletThaiNumParenBoth: code = "ppBulletThaiNumParenBoth"
+Case ppBulletThaiNumParenRight: code = "ppBulletThaiNumParenRight"
+Case ppBulletThaiNumPeriod: code = "ppBulletThaiNumPeriod"
+Case ppBulletTradChinPeriod: code = "ppBulletTradChinPeriod"
+Case ppBulletTradChinPlain: code = "ppBulletTradChinPlain"
+End Select
+PpNumberedBulletStyle = code
+End Function
+
+Function PpParagraphAlignment(iPpParagraphAlignment As PpParagraphAlignment) As String
+code = ""
+Select Case iPpParagraphAlignment
+Case ppAlignCenter: code = "ppAlignCenter"
+Case ppAlignDistribute: code = "ppAlignDistribute"
+Case ppAlignJustify: code = "ppAlignJustify"
+Case ppAlignJustifyLow: code = "ppAlignJustifyLow"
+Case ppAlignLeft: code = "ppAlignLeft"
+Case ppAlignmentMixed: code = "ppAlignmentMixed"
+Case ppAlignRight: code = "ppAlignRight"
+Case ppAlignThaiDistribute: code = "ppAlignThaiDistribute"
+End Select
+PpParagraphAlignment = code
+End Function
+
+Function PpPasteDataType(iPpPasteDataType As PpPasteDataType) As String
+code = ""
+Select Case iPpPasteDataType
+Case pp: code = ""
+End Select
+PpPasteDataType = code
+End Function
+
+Function PpPlaceholderType(iPpPlaceholderType As PpPlaceholderType) As String
+code = ""
+Select Case iPpPlaceholderType
+Case ppPlaceholderBitmap: code = "ppPlaceholderBitmap"
+Case ppPlaceholderBody: code = "ppPlaceholderBody"
+Case ppPlaceholderCenterTitle: code = "ppPlaceholderCenterTitle"
+Case ppPlaceholderChart: code = "ppPlaceholderChart"
+Case ppPlaceholderDate: code = "ppPlaceholderDate"
+Case ppPlaceholderFooter: code = "ppPlaceholderFooter"
+Case ppPlaceholderHeader: code = "ppPlaceholderHeader"
+Case ppPlaceholderMediaClip: code = "ppPlaceholderMediaClip"
+Case ppPlaceholderMixed: code = "ppPlaceholderMixed"
+Case ppPlaceholderObject: code = "ppPlaceholderObject"
+Case ppPlaceholderOrgChart: code = "ppPlaceholderOrgChart"
+Case ppPlaceholderPicture: code = "ppPlaceholderPicture"
+Case ppPlaceholderSlideNumber: code = "ppPlaceholderSlideNumber"
+Case ppPlaceholderSubtitle: code = "ppPlaceholderSubtitle"
+Case ppPlaceholderTable: code = "ppPlaceholderTable"
+Case ppPlaceholderTitle: code = "ppPlaceholderTitle"
+Case ppPlaceholderVerticalBody: code = "ppPlaceholderVerticalBody"
+Case ppPlaceholderVerticalObject: code = "ppPlaceholderVerticalObject"
+Case ppPlaceholderVerticalTitle: code = "ppPlaceholderVerticalTitle"
+End Select
+PpPlaceholderType = code
+End Function
+
+Function PpPlayerState(iPpPlayerState As PpPlayerState) As String
+code = ""
+Select Case iPpPlayerState
+Case pp: code = ""
+End Select
+PpPlayerState = code
+End Function
+
+Function PpPrintColorType(iPpPrintColorType As PpPrintColorType) As String
+code = ""
+Select Case iPpPrintColorType
+Case pp: code = ""
+End Select
+PpPrintColorType = code
+End Function
+
+Function PpPrintHandoutOrder(iPpPrintHandoutOrder As PpPrintHandoutOrder) As String
+code = ""
+Select Case iPpPrintHandoutOrder
+Case pp: code = ""
+End Select
+PpPrintHandoutOrder = code
+End Function
+
+Function PpPrintOutputType(iPpPrintOutputType As PpPrintOutputType) As String
+code = ""
+Select Case iPpPrintOutputType
+Case pp: code = ""
+End Select
+PpPrintOutputType = code
+End Function
+
+Function PpPrintRangeType(iPpPrintRangeType As PpPrintRangeType) As String
+code = ""
+Select Case iPpPrintRangeType
+Case pp: code = ""
+End Select
+PpPrintRangeType = code
+End Function
+
+Function PpProtectedViewCloseReason(iPpProtectedViewCloseReason As PpProtectedViewCloseReason) As String
+code = ""
+Select Case iPpProtectedViewCloseReason
+Case pp: code = ""
+End Select
+PpProtectedViewCloseReason = code
+End Function
+
+Function PpPublishSourceType(iPpPublishSourceType As PpPublishSourceType) As String
+code = ""
+Select Case iPpPublishSourceType
+Case pp: code = ""
+End Select
+PpPublishSourceType = code
+End Function
+
+Function PpRemoveDocInfoType(iPpRemoveDocInfoType As PpRemoveDocInfoType) As String
+code = ""
+Select Case iPpRemoveDocInfoType
+Case pp: code = ""
+End Select
+PpRemoveDocInfoType = code
+End Function
+
+Function PpResampleMediaProfile(iPpResampleMediaProfile As PpResampleMediaProfile) As String
+code = ""
+Select Case iPpResampleMediaProfile
+Case pp: code = ""
+End Select
+PpResampleMediaProfile = code
+End Function
+
+Function PpRevisionInfo(iPpRevisionInfo As PpRevisionInfo) As String
+code = ""
+Select Case iPpRevisionInfo
+Case pp: code = ""
+End Select
+PpRevisionInfo = code
+End Function
+
+Function PpSaveAsFileType(iPpSaveAsFileType As PpSaveAsFileType) As String
+code = ""
+Select Case iPpSaveAsFileType
+Case pp: code = ""
+End Select
+PpSaveAsFileType = code
+End Function
+
+Function PpSelectionType(iPpSelectionType As PpSelectionType) As String
+code = ""
+Select Case iPpSelectionType
+Case pp: code = ""
+End Select
+PpSelectionType = code
 End Function
 
 Function PpSlideLayout(iPpSlideLayout As PpSlideLayout) As String
@@ -478,16 +681,28 @@ End Select
 PpSlideLayout = code
 End Function
 
-Function MsoTabStopType(iMsoTabStopType As MsoTabStopType) As String
+Function PpSlideShowState(iPpSlideShowState As PpSlideShowState) As String
 code = ""
-Select Case iMsoTabStopType
-Case msoTabStopCenter: code = "msoTabStopCenter"
-Case msoTabStopDecimal: code = "msoTabStopDecimal"
-Case msoTabStopLeft: code = "msoTabStopLeft"
-Case msoTabStopMixed: code = "msoTabStopMixed"
-Case msoTabStopRight: code = "msoTabStopRight"
+Select Case iPpSlideShowState
+Case pp: code = ""
 End Select
-MsoTabStopType = code
+PpSlideShowState = code
+End Function
+
+Function PpSlideShowType(iPpSlideShowType As PpSlideShowType) As String
+code = ""
+Select Case iPpSlideShowType
+Case pp: code = ""
+End Select
+PpSlideShowType = code
+End Function
+
+Function PpSlideSizeType(iPpSlideSizeType As PpSlideSizeType) As String
+code = ""
+Select Case iPpSlideSizeType
+Case pp: code = ""
+End Select
+PpSlideSizeType = code
 End Function
 
 Function PpSoundEffectType(iPpSoundEffectType As PpSoundEffectType) As String
@@ -501,35 +716,69 @@ End Select
 PpSoundEffectType = code
 End Function
 
-Function MsoHyperlinkType(iMsoHyperlinkType As Office.MsoHyperlinkType) As String
+Function PpSoundFormatType(iPpSoundFormatType As PpSoundFormatType) As String
 code = ""
-Select Case iMsoHyperlinkType
-Case msoHyperlinkInlineShape: code = "msoHyperlinkInlineShape"
-Case msoHyperlinkRange: code = "msoHyperlinkRange"
-Case msoHyperlinkShape: code = "msoHyperlinkShape"
+Select Case iPpSoundFormatType
+Case pp: code = ""
 End Select
-MsoHyperlinkType = code
+PpSoundFormatType = code
 End Function
 
-Function PpActionType(iPpActionType As PpActionType) As String
+Function PpTabStopType(iPpTabStopType As PpTabStopType) As String
 code = ""
-Select Case iPpActionType
-Case ppActionEndShow: code = "ppActionEndShow"
-Case ppActionFirstSlide: code = "ppActionFirstSlide"
-Case ppActionHyperlink: code = "ppActionHyperlink"
-Case ppActionLastSlide: code = "ppActionLastSlide"
-Case ppActionLastSlideViewed: code = "ppActionLastSlideViewed"
-Case ppActionMixed: code = "ppActionMixed"
-Case ppActionNamedSlideShow: code = "ppActionNamedSlideShow"
-Case ppActionNextSlide: code = "ppActionNextSlide"
-Case ppActionNone: code = "ppActionNone"
-Case ppActionOLEVerb: code = "ppActionOLEVerb"
-Case ppActionPlay: code = "ppActionPlay"
-Case ppActionPreviousSlide: code = "ppActionPreviousSlide"
-Case ppActionRunMacro: code = "ppActionRunMacro"
-Case ppActionRunProgram: code = "ppActionRunProgram"
+Select Case iPpTabStopType
+Case ppTabStopCenter: code = "ppTabStopCenter"
+Case ppTabStopDecimal: code = "ppTabStopDecimal"
+Case ppTabStopLeft: code = "ppTabStopLeft"
+Case ppTabStopMixed: code = "ppTabStopMixed"
+Case ppTabStopRight: code = "ppTabStopRight"
 End Select
-PpActionType = code
+PpTabStopType = code
+End Function
+
+Function PpTextLevelEffect(iPpTextLevelEffect As PpTextLevelEffect) As String
+code = ""
+Select Case iPpTextLevelEffect
+Case ppAnimateByAllLevels: code = "ppAnimateByAllLevels"
+Case ppAnimateByFifthLevel: code = "ppAnimateByFifthLevel"
+Case ppAnimateByFirstLevel: code = "ppAnimateByFirstLevel"
+Case ppAnimateByFourthLevel: code = "ppAnimateByFourthLevel"
+Case ppAnimateBySecondLevel: code = "ppAnimateBySecondLevel"
+Case ppAnimateByThirdLevel: code = "ppAnimateByThirdLevel"
+Case ppAnimateLevelMixed: code = "ppAnimateLevelMixed"
+Case ppAnimateLevelNone: code = "ppAnimateLevelNone"
+End Select
+PpTextLevelEffect = code
+End Function
+
+Function PpTextStyleType(iPpTextStyleType As PpTextStyleType) As String
+code = ""
+Select Case iPpTextStyleType
+Case pp: code = ""
+End Select
+PpTextStyleType = code
+End Function
+
+Function PpTextUnitEffect(iPpTextUnitEffect As PpTextUnitEffect) As String
+code = ""
+Select Case iPpTextUnitEffect
+Case ppAnimateByCharacter: code = "ppAnimateByCharacter"
+Case ppAnimateByParagraph: code = "ppAnimateByParagraph"
+Case ppAnimateByWord: code = "ppAnimateByWord"
+Case ppAnimateUnitMixed: code = "ppAnimateUnitMixed"
+End Select
+PpTextUnitEffect = code
+End Function
+
+Function PpTransitionSpeed(iPpTransitionSpeed As PpTransitionSpeed) As String
+code = ""
+Select Case iPpTransitionSpeed
+Case ppTransitionSpeedFast: code = "ppTransitionSpeedFast"
+Case ppTransitionSpeedMedium: code = "ppTransitionSpeedMedium"
+Case ppTransitionSpeedMixed: code = "ppTransitionSpeedMixed"
+Case ppTransitionSpeedSlow: code = "ppTransitionSpeedSlow"
+End Select
+PpTransitionSpeed = code
 End Function
 
 Function PpUpdateOption(iPpUpdateOption As PpUpdateOption) As String
@@ -542,10 +791,31 @@ End Select
 PpUpdateOption = code
 End Function
 
-Function PpMediaType(iPpMediaType As PpMediaType) As String
+Function PpViewType(iPpViewType As PpViewType) As String
 code = ""
-Select Case iPpMediaType
+Select Case iPpViewType
+Case ppViewHandoutMaster: code = "ppViewHandoutMaster"
+Case ppViewMasterThumbnails: code = "ppViewMasterThumbnails"
+Case ppViewNormal: code = "ppViewNormal"
+Case ppViewNotesMaster: code = "ppViewNotesMaster"
+Case ppViewNotesPage: code = "ppViewNotesPage"
+Case ppViewOutline: code = "ppViewOutline"
+Case ppViewPrintPreview: code = "ppViewPrintPreview"
+Case ppViewSlide: code = "ppViewSlide"
+Case ppViewSlideMaster: code = "ppViewSlideMaster"
+Case ppViewSlideSorter: code = "ppViewSlideSorter"
+Case ppViewThumbnails: code = "ppViewThumbnails"
+Case ppViewTitleMaster: code = "ppViewTitleMaster"
 End Select
-PpMediaType = code
+PpViewType = code
 End Function
 
+Function PpWindowState(iPpWindowState As PpWindowState) As String
+code = ""
+Select Case iPpWindowState
+Case ppWindowMaximized: code = "ppWindowMaximized"
+Case ppWindowMinimized: code = "ppWindowMinimized"
+Case ppWindowNormal: code = "ppWindowNormal"
+End Select
+PpWindowState = code
+End Function

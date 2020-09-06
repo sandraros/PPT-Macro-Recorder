@@ -2,15 +2,15 @@ VERSION 1.0 CLASS
 BEGIN
   MultiUse = -1  'True
 END
-Attribute VB_Name = "iFillFormat"
+Attribute VB_Name = "oFillFormat"
 Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = False
-'POWERPOINT.FILLFORMAT
+'OFFICE.FILLFORMAT
 
-Public BackColor As iColorFormat
-Public ForeColor As iColorFormat
+Public BackColor As oColorFormat
+Public ForeColor As oColorFormat
 Public GradientColorType As MsoGradientColorType
 Public GradientDegree As Single
 Public GradientStyle As MsoGradientStyle
@@ -30,85 +30,18 @@ Public iType As MsoFillType ' Type
 Public Visible As MsoTriState
 
 
-'ActiveWindow.Selection.ShapeRange.TextFrame2.TextRange.Font.Fill.BackColor
+'ActiveWindow.Selection.ShapeRange.TextFrame2.TextRange.Font.Fill
 
 
-Public Function compare(propertyName As String, iFillFormat As iFillFormat, indent As Integer) As String
+Public Function compare(propertyName As String, iFillFormat As oFillFormat, indent As Integer) As String
 
     On Error GoTo err_
 
     If IsCompared(Me) Then Exit Function
 
-    If iFillFormat.iType = msoFillMixed Then Exit Function
-
     code = ""
 
     With Me
-        Select Case .iType
-            Case msoFillBackground
-            Case msoFillGradient
-                If iFillFormat.GradientStyle = msoGradientMixed Then
-                    ' Choose any Gradient (arbitrary choice), what is important is to later set the GradientStops
-                    'Call .TwoColorGradient(Style:=msoGradientDiagonalDown, Variant:=1)
-                Else
-                    Select Case iFillFormat.GradientColorType
-                        Case msoGradientMultiColor:
-                            'Call .TwoColorGradient(Style:=iFillFormat.GradientStyle, Variant:=iFillFormat.GradientVariant)
-                            .GradientStyle = iFillFormat.GradientStyle
-                        Case msoGradientOneColor:
-                            'Call .OneColorGradient(Style:=iFillFormat.GradientStyle, Variant:=iFillFormat.GradientVariant, Degree:=iFillFormat.GradientDegree)
-                            .GradientStyle = iFillFormat.GradientStyle
-                            .GradientVariant = iFillFormat.GradientVariant
-                            .GradientDegree = iFillFormat.GradientDegree
-                        Case msoGradientTwoColors:
-                            'Call .TwoColorGradient(Style:=iFillFormat.GradientStyle, Variant:=iFillFormat.GradientVariant)
-                            .GradientStyle = iFillFormat.GradientStyle
-                            .GradientVariant = iFillFormat.GradientVariant
-                        Case msoGradientPresetColors:
-                            'Call .PresetGradient(Style:=iFillFormat.GradientStyle, _
-                                                 Variant:=iFillFormat.GradientVariant, _
-                                                 PresetGradientType:=iFillFormat.PresetGradientType)
-                            .GradientStyle = iFillFormat.GradientStyle
-                            .GradientVariant = iFillFormat.GradientVariant
-                            .PresetGradientType = iFillFormat.PresetGradientType
-                        Case msoGradientMixed: err.Raise 9999
-                        Case Else: err.Raise 9999
-                    End Select
-                End If
-                'TODO Call GradientStops(iFillFormat.GradientStops, oFillFormat.GradientStops)
-            Case msoFillPatterned
-                'TODO Call .Patterned(Pattern:=iFillFormat.Pattern)
-            Case msoFillPicture
-                Select Case iFillFormat.TextureType
-                    Case msoTextureUserDefined:
-                        ' VBA PPT doesn't provide a way to retrieve the PresetTexture, the only solution is to extract it directly from PPTX
-                        'TODO Call .PresetTextured(PresetTexture:=msoTextureDenim) ' arbitrary choice
-                    Case msoTextureTypeMixed:
-                        'TODO Call .UserPicture(PictureFile:="C:\Users\Sandra\Pictures\Saved Pictures\avatar.jpg")
-                    Case msoTexturePreset:
-                        err.Raise 9999
-                    Case Else:
-                        err.Raise 9999
-                End Select
-                ' VBA PPT doesn't provide a way to retrieve the image/original path, the only solution is to extract it directly from PPTX " _
-                ' (1) /ppt/media/... (2) /ppt/slides/... (3) /ppt/slides/_rels, where (2) is <p:sp><p:spPr><a:blipFill rotWithShape='1' dpi='0'><a:blip r:embed='rId3'>," _
-                ' (3) is <Relationships...><Relationship Target='../media/image1.jpg' Type=... Id='rId3'/>
-                'TODO Call PictureEffects(iFillFormat.PictureEffects, oFillFormat.PictureEffects)
-            Case msoFillSolid
-                If iFillFormat.iType <> msoFillSolid Then
-                    code = code & Space(indent) & "Call .Solid" & Chr(13)
-                End If
-            Case msoFillTextured
-                '.PresetTexture = iFillFormat.PresetTexture ' Read-only MsoPresetTexture
-                .PresetTexture = iFillFormat.PresetTexture
-                Select Case iFillFormat.PresetTexture
-                Case msoPresetTextureMixed:
-                    ' VBA does not propose a solution to work with the Texture File of an existing object - same issue as with msoFillPicture)
-                    'TODO Call .UserTextured(TextureFile:="C:\Users\Sandra\Pictures\Saved Pictures\avatar.jpg") ' will always fail - choose adequate file
-                Case Else:
-                    'TODO Call .PresetTextured(iFillFormat.PresetTexture)
-                End Select
-        End Select
         code = code & .BackColor.compare(".BackColor", iFillFormat.BackColor, indent + 4)
         code = code & .ForeColor.compare(".ForeColor", iFillFormat.ForeColor, indent + 4)
         If .GradientColorType <> iFillFormat.GradientColorType Then
@@ -183,19 +116,25 @@ err_:
 
 End Function
 
-Public Sub init(ByVal iFillFormat As PowerPoint.FillFormat)
+Public Sub init(ByVal iFillFormat As Office.FillFormat)
 
     On Error GoTo err_
 
-    Me.iType = iFillFormat.Type
-    
     With Me
+    .iType = iFillFormat.Type
     
     If iFillFormat.Type = msoFillMixed Then
-        Set .BackColor = New_iColorFormat(iFillFormat.BackColor)
-        Set .ForeColor = New_iColorFormat(iFillFormat.ForeColor)
+        Set .BackColor = New_oColorFormat(iFillFormat.BackColor)
+        Set .ForeColor = New_oColorFormat(iFillFormat.ForeColor)
         Exit Sub
     End If
+    'If TypeName(iFillFormat.Parent) = "Font2" Then
+        If iFillFormat.ForeColor.Type = msoColorTypeMixed Then
+            Set .BackColor = New_oColorFormat(iFillFormat.BackColor)
+            Set .ForeColor = New_oColorFormat(iFillFormat.ForeColor)
+            Exit Sub
+        End If
+    'End If
 
     Select Case iFillFormat.Type
         Case msoFillBackground
@@ -260,8 +199,8 @@ Public Sub init(ByVal iFillFormat As PowerPoint.FillFormat)
                 'TODO Call .PresetTextured(iFillFormat.PresetTexture)
             End Select
     End Select
-    Set .BackColor = New_iColorFormat(iFillFormat.BackColor)
-    Set .ForeColor = New_iColorFormat(iFillFormat.ForeColor)
+    Set .BackColor = New_oColorFormat(iFillFormat.BackColor)
+    Set .ForeColor = New_oColorFormat(iFillFormat.ForeColor)
     ' RotateWithObject: theoretically Writeable but on a msoTextBox shape, changing it to msoFalse or msoTrue does the error "value out of range".
     '                   The setting of the RotateWithObject property corresponds to the setting of the Rotate with shape box
     '                   on the Fill pane of the Format Picture dialog box in the Microsoft PowerPoint user interface (under
@@ -305,10 +244,9 @@ End Sub
 
 Sub DefaultValues()
     With Me
-        Set .BackColor = New iColorFormat
+        Set .BackColor = New oColorFormat
         Call .BackColor.DefaultValues
-        Set .ForeColor = New iColorFormat
+        Set .ForeColor = New oColorFormat
         Call .ForeColor.DefaultValues
-        .Visible = msoTrue
     End With
 End Sub

@@ -14,7 +14,7 @@ Public Bold As MsoTriState
 Public Caps As MsoTextCaps
 Public DoubleStrikeThrough As MsoTriState
 Public Equalize As MsoTriState
-Public Fill As iFillFormat
+Public Fill As oFillFormat ' Office.FillFormat
 Public Glow As iGlowFormat
 Public Highlight As iColorFormat
 Public Italic As MsoTriState
@@ -25,7 +25,7 @@ Public NameComplexScript As String
 Public NameFarEast As String
 Public NameOther As String
 Public Reflection As iReflectionFormat
-Public Shadow As iShadowFormat
+Public Shadow As oShadowFormat
 Public Size As Single
 Public Smallcaps As MsoTriState
 Public SoftEdgeFormat As MsoSoftEdgeType
@@ -34,28 +34,22 @@ Public Strike As MsoTextStrike
 Public Strikethrough As MsoTriState
 Public Subscript As MsoTriState
 Public Superscript As MsoTriState
-Public UnderlineColor As iColorFormat2
+Public UnderlineColor As oColorFormat
 Public UnderlineStyle As MsoTextUnderlineType
 Public WordArtFormat As MsoPresetTextEffect
 
-Public Sub class_initialize()
 
-    With Me
-        Set .Fill = New iFillFormat
-        Set .Glow = New iGlowFormat
-        Set .Highlight = New iColorFormat
-        Set .Reflection = New iReflectionFormat
-        Set .Shadow = New iShadowFormat
-        Set .UnderlineColor = New iColorFormat2
-    End With
+'ActiveWindow.Selection.ShapeRange.TextFrame2.TextRange.Font
 
-End Sub
 
-Public Function compare(ByVal iFont2 As iFont2, indent As Integer) As String
+Public Function compare(propertyName As String, iFont2 As iFont2, indent As Integer) As String
 
     On Error GoTo err_
 
+    If IsCompared(Me) Then Exit Function
+
     code = ""
+
     With Me
         If .Allcaps <> iFont2.Allcaps Then
             code = code & Space(indent) & ".AllCaps = " & MsoTriState(.Allcaps) & Chr(13)
@@ -78,9 +72,9 @@ Public Function compare(ByVal iFont2 As iFont2, indent As Integer) As String
         If .Equalize <> iFont2.Equalize Then
             code = code & Space(indent) & ".Equalize = " & MsoTriState(.Equalize) & Chr(13)
         End If
-        code = code & ObjectToVBA("Fill", .Fill.compare(iFont2.Fill, indent))
-        code = code & ObjectToVBA("Glow", .Glow.compare(iFont2.Glow, indent))
-        code = code & ObjectToVBA("Highlight", .Highlight.compare(iFont2.Highlight, indent))
+        code = code & .Fill.compare(".Fill", iFont2.Fill, indent + 4)
+        code = code & .Glow.compare(".Glow", iFont2.Glow, indent + 4)
+        code = code & .Highlight.compare(".Highlight", iFont2.Highlight, indent + 4)
         If .Italic <> iFont2.Italic Then
             code = code & Space(indent) & ".Italic = " & MsoTriState(.Italic) & Chr(13)
         End If
@@ -88,22 +82,22 @@ Public Function compare(ByVal iFont2 As iFont2, indent As Integer) As String
             code = code & Space(indent) & ".Kerning = " & SingleToVBA(.Kerning) & Chr(13)
         End If
         If .Name <> iFont2.Name Then
-            code = code & Space(indent) & ".Name = " & .Name & Chr(13)
+            code = code & Space(indent) & ".Name = " & ToVBA(.Name) & Chr(13)
         End If
         If .NameAscii <> iFont2.NameAscii Then
-            code = code & Space(indent) & ".NameAscii = " & .NameAscii & Chr(13)
+            code = code & Space(indent) & ".NameAscii = " & ToVBA(.NameAscii) & Chr(13)
         End If
         If .NameComplexScript <> iFont2.NameComplexScript Then
-            code = code & Space(indent) & ".NameComplexScript = " & .NameComplexScript & Chr(13)
+            code = code & Space(indent) & ".NameComplexScript = " & ToVBA(.NameComplexScript) & Chr(13)
         End If
         If .NameFarEast <> iFont2.NameFarEast Then
-            code = code & Space(indent) & ".NameFarEast = " & .NameFarEast & Chr(13)
+            code = code & Space(indent) & ".NameFarEast = " & ToVBA(.NameFarEast) & Chr(13)
         End If
         If .NameOther <> iFont2.NameOther Then
-            code = code & Space(indent) & ".NameOther = " & .NameOther & Chr(13)
+            code = code & Space(indent) & ".NameOther = " & ToVBA(.NameOther) & Chr(13)
         End If
-        code = code & ObjectToVBA("Reflection", .Reflection.compare(iFont2.Reflection, indent))
-        code = code & ObjectToVBA("Shadow", .Shadow.compare(iFont2.Shadow, indent))
+        code = code & .Reflection.compare(".Reflection", iFont2.Reflection, indent + 4)
+        code = code & .Shadow.compare(".Shadow", iFont2.Shadow, indent + 4)
         If .Size <> iFont2.Size Then
             code = code & Space(indent) & ".Size = " & SingleToVBA(.Size) & Chr(13)
         End If
@@ -128,7 +122,7 @@ Public Function compare(ByVal iFont2 As iFont2, indent As Integer) As String
         If .Superscript <> iFont2.Superscript Then
             code = code & Space(indent) & ".Superscript = " & MsoTriState(.Superscript) & Chr(13)
         End If
-        code = code & ObjectToVBA("UnderlineColor", .UnderlineColor.compare(iFont2.UnderlineColor, indent))
+        code = code & .UnderlineColor.compare(".UnderlineColor", iFont2.UnderlineColor, indent + 4)
         If .UnderlineStyle <> iFont2.UnderlineStyle Then
             code = code & Space(indent) & ".UnderlineStyle= " & MsoTextUnderlineType(.UnderlineStyle) & Chr(13)
         End If
@@ -136,6 +130,12 @@ Public Function compare(ByVal iFont2 As iFont2, indent As Integer) As String
             code = code & Space(indent) & ".WordArtFormat = " & MsoPresetTextEffect(.WordArtFormat) & Chr(13)
         End If
     End With
+
+    If code <> "" Then
+        code = Space(indent - 4) & "With " & propertyName & Chr(13) _
+            & code _
+            & Space(indent - 4) & "End With" & Chr(13)
+    End If
 
     compare = code
 
@@ -150,7 +150,7 @@ err_:
 
 End Function
 
-Public Sub Init(ByVal iFont2 As Office.Font2)
+Public Sub init(ByVal iFont2 As Office.Font2)
 
     On Error GoTo err_
 
@@ -162,14 +162,12 @@ Public Sub Init(ByVal iFont2 As Office.Font2)
         .Caps = iFont2.Caps
         .DoubleStrikeThrough = iFont2.DoubleStrikeThrough
         .Equalize = iFont2.Equalize
-        If iFont2.Fill.ForeColor.Type <> msoColorTypeMixed Then
-            Call .Fill.Init(iFont2.Fill)
-        End If
-        If iFont2.Glow.Color.Type <> msoColorTypeMixed Then
-            Call .Glow.Init(iFont2.Glow)
-        End If
+        Set .Fill = New_oFillFormat(iFont2.Fill)
+        Set .Glow = New_iGlowFormat(iFont2.Glow)
         If iFont2.Highlight.Type <> msoColorTypeMixed Then
-            Call .Highlight.Init(iFont2.Highlight)
+            Set .Highlight = New_iColorFormat(iFont2.Highlight)
+        Else
+            Set .Highlight = New iColorFormat
         End If
         .Italic = iFont2.Italic
         .Kerning = iFont2.Kerning
@@ -178,8 +176,8 @@ Public Sub Init(ByVal iFont2 As Office.Font2)
         .NameComplexScript = iFont2.NameComplexScript
         .NameFarEast = iFont2.NameFarEast
         .NameOther = iFont2.NameOther
-        Call .Reflection.Init(iFont2.Reflection)
-        Call .Shadow.Init(iFont2.Shadow)
+        Set .Reflection = New_iReflectionFormat(iFont2.Reflection)
+        Set .Shadow = New_oShadowFormat(iFont2.Shadow)
         .Size = iFont2.Size
         .Smallcaps = iFont2.Smallcaps
         .SoftEdgeFormat = iFont2.SoftEdgeFormat
@@ -187,9 +185,8 @@ Public Sub Init(ByVal iFont2 As Office.Font2)
         .Strike = iFont2.Strike
         .Strikethrough = iFont2.Strikethrough
         .Subscript = iFont2.Subscript
-        If iFont2.UnderlineColor.Type <> msoColorTypeMixed Then
-            Call .UnderlineColor.Init(iFont2.UnderlineColor)
-        End If
+        .Superscript = iFont2.Superscript
+        Set .UnderlineColor = New_oColorFormat(iFont2.UnderlineColor)
         .UnderlineStyle = iFont2.UnderlineStyle
         If iFont2.WordArtFormat <> msoTextEffectMixed Then
             .WordArtFormat = iFont2.WordArtFormat
@@ -206,4 +203,22 @@ err_:
     #End If
 
 End Sub
+
+Sub DefaultValues()
+    With Me
+        Set .Fill = New oFillFormat
+        Call .Fill.DefaultValues
+        Set .Glow = New iGlowFormat
+        Call .Glow.DefaultValues
+        Set .Highlight = New iColorFormat
+        Call .Highlight.DefaultValues
+        Set .Reflection = New iReflectionFormat
+        Call .Reflection.DefaultValues
+        Set .Shadow = New oShadowFormat
+        Call .Shadow.DefaultValues
+        Set .UnderlineColor = New oColorFormat
+        Call .UnderlineColor.DefaultValues
+    End With
+End Sub
+
 

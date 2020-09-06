@@ -2,19 +2,18 @@ VERSION 1.0 CLASS
 BEGIN
   MultiUse = -1  'True
 END
-Attribute VB_Name = "iShadowFormat"
+Attribute VB_Name = "oShadowFormat"
 Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = False
-Public Application As Object
+' OFFICE.SHADOWFORMAT
+
 Public Blur As Single
-Public Creator As Long
-Public ForeColor As iColorFormat
+Public ForeColor As oColorFormat
 Public Obscured As MsoTriState
 Public OffsetX As Single
 Public OffsetY As Single
-Public Parent As Object
 Public RotateWithShape As MsoTriState
 Public Size As Single
 Public Style As MsoShadowStyle
@@ -23,10 +22,8 @@ Public iType As MsoShadowType
 Public Visible As MsoTriState
 
 
-'ActiveWindow.Selection.ShapeRange.TextFrame2.TextRange.Font.Shadow.Application
 
-
-Public Function compare(propertyName As String, iShadowFormat As iShadowFormat, indent As Integer) As String
+Public Function compare(propertyName As String, iShadowFormat As oShadowFormat, indent As Integer) As String
 
     On Error GoTo err_
 
@@ -55,9 +52,6 @@ Public Function compare(propertyName As String, iShadowFormat As iShadowFormat, 
         If .OffsetY <> iShadowFormat.OffsetY Then
             code = code & Space(indent) & ".OffsetY = " & SingleToVBA(.OffsetY) & Chr(13)
         End If
-        'If Not .Parent Is iShadowFormat.Parent Then
-        '    code = code & "'TODO Parent"
-        'End If
         If .RotateWithShape <> iShadowFormat.RotateWithShape Then
             code = code & Space(indent) & ".RotateWithShape = " & MsoTriState(.RotateWithShape) & Chr(13)
         End If
@@ -65,7 +59,7 @@ Public Function compare(propertyName As String, iShadowFormat As iShadowFormat, 
             code = code & Space(indent) & ".Size = " & SingleToVBA(.Size) & Chr(13)
         End If
         If .Style <> iShadowFormat.Style Then
-            code = code & Space(indent) & "'.Style = " & MsoShadowStyle(.Style) & Chr(13)
+            code = code & Space(indent) & ".Style = " & MsoShadowStyle(.Style) & Chr(13)
         End If
         If .Transparency <> iShadowFormat.Transparency Then
             code = code & Space(indent) & ".Transparency = " & SingleToVBA(.Transparency) & Chr(13)
@@ -91,12 +85,13 @@ Public Function compare(propertyName As String, iShadowFormat As iShadowFormat, 
 err_:
     #If DEBUG_MODE = 1 Then
         Stop
+    #Else
+        err.Raise err.number 'rethrows with same source and description
     #End If
-    err.Raise err.number 'rethrows with same source and description
 
 End Function
 
-Public Sub init(iShadowFormat As PowerPoint.ShadowFormat)
+Public Sub init(iShadowFormat As Office.ShadowFormat)
     
     On Error GoTo err_
 
@@ -105,20 +100,15 @@ Public Sub init(iShadowFormat As PowerPoint.ShadowFormat)
                 Or iShadowFormat.Style = msoShadowStyleMixed Then
             .Style = iShadowFormat.Style
             .iType = iShadowFormat.Type
-            Set .Application = iShadowFormat.Application
-            Set .ForeColor = New iColorFormat
-            Set .Parent = iShadowFormat.Parent
+            Set .ForeColor = New oColorFormat
             Exit Sub
         End If
 
-        Set .Application = iShadowFormat.Application
         .Blur = iShadowFormat.Blur
-        .Creator = iShadowFormat.Creator
-        Set .ForeColor = New_iColorFormat(iShadowFormat.ForeColor)
+        Set .ForeColor = New_oColorFormat(iShadowFormat.ForeColor)
         .Obscured = iShadowFormat.Obscured
         .OffsetX = iShadowFormat.OffsetX
         .OffsetY = iShadowFormat.OffsetY
-        Set .Parent = iShadowFormat.Parent
         .RotateWithShape = iShadowFormat.RotateWithShape
         .Size = iShadowFormat.Size
         .Style = iShadowFormat.Style
@@ -141,8 +131,7 @@ End Sub
 
 Sub DefaultValues()
     With Me
-        Set .ForeColor = New iColorFormat
+        Set .ForeColor = New oColorFormat
         Call .ForeColor.DefaultValues
     End With
 End Sub
-
