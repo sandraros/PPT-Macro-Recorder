@@ -1,3 +1,30 @@
+**Work in progress as of 2020/09/08 - Does not work yet**
+
+This is a Microsoft Powerpoint add-in which allows to simulate the recording of your "actions" and generate a VBA macro, since Microsoft has removed its Macro Recorder since the 2007 version (here the notice concerning PowerPoint 2013 and after).
+
+What is a Macro Recorder for?
+- End users: save one or more user actions which are often used so that to repeat them in one click
+- Developers: fast way to determine the VBA code corresponding to a user action
+
+NB: Microsoft offers macro recorders in Word and Excel, only PowerPoint does not have one.
+
+How to use the PPT Macro Recorder:
+- The user presses the START Recorder button
+  - A modal window opens up and asks the name of the macro
+  - What happens internally: all objects of the current Powerpoint instance are saved as "V1" variables in the global memory for later comparison
+- The user does some actions
+- The user presses the STOP Recorder button
+  - What happens internally: All objects of the current Powerpoint instance are saved as "V2" variables in the global memory. There is a comparison between the V1 and V2 variables, anything different produces VBA code to redo the action. For instance, changing the color of an object will produce this code:
+    ```
+    TODO
+    ```
+  - The code is saved to the macro in the Visual Basic Editor
+- The user may edit the macro (Alt + F11) or run it
+
+So that the add-in can save VBA code, you must enable the option Centre de gestion de la confidentialité > Paramètres > Macros > Accès approuvé au modèle d'objet du projet VBA.
+
+OLD
+
 3 projects in one (work in progress as of 2020/08/29 - Does not work yet)
 - **Macro Recorder for PowerPoint**
   - It calculates the delta of all objects between start and stop, and generates the delta VBA code
