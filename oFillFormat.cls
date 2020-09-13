@@ -33,75 +33,72 @@ Public Visible As MsoTriState
 'ActiveWindow.Selection.ShapeRange.TextFrame2.TextRange.Font.Fill
 
 
-Public Function compare(propertyName As String, iFillFormat As oFillFormat, indent As Integer) As String
+Public Function compare(propertyName As String, iFillFormat As oFillFormat) As String
 
     On Error GoTo err_
 
     If IsCompared(Me) Then Exit Function
 
+    Dim code As String
     code = ""
 
     With Me
-        code = code & .BackColor.compare(".BackColor", iFillFormat.BackColor, indent + 4)
-        code = code & .ForeColor.compare(".ForeColor", iFillFormat.ForeColor, indent + 4)
+        Call addCode(code, .BackColor.compare(".BackColor", iFillFormat.BackColor))
+        Call addCode(code, .ForeColor.compare(".ForeColor", iFillFormat.ForeColor))
         If .GradientColorType <> iFillFormat.GradientColorType Then
-            code = code & Space(indent) & ".GradientColorType = " & MsoGradientColorType(.GradientColorType) & Chr(13)
+            Call addCode(code, ".GradientColorType = " & MsoGradientColorType(.GradientColorType))
         End If
         If .GradientDegree <> iFillFormat.GradientDegree Then
-            code = code & Space(indent) & ".GradientDegree = " & SingleToVBA(.GradientDegree) & Chr(13)
+            Call addCode(code, ".GradientDegree = " & SingleToVBA(.GradientDegree))
         End If
         If .GradientStyle <> iFillFormat.GradientStyle Then
-            code = code & Space(indent) & ".GradientStyle = " & MsoGradientStyle(.GradientStyle) & Chr(13)
+            Call addCode(code, ".GradientStyle = " & MsoGradientStyle(.GradientStyle))
         End If
         If .GradientVariant <> iFillFormat.GradientVariant Then
-            code = code & Space(indent) & ".GradientVariant = " & LongToVBA(.GradientVariant) & Chr(13)
+            Call addCode(code, ".GradientVariant = " & LongToVBA(.GradientVariant))
         End If
         If .PresetGradientType <> iFillFormat.PresetGradientType Then
-            code = code & Space(indent) & ".PresetGradientType = " & MsoPresetGradientType(.PresetGradientType) & Chr(13)
+            Call addCode(code, ".PresetGradientType = " & MsoPresetGradientType(.PresetGradientType))
         End If
         If .PresetTexture <> iFillFormat.PresetTexture Then
-            code = code & Space(indent) & ".PresetTexture = " & MsoPresetTexture(.PresetTexture) & Chr(13)
+            Call addCode(code, ".PresetTexture = " & MsoPresetTexture(.PresetTexture))
         End If
         If .RotateWithObject <> iFillFormat.RotateWithObject Then
-            code = code & Space(indent) & ".RotateWithObject = " & MsoTriState(.RotateWithObject) & Chr(13)
+            Call addCode(code, ".RotateWithObject = " & MsoTriState(.RotateWithObject))
         End If
         If .TextureAlignment <> iFillFormat.TextureAlignment Then
-            code = code & Space(indent) & ".TextureAlignment = " & MsoTextureAlignment(.TextureAlignment) & Chr(13)
+            Call addCode(code, ".TextureAlignment = " & MsoTextureAlignment(.TextureAlignment))
         End If
         If .TextureHorizontalScale <> iFillFormat.TextureHorizontalScale Then
-            code = code & Space(indent) & ".TextureHorizontalScale = " & SingleToVBA(.TextureHorizontalScale) & Chr(13)
+            Call addCode(code, ".TextureHorizontalScale = " & SingleToVBA(.TextureHorizontalScale))
         End If
         If .TextureOffsetX <> iFillFormat.TextureOffsetX Then
-            code = code & Space(indent) & ".TextureOffsetX = " & SingleToVBA(.TextureOffsetX) & Chr(13)
+            Call addCode(code, ".TextureOffsetX = " & SingleToVBA(.TextureOffsetX))
         End If
         If .TextureOffsetY <> iFillFormat.TextureOffsetY Then
-            code = code & Space(indent) & ".TextureOffsetY = " & SingleToVBA(.TextureOffsetY) & Chr(13)
+            Call addCode(code, ".TextureOffsetY = " & SingleToVBA(.TextureOffsetY))
         End If
         If .TextureTile <> iFillFormat.TextureTile Then
-            code = code & Space(indent) & ".TextureTile = " & MsoTriState(.TextureTile) & Chr(13)
+            Call addCode(code, ".TextureTile = " & MsoTriState(.TextureTile))
         End If
         If .TextureType <> iFillFormat.TextureType Then
-            code = code & Space(indent) & ".TextureType = " & MsoTextureType(.TextureType) & Chr(13)
+            Call addCode(code, ".TextureType = " & MsoTextureType(.TextureType))
         End If
         If .TextureVerticalScale <> iFillFormat.TextureVerticalScale Then
-            code = code & Space(indent) & ".TextureVerticalScale = " & SingleToVBA(.TextureVerticalScale) & Chr(13)
+            Call addCode(code, ".TextureVerticalScale = " & SingleToVBA(.TextureVerticalScale))
         End If
         If .Transparency <> iFillFormat.Transparency Then
-            code = code & Space(indent) & ".Transparency = " & SingleToVBA(.Transparency) & Chr(13)
+            Call addCode(code, ".Transparency = " & SingleToVBA(.Transparency))
         End If
         If .iType <> iFillFormat.iType Then
-            code = code & Space(indent) & "'.Type = " & MsoFillType(.iType) & Chr(13)
+            Call addCode(code, "'.Type = " & MsoFillType(.iType))
         End If
         If .Visible <> iFillFormat.Visible Then
-            code = code & Space(indent) & ".Visible = " & MsoTriState(.Visible) & Chr(13)
+            Call addCode(code, ".Visible = " & MsoTriState(.Visible))
         End If
     End With
 
-    If code <> "" Then
-        code = Space(indent - 4) & "With " & propertyName & Chr(13) _
-            & code _
-            & Space(indent - 4) & "End With" & Chr(13)
-    End If
+    Call Utility.WrapCode(propertyName, code)
 
     compare = code
 
@@ -122,7 +119,7 @@ Public Sub init(ByVal iFillFormat As Office.FillFormat)
 
     With Me
     .iType = iFillFormat.Type
-    
+
     If iFillFormat.Type = msoFillMixed Then
         Set .BackColor = New_oColorFormat(iFillFormat.BackColor)
         Set .ForeColor = New_oColorFormat(iFillFormat.ForeColor)
@@ -243,10 +240,13 @@ err_:
 End Sub
 
 Sub DefaultValues()
+
     With Me
         Set .BackColor = New oColorFormat
         Call .BackColor.DefaultValues
         Set .ForeColor = New oColorFormat
         Call .ForeColor.DefaultValues
+        .RotateWithObject = msoTrue
     End With
+
 End Sub

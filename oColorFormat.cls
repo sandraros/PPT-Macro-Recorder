@@ -12,12 +12,16 @@ Attribute VB_Exposed = False
 Public Brightness As Single
 Public ObjectThemeColor As MsoThemeColorIndex
 Public RGB As MsoRGBType
+' Is SchemeColor obsolete?
 Public SchemeColor As Long
 Public TintAndShade As Single
 Public iType As MsoColorType ' Type
 
 
-Public Function compare(propertyName As String, iColorFormat As oColorFormat, indent As Integer) As String
+' ...GradientStops(1).Color
+'
+
+Public Function compare(propertyName As String, iColorFormat As oColorFormat) As String
 
     On Error GoTo err_
 
@@ -25,37 +29,36 @@ Public Function compare(propertyName As String, iColorFormat As oColorFormat, in
 
     If iColorFormat.iType = msoColorTypeMixed Then Exit Function
 
+    Dim code As String
     code = ""
 
     With Me
-        If .Brightness <> iColorFormat.Brightness Then
-            code = code & Space(indent) & ".Brightness = " & SingleToVBA(.Brightness) & Chr(13)
-        End If
-        If .ObjectThemeColor <> iColorFormat.ObjectThemeColor Then
-            code = code & Space(indent) & ".ObjectThemeColor = " & MsoThemeColorIndex(.ObjectThemeColor) & Chr(13)
+        If .iType = msoColorTypeScheme And _
+           .ObjectThemeColor <> iColorFormat.ObjectThemeColor Then
+            Call addCode(code, ".ObjectThemeColor = " & MsoThemeColorIndex(.ObjectThemeColor))
         End If
         If .iType = msoColorTypeRGB And _
             (.iType <> iColorFormat.iType Or .RGB <> iColorFormat.RGB) Then
-            code = code & Space(indent) & ".RGB = " & MsoRGBTypeToVBA(.RGB) & Chr(13)
+            Call addCode(code, ".RGB = " & MsoRGBTypeToVBA(.RGB))
         End If
-        If .iType = msoColorTypeScheme And _
-            (.iType <> iColorFormat.iType Or .SchemeColor <> iColorFormat.SchemeColor) Then
-            ' Not sure if there is an enumeration for SchemeColor values (class Office.ColorFormat)
-            code = code & Space(indent) & ".SchemeColor = " & ToVBA(.SchemeColor) & Chr(13)
+        'If .iType = msoColorTypeScheme And _
+        '    (.iType <> iColorFormat.iType Or .SchemeColor <> iColorFormat.SchemeColor) Then
+        '    ' Not sure if there is an enumeration for SchemeColor values (class Office.ColorFormat)
+        '    Call addCode(code, ".SchemeColor = " & ToVBA(.SchemeColor))
+        'End If
+        ' BRIGHTNESS must be applied after ObjectThemeColor which resets it
+        If .Brightness <> iColorFormat.Brightness Then
+            Call addCode(code, ".Brightness = " & SingleToVBA(.Brightness))
         End If
         If .TintAndShade <> iColorFormat.TintAndShade Then
-            code = code & Space(indent) & ".TintAndShade = " & SingleToVBA(.TintAndShade) & Chr(13)
+            Call addCode(code, ".TintAndShade = " & SingleToVBA(.TintAndShade))
         End If
-        If .iType <> iColorFormat.iType Then
-            code = code & Space(indent) & "'.Type = " & MsoColorType(.iType) & Chr(13)
-        End If
+        'If .iType <> iColorFormat.iType Then
+        '    Call addCode(code, "'.Type = " & MsoColorType(.iType))
+        'End If
     End With
 
-    If code <> "" Then
-        code = Space(indent - 4) & "With " & propertyName & Chr(13) _
-            & code _
-            & Space(indent - 4) & "End With" & Chr(13)
-    End If
+    Call Utility.WrapCode(propertyName, code)
 
     compare = code
 
@@ -80,15 +83,17 @@ Public Sub init(iColorFormat As Office.ColorFormat)
 
     With Me
         .Brightness = iColorFormat.Brightness
-        If iColorFormat.ObjectThemeColor <> msoNotThemeColor Then
+        If iColorFormat.Type = msoColorTypeScheme Then
             .ObjectThemeColor = iColorFormat.ObjectThemeColor
         End If
-        If iColorFormat.Type = msoColorTypeRGB Then
-            .RGB = iColorFormat.RGB
-        End If
-        If iColorFormat.Type = msoColorTypeScheme Then
-            .SchemeColor = iColorFormat.SchemeColor
-        End If
+        'If iColorFormat.Type = msoColorTypeRGB Then
+        'RGB should be returned for at least Type = msoColorTypeRGB and msoColorTypeScheme
+        '(RGB is calculated for msoColorTypeScheme, based on ObjectThemeColor and TintAndShade)
+        .RGB = iColorFormat.RGB
+        'End If
+        'If iColorFormat.Type = msoColorTypeScheme Then
+        '    .SchemeColor = iColorFormat.SchemeColor
+        'End If
         .TintAndShade = iColorFormat.TintAndShade
         .iType = iColorFormat.Type
     End With

@@ -86,139 +86,136 @@ Public WritePassword As String
 'ActivePresentation.Parent
 
 
-Public Function compare(propertyName As String, iPresentation As iPresentation, ByVal indent As Integer) As String
+Public Function compare(propertyName As String, iPresentation As iPresentation) As String
 
     On Error GoTo err_
 
     If IsCompared(Me) Then Exit Function
 
+    Dim code As String
     code = ""
 
     With Me
-        'code = code & .Application.compare("Application", iPresentation.Application, indent + 4)
+        'Call addCode(code, .Application.compare("Application", iPresentation.Application)
         If .AutoSaveOn <> iPresentation.AutoSaveOn Then
-            code = code & Space(indent) & ".AutoSaveOn = " & iPresentation.AutoSaveOn & Chr(13)
+            Call addCode(code, ".AutoSaveOn = " & iPresentation.AutoSaveOn)
         End If
-        If Not .BuiltInDocumentProperties Is iPresentation.BuiltInDocumentProperties Then
-            code = code & Space(indent) & "'TODO BuiltInDocumentProperties" & Chr(13)
-        End If
+        'If Not .BuiltInDocumentProperties Is iPresentation.BuiltInDocumentProperties Then
+        '    Call addCode(code, "'TODO BuiltInDocumentProperties")
+        'End If
         If .CreateVideoStatus <> iPresentation.CreateVideoStatus Then
-            code = code & Space(indent) & ".CreateVideoStatus = " & PpMediaTaskStatus(.CreateVideoStatus) & Chr(13)
+            Call addCode(code, ".CreateVideoStatus = " & PpMediaTaskStatus(.CreateVideoStatus))
         End If
-        If Not .CustomDocumentProperties Is iPresentation.CustomDocumentProperties Then
-            code = code & Space(indent) & "'TODO CustomDocumentProperties" & Chr(13)
-        End If
+        'If Not .CustomDocumentProperties Is iPresentation.CustomDocumentProperties Then
+        '    Call addCode(code, "'TODO CustomDocumentProperties")
+        'End If
         If .DefaultLanguageID <> iPresentation.DefaultLanguageID Then
-            code = code & Space(indent) & ".DefaultLanguageID = " & MsoLanguageID(.DefaultLanguageID) & Chr(13)
+            Call addCode(code, ".DefaultLanguageID = " & MsoLanguageID(.DefaultLanguageID))
         End If
-        'TODO code = code & .DefaultShape.compare("DefaultShape", iPresentation.DefaultShape, indent + 4)
+        'TODO Call addCode(code, .DefaultShape.compare("DefaultShape", iPresentation.DefaultShape)
         If .DisplayComments <> iPresentation.DisplayComments Then
-            code = code & Space(indent) & ".DisplayComments = " & MsoTriState(.DisplayComments) & Chr(13)
+            Call addCode(code, ".DisplayComments = " & MsoTriState(.DisplayComments))
         End If
         If .EncryptionProvider <> iPresentation.EncryptionProvider Then
-            code = code & Space(indent) & ".EncryptionProvider = " & iPresentation.EncryptionProvider & Chr(13)
+            Call addCode(code, ".EncryptionProvider = " & iPresentation.EncryptionProvider)
         End If
         If .EnvelopeVisible <> iPresentation.EnvelopeVisible Then
-            code = code & Space(indent) & ".EnvelopeVisible = " & MsoTriState(.EnvelopeVisible) & Chr(13)
+            Call addCode(code, ".EnvelopeVisible = " & MsoTriState(.EnvelopeVisible))
         End If
         If .FarEastLineBreakLanguage <> iPresentation.FarEastLineBreakLanguage Then
-            code = code & Space(indent) & ".FarEastLineBreakLanguage = " & MsoFarEastLineBreakLanguageID(.FarEastLineBreakLanguage) & Chr(13)
+            Call addCode(code, ".FarEastLineBreakLanguage = " & MsoFarEastLineBreakLanguageID(.FarEastLineBreakLanguage))
         End If
         If .FarEastLineBreakLevel <> iPresentation.FarEastLineBreakLevel Then
-            code = code & Space(indent) & ".FarEastLineBreakLevel = " & PpFarEastLineBreakLevel(.FarEastLineBreakLevel) & Chr(13)
+            Call addCode(code, ".FarEastLineBreakLevel = " & PpFarEastLineBreakLevel(.FarEastLineBreakLevel))
         End If
         If .Final <> iPresentation.Final Then
-            code = code & Space(indent) & ".Final = " & iPresentation.Final & Chr(13)
+            Call addCode(code, ".Final = " & iPresentation.Final)
         End If
         If .FullName <> iPresentation.FullName Then
-            code = code & Space(indent) & ".FullName = " & iPresentation.FullName & Chr(13)
+            Call addCode(code, ".FullName = " & iPresentation.FullName)
         End If
         If .GridDistance <> iPresentation.GridDistance Then
-            code = code & Space(indent) & ".GridDistance = " & SingleToVBA(.GridDistance) & Chr(13)
+            Call addCode(code, ".GridDistance = " & SingleToVBA(.GridDistance))
         End If
         If .HasHandoutMaster <> iPresentation.HasHandoutMaster Then
-            code = code & Space(indent) & ".HasHandoutMaster = " & iPresentation.HasHandoutMaster & Chr(13)
+            Call addCode(code, ".HasHandoutMaster = " & iPresentation.HasHandoutMaster)
         End If
         If .HasNotesMaster <> iPresentation.HasNotesMaster Then
-            code = code & Space(indent) & ".HasNotesMaster = " & iPresentation.HasNotesMaster & Chr(13)
+            Call addCode(code, ".HasNotesMaster = " & iPresentation.HasNotesMaster)
         End If
         If .HasTitleMaster <> iPresentation.HasTitleMaster Then
-            code = code & Space(indent) & ".HasTitleMaster = " & MsoTriState(.HasTitleMaster) & Chr(13)
+            Call addCode(code, ".HasTitleMaster = " & MsoTriState(.HasTitleMaster))
         End If
         If .HasVBProject <> iPresentation.HasVBProject Then
-            code = code & Space(indent) & ".HasVBProject = " & iPresentation.HasVBProject & Chr(13)
+            Call addCode(code, ".HasVBProject = " & iPresentation.HasVBProject)
         End If
         If .InMergeMode <> iPresentation.InMergeMode Then
-            code = code & Space(indent) & ".InMergeMode = " & iPresentation.InMergeMode & Chr(13)
+            Call addCode(code, ".InMergeMode = " & iPresentation.InMergeMode)
         End If
         If .LayoutDirection <> iPresentation.LayoutDirection Then
-            code = code & Space(indent) & ".LayoutDirection = " & PpDirection(.LayoutDirection) & Chr(13)
+            Call addCode(code, ".LayoutDirection = " & PpDirection(.LayoutDirection))
         End If
         If .Name <> iPresentation.Name Then
-            code = code & Space(indent) & ".Name = " & iPresentation.Name & Chr(13)
+            Call addCode(code, ".Name = " & iPresentation.Name)
         End If
         If .NoLineBreakAfter <> iPresentation.NoLineBreakAfter Then
-            code = code & Space(indent) & ".NoLineBreakAfter = " & iPresentation.NoLineBreakAfter & Chr(13)
+            Call addCode(code, ".NoLineBreakAfter = " & iPresentation.NoLineBreakAfter)
         End If
         If .NoLineBreakBefore <> iPresentation.NoLineBreakBefore Then
-            code = code & Space(indent) & ".NoLineBreakBefore = " & iPresentation.NoLineBreakBefore & Chr(13)
+            Call addCode(code, ".NoLineBreakBefore = " & iPresentation.NoLineBreakBefore)
         End If
-        If Not .Parent Is iPresentation.Parent Then
-            code = code & Space(indent) & "'TODO Parent"
-        End If
+        'If Not .Parent Is iPresentation.Parent Then
+        '    Call addCode(code, "'TODO Parent")
+        'End If
         If .Password <> iPresentation.Password Then
-            code = code & Space(indent) & ".Password = " & iPresentation.Password & Chr(13)
+            Call addCode(code, ".Password = " & iPresentation.Password)
         End If
         If .PasswordEncryptionAlgorithm <> iPresentation.PasswordEncryptionAlgorithm Then
-            code = code & Space(indent) & ".PasswordEncryptionAlgorithm = " & iPresentation.PasswordEncryptionAlgorithm & Chr(13)
+            Call addCode(code, ".PasswordEncryptionAlgorithm = " & iPresentation.PasswordEncryptionAlgorithm)
         End If
         If .PasswordEncryptionFileProperties <> iPresentation.PasswordEncryptionFileProperties Then
-            code = code & Space(indent) & ".PasswordEncryptionFileProperties = " & iPresentation.PasswordEncryptionFileProperties & Chr(13)
+            Call addCode(code, ".PasswordEncryptionFileProperties = " & iPresentation.PasswordEncryptionFileProperties)
         End If
         If .PasswordEncryptionKeyLength <> iPresentation.PasswordEncryptionKeyLength Then
-            code = code & Space(indent) & ".PasswordEncryptionKeyLength = " & LongToVBA(.PasswordEncryptionKeyLength) & Chr(13)
+            Call addCode(code, ".PasswordEncryptionKeyLength = " & LongToVBA(.PasswordEncryptionKeyLength))
         End If
         If .PasswordEncryptionProvider <> iPresentation.PasswordEncryptionProvider Then
-            code = code & Space(indent) & ".PasswordEncryptionProvider = " & iPresentation.PasswordEncryptionProvider & Chr(13)
+            Call addCode(code, ".PasswordEncryptionProvider = " & iPresentation.PasswordEncryptionProvider)
         End If
         If .Path <> iPresentation.Path Then
-            code = code & Space(indent) & ".Path = " & iPresentation.Path & Chr(13)
+            Call addCode(code, ".Path = " & iPresentation.Path)
         End If
         If .ReadOnly <> iPresentation.ReadOnly Then
-            code = code & Space(indent) & ".ReadOnly = " & MsoTriState(.ReadOnly) & Chr(13)
+            Call addCode(code, ".ReadOnly = " & MsoTriState(.ReadOnly))
         End If
         If .ReadOnlyRecommended <> iPresentation.ReadOnlyRecommended Then
-            code = code & Space(indent) & ".ReadOnlyRecommended = " & iPresentation.ReadOnlyRecommended & Chr(13)
+            Call addCode(code, ".ReadOnlyRecommended = " & iPresentation.ReadOnlyRecommended)
         End If
         If .RemovePersonalInformation <> iPresentation.RemovePersonalInformation Then
-            code = code & Space(indent) & ".RemovePersonalInformation = " & MsoTriState(.RemovePersonalInformation) & Chr(13)
+            Call addCode(code, ".RemovePersonalInformation = " & MsoTriState(.RemovePersonalInformation))
         End If
         'If .Saved <> iPresentation.Saved Then
-        '    code = code & Space(indent) & ".Saved = " & MsoTriState(.Saved) & Chr(13)
+        '    Call addCode(code, ".Saved = " & MsoTriState(.Saved))
         'End If
-        code = code & .Slides.compare(".Slides", iPresentation.Slides, indent + 4)
+        Call addCode(code, .Slides.compare(".Slides", iPresentation.Slides))
         If .SnapToGrid <> iPresentation.SnapToGrid Then
-            code = code & Space(indent) & ".SnapToGrid = " & MsoTriState(.SnapToGrid) & Chr(13)
+            Call addCode(code, ".SnapToGrid = " & MsoTriState(.SnapToGrid))
         End If
         If .TemplateName <> iPresentation.TemplateName Then
-            code = code & Space(indent) & ".TemplateName = " & iPresentation.TemplateName & Chr(13)
+            Call addCode(code, ".TemplateName = " & iPresentation.TemplateName)
         End If
         If .VBASigned <> iPresentation.VBASigned Then
-            code = code & Space(indent) & ".VBASigned = " & MsoTriState(.VBASigned) & Chr(13)
+            Call addCode(code, ".VBASigned = " & MsoTriState(.VBASigned))
         End If
         If .WorkIdentity <> iPresentation.WorkIdentity Then
-            code = code & Space(indent) & ".WorkIdentity = " & iPresentation.WorkIdentity & Chr(13)
+            Call addCode(code, ".WorkIdentity = " & iPresentation.WorkIdentity)
         End If
         If .WritePassword <> iPresentation.WritePassword Then
-            code = code & Space(indent) & ".WritePassword = " & iPresentation.WritePassword & Chr(13)
+            Call addCode(code, ".WritePassword = " & iPresentation.WritePassword)
         End If
     End With
 
-    If code <> "" Then
-        code = Space(indent - 4) & "With " & propertyName & Chr(13) _
-            & code _
-            & Space(indent - 4) & "End With" & Chr(13)
-    End If
+    Call Utility.WrapCode(propertyName, code)
 
     compare = code
 

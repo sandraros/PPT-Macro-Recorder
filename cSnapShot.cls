@@ -7,7 +7,9 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = False
-Public iApplication As New iApplication
+Public iSelection As New iSelection
+Public iPresentation As New iPresentation
+'Public iApplication As New iApplication
 Public allObjects As New Collection
 Public allObjectClasses As New Collection
 Public MyObjPtrs As Collection

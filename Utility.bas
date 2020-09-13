@@ -42,15 +42,16 @@ End Sub
 
 Function CompareCollection( _
         collection2 As Collection, _
-        collection1 As Collection, _
-        indent As Integer _
+        collection1 As Collection _
         ) As String
-
+'indent As Integer
     Dim snapshot1 As cSnapShot
     Dim snapshot2 As cSnapShot
     Dim myObject1 As Object
     Dim myObject2 As Object
+    Dim code As String
 
+    code = ""
     Set snapshot1 = snapshots(1)
     Set snapshot2 = snapshots(2)
 
@@ -58,9 +59,9 @@ Function CompareCollection( _
         Set myObject2 = collection2.Item(i)
         Set myObject1 = FindMyObjectInTargetSnapshot(snapshot2, myObject2, snapshot1)
         If Not myObject1 Is Nothing Then
-            code = code & myObject2.compare(".Item(" & CStr(i) & ")", myObject1, indent)
+            Call addCode(code, myObject2.compare(".Item(" & CStr(i) & ")", myObject1))
         Else
-            code = code & myObject2.Create(indent)
+            Call addCode(code, myObject2.create(indent))
         End If
     Next
 
@@ -68,9 +69,11 @@ Function CompareCollection( _
         Set myObject1 = collection1.Item(i)
         Set myObject2 = FindMyObjectInTargetSnapshot(snapshot1, myObject1, snapshot2)
         If myObject2 Is Nothing Then
-            code = code & myObject1.Delete(indent)
+            Call addCode(code, myObject1.delete(indent))
         End If
     Next
+
+    'Call Utility.WrapCode("", code)
 
     CompareCollection = code
 
@@ -164,3 +167,116 @@ Public Function ExistsInCollection(col As Collection, key As Variant) As Boolean
 err:
     ExistsInCollection = False
 End Function
+
+Sub WrapCode(objectName As String, code As String)
+
+    ' Wrap the code with superior property
+    '
+    ' Example 1: .ForeColor + .RGB = RGB(0, 176, 240)               -> .ForeColor.RGB = RGB(0, 176, 240)
+    '
+    ' Example 2: .Line      + .DashStyle = msoLineSysDot            -> With .Line
+    '                         .ForeColor.RGB = RGB(0, 176, 240)            .DashStyle = msoLineSysDot
+    '                                                                      .ForeColor.RGB = RGB(0, 176, 240)
+    '                                                                  End With
+    '
+    ' Example 3: .Item(1)   + With .Line                            -> With .Item(1).Line
+    '                             .DashStyle = msoLineSysDot               .DashStyle = msoLineSysDot
+    '                             .ForeColor.RGB = RGB(0, 176, 240)        .ForeColor.RGB = RGB(0, 176, 240)
+    '                         End With                                 End With
+
+    Dim arr() As String
+    Dim numberOfLines As Integer
+
+    If code = "" Then Exit Sub
+
+    ' Count number of "lines" (if code is a block With ... End With,
+    ' it is counted as only one line, because lines are separated with chr(10)
+    ' Example of code which contains one line:
+    '   With .Line
+    '       .DashStyle = msoLineSysDot
+    '       .ForeColor.RGB = RGB(0, 176, 240)
+    '   End With
+    ' Example of code which contains one line:
+    '   .DashStyle = msoLineSysDot
+    ' Example of code which contains two lines:
+    '   .DashStyle = msoLineSysDot
+    '   .ForeColor.RGB = RGB(0, 176, 240)
+    arr = Split(code, Chr(13))
+    numberOfLines = UBound(arr) - LBound(arr)
+    If arr(UBound(arr)) <> "" Then
+        numberOfLines = numberOfLines + 1
+    Else
+        ReDim Preserve arr(UBound(arr) - 1)
+    End If
+
+    If Left(code, 1) = "." And numberOfLines = 1 Then
+        ' code before: .RGB = RGB(0, 176, 240)
+        ' objectName: .ForeColor
+        ' code after: .ForeColor.RGB = RGB(0, 176, 240)
+        code = objectName & code
+    ElseIf Left(code, 6) <> "With ." Or numberOfLines > 1 Then
+        ' code before: .DashStyle = msoLineSysDot
+        '              .ForeColor.RGB = RGB(0, 176, 240)
+        ' objectName: .Line
+        ' code after: With .Line
+        '                 .DashStyle = msoLineSysDot
+        '                 .ForeColor.RGB = RGB(0, 176, 240)
+        '             End With
+        Call addCode(code, "With " & objectName)
+        Call addCode(code, indentCode(code, 4))
+        Call addCode(code, "End With")
+        ' This part is very important, it will permit to count
+        ' any number of lines separated with chr(10) to be counted
+        ' at the next call of WrapCode as only one line, so that
+        ' to not generate a useless With ... End With block.
+        code = Replace(code, Chr(13), Chr(10))
+    Else
+        ' code before: With .Line
+        '                  .DashStyle = msoLineSysDot
+        '                  .ForeColor.RGB = RGB(0, 176, 240)
+        '              End With
+        ' objectName: .Item(1)
+        ' code after: With .Item(1).Line
+        '                 .DashStyle = msoLineSysDot
+        '                 .ForeColor.RGB = RGB(0, 176, 240)
+        '             End With
+        code = "With " & objectName & Mid(code, 6)
+        ' Replacement as explained previously
+        code = Replace(code, Chr(13), Chr(10))
+    End If
+
+End Sub
+
+Function indentCode(code As String, indent As String) As String
+
+    Dim arr() As String
+    Dim numberOfLines As Integer
+    Dim code2 As String
+
+    If code = "" Then Exit Function
+
+    arr = Split(Replace(code, Chr(10), Chr(13)), Chr(13))
+    If arr(UBound(arr)) = "" Then
+        ReDim Preserve arr(UBound(arr) - 1)
+    End If
+
+    code2 = ""
+    For i = LBound(arr) To UBound(arr)
+        Call addCode(code2, Space(indent) & arr(i))
+    Next
+
+    indentCode = code2
+
+End Function
+
+Sub addCode(code As String, Line As String)
+
+    If Line = "" Then Exit Sub
+
+    If code = "" Then
+        code = Line
+    Else
+        code = code & Line & Chr(13)
+    End If
+
+End Sub

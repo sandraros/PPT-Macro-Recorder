@@ -15,29 +15,26 @@ Public Transparency As Single
 '
 
 
-Public Function compare(propertyName As String, iGlowFormat As iGlowFormat, indent As Integer) As String
+Public Function compare(propertyName As String, iGlowFormat As iGlowFormat) As String
 
     On Error GoTo err_
 
     If IsCompared(Me) Then Exit Function
 
+    Dim code As String
     code = ""
 
     With Me
-        code = code & .Color.compare(".Color", iGlowFormat.Color, indent + 4)
+        Call addCode(code, .Color.compare(".Color", iGlowFormat.Color))
         If .Radius <> iGlowFormat.Radius Then
-            code = code & Space(indent) & ".Radius = " & SingleToVBA(.Radius) & Chr(13)
+            Call addCode(code, ".Radius = " & SingleToVBA(.Radius))
         End If
         If .Transparency <> iGlowFormat.Transparency Then
-            code = code & Space(indent) & ".Transparency = " & SingleToVBA(.Transparency) & Chr(13)
+            Call addCode(code, ".Transparency = " & SingleToVBA(.Transparency))
         End If
     End With
 
-    If code <> "" Then
-        code = Space(indent - 4) & "With " & propertyName & Chr(13) _
-            & code _
-            & Space(indent - 4) & "End With" & Chr(13)
-    End If
+    Call Utility.WrapCode(propertyName, code)
 
     compare = code
 

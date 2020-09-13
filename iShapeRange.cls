@@ -11,7 +11,6 @@ Attribute VB_Exposed = False
 'Public Adjustments As iAdjustments
 Public AlternativeText As String
 'Public AnimationSettings As iAnimationSettings
-Public Application As Object
 Public AutoShapeType As MsoAutoShapeType
 Public BackgroundStyle As MsoBackgroundStyleIndex
 Public BlackWhiteMode As MsoBlackWhiteMode
@@ -41,7 +40,7 @@ Public Id As Long
 Public InkXML As String
 Public IsNarration As MsoTriState
 Public Left As Single
-'public Line
+Public Line As iLineFormat
 'public LinkFormat as iLinkFormat
 Public LockAspectRatio As MsoTriState
 'Public MediaFormat As iMediaFormat
@@ -50,7 +49,6 @@ Public MediaType As PpMediaType
 Public Name As String
 'public Nodes as iShapeNodes
 'public OLEFormat as iOLEFormat
-Public Parent As Object
 Public ParentGroup As iShape
 'Public PictureFormat As iPictureFormat
 'Public PlaceholderFormat As iPlaceholderFormat
@@ -75,26 +73,151 @@ Public Visible As MsoTriState
 Public Width As Single
 Public ZOrderPosition As Long
 
+Public Items As Collection
+
 
 'ActiveWindow.Selection.ShapeRange.ZOrderPosition
 
 
-Public Function compare(propertyName As String, iShapeRange As iShapeRange, indent As Integer) As String
+Public Function compare(propertyName As String, iShapeRange As iShapeRange) As String
+
+    Dim iShape As iShape
 
     On Error GoTo err_
 
     If IsCompared(Me) Then Exit Function
 
+    Dim code As String
     code = ""
 
-    With Me
-    End With
+    If Me.Items.Count = 1 Then
+        Set iShape = Me.Items(1)
+        Call addCode(code, Utility.CompareCollection(Me.Items, iShapeRange.Items))
+    Else
 
-    If code <> "" Then
-        code = Space(indent - 4) & "With " & propertyName & Chr(13) _
-            & code _
-            & Space(indent - 4) & "End With" & Chr(13)
+        With Me
+            If .AlternativeText <> iShapeRange.AlternativeText Then
+                Call addCode(code, ".AlternativeText = " & iShapeRange.AlternativeText)
+            End If
+            'If .Application <> iShapeRange.Application Then
+            '    Call addCode(code, ".Application = " & iShapeRange.Application)
+            'End If
+            If .AutoShapeType <> iShapeRange.AutoShapeType Then
+                Call addCode(code, ".AutoShapeType = " & MsoAutoShapeType(.AutoShapeType))
+            End If
+            If .BackgroundStyle <> iShapeRange.BackgroundStyle Then
+                Call addCode(code, ".BackgroundStyle = " & MsoBackgroundStyleIndex(.BackgroundStyle))
+            End If
+            If .BlackWhiteMode <> iShapeRange.BlackWhiteMode Then
+                Call addCode(code, ".BlackWhiteMode = " & MsoBlackWhiteMode(.BlackWhiteMode))
+            End If
+            If .Child <> iShapeRange.Child Then
+                Call addCode(code, ".Child = " & MsoTriState(.Child))
+            End If
+            'If .ConnectionSiteCount <> iShapeRange.ConnectionSiteCount Then
+            '    Call addCode(code, ".ConnectionSiteCount = " & LongToVBA(.ConnectionSiteCount))
+            'End If
+            If .Connector <> iShapeRange.Connector Then
+                Call addCode(code, ".Connector = " & MsoTriState(.Connector))
+            End If
+            'If .Creator <> iShapeRange.Creator Then
+            '    Call addCode(code, ".Creator = " & LongToVBA(.Creator))
+            'End If
+            If .Decorative <> iShapeRange.Decorative Then
+                Call addCode(code, ".Decorative = " & MsoTriState(.Decorative))
+            End If
+            Call addCode(code, .Fill.compare(".Fill", iShapeRange.Fill))
+            Call addCode(code, .Glow.compare(".Glow", iShapeRange.Glow))
+            If .GraphicStyle <> iShapeRange.GraphicStyle Then
+                Call addCode(code, ".GraphicStyle = " & MsoGraphicStyleIndex(.GraphicStyle))
+            End If
+            If .HasChart <> iShapeRange.HasChart Then
+                Call addCode(code, ".HasChart = " & MsoTriState(.HasChart))
+            End If
+            If .HasInkXML <> iShapeRange.HasInkXML Then
+                Call addCode(code, ".HasInkXML = " & MsoTriState(.HasInkXML))
+            End If
+            If .HasSectionZoom <> iShapeRange.HasSectionZoom Then
+                Call addCode(code, ".HasSectionZoom = " & MsoTriState(.HasSectionZoom))
+            End If
+            If .HasSmartArt <> iShapeRange.HasSmartArt Then
+                Call addCode(code, ".HasSmartArt = " & MsoTriState(.HasSmartArt))
+            End If
+            If .HasTable <> iShapeRange.HasTable Then
+                Call addCode(code, ".HasTable = " & MsoTriState(.HasTable))
+            End If
+            If .HasTextFrame <> iShapeRange.HasTextFrame Then
+                Call addCode(code, ".HasTextFrame = " & MsoTriState(.HasTextFrame))
+            End If
+            If .Height <> iShapeRange.Height Then
+                Call addCode(code, ".Height = " & SingleToVBA(.Height))
+            End If
+            If .HorizontalFlip <> iShapeRange.HorizontalFlip Then
+                Call addCode(code, ".HorizontalFlip = " & MsoTriState(.HorizontalFlip))
+            End If
+            'If .Id <> iShapeRange.Id Then
+            '    Call addCode(code, ".Id = " & LongToVBA(.Id))
+            'End If
+            If .InkXML <> iShapeRange.InkXML Then
+                Call addCode(code, ".InkXML = " & iShapeRange.InkXML)
+            End If
+            If .IsNarration <> iShapeRange.IsNarration Then
+                Call addCode(code, ".IsNarration = " & MsoTriState(.IsNarration))
+            End If
+            If .Left <> iShapeRange.Left Then
+                Call addCode(code, ".Left = " & ToVBA(.Left))
+            End If
+            If .LockAspectRatio <> iShapeRange.LockAspectRatio Then
+                Call addCode(code, ".LockAspectRatio = " & MsoTriState(.LockAspectRatio))
+            End If
+            If .MediaType <> iShapeRange.MediaType Then
+                Call addCode(code, ".MediaType = " & PpMediaType(.MediaType))
+            End If
+            If .Name <> iShapeRange.Name Then
+                Call addCode(code, ".Name = " & ToVBA(.Name))
+            End If
+            If Not .ParentGroup Is Nothing Then
+                'TODO Call addCode(code, .ParentGroup.compare("ParentGroup", iShapeRange.ParentGroup)
+            End If
+            Call addCode(code, .Reflection.compare(".Reflection", iShapeRange.Reflection))
+            If .Rotation <> iShapeRange.Rotation Then
+                Call addCode(code, ".Rotation = " & SingleToVBA(.Rotation))
+            End If
+            Call addCode(code, .Shadow.compare(".Shadow", iShapeRange.Shadow))
+            If .ShapeStyle <> iShapeRange.ShapeStyle Then
+                Call addCode(code, "'.ShapeStyle = " & MsoShapeStyleIndex(.ShapeStyle))
+            End If
+            Call addCode(code, .TextFrame.compare(".TextFrame", iShapeRange.TextFrame))
+            Call addCode(code, .TextFrame2.compare(".TextFrame2", iShapeRange.TextFrame2))
+            'Public ThreeD As iThreeDFormat
+            If .Title <> iShapeRange.Title Then
+                Call addCode(code, ".Title = " & .Title)
+            End If
+            If .Top <> iShapeRange.Top Then
+                Call addCode(code, ".Top = " & SingleToVBA(.Top))
+            End If
+            If .iType <> iShapeRange.iType Then
+                Call addCode(code, ".Type = " & MsoShapeType(.iType))
+            End If
+            If .VerticalFlip <> iShapeRange.VerticalFlip Then
+                Call addCode(code, ".VerticalFlip = " & MsoTriState(.VerticalFlip))
+            End If
+            If .Vertices <> iShapeRange.Vertices Then
+                Call addCode(code, ".Vertices = " & .Vertices)
+            End If
+            If .Visible <> iShapeRange.Visible Then
+                Call addCode(code, ".Visible = " & MsoTriState(.Visible))
+            End If
+            If .Width <> iShapeRange.Width Then
+                Call addCode(code, ".Width = " & SingleToVBA(.Width))
+            End If
+            'If .ZOrderPosition <> iShapeRange.ZOrderPosition Then
+            '    Call addCode(code, ".ZOrderPosition = " & LongToVBA(.ZOrderPosition))
+            'End If
+        End With
     End If
+
+    Call Utility.WrapCode(propertyName, code)
 
     compare = code
 
@@ -155,12 +278,12 @@ Public Sub init(iShapeRange As ShapeRange)
             .InkXML = iShapeRange.InkXML
         End If
         .IsNarration = iShapeRange.IsNarration
+        Set .Items = New Collection
+        For i = 1 To iShapeRange.Count
+            Call .Items.Add(New_iShape(iShapeRange.Item(i)))
+        Next
         .Left = iShapeRange.Left
-        If iShapeRange.Line.Visible = msoTrue Then
-            'TODO Call LineFormat(iShapeRange.Line, oShape.Line)
-        Else
-            'TODO .Line.Visible = msoFalse
-        End If
+        Set .Line = New_iLineFormat(iShapeRange.Line)
         If iShapeRange.Type = msoLinkedOLEObject Or iShapeRange.Type = msoLinkedPicture Then
           'TODO LinkFormat
         End If
@@ -173,7 +296,6 @@ Public Sub init(iShapeRange As ShapeRange)
         If iShapeRange.Type = msoOLEControlObject Then
           'TODO OLEFormat
         End If
-        Set .Parent = iShapeRange.Parent
         If iShapeRange.Child Then
             Set .ParentGroup = New_iShape(iShapeRange.ParentGroup)
         End If
@@ -183,9 +305,9 @@ Public Sub init(iShapeRange As ShapeRange)
         If iShapeRange.Type = msoPlaceholder Then
             'TODO Placeholder
         End If
-        If iShapeRange.Reflection.Type <> msoReflectionTypeMixed And iShapeRange.Reflection.Type <> msoReflectionTypeNone Then
-            Set .Reflection = New_iReflectionFormat(iShapeRange.Reflection)
-        End If
+        'If iShapeRange.Reflection.Type <> msoReflectionTypeMixed And iShapeRange.Reflection.Type <> msoReflectionTypeNone Then
+        Set .Reflection = New_iReflectionFormat(iShapeRange.Reflection)
+        'End If
         .Rotation = iShapeRange.Rotation
         Set .Shadow = New_iShadowFormat(iShapeRange.Shadow)
         If iShapeRange.ShapeStyle <> msoShapeStyleNotAPreset Then

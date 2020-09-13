@@ -15,22 +15,19 @@ Public Parent As Object
 'ActivePresentation.Windows.Parent
 
 
-Public Function compare(propertyName As String, iDocumentWindows As iDocumentWindows, indent As Integer) As String
+Public Function compare(propertyName As String, iDocumentWindows As iDocumentWindows) As String
 
     On Error GoTo err_
 
     If IsCompared(Me) Then Exit Function
 
+    Dim code As String
     code = ""
 
     With Me
     End With
 
-    If code <> "" Then
-        code = Space(indent - 4) & "With " & propertyName & Chr(13) _
-            & code _
-            & Space(indent - 4) & "End With" & Chr(13)
-    End If
+    Call Utility.WrapCode(propertyName, code)
 
     compare = code
 

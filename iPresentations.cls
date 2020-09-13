@@ -16,32 +16,29 @@ Public Items As Collection
 'Application.Presentations.Count
 
 
-Public Function compare(propertyName As String, iPresentations As iPresentations, indent As Integer) As String
+Public Function compare(propertyName As String, iPresentations As iPresentations) As String
 
     On Error GoTo err_
 
     If IsCompared(Me) Then Exit Function
 
+    Dim code As String
     code = ""
 
     With Me
         'If Not .Application Is iPresentations.Application Then
-        '    code = code & "'TODO Application" & Chr(13)
+        '    Call addCode(code, "'TODO Application")
         'End If
         If .Count <> iPresentations.Count Then
-            code = code & Space(indent) & ".Count = " & LongToVBA(.Count) & Chr(13)
+            Call addCode(code, ".Count = " & LongToVBA(.Count))
         End If
-        If Not .Parent Is iPresentations.Parent Then
-            code = code & Space(indent) & "'TODO Parent" & Chr(13)
-        End If
-        code = code & Utility.CompareCollection(.Items, iPresentations.Items, indent + 4)
+        'If Not .Parent Is iPresentations.Parent Then
+        '    Call addCode(code, "'TODO Parent")
+        'End If
+        Call addCode(code, Utility.CompareCollection(.Items, iPresentations.Items))
     End With
 
-    If code <> "" Then
-        code = Space(indent - 4) & "With " & propertyName & Chr(13) _
-            & code _
-            & Space(indent - 4) & "End With" & Chr(13)
-    End If
+    Call Utility.WrapCode(propertyName, code)
 
     compare = code
 

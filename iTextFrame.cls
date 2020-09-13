@@ -9,7 +9,6 @@ Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = False
 'SUPERSEDED WITH ITEXTFRAME2
 
-Public Application As Object
 Public AutoSize As PpAutoSize
 Public Creator As Long
 Public HasText As MsoTriState
@@ -19,7 +18,6 @@ Public MarginLeft As Single
 Public MarginRight As Single
 Public MarginTop As Single
 Public Orientation As MsoTextOrientation
-Public Parent As Object
 'Public Ruler As iRuler
 Public TextRange As iTextRange
 Public VerticalAnchor As MsoVerticalAnchor
@@ -29,22 +27,19 @@ Public WordWrap As MsoTriState
 'ActiveWindow.Selection.ShapeRange.TextFrame.WordWrap
 
 
-Public Function compare(propertyName As String, iTextFrame As iTextFrame, indent As Integer) As String
+Public Function compare(propertyName As String, iTextFrame As iTextFrame) As String
 
     On Error GoTo err_
 
     If IsCompared(Me) Then Exit Function
 
+    Dim code As String
     code = ""
 
     With Me
     End With
 
-    If code <> "" Then
-        code = Space(indent - 4) & "With " & propertyName & Chr(13) _
-            & code _
-            & Space(indent - 4) & "End With" & Chr(13)
-    End If
+    Call Utility.WrapCode(propertyName, code)
 
     compare = code
 
@@ -64,7 +59,6 @@ Public Sub init(iTextFrame As TextFrame)
     On Error GoTo err_
 
     With Me
-        Set .Application = iTextFrame.Application
         .AutoSize = iTextFrame.AutoSize
         .Creator = iTextFrame.Creator
         .HasText = iTextFrame.HasText
@@ -74,7 +68,6 @@ Public Sub init(iTextFrame As TextFrame)
         .MarginRight = iTextFrame.MarginRight
         .MarginTop = iTextFrame.MarginTop
         .Orientation = iTextFrame.Orientation
-        Set .Parent = iTextFrame.Parent
         Set .TextRange = New_iTextRange(iTextFrame.TextRange)
         .VerticalAnchor = iTextFrame.VerticalAnchor
         .WordWrap = iTextFrame.WordWrap
@@ -90,5 +83,3 @@ err_:
     #End If
 
 End Sub
-
-

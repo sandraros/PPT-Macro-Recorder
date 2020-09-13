@@ -26,12 +26,13 @@ Public Visible As MsoTriState
 'ActiveWindow.Selection.ShapeRange.TextFrame2.TextRange.Font.Shadow.Application
 
 
-Public Function compare(propertyName As String, iShadowFormat As iShadowFormat, indent As Integer) As String
+Public Function compare(propertyName As String, iShadowFormat As iShadowFormat) As String
 
     On Error GoTo err_
 
     If IsCompared(Me) Then Exit Function
 
+    Dim code As String
     code = ""
 
     With Me
@@ -43,46 +44,43 @@ Public Function compare(propertyName As String, iShadowFormat As iShadowFormat, 
         End If
 
         If .Blur <> iShadowFormat.Blur Then
-            code = code & Space(indent) & ".Blur = " & SingleToVBA(.Blur) & Chr(13)
+            Call addCode(code, ".Blur = " & SingleToVBA(.Blur))
         End If
-        code = code & .ForeColor.compare(".ForeColor", iShadowFormat.ForeColor, indent + 4)
+        Call addCode(code, .ForeColor.compare(".ForeColor", iShadowFormat.ForeColor))
         If .Obscured <> iShadowFormat.Obscured Then
-            code = code & Space(indent) & ".Obscured = " & MsoTriState(.Obscured) & Chr(13)
+            Call addCode(code, ".Obscured = " & MsoTriState(.Obscured))
         End If
         If .OffsetX <> iShadowFormat.OffsetX Then
-            code = code & Space(indent) & ".OffsetX = " & SingleToVBA(.OffsetX) & Chr(13)
+            Call addCode(code, ".OffsetX = " & SingleToVBA(.OffsetX))
         End If
         If .OffsetY <> iShadowFormat.OffsetY Then
-            code = code & Space(indent) & ".OffsetY = " & SingleToVBA(.OffsetY) & Chr(13)
+            Call addCode(code, ".OffsetY = " & SingleToVBA(.OffsetY))
         End If
         'If Not .Parent Is iShadowFormat.Parent Then
-        '    code = code & "'TODO Parent"
+        '    Call addCode(code, "'TODO Parent"
         'End If
         If .RotateWithShape <> iShadowFormat.RotateWithShape Then
-            code = code & Space(indent) & ".RotateWithShape = " & MsoTriState(.RotateWithShape) & Chr(13)
+            Call addCode(code, ".RotateWithShape = " & MsoTriState(.RotateWithShape))
         End If
         If .Size <> iShadowFormat.Size Then
-            code = code & Space(indent) & ".Size = " & SingleToVBA(.Size) & Chr(13)
+            Call addCode(code, ".Size = " & SingleToVBA(.Size))
         End If
-        If .Style <> iShadowFormat.Style Then
-            code = code & Space(indent) & "'.Style = " & MsoShadowStyle(.Style) & Chr(13)
-        End If
+        ' STYLE TODO
+        'If .Style <> iShadowFormat.Style Then
+        '    Call addCode(code, "'.Style = " & MsoShadowStyle(.Style))
+        'End If
         If .Transparency <> iShadowFormat.Transparency Then
-            code = code & Space(indent) & ".Transparency = " & SingleToVBA(.Transparency) & Chr(13)
+            Call addCode(code, ".Transparency = " & SingleToVBA(.Transparency))
         End If
         If .iType <> iShadowFormat.iType Then
-            code = code & Space(indent) & "'.Type = " & MsoShadowType(.iType) & Chr(13)
+            Call addCode(code, "'.Type = " & MsoShadowType(.iType))
         End If
         If .Visible <> iShadowFormat.Visible Then
-            code = code & Space(indent) & ".Visible = " & MsoTriState(.Visible) & Chr(13)
+            Call addCode(code, ".Visible = " & MsoTriState(.Visible))
         End If
     End With
 
-    If code <> "" Then
-        code = Space(indent - 4) & "With " & propertyName & Chr(13) _
-            & code _
-            & Space(indent - 4) & "End With" & Chr(13)
-    End If
+    Call Utility.WrapCode(propertyName, code)
 
     compare = code
 

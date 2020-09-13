@@ -31,75 +31,72 @@ Public Underline As MsoTriState
 'ActiveWindow.Selection.ShapeRange.TextFrame.TextRange.Font.AutoRotateNumbers
 
 
-Public Function compare(propertyName As String, iFont As iFont, indent As Integer) As String
+Public Function compare(propertyName As String, iFont As iFont) As String
 
     On Error GoTo err_
 
     If IsCompared(Me) Then Exit Function
 
+    Dim code As String
     code = ""
 
     With Me
         If .AutoRotateNumbers <> iFont.AutoRotateNumbers Then
-            code = code & Space(indent) & ".AutoRotateNumbers = " & MsoTriState(.AutoRotateNumbers) & Chr(13)
+            Call addCode(code, ".AutoRotateNumbers = " & MsoTriState(.AutoRotateNumbers))
         End If
         If .BaselineOffset <> iFont.BaselineOffset Then
-            code = code & Space(indent) & ".BaselineOffset = " & SingleToVBA(.BaselineOffset) & Chr(13)
+            Call addCode(code, ".BaselineOffset = " & SingleToVBA(.BaselineOffset))
         End If
         If .Bold <> iFont.Bold Then
-            code = code & Space(indent) & ".Bold = " & MsoTriState(.Bold) & Chr(13)
+            Call addCode(code, ".Bold = " & MsoTriState(.Bold))
         End If
-        code = code & .Color.compare(".Color", iFont.Color, indent + 4)
+        Call addCode(code, .Color.compare(".Color", iFont.Color))
         If .Embeddable <> iFont.Embeddable Then
-            code = code & Space(indent) & ".Embeddable = " & MsoTriState(.Embeddable) & Chr(13)
+            Call addCode(code, ".Embeddable = " & MsoTriState(.Embeddable))
         End If
         If .Embedded <> iFont.Embedded Then
-            code = code & Space(indent) & ".Embedded = " & MsoTriState(.Embedded) & Chr(13)
+            Call addCode(code, ".Embedded = " & MsoTriState(.Embedded))
         End If
         If .Emboss <> iFont.Emboss Then
-            code = code & Space(indent) & ".Emboss = " & MsoTriState(.Emboss) & Chr(13)
+            Call addCode(code, ".Emboss = " & MsoTriState(.Emboss))
         End If
         If .Italic <> iFont.Italic Then
-            code = code & Space(indent) & ".Italic = " & MsoTriState(.Italic) & Chr(13)
+            Call addCode(code, ".Italic = " & MsoTriState(.Italic))
         End If
         If .Name <> iFont.Name Then
-            code = code & Space(indent) & ".Name = " & .Name & Chr(13)
+            Call addCode(code, ".Name = " & .Name)
         End If
         If .NameAscii <> iFont.NameAscii Then
-            code = code & Space(indent) & ".NameAscii = " & .NameAscii & Chr(13)
+            Call addCode(code, ".NameAscii = " & .NameAscii)
         End If
         If .NameComplexScript <> iFont.NameComplexScript Then
-            code = code & Space(indent) & ".NameComplexScript = " & .NameComplexScript & Chr(13)
+            Call addCode(code, ".NameComplexScript = " & .NameComplexScript)
         End If
         If .NameFarEast <> iFont.NameFarEast Then
-            code = code & Space(indent) & ".NameFarEast = " & .NameFarEast & Chr(13)
+            Call addCode(code, ".NameFarEast = " & .NameFarEast)
         End If
         If .NameOther <> iFont.NameOther Then
-            code = code & Space(indent) & ".NameOther = " & .NameOther & Chr(13)
+            Call addCode(code, ".NameOther = " & .NameOther)
         End If
-        If Not .Parent Is iFont.Parent Then
-            code = code & "'TODO Parent"
-        End If
-        code = code & .Shadow.compare(".Shadow", iFont.Shadow, indent + 4)
+        'If Not .Parent Is iFont.Parent Then
+        '    Call addCode(code, "'TODO Parent")
+        'End If
+        Call addCode(code, .Shadow.compare(".Shadow", iFont.Shadow))
         If .Size <> iFont.Size Then
-            code = code & Space(indent) & ".Size = " & SingleToVBA(.Size) & Chr(13)
+            Call addCode(code, ".Size = " & SingleToVBA(.Size))
         End If
         If .Subscript <> iFont.Subscript Then
-            code = code & Space(indent) & ".Subscript = " & MsoTriState(.Subscript) & Chr(13)
+            Call addCode(code, ".Subscript = " & MsoTriState(.Subscript))
         End If
         If .Superscript <> iFont.Superscript Then
-            code = code & Space(indent) & ".Superscript = " & MsoTriState(.Superscript) & Chr(13)
+            Call addCode(code, ".Superscript = " & MsoTriState(.Superscript))
         End If
         If .Underline <> iFont.Underline Then
-            code = code & Space(indent) & ".Underline = " & MsoTriState(.Underline) & Chr(13)
+            Call addCode(code, ".Underline = " & MsoTriState(.Underline))
         End If
     End With
 
-    If code <> "" Then
-        code = Space(indent - 4) & "With " & propertyName & Chr(13) _
-            & code _
-            & Space(indent - 4) & "End With" & Chr(13)
-    End If
+    Call Utility.WrapCode(propertyName, code)
 
     compare = code
 

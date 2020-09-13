@@ -7,7 +7,6 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = False
-Public Application As iApplication
 Public Background As iShapeRange
 Public BackgroundStyle As MsoBackgroundStyleIndex
 'Public ColorScheme As iColorScheme
@@ -25,7 +24,6 @@ Public Layout As PpSlideLayout
 'Public Master As iMaster
 Public Name As String
 Public NotesPage As iSlideRange
-Public Parent As Object
 Public PrintSteps As Long
 Public SectionIndex As Long
 Public Shapes As iShapes
@@ -42,22 +40,19 @@ Public SlideNumber As Long
 'ActiveWindow.Selection.SlideRange.TimeLine
 
 
-Public Function compare(propertyName As String, iSlideRange As iSlideRange, indent As Integer) As String
+Public Function compare(propertyName As String, iSlideRange As iSlideRange) As String
 
     On Error GoTo err_
 
     If IsCompared(Me) Then Exit Function
 
+    Dim code As String
     code = ""
 
     With Me
     End With
 
-    If code <> "" Then
-        code = Space(indent - 4) & "With " & propertyName & Chr(13) _
-            & code _
-            & Space(indent - 4) & "End With" & Chr(13)
-    End If
+    Call Utility.WrapCode(propertyName, code)
 
     compare = code
 
@@ -77,7 +72,6 @@ Public Sub init(iSlideRange As SlideRange)
     On Error GoTo err_
 
     With Me
-        Set .Application = New_iApplication(iSlideRange.Application)
         'Set .Background = New_iShapeRange(iSlideRange.Background)
         .BackgroundStyle = iSlideRange.BackgroundStyle
         .Count = iSlideRange.Count
@@ -89,7 +83,6 @@ Public Sub init(iSlideRange As SlideRange)
         If iSlideRange.HasNotesPage = msoTrue Then
             Set .NotesPage = New_iSlideRange(iSlideRange.NotesPage)
         End If
-        Set .Parent = iSlideRange.Parent
         .PrintSteps = iSlideRange.PrintSteps
         .SectionIndex = iSlideRange.SectionIndex
         Set .Shapes = New_iShapes(iSlideRange.Shapes)
@@ -108,5 +101,3 @@ err_:
     #End If
 
 End Sub
-
-

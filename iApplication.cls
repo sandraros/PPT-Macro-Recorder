@@ -65,110 +65,107 @@ Sub Class_Initialize()
     Value = "hhh"
 End Sub
 
-Public Function compare(propertyName As String, iApplication As iApplication, indent As Integer) As String
+Public Function compare(propertyName As String, iApplication As iApplication) As String
 
     On Error GoTo err_
 
     If IsCompared(Me) Then Exit Function
 
+    Dim code As String
     code = ""
 
     With Me
         If .Active <> iApplication.Active Then
-            code = code & Space(indent) & ".Active = " & MsoTriState(.Active) & Chr(13)
+            Call addCode(code, ".Active = " & MsoTriState(.Active))
         End If
         If .ActiveEncryptionSession <> iApplication.ActiveEncryptionSession Then
-            code = code & Space(indent) & ".ActiveEncryptionSession = " & LongToVBA(.ActiveEncryptionSession) & Chr(13)
+            Call addCode(code, ".ActiveEncryptionSession = " & LongToVBA(.ActiveEncryptionSession))
         End If
-        code = code & .ActivePresentation.compare(".ActivePresentation", iApplication.ActivePresentation, indent + 4)
+        Call addCode(code, .ActivePresentation.compare(".ActivePresentation", iApplication.ActivePresentation))
         If .ActivePrinter <> iApplication.ActivePrinter Then
-            code = code & Space(indent) & ".ActivePrinter = " & iApplication.ActivePrinter & Chr(13)
+            Call addCode(code, ".ActivePrinter = " & iApplication.ActivePrinter)
         End If
-        code = code & .ActiveWindow.compare(".ActiveWindow", iApplication.ActiveWindow, indent + 4)
+        Call addCode(code, .ActiveWindow.compare(".ActiveWindow", iApplication.ActiveWindow))
         If .AutomationSecurity <> iApplication.AutomationSecurity Then
-            code = code & Space(indent) & ".AutomationSecurity = " & MsoAutomationSecurity(.AutomationSecurity) & Chr(13)
+            Call addCode(code, ".AutomationSecurity = " & MsoAutomationSecurity(.AutomationSecurity))
         End If
         If .Build <> iApplication.Build Then
-            code = code & Space(indent) & ".Build = " & iApplication.Build & Chr(13)
+            Call addCode(code, ".Build = " & iApplication.Build)
         End If
         If .Caption <> iApplication.Caption Then
-            code = code & Space(indent) & ".Caption = " & iApplication.Caption & Chr(13)
+            Call addCode(code, ".Caption = " & iApplication.Caption)
         End If
         If .ChartDataPointTrack <> iApplication.ChartDataPointTrack Then
-            code = code & Space(indent) & ".ChartDataPointTrack = " & iApplication.ChartDataPointTrack & Chr(13)
+            Call addCode(code, ".ChartDataPointTrack = " & iApplication.ChartDataPointTrack)
         End If
         If .Creator <> iApplication.Creator Then
-            code = code & Space(indent) & ".Creator = " & LongToVBA(.Creator) & Chr(13)
+            Call addCode(code, ".Creator = " & LongToVBA(.Creator))
         End If
         If .DisplayAlerts <> iApplication.DisplayAlerts Then
-            code = code & Space(indent) & ".DisplayAlerts = " & PpAlertLevel(.DisplayAlerts) & Chr(13)
+            Call addCode(code, ".DisplayAlerts = " & PpAlertLevel(.DisplayAlerts))
         End If
         If .DisplayDocumentInformationPanel <> iApplication.DisplayDocumentInformationPanel Then
-            code = code & Space(indent) & ".DisplayDocumentInformationPanel = " & iApplication.DisplayDocumentInformationPanel & Chr(13)
+            Call addCode(code, ".DisplayDocumentInformationPanel = " & iApplication.DisplayDocumentInformationPanel)
         End If
         If .DisplayGridLines <> iApplication.DisplayGridLines Then
-            code = code & Space(indent) & ".DisplayGridLines = " & MsoTriState(.DisplayGridLines) & Chr(13)
+            Call addCode(code, ".DisplayGridLines = " & MsoTriState(.DisplayGridLines))
         End If
         If .DisplayGuides <> iApplication.DisplayGuides Then
-            code = code & Space(indent) & ".DisplayGuides = " & MsoTriState(.DisplayGuides) & Chr(13)
+            Call addCode(code, ".DisplayGuides = " & MsoTriState(.DisplayGuides))
         End If
         If .FeatureInstall <> iApplication.FeatureInstall Then
-            code = code & Space(indent) & ".FeatureInstall = " & MsoFeatureInstall(.FeatureInstall) & Chr(13)
+            Call addCode(code, ".FeatureInstall = " & MsoFeatureInstall(.FeatureInstall))
         End If
         If .FileValidation <> iApplication.FileValidation Then
-            code = code & Space(indent) & ".FileValidation = " & MsoFileValidationMode(.FileValidation) & Chr(13)
+            Call addCode(code, ".FileValidation = " & MsoFileValidationMode(.FileValidation))
         End If
         If .Height <> iApplication.Height Then
-            code = code & Space(indent) & ".Height = " & SingleToVBA(.Height) & Chr(13)
+            Call addCode(code, ".Height = " & SingleToVBA(.Height))
         End If
         If .IsSandboxed <> iApplication.IsSandboxed Then
-            code = code & Space(indent) & ".IsSandboxed = " & iApplication.IsSandboxed & Chr(13)
+            Call addCode(code, ".IsSandboxed = " & iApplication.IsSandboxed)
         End If
         If .Left <> iApplication.Left Then
-            code = code & Space(indent) & ".Left = " & SingleToVBA(.Left) & Chr(13)
+            Call addCode(code, ".Left = " & SingleToVBA(.Left))
         End If
         If .Name <> iApplication.Name Then
-            code = code & Space(indent) & ".Name = " & iApplication.Name & Chr(13)
+            Call addCode(code, ".Name = " & iApplication.Name)
         End If
         If .OperatingSystem <> iApplication.OperatingSystem Then
-            code = code & Space(indent) & ".OperatingSystem = " & iApplication.OperatingSystem & Chr(13)
+            Call addCode(code, ".OperatingSystem = " & iApplication.OperatingSystem)
         End If
         If .Path <> iApplication.Path Then
-            code = code & Space(indent) & ".Path = " & iApplication.Path & Chr(13)
+            Call addCode(code, ".Path = " & iApplication.Path)
         End If
-        code = code & .Presentations.compare(".Presentations", iApplication.Presentations, indent + 4)
+        Call addCode(code, .Presentations.compare(".Presentations", iApplication.Presentations))
         If .ProductCode <> iApplication.ProductCode Then
-            code = code & Space(indent) & ".ProductCode = " & iApplication.ProductCode & Chr(13)
+            Call addCode(code, ".ProductCode = " & iApplication.ProductCode)
         End If
         If .ShowStartupDialog <> iApplication.ShowStartupDialog Then
-            code = code & Space(indent) & ".ShowStartupDialog = " & MsoTriState(.ShowStartupDialog) & Chr(13)
+            Call addCode(code, ".ShowStartupDialog = " & MsoTriState(.ShowStartupDialog))
         End If
         'If .ShowWindowsInTaskbar <> iApplication.ShowWindowsInTaskbar Then
-        '    code = code & ".ShowWindowsInTaskbar = " & MsoTriState(.ShowWindowsInTaskbar) & Chr(13)
+        '    Call addCode(code, ".ShowWindowsInTaskbar = " & MsoTriState(.ShowWindowsInTaskbar))
         'End If
         If .Top <> iApplication.Top Then
-            code = code & Space(indent) & ".Top = " & SingleToVBA(.Top) & Chr(13)
+            Call addCode(code, ".Top = " & SingleToVBA(.Top))
         End If
         If .Version <> iApplication.Version Then
-            code = code & Space(indent) & ".Version = " & iApplication.Version & Chr(13)
+            Call addCode(code, ".Version = " & iApplication.Version)
         End If
         If .Visible <> iApplication.Visible Then
-            code = code & Space(indent) & ".Visible = " & MsoTriState(.Visible) & Chr(13)
+            Call addCode(code, ".Visible = " & MsoTriState(.Visible))
         End If
         If .Width <> iApplication.Width Then
-            code = code & Space(indent) & ".Width = " & SingleToVBA(.Width) & Chr(13)
+            Call addCode(code, ".Width = " & SingleToVBA(.Width))
         End If
-        code = code & .Windows.compare(".Windows", iApplication.Windows, indent + 4)
+        Call addCode(code, .Windows.compare(".Windows", iApplication.Windows))
         If .WindowState <> iApplication.WindowState Then
-            code = code & Space(indent) & ".WindowState = " & PpWindowState(.WindowState) & Chr(13)
+            Call addCode(code, ".WindowState = " & PpWindowState(.WindowState))
         End If
     End With
 
-    If code <> "" Then
-        code = Space(indent - 4) & "With " & propertyName & Chr(13) _
-            & code _
-            & Space(indent - 4) & "End With" & Chr(13)
-    End If
+    Call Utility.WrapCode(propertyName, code)
 
     compare = code
 

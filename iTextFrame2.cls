@@ -7,10 +7,8 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = False
-Public Application As Object
 Public AutoSize As MsoAutoSize
 'Public Column As iTextColumn2
-Public Creator As Long
 Public HasText As MsoTriState
 Public HorizontalAnchor As MsoHorizontalAnchor
 Public MarginBottom As Single
@@ -19,7 +17,6 @@ Public MarginRight As Single
 Public MarginTop As Single
 'Public NoTextRotation As MsoTriState
 Public Orientation As MsoTextOrientation
-Public Parent As Object
 Public PathFormat As MsoPathFormat
 'Public Ruler As iRuler2
 Public TextRange As iTextRange2
@@ -33,71 +30,59 @@ Public WordWrap As MsoTriState
 'ActiveWindow.Selection.ShapeRange.TextFrame2.WordWrap
 
 
-Public Function compare(propertyName As String, iTextFrame2 As iTextFrame2, indent As Integer) As String
+Public Function compare(propertyName As String, iTextFrame2 As iTextFrame2) As String
 
     On Error GoTo err_
 
     If IsCompared(Me) Then Exit Function
 
+    Dim code As String
     code = ""
 
     With Me
-        'If .Application <> iTextFrame2.Application Then
-        '    code = code & ".Application = " & iTextFrame2.Application & Chr(13)
-        'End If
         If .AutoSize <> iTextFrame2.AutoSize Then
-            code = code & Space(indent) & ".AutoSize = " & MsoAutoSize(.AutoSize) & Chr(13)
+            Call addCode(code, ".AutoSize = " & MsoAutoSize(.AutoSize))
         End If
-        'If .Creator <> iTextFrame2.Creator Then
-        '    code = code & Space(indent) & ".Creator = " & LongToVBA(.Creator) & Chr(13)
-        'End If
         'If .HasText <> iTextFrame2.HasText Then
-        '    code = code & Space(indent) & ".HasText = " & MsoTriState(.HasText) & Chr(13)
+        '    Call addCode(code, ".HasText = " & MsoTriState(.HasText))
         'End If
         If .HorizontalAnchor <> iTextFrame2.HorizontalAnchor Then
-            code = code & Space(indent) & ".HorizontalAnchor = " & MsoHorizontalAnchor(.HorizontalAnchor) & Chr(13)
+            Call addCode(code, ".HorizontalAnchor = " & MsoHorizontalAnchor(.HorizontalAnchor))
         End If
         If .MarginBottom <> iTextFrame2.MarginBottom Then
-            code = code & Space(indent) & ".MarginBottom = " & SingleToVBA(.MarginBottom) & Chr(13)
+            Call addCode(code, ".MarginBottom = " & SingleToVBA(.MarginBottom))
         End If
         If .MarginLeft <> iTextFrame2.MarginLeft Then
-            code = code & Space(indent) & ".MarginLeft = " & SingleToVBA(.MarginLeft) & Chr(13)
+            Call addCode(code, ".MarginLeft = " & SingleToVBA(.MarginLeft))
         End If
         If .MarginRight <> iTextFrame2.MarginRight Then
-            code = code & Space(indent) & ".MarginRight = " & SingleToVBA(.MarginRight) & Chr(13)
+            Call addCode(code, ".MarginRight = " & SingleToVBA(.MarginRight))
         End If
         If .MarginTop <> iTextFrame2.MarginTop Then
-            code = code & Space(indent) & ".MarginTop = " & SingleToVBA(.MarginTop) & Chr(13)
+            Call addCode(code, ".MarginTop = " & SingleToVBA(.MarginTop))
         End If
         If .Orientation <> iTextFrame2.Orientation Then
-            code = code & Space(indent) & ".Orientation = " & MsoTextOrientation(.Orientation) & Chr(13)
-        End If
-        If Not .Parent Is iTextFrame2.Parent Then
-            code = code & Space(indent) & "'TODO Parent" & Chr(13)
+            Call addCode(code, ".Orientation = " & MsoTextOrientation(.Orientation))
         End If
         If .PathFormat <> iTextFrame2.PathFormat Then
-            code = code & Space(indent) & ".PathFormat = " & MsoPathFormat(.PathFormat) & Chr(13)
+            Call addCode(code, ".PathFormat = " & MsoPathFormat(.PathFormat))
         End If
-        code = code & .TextRange.compare(".TextRange", iTextFrame2.TextRange, indent + 4)
+        Call addCode(code, .TextRange.compare(".TextRange", iTextFrame2.TextRange))
         If .VerticalAnchor <> iTextFrame2.VerticalAnchor Then
-            code = code & Space(indent) & ".VerticalAnchor = " & MsoVerticalAnchor(.VerticalAnchor) & Chr(13)
+            Call addCode(code, ".VerticalAnchor = " & MsoVerticalAnchor(.VerticalAnchor))
         End If
         If .WarpFormat <> iTextFrame2.WarpFormat Then
-            code = code & Space(indent) & ".WarpFormat = " & MsoWarpFormat(.WarpFormat) & Chr(13)
+            Call addCode(code, ".WarpFormat = " & MsoWarpFormat(.WarpFormat))
         End If
         If .WordArtFormat <> iTextFrame2.WordArtFormat Then
-            code = code & Space(indent) & "'.WordArtFormat = " & MsoPresetTextEffect(.WordArtFormat) & Chr(13)
+            Call addCode(code, "'.WordArtFormat = " & MsoPresetTextEffect(.WordArtFormat))
         End If
         If .WordWrap <> iTextFrame2.WordWrap Then
-            code = code & Space(indent) & ".WordWrap = " & MsoTriState(.WordWrap) & Chr(13)
+            Call addCode(code, ".WordWrap = " & MsoTriState(.WordWrap))
         End If
     End With
 
-    If code <> "" Then
-        code = Space(indent - 4) & "With " & propertyName & Chr(13) _
-            & code _
-            & Space(indent - 4) & "End With" & Chr(13)
-    End If
+    Call Utility.WrapCode(propertyName, code)
 
     compare = code
 
@@ -117,9 +102,7 @@ Public Sub init(iTextFrame2 As TextFrame2)
     On Error GoTo err_
 
     With Me
-        Set .Application = iTextFrame2.Application
         .AutoSize = iTextFrame2.AutoSize
-        .Creator = iTextFrame2.Creator
         .HasText = iTextFrame2.HasText
         .HorizontalAnchor = iTextFrame2.HorizontalAnchor
         .MarginBottom = iTextFrame2.MarginBottom
@@ -128,7 +111,6 @@ Public Sub init(iTextFrame2 As TextFrame2)
         .MarginTop = iTextFrame2.MarginTop
         '??? .NoTextRotation = iTextFrame2.NoTextRotation ' Returns or sets a value that specifies if the text on a shape is rotated if the shape itself is being rotated. Read/write.
         .Orientation = iTextFrame2.Orientation
-        Set .Parent = iTextFrame2.Parent
         .PathFormat = iTextFrame2.PathFormat
         '??? If iTextFrame2.HasText Then
         Set .TextRange = New_iTextRange2(iTextFrame2.TextRange)

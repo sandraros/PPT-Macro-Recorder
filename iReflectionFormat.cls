@@ -14,7 +14,7 @@ Public Transparency As Single
 Public iType As MsoReflectionType
 
 
-Public Function compare(propertyName As String, iReflectionFormat As iReflectionFormat, indent As Integer) As String
+Public Function compare(propertyName As String, iReflectionFormat As iReflectionFormat) As String
 
     On Error GoTo err_
 
@@ -25,31 +25,28 @@ Public Function compare(propertyName As String, iReflectionFormat As iReflection
         Exit Function
     End If
 
+    Dim code As String
     code = ""
 
     With Me
         If .Blur <> iReflectionFormat.Blur Then
-            code = code & Space(indent) & ".Blur = " & SingleToVBA(.Blur) & Chr(13)
+            Call addCode(code, ".Blur = " & SingleToVBA(.Blur))
         End If
         If .Offset <> iReflectionFormat.Offset Then
-            code = code & Space(indent) & ".Offset = " & SingleToVBA(.Offset) & Chr(13)
+            Call addCode(code, ".Offset = " & SingleToVBA(.Offset))
         End If
         If .Size <> iReflectionFormat.Size Then
-            code = code & Space(indent) & ".Size = " & SingleToVBA(.Size) & Chr(13)
+            Call addCode(code, ".Size = " & SingleToVBA(.Size))
         End If
         If .Transparency <> iReflectionFormat.Transparency Then
-            code = code & Space(indent) & ".Transparency = " & SingleToVBA(.Transparency) & Chr(13)
+            Call addCode(code, ".Transparency = " & SingleToVBA(.Transparency))
         End If
         If .iType <> iReflectionFormat.iType Then
-            code = code & Space(indent) & ".Type = " & MsoReflectionType(.iType) & Chr(13)
+            Call addCode(code, ".Type = " & MsoReflectionType(.iType))
         End If
     End With
 
-    If code <> "" Then
-        code = Space(indent - 4) & "With " & propertyName & Chr(13) _
-            & code _
-            & Space(indent - 4) & "End With" & Chr(13)
-    End If
+    Call Utility.WrapCode(propertyName, code)
 
     compare = code
 

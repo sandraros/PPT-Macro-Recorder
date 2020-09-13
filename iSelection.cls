@@ -21,22 +21,36 @@ Public iType As PpSelectionType ' Type
 'ActiveWindow.Selection.Parent
 
 
-Public Function compare(propertyName As String, iSelection As iSelection, indent As Integer) As String
+Public Function compare(propertyName As String, iSelection As iSelection) As String
 
     On Error GoTo err_
 
     If IsCompared(Me) Then Exit Function
 
+    Dim code As String
     code = ""
 
     With Me
+        If iSelection.HasChildShapeRange = True Then
+            'Set .ChildShapeRange = New_iShapeRange(iSelection.ChildShapeRange)
+        Else
+            'Set .ChildShapeRange = New iShapeRange
+        End If
+        '.HasChildShapeRange = iSelection.HasChildShapeRange
+        'Set .Parent = iSelection.Parent
+        If .iType = iSelection.iType Then
+            Select Case .iType
+                Case ppSelectionShapes:
+                    Call addCode(code, .ShapeRange.compare(".ShapeRange", iSelection.ShapeRange))
+                Case ppSelectionSlides:
+                    'Set .SlideRange = New_iSlideRange(iSelection.SlideRange)
+                Case ppSelectionText:
+                    Call addCode(code, .TextRange2.compare(".TextRange2", iSelection.TextRange2))
+            End Select
+        End If
     End With
 
-    If code <> "" Then
-        code = Space(indent - 4) & "With " & propertyName & Chr(13) _
-            & code _
-            & Space(indent - 4) & "End With" & Chr(13)
-    End If
+    Call Utility.WrapCode(propertyName, code)
 
     compare = code
 

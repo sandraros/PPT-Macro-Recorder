@@ -10,7 +10,6 @@ Attribute VB_Exposed = False
 'SUPERSEDED WITH ITEXTRANGE2
 
 'Public ActionSettings As iActionSettings
-Public Application As iApplication
 Public BoundHeight As Single
 Public BoundLeft As Single
 Public BoundTop As Single
@@ -21,7 +20,6 @@ Public IndentLevel As Long
 Public LanguageID As MsoLanguageID
 Public length As Long
 'Public ParagraphFormat As iParagraphFormat
-Public Parent As Object
 Public Start As Long
 Public Text As String
 
@@ -29,22 +27,19 @@ Public Text As String
 'ActiveWindow.Selection.ShapeRange.TextFrame.TextRange.Start
 
 
-Public Function compare(propertyName As String, iTextRange As iTextRange, indent As Integer) As String
+Public Function compare(propertyName As String, iTextRange As iTextRange) As String
 
     On Error GoTo err_
 
     If IsCompared(Me) Then Exit Function
 
+    Dim code As String
     code = ""
 
     With Me
     End With
 
-    If code <> "" Then
-        code = Space(indent - 4) & "With " & propertyName & Chr(13) _
-            & code _
-            & Space(indent - 4) & "End With" & Chr(13)
-    End If
+    Call Utility.WrapCode(propertyName, code)
 
     compare = code
 
@@ -64,7 +59,6 @@ Public Sub init(iTextRange As TextRange)
     On Error GoTo err_
 
     With Me
-        Set .Application = New_iApplication(iTextRange.Application)
         .BoundHeight = iTextRange.BoundHeight
         .BoundLeft = iTextRange.BoundLeft
         .BoundTop = iTextRange.BoundTop
@@ -74,7 +68,6 @@ Public Sub init(iTextRange As TextRange)
         .IndentLevel = iTextRange.IndentLevel
         .LanguageID = iTextRange.LanguageID
         .length = iTextRange.length
-        Set .Parent = iTextRange.Parent
         .Start = iTextRange.Start
         .Text = iTextRange.Text
     End With
@@ -89,5 +82,3 @@ err_:
     #End If
 
 End Sub
-
-
