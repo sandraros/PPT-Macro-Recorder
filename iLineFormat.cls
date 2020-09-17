@@ -18,7 +18,7 @@ Public EndArrowheadStyle As MsoArrowheadStyle
 Public EndArrowheadWidth As MsoArrowheadWidth
 Public ForeColor As iColorFormat
 Public InsetPen As MsoTriState
-'Public Parent As Object
+Public Parent As Object
 Public Pattern As MsoPatternType
 Public Style As MsoLineStyle
 Public Transparency As Single
@@ -29,66 +29,70 @@ Public Weight As Single
 '
 
 
-Public Function compare(propertyName As String, iLineFormat As iLineFormat) As String
+Public Function compare(propertyName As String, iLineFormat As iLineFormat) As Code
 
-    Dim code As String
-    code = ""
+    Dim objCode As Code
 
     On Error GoTo err_
+
+    Set objCode = New Code
+    Set compare = objCode
 
     If IsCompared(Me) Then Exit Function
 
     If Me.Visible <> iLineFormat.Visible Then
-        Call addCode(code, ".Visible = " & MsoTriState(Me.Visible))
+        Call objCode.Add(".Visible = " & MsoTriState(Me.Visible))
     End If
     If Me.Visible <> msoTrue Then
         Exit Function
     End If
 
     With Me
-        Call addCode(code, .BackColor.compare(".BackColor", iLineFormat.BackColor))
-        If .BeginArrowheadLength <> iLineFormat.BeginArrowheadLength Then
-            Call addCode(code, ".BeginArrowheadLength = " & MsoArrowheadLength(.BeginArrowheadLength))
-        End If
-        If .BeginArrowheadStyle <> iLineFormat.BeginArrowheadStyle Then
-            Call addCode(code, ".BeginArrowheadStyle = " & MsoArrowheadStyle(.BeginArrowheadStyle))
-        End If
-        If .BeginArrowheadWidth <> iLineFormat.BeginArrowheadWidth Then
-            Call addCode(code, ".BeginArrowheadWidth = " & MsoArrowheadWidth(.BeginArrowheadWidth))
+        Call objCode.AddCode(.BackColor.compare(".BackColor", iLineFormat.BackColor))
+        If TypeName(Me.Parent) = "Line" Then
+            If .BeginArrowheadLength <> iLineFormat.BeginArrowheadLength Then
+                Call objCode.Add(".BeginArrowheadLength = " & MsoArrowheadLength(.BeginArrowheadLength))
+            End If
+            If .BeginArrowheadStyle <> iLineFormat.BeginArrowheadStyle Then
+                Call objCode.Add(".BeginArrowheadStyle = " & MsoArrowheadStyle(.BeginArrowheadStyle))
+            End If
+            If .BeginArrowheadWidth <> iLineFormat.BeginArrowheadWidth Then
+                Call objCode.Add(".BeginArrowheadWidth = " & MsoArrowheadWidth(.BeginArrowheadWidth))
+            End If
+            If .EndArrowheadLength <> iLineFormat.EndArrowheadLength Then
+                Call objCode.Add(".EndArrowheadLength = " & MsoArrowheadLength(.EndArrowheadLength))
+            End If
+            If .EndArrowheadStyle <> iLineFormat.EndArrowheadStyle Then
+                Call objCode.Add(".EndArrowheadStyle = " & MsoArrowheadStyle(.EndArrowheadStyle))
+            End If
+            If .EndArrowheadWidth <> iLineFormat.EndArrowheadWidth Then
+                Call objCode.Add(".EndArrowheadWidth = " & MsoArrowheadWidth(.EndArrowheadWidth))
+            End If
         End If
         If .DashStyle <> iLineFormat.DashStyle Then
-            Call addCode(code, ".DashStyle = " & MsoLineDashStyle(.DashStyle))
+            Call objCode.Add(".DashStyle = " & MsoLineDashStyle(.DashStyle))
         End If
-        If .EndArrowheadLength <> iLineFormat.EndArrowheadLength Then
-            Call addCode(code, ".EndArrowheadLength = " & MsoArrowheadLength(.EndArrowheadLength))
-        End If
-        If .EndArrowheadStyle <> iLineFormat.EndArrowheadStyle Then
-            Call addCode(code, ".EndArrowheadStyle = " & MsoArrowheadStyle(.EndArrowheadStyle))
-        End If
-        If .EndArrowheadWidth <> iLineFormat.EndArrowheadWidth Then
-            Call addCode(code, ".EndArrowheadWidth = " & MsoArrowheadWidth(.EndArrowheadWidth))
-        End If
-        Call addCode(code, .ForeColor.compare(".ForeColor", iLineFormat.ForeColor))
+        Call objCode.AddCode(.ForeColor.compare(".ForeColor", iLineFormat.ForeColor))
         If .InsetPen <> iLineFormat.InsetPen Then
-            Call addCode(code, ".InsetPen = " & MsoTriState(.InsetPen))
+            Call objCode.Add(".InsetPen = " & MsoTriState(.InsetPen))
         End If
         If .Pattern <> iLineFormat.Pattern And .Pattern <> msoPatternMixed Then
-            Call addCode(code, ".Pattern = " & MsoPatternType(.Pattern))
+            Call objCode.Add(".Pattern = " & MsoPatternType(.Pattern))
         End If
         If .Style <> iLineFormat.Style And .Style <> msoLineStyleMixed Then
-            Call addCode(code, ".Style = " & MsoLineStyle(.Style))
+            Call objCode.Add(".Style = " & MsoLineStyle(.Style))
         End If
         If .Transparency <> iLineFormat.Transparency Then
-            Call addCode(code, ".Transparency = " & SingleToVBA(.Transparency))
+            Call objCode.Add(".Transparency = " & SingleToVBA(.Transparency))
         End If
         If .Weight <> iLineFormat.Weight Then
-            Call addCode(code, ".Weight = " & SingleToVBA(.Weight))
+            Call objCode.Add(".Weight = " & SingleToVBA(.Weight))
         End If
     End With
 
-    Call Utility.WrapCode(propertyName, code)
+    Call objCode.Wrap(propertyName)
 
-    compare = code
+    Set compare = objCode
 
     Exit Function
 
@@ -116,6 +120,7 @@ Public Sub init(ByVal iLineFormat As LineFormat)
         .EndArrowheadWidth = iLineFormat.EndArrowheadWidth
         Set .ForeColor = New_iColorFormat(iLineFormat.ForeColor)
         .InsetPen = iLineFormat.InsetPen
+        Set .Parent = iLineFormat.Parent
         .Pattern = iLineFormat.Pattern
         .Style = iLineFormat.Style
         .Transparency = iLineFormat.Transparency

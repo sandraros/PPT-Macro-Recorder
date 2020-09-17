@@ -27,21 +27,23 @@ Public WordWrap As MsoTriState
 'ActiveWindow.Selection.ShapeRange.TextFrame.WordWrap
 
 
-Public Function compare(propertyName As String, iTextFrame As iTextFrame) As String
+Public Function compare(propertyName As String, iTextFrame As iTextFrame) As Code
+
+    Dim objCode As Code
 
     On Error GoTo err_
 
-    If IsCompared(Me) Then Exit Function
+    Set objCode = New Code
+    Set compare = objCode
 
-    Dim code As String
-    code = ""
+    If IsCompared(Me) Then Exit Function
 
     With Me
     End With
 
-    Call Utility.WrapCode(propertyName, code)
+    Call objCode.Wrap(propertyName)
 
-    compare = code
+    Set compare = objCode
 
     Exit Function
 

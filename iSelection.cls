@@ -21,14 +21,16 @@ Public iType As PpSelectionType ' Type
 'ActiveWindow.Selection.Parent
 
 
-Public Function compare(propertyName As String, iSelection As iSelection) As String
+Public Function compare(propertyName As String, iSelection As iSelection) As Code
+
+    Dim objCode As Code
 
     On Error GoTo err_
 
-    If IsCompared(Me) Then Exit Function
+    Set objCode = New Code
+    Set compare = objCode
 
-    Dim code As String
-    code = ""
+    If IsCompared(Me) Then Exit Function
 
     With Me
         If iSelection.HasChildShapeRange = True Then
@@ -38,21 +40,21 @@ Public Function compare(propertyName As String, iSelection As iSelection) As Str
         End If
         '.HasChildShapeRange = iSelection.HasChildShapeRange
         'Set .Parent = iSelection.Parent
-        If .iType = iSelection.iType Then
-            Select Case .iType
-                Case ppSelectionShapes:
-                    Call addCode(code, .ShapeRange.compare(".ShapeRange", iSelection.ShapeRange))
-                Case ppSelectionSlides:
-                    'Set .SlideRange = New_iSlideRange(iSelection.SlideRange)
-                Case ppSelectionText:
-                    Call addCode(code, .TextRange2.compare(".TextRange2", iSelection.TextRange2))
-            End Select
-        End If
+        'If .iType = iSelection.iType Then
+        Select Case .iType
+            Case ppSelectionShapes:
+                Call objCode.AddCode(.ShapeRange.compare(".ShapeRange", iSelection.ShapeRange))
+            Case ppSelectionSlides:
+                'Set .SlideRange = New_iSlideRange(iSelection.SlideRange)
+            Case ppSelectionText:
+                Call objCode.AddCode(.TextRange2.compare(".TextRange2", iSelection.TextRange2))
+        End Select
+        'End If
     End With
 
-    Call Utility.WrapCode(propertyName, code)
+    Call objCode.Wrap(propertyName)
 
-    compare = code
+    Set compare = objCode
 
     Exit Function
 

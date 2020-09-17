@@ -31,74 +31,76 @@ Public Underline As MsoTriState
 'ActiveWindow.Selection.ShapeRange.TextFrame.TextRange.Font.AutoRotateNumbers
 
 
-Public Function compare(propertyName As String, iFont As iFont) As String
+Public Function compare(propertyName As String, iFont As iFont) As Code
+
+    Dim objCode As Code
 
     On Error GoTo err_
 
-    If IsCompared(Me) Then Exit Function
+    Set objCode = New Code
+    Set compare = objCode
 
-    Dim code As String
-    code = ""
+    If IsCompared(Me) Then Exit Function
 
     With Me
         If .AutoRotateNumbers <> iFont.AutoRotateNumbers Then
-            Call addCode(code, ".AutoRotateNumbers = " & MsoTriState(.AutoRotateNumbers))
+            Call objCode.Add(".AutoRotateNumbers = " & MsoTriState(.AutoRotateNumbers))
         End If
         If .BaselineOffset <> iFont.BaselineOffset Then
-            Call addCode(code, ".BaselineOffset = " & SingleToVBA(.BaselineOffset))
+            Call objCode.Add(".BaselineOffset = " & SingleToVBA(.BaselineOffset))
         End If
         If .Bold <> iFont.Bold Then
-            Call addCode(code, ".Bold = " & MsoTriState(.Bold))
+            Call objCode.Add(".Bold = " & MsoTriState(.Bold))
         End If
-        Call addCode(code, .Color.compare(".Color", iFont.Color))
+        Call objCode.AddCode(.Color.compare(".Color", iFont.Color))
         If .Embeddable <> iFont.Embeddable Then
-            Call addCode(code, ".Embeddable = " & MsoTriState(.Embeddable))
+            Call objCode.Add(".Embeddable = " & MsoTriState(.Embeddable))
         End If
         If .Embedded <> iFont.Embedded Then
-            Call addCode(code, ".Embedded = " & MsoTriState(.Embedded))
+            Call objCode.Add(".Embedded = " & MsoTriState(.Embedded))
         End If
         If .Emboss <> iFont.Emboss Then
-            Call addCode(code, ".Emboss = " & MsoTriState(.Emboss))
+            Call objCode.Add(".Emboss = " & MsoTriState(.Emboss))
         End If
         If .Italic <> iFont.Italic Then
-            Call addCode(code, ".Italic = " & MsoTriState(.Italic))
+            Call objCode.Add(".Italic = " & MsoTriState(.Italic))
         End If
         If .Name <> iFont.Name Then
-            Call addCode(code, ".Name = " & .Name)
+            Call objCode.Add(".Name = " & .Name)
         End If
         If .NameAscii <> iFont.NameAscii Then
-            Call addCode(code, ".NameAscii = " & .NameAscii)
+            Call objCode.Add(".NameAscii = " & .NameAscii)
         End If
         If .NameComplexScript <> iFont.NameComplexScript Then
-            Call addCode(code, ".NameComplexScript = " & .NameComplexScript)
+            Call objCode.Add(".NameComplexScript = " & .NameComplexScript)
         End If
         If .NameFarEast <> iFont.NameFarEast Then
-            Call addCode(code, ".NameFarEast = " & .NameFarEast)
+            Call objCode.Add(".NameFarEast = " & .NameFarEast)
         End If
         If .NameOther <> iFont.NameOther Then
-            Call addCode(code, ".NameOther = " & .NameOther)
+            Call objCode.Add(".NameOther = " & .NameOther)
         End If
         'If Not .Parent Is iFont.Parent Then
-        '    Call addCode(code, "'TODO Parent")
+        '    Call objCode.Add("'TODO Parent")
         'End If
-        Call addCode(code, .Shadow.compare(".Shadow", iFont.Shadow))
+        Call objCode.AddCode(.Shadow.compare(".Shadow", iFont.Shadow))
         If .Size <> iFont.Size Then
-            Call addCode(code, ".Size = " & SingleToVBA(.Size))
+            Call objCode.Add(".Size = " & SingleToVBA(.Size))
         End If
         If .Subscript <> iFont.Subscript Then
-            Call addCode(code, ".Subscript = " & MsoTriState(.Subscript))
+            Call objCode.Add(".Subscript = " & MsoTriState(.Subscript))
         End If
         If .Superscript <> iFont.Superscript Then
-            Call addCode(code, ".Superscript = " & MsoTriState(.Superscript))
+            Call objCode.Add(".Superscript = " & MsoTriState(.Superscript))
         End If
         If .Underline <> iFont.Underline Then
-            Call addCode(code, ".Underline = " & MsoTriState(.Underline))
+            Call objCode.Add(".Underline = " & MsoTriState(.Underline))
         End If
     End With
 
-    Call Utility.WrapCode(propertyName, code)
+    Call objCode.Wrap(propertyName)
 
-    compare = code
+    Set compare = objCode
 
     Exit Function
 

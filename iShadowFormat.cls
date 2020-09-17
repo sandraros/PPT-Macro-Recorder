@@ -26,14 +26,16 @@ Public Visible As MsoTriState
 'ActiveWindow.Selection.ShapeRange.TextFrame2.TextRange.Font.Shadow.Application
 
 
-Public Function compare(propertyName As String, iShadowFormat As iShadowFormat) As String
+Public Function compare(propertyName As String, iShadowFormat As iShadowFormat) As Code
+
+    Dim objCode As Code
 
     On Error GoTo err_
 
-    If IsCompared(Me) Then Exit Function
+    Set objCode = New Code
+    Set compare = objCode
 
-    Dim code As String
-    code = ""
+    If IsCompared(Me) Then Exit Function
 
     With Me
         If iShadowFormat.iType = msoShadowMixed _
@@ -44,45 +46,45 @@ Public Function compare(propertyName As String, iShadowFormat As iShadowFormat) 
         End If
 
         If .Blur <> iShadowFormat.Blur Then
-            Call addCode(code, ".Blur = " & SingleToVBA(.Blur))
+            Call objCode.Add(".Blur = " & SingleToVBA(.Blur))
         End If
-        Call addCode(code, .ForeColor.compare(".ForeColor", iShadowFormat.ForeColor))
+        Call objCode.AddCode(.ForeColor.compare(".ForeColor", iShadowFormat.ForeColor))
         If .Obscured <> iShadowFormat.Obscured Then
-            Call addCode(code, ".Obscured = " & MsoTriState(.Obscured))
+            Call objCode.Add(".Obscured = " & MsoTriState(.Obscured))
         End If
         If .OffsetX <> iShadowFormat.OffsetX Then
-            Call addCode(code, ".OffsetX = " & SingleToVBA(.OffsetX))
+            Call objCode.Add(".OffsetX = " & SingleToVBA(.OffsetX))
         End If
         If .OffsetY <> iShadowFormat.OffsetY Then
-            Call addCode(code, ".OffsetY = " & SingleToVBA(.OffsetY))
+            Call objCode.Add(".OffsetY = " & SingleToVBA(.OffsetY))
         End If
         'If Not .Parent Is iShadowFormat.Parent Then
-        '    Call addCode(code, "'TODO Parent"
+        '    Call objCode.Add("'TODO Parent"
         'End If
         If .RotateWithShape <> iShadowFormat.RotateWithShape Then
-            Call addCode(code, ".RotateWithShape = " & MsoTriState(.RotateWithShape))
+            Call objCode.Add(".RotateWithShape = " & MsoTriState(.RotateWithShape))
         End If
         If .Size <> iShadowFormat.Size Then
-            Call addCode(code, ".Size = " & SingleToVBA(.Size))
+            Call objCode.Add(".Size = " & SingleToVBA(.Size))
         End If
         ' STYLE TODO
         'If .Style <> iShadowFormat.Style Then
-        '    Call addCode(code, "'.Style = " & MsoShadowStyle(.Style))
+        '    Call objCode.Add("'.Style = " & MsoShadowStyle(.Style))
         'End If
         If .Transparency <> iShadowFormat.Transparency Then
-            Call addCode(code, ".Transparency = " & SingleToVBA(.Transparency))
+            Call objCode.Add(".Transparency = " & SingleToVBA(.Transparency))
         End If
         If .iType <> iShadowFormat.iType Then
-            Call addCode(code, "'.Type = " & MsoShadowType(.iType))
+            Call objCode.Add("'.Type = " & MsoShadowType(.iType))
         End If
         If .Visible <> iShadowFormat.Visible Then
-            Call addCode(code, ".Visible = " & MsoTriState(.Visible))
+            Call objCode.Add(".Visible = " & MsoTriState(.Visible))
         End If
     End With
 
-    Call Utility.WrapCode(propertyName, code)
+    Call objCode.Wrap(propertyName)
 
-    compare = code
+    Set compare = objCode
 
     Exit Function
 

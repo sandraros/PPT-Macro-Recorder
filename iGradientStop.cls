@@ -17,37 +17,39 @@ Public Transparency As Single
 'ActiveWindow.Selection.ShapeRange.Fill.GradientStops(1)
 
 
-Public Function compare(propertyName As String, iGradientStop As iGradientStop) As String
+Public Function compare(propertyName As String, iGradientStop As iGradientStop) As Code
+
+    Dim objCode As Code
 
     On Error GoTo err_
 
-    If IsCompared(Me) Then Exit Function
+    Set objCode = New Code
+    Set compare = objCode
 
-    Dim code As String
-    code = ""
+    If IsCompared(Me) Then Exit Function
 
     With Me
         'If Not .Application Is iGradientStop.Application Then
-        '    Call addCode(code, "'TODO Application")
+        '    Call objCode.Add("'TODO Application")
         'End If
-        Call addCode(code, .Color.compare(".Color", iGradientStop.Color))
+        Call objCode.AddCode(.Color.compare(".Color", iGradientStop.Color))
         'If .Creator <> iGradientStop.Creator Then
-        '    Call addCode(code, ".Creator = " & LongToVBA(.Creator))
+        '    Call objCode.Add(".Creator = " & LongToVBA(.Creator))
         'End If
         'If Not .Parent Is iGradientStop.Parent Then
-        '    Call addCode(code, "'TODO Parent")
+        '    Call objCode.Add("'TODO Parent")
         'End If
         If .Position <> iGradientStop.Position Then
-            Call addCode(code, ".Position = " & ToVBA(.Position))
+            Call objCode.Add(".Position = " & ToVBA(.Position))
         End If
         If .Transparency <> iGradientStop.Transparency Then
-            Call addCode(code, ".Transparency = " & ToVBA(.Transparency))
+            Call objCode.Add(".Transparency = " & ToVBA(.Transparency))
         End If
     End With
 
-    Call Utility.WrapCode(propertyName, code)
+    Call objCode.Wrap(propertyName)
 
-    compare = code
+    Set compare = objCode
 
     Exit Function
 
@@ -83,12 +85,12 @@ err_:
 
 End Sub
 
-Public Function create(indent) As String
+Public Function create(indent) As Code
 
-    code = ""
+    Set objCode = New Code
 
     With Me
-        Call addCode(code, Space(indent) _
+        Call objCode.Add(Space(indent) _
                     & "Call .Insert2(" _
                     & " RGB:=" & MsoRGBTypeToVBA(.Color.RGB) & "," _
                     & " Position:=" & ToVBA(.Position) & "," _
@@ -97,19 +99,19 @@ Public Function create(indent) As String
                     & " Brightness:=" & ToVBA(.Color.Brightness) & ")")
     End With
 
-    create = code
+    Set create = objCode
 
 End Function
 
 Public Function delete(indent) As String
 
-    code = ""
+    Set objCode = New Code
 
     With Me
-        Call addCode(code, Space(indent) & "Call .Delete(1)")
+        Call objCode.Add(Space(indent) & "Call .Delete(1)")
     End With
 
-    delete = code
+    delete = Code
 
 End Function
 

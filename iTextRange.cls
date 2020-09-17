@@ -27,21 +27,23 @@ Public Text As String
 'ActiveWindow.Selection.ShapeRange.TextFrame.TextRange.Start
 
 
-Public Function compare(propertyName As String, iTextRange As iTextRange) As String
+Public Function compare(propertyName As String, iTextRange As iTextRange) As Code
+
+    Dim objCode As Code
 
     On Error GoTo err_
 
-    If IsCompared(Me) Then Exit Function
+    Set objCode = New Code
+    Set compare = objCode
 
-    Dim code As String
-    code = ""
+    If IsCompared(Me) Then Exit Function
 
     With Me
     End With
 
-    Call Utility.WrapCode(propertyName, code)
+    Call objCode.Wrap(propertyName)
 
-    compare = code
+    Set compare = objCode
 
     Exit Function
 

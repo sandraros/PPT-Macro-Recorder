@@ -86,138 +86,140 @@ Public WritePassword As String
 'ActivePresentation.Parent
 
 
-Public Function compare(propertyName As String, iPresentation As iPresentation) As String
+Public Function compare(propertyName As String, iPresentation As iPresentation) As Code
+
+    Dim objCode As Code
 
     On Error GoTo err_
 
+    Set objCode = New Code
+    Set compare = objCode
+
     If IsCompared(Me) Then Exit Function
 
-    Dim code As String
-    code = ""
-
     With Me
-        'Call addCode(code, .Application.compare("Application", iPresentation.Application)
+        'Call objCode.AddCode(.Application.compare("Application", iPresentation.Application)
         If .AutoSaveOn <> iPresentation.AutoSaveOn Then
-            Call addCode(code, ".AutoSaveOn = " & iPresentation.AutoSaveOn)
+            Call objCode.Add(".AutoSaveOn = " & iPresentation.AutoSaveOn)
         End If
         'If Not .BuiltInDocumentProperties Is iPresentation.BuiltInDocumentProperties Then
-        '    Call addCode(code, "'TODO BuiltInDocumentProperties")
+        '    Call objCode.Add("'TODO BuiltInDocumentProperties")
         'End If
         If .CreateVideoStatus <> iPresentation.CreateVideoStatus Then
-            Call addCode(code, ".CreateVideoStatus = " & PpMediaTaskStatus(.CreateVideoStatus))
+            Call objCode.Add(".CreateVideoStatus = " & PpMediaTaskStatus(.CreateVideoStatus))
         End If
         'If Not .CustomDocumentProperties Is iPresentation.CustomDocumentProperties Then
-        '    Call addCode(code, "'TODO CustomDocumentProperties")
+        '    Call objCode.Add("'TODO CustomDocumentProperties")
         'End If
         If .DefaultLanguageID <> iPresentation.DefaultLanguageID Then
-            Call addCode(code, ".DefaultLanguageID = " & MsoLanguageID(.DefaultLanguageID))
+            Call objCode.Add(".DefaultLanguageID = " & MsoLanguageID(.DefaultLanguageID))
         End If
-        'TODO Call addCode(code, .DefaultShape.compare("DefaultShape", iPresentation.DefaultShape)
+        'TODO Call objCode.AddCode(.DefaultShape.compare("DefaultShape", iPresentation.DefaultShape)
         If .DisplayComments <> iPresentation.DisplayComments Then
-            Call addCode(code, ".DisplayComments = " & MsoTriState(.DisplayComments))
+            Call objCode.Add(".DisplayComments = " & MsoTriState(.DisplayComments))
         End If
         If .EncryptionProvider <> iPresentation.EncryptionProvider Then
-            Call addCode(code, ".EncryptionProvider = " & iPresentation.EncryptionProvider)
+            Call objCode.Add(".EncryptionProvider = " & iPresentation.EncryptionProvider)
         End If
         If .EnvelopeVisible <> iPresentation.EnvelopeVisible Then
-            Call addCode(code, ".EnvelopeVisible = " & MsoTriState(.EnvelopeVisible))
+            Call objCode.Add(".EnvelopeVisible = " & MsoTriState(.EnvelopeVisible))
         End If
         If .FarEastLineBreakLanguage <> iPresentation.FarEastLineBreakLanguage Then
-            Call addCode(code, ".FarEastLineBreakLanguage = " & MsoFarEastLineBreakLanguageID(.FarEastLineBreakLanguage))
+            Call objCode.Add(".FarEastLineBreakLanguage = " & MsoFarEastLineBreakLanguageID(.FarEastLineBreakLanguage))
         End If
         If .FarEastLineBreakLevel <> iPresentation.FarEastLineBreakLevel Then
-            Call addCode(code, ".FarEastLineBreakLevel = " & PpFarEastLineBreakLevel(.FarEastLineBreakLevel))
+            Call objCode.Add(".FarEastLineBreakLevel = " & PpFarEastLineBreakLevel(.FarEastLineBreakLevel))
         End If
         If .Final <> iPresentation.Final Then
-            Call addCode(code, ".Final = " & iPresentation.Final)
+            Call objCode.Add(".Final = " & iPresentation.Final)
         End If
         If .FullName <> iPresentation.FullName Then
-            Call addCode(code, ".FullName = " & iPresentation.FullName)
+            Call objCode.Add(".FullName = " & iPresentation.FullName)
         End If
         If .GridDistance <> iPresentation.GridDistance Then
-            Call addCode(code, ".GridDistance = " & SingleToVBA(.GridDistance))
+            Call objCode.Add(".GridDistance = " & SingleToVBA(.GridDistance))
         End If
         If .HasHandoutMaster <> iPresentation.HasHandoutMaster Then
-            Call addCode(code, ".HasHandoutMaster = " & iPresentation.HasHandoutMaster)
+            Call objCode.Add(".HasHandoutMaster = " & iPresentation.HasHandoutMaster)
         End If
         If .HasNotesMaster <> iPresentation.HasNotesMaster Then
-            Call addCode(code, ".HasNotesMaster = " & iPresentation.HasNotesMaster)
+            Call objCode.Add(".HasNotesMaster = " & iPresentation.HasNotesMaster)
         End If
         If .HasTitleMaster <> iPresentation.HasTitleMaster Then
-            Call addCode(code, ".HasTitleMaster = " & MsoTriState(.HasTitleMaster))
+            Call objCode.Add(".HasTitleMaster = " & MsoTriState(.HasTitleMaster))
         End If
         If .HasVBProject <> iPresentation.HasVBProject Then
-            Call addCode(code, ".HasVBProject = " & iPresentation.HasVBProject)
+            Call objCode.Add(".HasVBProject = " & iPresentation.HasVBProject)
         End If
         If .InMergeMode <> iPresentation.InMergeMode Then
-            Call addCode(code, ".InMergeMode = " & iPresentation.InMergeMode)
+            Call objCode.Add(".InMergeMode = " & iPresentation.InMergeMode)
         End If
         If .LayoutDirection <> iPresentation.LayoutDirection Then
-            Call addCode(code, ".LayoutDirection = " & PpDirection(.LayoutDirection))
+            Call objCode.Add(".LayoutDirection = " & PpDirection(.LayoutDirection))
         End If
         If .Name <> iPresentation.Name Then
-            Call addCode(code, ".Name = " & iPresentation.Name)
+            Call objCode.Add(".Name = " & iPresentation.Name)
         End If
         If .NoLineBreakAfter <> iPresentation.NoLineBreakAfter Then
-            Call addCode(code, ".NoLineBreakAfter = " & iPresentation.NoLineBreakAfter)
+            Call objCode.Add(".NoLineBreakAfter = " & iPresentation.NoLineBreakAfter)
         End If
         If .NoLineBreakBefore <> iPresentation.NoLineBreakBefore Then
-            Call addCode(code, ".NoLineBreakBefore = " & iPresentation.NoLineBreakBefore)
+            Call objCode.Add(".NoLineBreakBefore = " & iPresentation.NoLineBreakBefore)
         End If
         'If Not .Parent Is iPresentation.Parent Then
-        '    Call addCode(code, "'TODO Parent")
+        '    Call objCode.Add("'TODO Parent")
         'End If
         If .Password <> iPresentation.Password Then
-            Call addCode(code, ".Password = " & iPresentation.Password)
+            Call objCode.Add(".Password = " & iPresentation.Password)
         End If
         If .PasswordEncryptionAlgorithm <> iPresentation.PasswordEncryptionAlgorithm Then
-            Call addCode(code, ".PasswordEncryptionAlgorithm = " & iPresentation.PasswordEncryptionAlgorithm)
+            Call objCode.Add(".PasswordEncryptionAlgorithm = " & iPresentation.PasswordEncryptionAlgorithm)
         End If
         If .PasswordEncryptionFileProperties <> iPresentation.PasswordEncryptionFileProperties Then
-            Call addCode(code, ".PasswordEncryptionFileProperties = " & iPresentation.PasswordEncryptionFileProperties)
+            Call objCode.Add(".PasswordEncryptionFileProperties = " & iPresentation.PasswordEncryptionFileProperties)
         End If
         If .PasswordEncryptionKeyLength <> iPresentation.PasswordEncryptionKeyLength Then
-            Call addCode(code, ".PasswordEncryptionKeyLength = " & LongToVBA(.PasswordEncryptionKeyLength))
+            Call objCode.Add(".PasswordEncryptionKeyLength = " & LongToVBA(.PasswordEncryptionKeyLength))
         End If
         If .PasswordEncryptionProvider <> iPresentation.PasswordEncryptionProvider Then
-            Call addCode(code, ".PasswordEncryptionProvider = " & iPresentation.PasswordEncryptionProvider)
+            Call objCode.Add(".PasswordEncryptionProvider = " & iPresentation.PasswordEncryptionProvider)
         End If
         If .Path <> iPresentation.Path Then
-            Call addCode(code, ".Path = " & iPresentation.Path)
+            Call objCode.Add(".Path = " & iPresentation.Path)
         End If
         If .ReadOnly <> iPresentation.ReadOnly Then
-            Call addCode(code, ".ReadOnly = " & MsoTriState(.ReadOnly))
+            Call objCode.Add(".ReadOnly = " & MsoTriState(.ReadOnly))
         End If
         If .ReadOnlyRecommended <> iPresentation.ReadOnlyRecommended Then
-            Call addCode(code, ".ReadOnlyRecommended = " & iPresentation.ReadOnlyRecommended)
+            Call objCode.Add(".ReadOnlyRecommended = " & iPresentation.ReadOnlyRecommended)
         End If
         If .RemovePersonalInformation <> iPresentation.RemovePersonalInformation Then
-            Call addCode(code, ".RemovePersonalInformation = " & MsoTriState(.RemovePersonalInformation))
+            Call objCode.Add(".RemovePersonalInformation = " & MsoTriState(.RemovePersonalInformation))
         End If
         'If .Saved <> iPresentation.Saved Then
-        '    Call addCode(code, ".Saved = " & MsoTriState(.Saved))
+        '    Call objCode.Add(".Saved = " & MsoTriState(.Saved))
         'End If
-        Call addCode(code, .Slides.compare(".Slides", iPresentation.Slides))
+        Call objCode.AddCode(.Slides.compare(".Slides", iPresentation.Slides))
         If .SnapToGrid <> iPresentation.SnapToGrid Then
-            Call addCode(code, ".SnapToGrid = " & MsoTriState(.SnapToGrid))
+            Call objCode.Add(".SnapToGrid = " & MsoTriState(.SnapToGrid))
         End If
         If .TemplateName <> iPresentation.TemplateName Then
-            Call addCode(code, ".TemplateName = " & iPresentation.TemplateName)
+            Call objCode.Add(".TemplateName = " & iPresentation.TemplateName)
         End If
         If .VBASigned <> iPresentation.VBASigned Then
-            Call addCode(code, ".VBASigned = " & MsoTriState(.VBASigned))
+            Call objCode.Add(".VBASigned = " & MsoTriState(.VBASigned))
         End If
         If .WorkIdentity <> iPresentation.WorkIdentity Then
-            Call addCode(code, ".WorkIdentity = " & iPresentation.WorkIdentity)
+            Call objCode.Add(".WorkIdentity = " & iPresentation.WorkIdentity)
         End If
         If .WritePassword <> iPresentation.WritePassword Then
-            Call addCode(code, ".WritePassword = " & iPresentation.WritePassword)
+            Call objCode.Add(".WritePassword = " & iPresentation.WritePassword)
         End If
     End With
 
-    Call Utility.WrapCode(propertyName, code)
+    Call objCode.Wrap(propertyName)
 
-    compare = code
+    Set compare = objCode
 
     Exit Function
 

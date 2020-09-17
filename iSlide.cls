@@ -39,59 +39,61 @@ Public SlideNumber As Long
 'ActivePresentation.Slides(1).Parent
 
 
-Public Function compare(propertyName As String, iSlide As iSlide) As String
+Public Function compare(propertyName As String, iSlide As iSlide) As Code
+
+    Dim objCode As Code
 
     On Error GoTo err_
 
+    Set objCode = New Code
+    Set compare = objCode
+
     If IsCompared(Me) Then Exit Function
 
-    Dim code As String
-    code = ""
-
     With Me
-        'TODO Call addCode(code, .Background.compare("Background", iSlide.Background)
+        'TODO Call objCode.AddCode(.Background.compare("Background", iSlide.Background)
         If .BackgroundStyle <> iSlide.BackgroundStyle Then
-            Call addCode(code, ".BackgroundStyle = " & MsoBackgroundStyleIndex(.BackgroundStyle))
+            Call objCode.Add(".BackgroundStyle = " & MsoBackgroundStyleIndex(.BackgroundStyle))
         End If
         If .DisplayMasterShapes <> iSlide.DisplayMasterShapes Then
-            Call addCode(code, ".DisplayMasterShapes = " & MsoTriState(.DisplayMasterShapes))
+            Call objCode.Add(".DisplayMasterShapes = " & MsoTriState(.DisplayMasterShapes))
         End If
         If .FollowMasterBackground <> iSlide.FollowMasterBackground Then
-            Call addCode(code, ".FollowMasterBackground = " & MsoTriState(.FollowMasterBackground))
+            Call objCode.Add(".FollowMasterBackground = " & MsoTriState(.FollowMasterBackground))
         End If
         If .HasNotesPage <> iSlide.HasNotesPage Then
-            Call addCode(code, ".HasNotesPage = " & MsoTriState(.HasNotesPage))
+            Call objCode.Add(".HasNotesPage = " & MsoTriState(.HasNotesPage))
         End If
         If .Layout <> iSlide.Layout Then
-            Call addCode(code, ".Layout = " & PpSlideLayout(.Layout))
+            Call objCode.Add(".Layout = " & PpSlideLayout(.Layout))
         End If
         If .Name <> iSlide.Name Then
-            Call addCode(code, ".Name = " & iSlide.Name)
+            Call objCode.Add(".Name = " & iSlide.Name)
         End If
         'If Not .NotesPage Is Nothing Then
-        Call addCode(code, .NotesPage.compare(".NotesPage", iSlide.NotesPage))
+        Call objCode.AddCode(.NotesPage.compare(".NotesPage", iSlide.NotesPage))
         'End If
         If .PrintSteps <> iSlide.PrintSteps Then
-            Call addCode(code, ".PrintSteps = " & LongToVBA(.PrintSteps))
+            Call objCode.Add(".PrintSteps = " & LongToVBA(.PrintSteps))
         End If
         If .SectionIndex <> iSlide.SectionIndex Then
-            Call addCode(code, ".SectionIndex = " & LongToVBA(.SectionIndex))
+            Call objCode.Add(".SectionIndex = " & LongToVBA(.SectionIndex))
         End If
-        Call addCode(code, .Shapes.compare(".Shapes", iSlide.Shapes))
+        Call objCode.AddCode(.Shapes.compare(".Shapes", iSlide.Shapes))
         If .SlideID <> iSlide.SlideID Then
-            Call addCode(code, ".SlideID = " & LongToVBA(.SlideID))
+            Call objCode.Add(".SlideID = " & LongToVBA(.SlideID))
         End If
         If .SlideIndex <> iSlide.SlideIndex Then
-            Call addCode(code, ".SlideIndex = " & LongToVBA(.SlideIndex))
+            Call objCode.Add(".SlideIndex = " & LongToVBA(.SlideIndex))
         End If
         If .SlideNumber <> iSlide.SlideNumber Then
-            Call addCode(code, ".SlideNumber = " & LongToVBA(.SlideNumber))
+            Call objCode.Add(".SlideNumber = " & LongToVBA(.SlideNumber))
         End If
     End With
 
-    Call Utility.WrapCode(propertyName, code)
+    Call objCode.Wrap(propertyName)
 
-    compare = code
+    Set compare = objCode
 
     Exit Function
 

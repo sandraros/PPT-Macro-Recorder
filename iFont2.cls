@@ -42,100 +42,102 @@ Public WordArtFormat As MsoPresetTextEffect
 'ActiveWindow.Selection.ShapeRange.TextFrame2.TextRange.Font
 
 
-Public Function compare(propertyName As String, iFont2 As iFont2) As String
+Public Function compare(propertyName As String, iFont2 As iFont2) As Code
+
+    Dim objCode As Code
 
     On Error GoTo err_
 
-    If IsCompared(Me) Then Exit Function
+    Set objCode = New Code
+    Set compare = objCode
 
-    Dim code As String
-    code = ""
+    If IsCompared(Me) Then Exit Function
 
     With Me
         If .Allcaps <> iFont2.Allcaps Then
-            Call addCode(code, ".AllCaps = " & MsoTriState(.Allcaps))
+            Call objCode.Add(".AllCaps = " & MsoTriState(.Allcaps))
         End If
         If .AutoRotateNumbers <> iFont2.AutoRotateNumbers Then
-            Call addCode(code, ".AutoRotateNumbers = " & MsoTriState(.AutoRotateNumbers))
+            Call objCode.Add(".AutoRotateNumbers = " & MsoTriState(.AutoRotateNumbers))
         End If
         If .BaselineOffset <> iFont2.BaselineOffset Then
-            Call addCode(code, ".BaselineOffset = " & SingleToVBA(.BaselineOffset))
+            Call objCode.Add(".BaselineOffset = " & SingleToVBA(.BaselineOffset))
         End If
         If .Bold <> iFont2.Bold Then
-            Call addCode(code, ".Bold = " & MsoTriState(.Bold))
+            Call objCode.Add(".Bold = " & MsoTriState(.Bold))
         End If
         If .Caps <> iFont2.Caps Then
-            Call addCode(code, ".Caps = " & MsoTextCaps(.Caps))
+            Call objCode.Add(".Caps = " & MsoTextCaps(.Caps))
         End If
         If .DoubleStrikeThrough <> iFont2.DoubleStrikeThrough Then
-            Call addCode(code, ".DoubleStrikeThrough = " & MsoTriState(.DoubleStrikeThrough))
+            Call objCode.Add(".DoubleStrikeThrough = " & MsoTriState(.DoubleStrikeThrough))
         End If
         If .Equalize <> iFont2.Equalize Then
-            Call addCode(code, ".Equalize = " & MsoTriState(.Equalize))
+            Call objCode.Add(".Equalize = " & MsoTriState(.Equalize))
         End If
-        Call addCode(code, .Fill.compare(".Fill", iFont2.Fill))
-        Call addCode(code, .Glow.compare(".Glow", iFont2.Glow))
-        Call addCode(code, .Highlight.compare(".Highlight", iFont2.Highlight))
+        Call objCode.AddCode(.Fill.compare(".Fill", iFont2.Fill))
+        Call objCode.AddCode(.Glow.compare(".Glow", iFont2.Glow))
+        Call objCode.AddCode(.Highlight.compare(".Highlight", iFont2.Highlight))
         If .Italic <> iFont2.Italic Then
-            Call addCode(code, ".Italic = " & MsoTriState(.Italic))
+            Call objCode.Add(".Italic = " & MsoTriState(.Italic))
         End If
         If .Kerning <> iFont2.Kerning Then
-            Call addCode(code, ".Kerning = " & SingleToVBA(.Kerning))
+            Call objCode.Add(".Kerning = " & SingleToVBA(.Kerning))
         End If
         If .Name <> iFont2.Name Then
-            Call addCode(code, ".Name = " & ToVBA(.Name))
+            Call objCode.Add(".Name = " & ToVBA(.Name))
         End If
         If .NameAscii <> iFont2.NameAscii Then
-            Call addCode(code, ".NameAscii = " & ToVBA(.NameAscii))
+            Call objCode.Add(".NameAscii = " & ToVBA(.NameAscii))
         End If
         If .NameComplexScript <> iFont2.NameComplexScript Then
-            Call addCode(code, ".NameComplexScript = " & ToVBA(.NameComplexScript))
+            Call objCode.Add(".NameComplexScript = " & ToVBA(.NameComplexScript))
         End If
         If .NameFarEast <> iFont2.NameFarEast Then
-            Call addCode(code, ".NameFarEast = " & ToVBA(.NameFarEast))
+            Call objCode.Add(".NameFarEast = " & ToVBA(.NameFarEast))
         End If
         If .NameOther <> iFont2.NameOther Then
-            Call addCode(code, ".NameOther = " & ToVBA(.NameOther))
+            Call objCode.Add(".NameOther = " & ToVBA(.NameOther))
         End If
-        Call addCode(code, .Reflection.compare(".Reflection", iFont2.Reflection))
-        Call addCode(code, .Shadow.compare(".Shadow", iFont2.Shadow))
+        Call objCode.AddCode(.Reflection.compare(".Reflection", iFont2.Reflection))
+        Call objCode.AddCode(.Shadow.compare(".Shadow", iFont2.Shadow))
         If .Size <> iFont2.Size Then
-            Call addCode(code, ".Size = " & SingleToVBA(.Size))
+            Call objCode.Add(".Size = " & SingleToVBA(.Size))
         End If
         If .Smallcaps <> iFont2.Smallcaps Then
-            Call addCode(code, ".Smallcaps = " & MsoTriState(.Smallcaps))
+            Call objCode.Add(".Smallcaps = " & MsoTriState(.Smallcaps))
         End If
         If .SoftEdgeFormat <> iFont2.SoftEdgeFormat Then
-            Call addCode(code, ".SoftEdgeFormat = " & MsoSoftEdgeType(.SoftEdgeFormat))
+            Call objCode.Add(".SoftEdgeFormat = " & MsoSoftEdgeType(.SoftEdgeFormat))
         End If
         If .Spacing <> iFont2.Spacing Then
-            Call addCode(code, ".Spacing = " & SingleToVBA(.Spacing))
+            Call objCode.Add(".Spacing = " & SingleToVBA(.Spacing))
         End If
         If .Strike <> iFont2.Strike Then
-            Call addCode(code, ".Strike = " & MsoTextStrike(.Strike))
+            Call objCode.Add(".Strike = " & MsoTextStrike(.Strike))
         End If
         If .Strikethrough <> iFont2.Strikethrough Then
-            Call addCode(code, ".Strikethrough = " & MsoTriState(.Strikethrough))
+            Call objCode.Add(".Strikethrough = " & MsoTriState(.Strikethrough))
         End If
         If .Subscript <> iFont2.Subscript Then
-            Call addCode(code, ".Subscript = " & MsoTriState(.Subscript))
+            Call objCode.Add(".Subscript = " & MsoTriState(.Subscript))
         End If
         If .Superscript <> iFont2.Superscript Then
-            Call addCode(code, ".Superscript = " & MsoTriState(.Superscript))
+            Call objCode.Add(".Superscript = " & MsoTriState(.Superscript))
         End If
-        Call addCode(code, .UnderlineColor.compare(".UnderlineColor", iFont2.UnderlineColor))
+        Call objCode.AddCode(.UnderlineColor.compare(".UnderlineColor", iFont2.UnderlineColor))
         If .UnderlineStyle <> iFont2.UnderlineStyle Then
-            Call addCode(code, ".UnderlineStyle= " & MsoTextUnderlineType(.UnderlineStyle))
+            Call objCode.Add(".UnderlineStyle= " & MsoTextUnderlineType(.UnderlineStyle))
         End If
         If .WordArtFormat <> iFont2.WordArtFormat Then
-            Call addCode(code, ".WordArtFormat = " & MsoPresetTextEffect(.WordArtFormat))
+            Call objCode.Add(".WordArtFormat = " & MsoPresetTextEffect(.WordArtFormat))
         End If
     End With
 
-    Call Utility.WrapCode(propertyName, code)
+    Call objCode.Wrap(propertyName)
 
 
-    compare = code
+    Set compare = objCode
 
     Exit Function
 

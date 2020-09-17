@@ -30,61 +30,64 @@ Public WordWrap As MsoTriState
 'ActiveWindow.Selection.ShapeRange.TextFrame2.WordWrap
 
 
-Public Function compare(propertyName As String, iTextFrame2 As iTextFrame2) As String
+Public Function compare(propertyName As String, iTextFrame2 As iTextFrame2) As Code
+
+    Dim objCode As Code
 
     On Error GoTo err_
 
-    If IsCompared(Me) Then Exit Function
+    Set objCode = New Code
+    Set compare = objCode
 
-    Dim code As String
-    code = ""
+    If IsCompared(Me) Then Exit Function
 
     With Me
         If .AutoSize <> iTextFrame2.AutoSize Then
-            Call addCode(code, ".AutoSize = " & MsoAutoSize(.AutoSize))
+            Call objCode.Add(".AutoSize = " & MsoAutoSize(.AutoSize))
         End If
         'If .HasText <> iTextFrame2.HasText Then
-        '    Call addCode(code, ".HasText = " & MsoTriState(.HasText))
+        '    Call objCode.Add(".HasText = " & MsoTriState(.HasText))
         'End If
         If .HorizontalAnchor <> iTextFrame2.HorizontalAnchor Then
-            Call addCode(code, ".HorizontalAnchor = " & MsoHorizontalAnchor(.HorizontalAnchor))
+            Call objCode.Add(".HorizontalAnchor = " & MsoHorizontalAnchor(.HorizontalAnchor))
         End If
         If .MarginBottom <> iTextFrame2.MarginBottom Then
-            Call addCode(code, ".MarginBottom = " & SingleToVBA(.MarginBottom))
+            Call objCode.Add(".MarginBottom = " & SingleToVBA(.MarginBottom))
         End If
         If .MarginLeft <> iTextFrame2.MarginLeft Then
-            Call addCode(code, ".MarginLeft = " & SingleToVBA(.MarginLeft))
+            Call objCode.Add(".MarginLeft = " & SingleToVBA(.MarginLeft))
         End If
         If .MarginRight <> iTextFrame2.MarginRight Then
-            Call addCode(code, ".MarginRight = " & SingleToVBA(.MarginRight))
+            Call objCode.Add(".MarginRight = " & SingleToVBA(.MarginRight))
         End If
         If .MarginTop <> iTextFrame2.MarginTop Then
-            Call addCode(code, ".MarginTop = " & SingleToVBA(.MarginTop))
+            Call objCode.Add(".MarginTop = " & SingleToVBA(.MarginTop))
         End If
         If .Orientation <> iTextFrame2.Orientation Then
-            Call addCode(code, ".Orientation = " & MsoTextOrientation(.Orientation))
+            Call objCode.Add(".Orientation = " & MsoTextOrientation(.Orientation))
         End If
         If .PathFormat <> iTextFrame2.PathFormat Then
-            Call addCode(code, ".PathFormat = " & MsoPathFormat(.PathFormat))
+            Call objCode.Add(".PathFormat = " & MsoPathFormat(.PathFormat))
         End If
-        Call addCode(code, .TextRange.compare(".TextRange", iTextFrame2.TextRange))
+        Call objCode.AddCode(.TextRange.compare(".TextRange", iTextFrame2.TextRange))
         If .VerticalAnchor <> iTextFrame2.VerticalAnchor Then
-            Call addCode(code, ".VerticalAnchor = " & MsoVerticalAnchor(.VerticalAnchor))
+            Call objCode.Add(".VerticalAnchor = " & MsoVerticalAnchor(.VerticalAnchor))
         End If
         If .WarpFormat <> iTextFrame2.WarpFormat Then
-            Call addCode(code, ".WarpFormat = " & MsoWarpFormat(.WarpFormat))
+            Call objCode.Add(".WarpFormat = " & MsoWarpFormat(.WarpFormat))
         End If
-        If .WordArtFormat <> iTextFrame2.WordArtFormat Then
-            Call addCode(code, "'.WordArtFormat = " & MsoPresetTextEffect(.WordArtFormat))
-        End If
+        'TODO
+        'If .WordArtFormat <> iTextFrame2.WordArtFormat Then
+        '    Call objCode.Add("'.WordArtFormat = " & MsoPresetTextEffect(.WordArtFormat))
+        'End If
         If .WordWrap <> iTextFrame2.WordWrap Then
-            Call addCode(code, ".WordWrap = " & MsoTriState(.WordWrap))
+            Call objCode.Add(".WordWrap = " & MsoTriState(.WordWrap))
         End If
     End With
 
-    Call Utility.WrapCode(propertyName, code)
+    Call objCode.Wrap(propertyName)
 
-    compare = code
+    Set compare = objCode
 
     Exit Function
 

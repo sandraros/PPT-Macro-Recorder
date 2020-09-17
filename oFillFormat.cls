@@ -33,74 +33,76 @@ Public Visible As MsoTriState
 'ActiveWindow.Selection.ShapeRange.TextFrame2.TextRange.Font.Fill
 
 
-Public Function compare(propertyName As String, iFillFormat As oFillFormat) As String
+Public Function compare(propertyName As String, iFillFormat As oFillFormat) As Code
+
+    Dim objCode As Code
 
     On Error GoTo err_
 
+    Set objCode = New Code
+    Set compare = objCode
+
     If IsCompared(Me) Then Exit Function
 
-    Dim code As String
-    code = ""
-
     With Me
-        Call addCode(code, .BackColor.compare(".BackColor", iFillFormat.BackColor))
-        Call addCode(code, .ForeColor.compare(".ForeColor", iFillFormat.ForeColor))
+        Call objCode.AddCode(.BackColor.compare(".BackColor", iFillFormat.BackColor))
+        Call objCode.AddCode(.ForeColor.compare(".ForeColor", iFillFormat.ForeColor))
         If .GradientColorType <> iFillFormat.GradientColorType Then
-            Call addCode(code, ".GradientColorType = " & MsoGradientColorType(.GradientColorType))
+            Call objCode.Add(".GradientColorType = " & MsoGradientColorType(.GradientColorType))
         End If
         If .GradientDegree <> iFillFormat.GradientDegree Then
-            Call addCode(code, ".GradientDegree = " & SingleToVBA(.GradientDegree))
+            Call objCode.Add(".GradientDegree = " & SingleToVBA(.GradientDegree))
         End If
         If .GradientStyle <> iFillFormat.GradientStyle Then
-            Call addCode(code, ".GradientStyle = " & MsoGradientStyle(.GradientStyle))
+            Call objCode.Add(".GradientStyle = " & MsoGradientStyle(.GradientStyle))
         End If
         If .GradientVariant <> iFillFormat.GradientVariant Then
-            Call addCode(code, ".GradientVariant = " & LongToVBA(.GradientVariant))
+            Call objCode.Add(".GradientVariant = " & LongToVBA(.GradientVariant))
         End If
         If .PresetGradientType <> iFillFormat.PresetGradientType Then
-            Call addCode(code, ".PresetGradientType = " & MsoPresetGradientType(.PresetGradientType))
+            Call objCode.Add(".PresetGradientType = " & MsoPresetGradientType(.PresetGradientType))
         End If
         If .PresetTexture <> iFillFormat.PresetTexture Then
-            Call addCode(code, ".PresetTexture = " & MsoPresetTexture(.PresetTexture))
+            Call objCode.Add(".PresetTexture = " & MsoPresetTexture(.PresetTexture))
         End If
-        If .RotateWithObject <> iFillFormat.RotateWithObject Then
-            Call addCode(code, ".RotateWithObject = " & MsoTriState(.RotateWithObject))
-        End If
+        'If .RotateWithObject <> iFillFormat.RotateWithObject Then
+        '    Call objCode.Add(".RotateWithObject = " & MsoTriState(.RotateWithObject))
+        'End If
         If .TextureAlignment <> iFillFormat.TextureAlignment Then
-            Call addCode(code, ".TextureAlignment = " & MsoTextureAlignment(.TextureAlignment))
+            Call objCode.Add(".TextureAlignment = " & MsoTextureAlignment(.TextureAlignment))
         End If
         If .TextureHorizontalScale <> iFillFormat.TextureHorizontalScale Then
-            Call addCode(code, ".TextureHorizontalScale = " & SingleToVBA(.TextureHorizontalScale))
+            Call objCode.Add(".TextureHorizontalScale = " & SingleToVBA(.TextureHorizontalScale))
         End If
         If .TextureOffsetX <> iFillFormat.TextureOffsetX Then
-            Call addCode(code, ".TextureOffsetX = " & SingleToVBA(.TextureOffsetX))
+            Call objCode.Add(".TextureOffsetX = " & SingleToVBA(.TextureOffsetX))
         End If
         If .TextureOffsetY <> iFillFormat.TextureOffsetY Then
-            Call addCode(code, ".TextureOffsetY = " & SingleToVBA(.TextureOffsetY))
+            Call objCode.Add(".TextureOffsetY = " & SingleToVBA(.TextureOffsetY))
         End If
         If .TextureTile <> iFillFormat.TextureTile Then
-            Call addCode(code, ".TextureTile = " & MsoTriState(.TextureTile))
+            Call objCode.Add(".TextureTile = " & MsoTriState(.TextureTile))
         End If
         If .TextureType <> iFillFormat.TextureType Then
-            Call addCode(code, ".TextureType = " & MsoTextureType(.TextureType))
+            Call objCode.Add(".TextureType = " & MsoTextureType(.TextureType))
         End If
         If .TextureVerticalScale <> iFillFormat.TextureVerticalScale Then
-            Call addCode(code, ".TextureVerticalScale = " & SingleToVBA(.TextureVerticalScale))
+            Call objCode.Add(".TextureVerticalScale = " & SingleToVBA(.TextureVerticalScale))
         End If
         If .Transparency <> iFillFormat.Transparency Then
-            Call addCode(code, ".Transparency = " & SingleToVBA(.Transparency))
+            Call objCode.Add(".Transparency = " & SingleToVBA(.Transparency))
         End If
-        If .iType <> iFillFormat.iType Then
-            Call addCode(code, "'.Type = " & MsoFillType(.iType))
-        End If
+        'If .iType <> iFillFormat.iType Then
+        '    Call objCode.Add("'.Type = " & MsoFillType(.iType))
+        'End If
         If .Visible <> iFillFormat.Visible Then
-            Call addCode(code, ".Visible = " & MsoTriState(.Visible))
+            Call objCode.Add(".Visible = " & MsoTriState(.Visible))
         End If
     End With
 
-    Call Utility.WrapCode(propertyName, code)
+    Call objCode.Wrap(propertyName)
 
-    compare = code
+    Set compare = objCode
 
     Exit Function
 

@@ -30,21 +30,23 @@ Public WindowState As PpWindowState
 'ActivePresentation.Windows(1).WindowState
 
 
-Public Function compare(propertyName As String, iDocumentWindow As iDocumentWindow) As String
+Public Function compare(propertyName As String, iDocumentWindow As iDocumentWindow) As Code
+
+    Dim objCode As Code
 
     On Error GoTo err_
 
+    Set objCode = New Code
+    Set compare = objCode
+
     If IsCompared(Me) Then Exit Function
 
-    Dim code As String
-    code = ""
- 
     With Me
     End With
 
-    Call Utility.WrapCode(propertyName, code)
+    Call objCode.Wrap(propertyName)
 
-    compare = code
+    Set compare = objCode
 
     Exit Function
 

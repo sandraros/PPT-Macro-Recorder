@@ -18,35 +18,37 @@ Public Title As iShape
 'ActivePresentation.Slides(1).Shapes.Parent
 
 
-Public Function compare(propertyName As String, iShapes As iShapes) As String
+Public Function compare(propertyName As String, iShapes As iShapes) As Code
+
+    Dim objCode As Code
 
     On Error GoTo err_
 
-    If IsCompared(Me) Then Exit Function
+    Set objCode = New Code
+    Set compare = objCode
 
-    Dim code As String
-    code = ""
+    If IsCompared(Me) Then Exit Function
 
     With Me
         'If Not .Application Is iShapes.Application Then
-        '    Call addCode(code, "'TODO Application")
+        '    Call objCode.Add("'TODO Application")
         'End If
         'If .Count <> iShapes.Count Then
-        '    Call addCode(code, ".Count = " & LongToVBA(.Count))
+        '    Call objCode.Add(".Count = " & LongToVBA(.Count))
         'End If
         'If .Creator <> iShapes.Creator Then
-        '    Call addCode(code, ".Creator = " & LongToVBA(.Creator))
+        '    Call objCode.Add(".Creator = " & LongToVBA(.Creator))
         'End If
         'If .HasTitle <> iShapes.HasTitle Then
-        '    Call addCode(code, ".HasTitle = " & MsoTriState(.HasTitle))
+        '    Call objCode.Add(".HasTitle = " & MsoTriState(.HasTitle))
         'End If
-        Call addCode(code, .Title.compare(".Title", iShapes.Title))
-        Call addCode(code, Utility.CompareCollection(.Items, iShapes.Items))
+        Call objCode.AddCode(.Title.compare(".Title", iShapes.Title))
+        Call objCode.AddCode(Utility.CompareCollection(.Items, iShapes.Items))
     End With
 
-    Call Utility.WrapCode(propertyName, code)
+    Call objCode.Wrap(propertyName)
 
-    compare = code
+    Set compare = objCode
 
     Exit Function
 

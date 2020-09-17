@@ -23,49 +23,51 @@ Public Text As String
 'ActiveWindow.Selection.ShapeRange.TextFrame2.TextRange.Start
 
 
-Public Function compare(propertyName As String, iTextRange2 As iTextRange2) As String
+Public Function compare(propertyName As String, iTextRange2 As iTextRange2) As Code
+
+    Dim objCode As Code
 
     On Error GoTo err_
 
-    If IsCompared(Me) Then Exit Function
+    Set objCode = New Code
+    Set compare = objCode
 
-    Dim code As String
-    code = ""
+    If IsCompared(Me) Then Exit Function
 
     With Me
         'If .BoundHeight <> iTextRange2.BoundHeight Then
-        '    Call addCode(code, ".BoundHeight = " & SingleToVBA(.BoundHeight))
+        '    Call objCode.Add(".BoundHeight = " & SingleToVBA(.BoundHeight))
         'End If
         'If .BoundLeft <> iTextRange2.BoundLeft Then
-        '    Call addCode(code, ".BoundLeft = " & SingleToVBA(.BoundLeft))
+        '    Call objCode.Add(".BoundLeft = " & SingleToVBA(.BoundLeft))
         'End If
         'If .BoundTop <> iTextRange2.BoundTop Then
-        '    Call addCode(code, ".BoundTop = " & SingleToVBA(.BoundTop))
+        '    Call objCode.Add(".BoundTop = " & SingleToVBA(.BoundTop))
         'End If
         'If .BoundWidth <> iTextRange2.BoundWidth Then
-        '    Call addCode(code, ".BoundWidth = " & SingleToVBA(.BoundWidth))
+        '    Call objCode.Add(".BoundWidth = " & SingleToVBA(.BoundWidth))
         'End If
         'If .Count <> iTextRange2.Count Then
-        '    Call addCode(code, ".Count = " & LongToVBA(.Count))
+        '    Call objCode.Add(".Count = " & LongToVBA(.Count))
         'End If
-        Call addCode(code, .Font.compare(".Font", iTextRange2.Font))
+        Call objCode.AddCode(.Font.compare(".Font", iTextRange2.Font))
         If .LanguageID <> iTextRange2.LanguageID Then
-            Call addCode(code, ".LanguageID = " & MsoLanguageID(.LanguageID))
+            Call objCode.Add(".LanguageID = " & MsoLanguageID(.LanguageID))
         End If
         'If .length <> iTextRange2.length Then
-        '    Call addCode(code, ".length = " & LongToVBA(.length))
+        '    Call objCode.Add(".length = " & LongToVBA(.length))
         'End If
         'If .Start <> iTextRange2.Start Then
-        '    Call addCode(code, ".Start = " & LongToVBA(.Start))
+        '    Call objCode.Add(".Start = " & LongToVBA(.Start))
         'End If
         If .Text <> iTextRange2.Text Then
-            Call addCode(code, ".Text = " & ToVBA(.Text))
+            Call objCode.Add(".Text = " & ToVBA(.Text))
         End If
     End With
 
-    Call Utility.WrapCode(propertyName, code)
+    Call objCode.Wrap(propertyName)
 
-    compare = code
+    Set compare = objCode
 
     Exit Function
 

@@ -25,10 +25,19 @@ Private Sub cancel_Click()
     Me.Hide
 End Sub
 
-Private Sub macroDescription_KeyDown(ByVal KeyCode As MSForms.ReturnInteger, ByVal Shift As Integer)
-    If KeyCode = vbKeyReturn Then
-    '    KeyCode = 10
-    End If
+'Private Sub macroDescription_KeyDown(ByVal KeyCode As MSForms.ReturnInteger, ByVal Shift As Integer)
+'    If KeyCode = vbKeyReturn Then
+'    '    KeyCode = 10
+'    End If
+'End Sub
+
+Private Sub macroPresentation_KeyUp(ByVal KeyCode As MSForms.ReturnInteger, ByVal Shift As Integer)
+    Select Case KeyCode
+        Case vbKeyReturn:
+            Call ok_Click
+        Case vbKeyEscape:
+            Call cancel_Click
+    End Select
 End Sub
 
 Private Sub ok_Click()
@@ -37,6 +46,15 @@ Private Sub ok_Click()
 End Sub
 
 Private Sub macroName_KeyDown(ByVal KeyCode As MSForms.ReturnInteger, ByVal Shift As Integer)
+    Select Case KeyCode
+        Case vbKeyReturn:
+            KeyCode = 0
+        Case vbKeyEscape:
+            KeyCode = 0
+    End Select
+End Sub
+
+Private Sub macroName_KeyUp(ByVal KeyCode As MSForms.ReturnInteger, ByVal Shift As Integer)
     Select Case KeyCode
         Case vbKeyReturn:
             Call ok_Click
@@ -48,7 +66,7 @@ End Sub
 Private Sub macroPresentation_Change()
     If Len(Me.macroName) >= 6 Then
         If Val(Mid(Me.macroName, 6)) > 0 Then
-            Me.macroName = Main.DetermineMacroName(Me.macroPresentation)
+            Me.macroName = DetermineMacroName(Me.macroPresentation)
         End If
     End If
 End Sub

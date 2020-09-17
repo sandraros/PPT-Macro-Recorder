@@ -14,25 +14,27 @@ Public Items As Collection
 'ActivePresentation.Slides.Parent
 
 
-Public Function compare(propertyName As String, iSlides As iSlides) As String
+Public Function compare(propertyName As String, iSlides As iSlides) As Code
+
+    Dim objCode As Code
 
     On Error GoTo err_
 
-    If IsCompared(Me) Then Exit Function
+    Set objCode = New Code
+    Set compare = objCode
 
-    Dim code As String
-    code = ""
+    If IsCompared(Me) Then Exit Function
 
     With Me
         'If .Count <> iSlides.Count Then
-        '    Call addCode(code, ".Count = " & LongToVBA(.Count))
+        '    Call objCode.Add(".Count = " & LongToVBA(.Count))
         'End If
-        Call addCode(code, Utility.CompareCollection(.Items, iSlides.Items))
+        Call objCode.AddCode(Utility.CompareCollection(.Items, iSlides.Items))
     End With
 
-    Call Utility.WrapCode(propertyName, code)
+    Call objCode.Wrap(propertyName)
 
-    compare = code
+    Set compare = objCode
 
     Exit Function
 
