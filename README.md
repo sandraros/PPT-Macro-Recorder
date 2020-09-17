@@ -1,12 +1,6 @@
-**Work in progress as of 2020/09/08 - Does not work yet**
-
 This is a Microsoft Powerpoint add-in to "record" your actions while you change the PowerPoint presentation and generate a corresponding VBA macro, since Microsoft has removed the official Macro Recorder from PowerPoint since version 2007 (see [Microsoft MVP answer here](https://answers.microsoft.com/en-us/msoffice/forum/all/macro-recorder-for-powerpoint-2007) and Stack Overflow [question 1](https://stackoverflow.com/questions/34143374/vba-in-powerpoint-without-macrorecorder) and [question 2](https://stackoverflow.com/questions/381206/recording-vba-code-in-power-point-2007)).
 
-What is a Macro Recorder for?
-- End users: save one or more user actions which are often used so that to repeat them in one click
-- Developers: fast way to determine the VBA code corresponding to a user action
-
-NB: Microsoft offers macro recorders in Word and Excel, only PowerPoint does not have one.
+![](demo.gif)
 
 How to use the PPT Macro Recorder:
 - The user presses the START Recorder button
@@ -21,13 +15,21 @@ How to use the PPT Macro Recorder:
   - The code is saved to the macro in the Visual Basic Editor
 - The user may edit the macro (Alt + F11) or run it
 
+# Installation
+
+Add xxxxxxxx.ppta as an "add-in":
+- xxxxxxxx
+- xxxxxxxx
+
 So that the add-in can save VBA code, you must enable the option Centre de gestion de la confidentialité > Paramètres > Macros > Accès approuvé au modèle d'objet du projet VBA.
 
-# How does it work
-
-TODO
-
 # OLD
+
+What is a Macro Recorder for?
+- End users: save one or more user actions which are often used so that to repeat them in one click
+- Developers: fast way to determine the VBA code corresponding to a user action
+
+NB: Microsoft offers macro recorders in Word and Excel, only PowerPoint does not have one.
 
 3 projects in one (work in progress as of 2020/08/29 - Does not work yet)
 - **Macro Recorder for PowerPoint**
