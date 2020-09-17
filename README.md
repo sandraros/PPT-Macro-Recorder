@@ -1,6 +1,6 @@
 **Work in progress as of 2020/09/08 - Does not work yet**
 
-This is a Microsoft Powerpoint add-in which allows to simulate the recording of your "actions" and generate a VBA macro, since Microsoft has removed its Macro Recorder since the 2007 version (here the notice concerning PowerPoint 2013 and after).
+This is a Microsoft Powerpoint add-in to "record" your actions while you change the PowerPoint presentation and generate a corresponding VBA macro, since Microsoft has removed the official Macro Recorder from PowerPoint since version 2007 (see [Microsoft MVP answer here](https://answers.microsoft.com/en-us/msoffice/forum/all/macro-recorder-for-powerpoint-2007) and Stack Overflow [question 1](https://stackoverflow.com/questions/34143374/vba-in-powerpoint-without-macrorecorder) and [question 2](https://stackoverflow.com/questions/381206/recording-vba-code-in-power-point-2007)).
 
 What is a Macro Recorder for?
 - End users: save one or more user actions which are often used so that to repeat them in one click
@@ -23,7 +23,11 @@ How to use the PPT Macro Recorder:
 
 So that the add-in can save VBA code, you must enable the option Centre de gestion de la confidentialité > Paramètres > Macros > Accès approuvé au modèle d'objet du projet VBA.
 
-OLD
+# How does it work
+
+TODO
+
+# OLD
 
 3 projects in one (work in progress as of 2020/08/29 - Does not work yet)
 - **Macro Recorder for PowerPoint**
@@ -31,17 +35,17 @@ OLD
 - Generate VBA code for a given PowerPoint presentation, which recreates the same PowerPoint presentation from scratch
 - Create a Powerpoint element manually, select it, run the macro which will re-create the same element (without the methods copy/paste). Useful for understanding how to create the element with VBA by debugging the macro. Maybe superseded by the Macro Recorder above.
 
-# PowerPoint Macro Recorder
+## PowerPoint Macro Recorder
 
 TODO
 
-# PPT-VBA-pseudo-recorder
+## PPT-VBA-pseudo-recorder
 Microsoft has removed the macro recorder in PowerPoint 2007. The following macros can help you determine what VBA code is needed to produce given Powerpoint elements.
 
-# Macro recreate_selected_object
+## Macro recreate_selected_object
 Create a Powerpoint element manually, select it, run the macro which will re-create the same element (without the methods copy/paste).
 If the element is correct (i.e. your element doesn't have characteristics that VBA cannot generate), select the element again, run and debug the macro to see what VBA code is used to create the element.
 If you just want to generate the VBA code to create the element, use the macro **module** below.
 
-# Macro module
+## Macro module
 Select any element in your PowerPoint presentation, run the macro, and it will create a file on your laptop containing the VBA code to generate the element.
