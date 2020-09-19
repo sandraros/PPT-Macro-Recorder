@@ -369,7 +369,7 @@ Function MsoConnectorType(iMsoConnectorType As MsoConnectorType) As String
     Case msoConnectorStraight: strCode = "msoConnectorStraight"
     Case msoConnectorTypeMixed: strCode = "msoConnectorTypeMixed"
     End Select
-    MsoBackgroundStyleIndex = strCode
+    MsoConnectorType = strCode
 End Function
 
 Function MsoExtrusionColorType(iMsoExtrusionColorType As MsoExtrusionColorType) As String
@@ -390,7 +390,7 @@ Function MsoFarEastLineBreakLanguageID(iMsoFarEastLineBreakLanguageID As MsoFarE
     Case MsoFarEastLineBreakLanguageSimplifiedChinese: strCode = "MsoFarEastLineBreakLanguageSimplifiedChinese"
     Case MsoFarEastLineBreakLanguageTraditionalChinese: strCode = "MsoFarEastLineBreakLanguageTraditionalChinese"
     End Select
-    MsoFeatureInstall = strCode
+    MsoFarEastLineBreakLanguageID = strCode
 End Function
 
 Function MsoFeatureInstall(iMsoFeatureInstall As MsoFeatureInstall) As String

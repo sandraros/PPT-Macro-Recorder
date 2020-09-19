@@ -25,12 +25,6 @@ Private Sub cancel_Click()
     Me.Hide
 End Sub
 
-'Private Sub macroDescription_KeyDown(ByVal KeyCode As MSForms.ReturnInteger, ByVal Shift As Integer)
-'    If KeyCode = vbKeyReturn Then
-'    '    KeyCode = 10
-'    End If
-'End Sub
-
 Private Sub macroPresentation_KeyUp(ByVal KeyCode As MSForms.ReturnInteger, ByVal Shift As Integer)
     Select Case KeyCode
         Case vbKeyReturn:
@@ -74,8 +68,6 @@ End Sub
 Private Sub UserForm_Activate()
     Me.macroName.SelStart = 0
     Me.macroName.SelLength = Len(Me.macroName.Value)
-    '' Used to apply property EnterFieldBehavior of field with initial focus
-    'SendKeys "{TAB}+{TAB}"
 End Sub
 
 Private Sub UserForm_QueryClose(cancel As Integer, CloseMode As Integer)
@@ -84,4 +76,3 @@ Private Sub UserForm_QueryClose(cancel As Integer, CloseMode As Integer)
         action = enumAction.cancel
     End If
 End Sub
-

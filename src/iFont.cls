@@ -83,7 +83,9 @@ Public Function compare(propertyName As String, iFont As iFont) As Code
         'If Not .Parent Is iFont.Parent Then
         '    Call objCode.Add("'TODO Parent")
         'End If
-        Call objCode.AddCode(.Shadow.compare(".Shadow", iFont.Shadow))
+        If .Shadow <> iFont.Shadow Then
+            Call objCode.Add(".Shadow = " & .Shadow)
+        End If
         If .Size <> iFont.Size Then
             Call objCode.Add(".Size = " & SingleToVBA(.Size))
         End If

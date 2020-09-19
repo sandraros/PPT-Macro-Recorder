@@ -18,7 +18,7 @@ Private mastrCode() As String
 Private menumState As enumState
 Private mintLBound As Integer
 
-Sub class_initialize()
+Sub Class_Initialize()
     ReDim Preserve mastrCode(1)
     mintLBound = LBound(mastrCode)
     Erase mastrCode

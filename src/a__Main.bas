@@ -1,17 +1,50 @@
 Attribute VB_Name = "a__Main"
-Public snapshots As New Collection
-Global snapshot As cSnapShot
-Global AllObjectsCompared As Collection
+Global Const MyToolbar As String = "Macro Recorder"
+Global oStartStopButton As CommandBarButton
+Global Const StartStopButton_StartCaption As String = "Start recording"
+Global Const StartStopButton_StopCaption As String = "Stop recording"
+Global Const StartStopButton_StartFaceId As Long = 184
+Global Const StartStopButton_StopFaceId As Long = 2186
 Global macroPresentation As String
 Global macroName As String
 Global macroDescription As String
-
-Sub test()
-    Dim Fill As Office.FillFormat
-    Set Fill = ActiveWindow.Selection.ShapeRange.TextFrame2.TextRange.Font.Fill
-End Sub
+Global snapshots As New Collection
+Global snapshot As cSnapShot
+Global AllObjectsCompared As Collection
 
 Sub start_stop_recording()
+
+    Select Case snapshots.Count
+        Case 0
+            Call start_recording
+        Case 1
+            Call stop_recording
+    End Select
+
+End Sub
+
+Sub start_recording()
+
+    Select Case snapshots.Count
+        Case 0
+            If DialogStartRecorder() = enumAction.ok Then
+                On Error Resume Next
+                With CommandBars(MyToolbar).Controls(StartStopButton_StartCaption)
+                    .Caption = StartStopButton_StopCaption
+                    .FaceId = StartStopButton_StopFaceId
+                    .TooltipText = StartStopButton_StopCaption
+                End With
+                On Error GoTo 0
+                Call take_snapshot
+            End If
+
+        Case 1
+            MsgBox "Macro Recorder is already running"
+    End Select
+
+End Sub
+
+Sub stop_recording()
 
     Dim strCode As String
     Dim objCode As Code
@@ -21,59 +54,62 @@ Sub start_stop_recording()
     Dim last As cSnapShot
 
     If snapshots.Count = 0 Then
-        
-        If DialogStartRecorder() = enumAction.cancel Then
-            Exit Sub
-        End If
+        MsgBox "Macro Recorder is already stopped"
+        Exit Sub
     End If
 
     Call take_snapshot
 
-    If snapshots.Count = 2 Then
+    On Error Resume Next
+        With CommandBars(MyToolbar).Controls(StartStopButton_StopCaption)
+            .Caption = StartStopButton_StartCaption
+            .FaceId = StartStopButton_StartFaceId
+            .TooltipText = StartStopButton_StartCaption
+        End With
+    On Error GoTo 0
 
-        ' Build collections MyObjPtrs and PptObjPtrs of all snapshots.
-        Call BuildObjectIndexes
+    ' Build collections MyObjPtrs and PptObjPtrs of all snapshots.
+    Call BuildObjectIndexes
 
-        Set AllObjectsCompared = New Collection
+    Set AllObjectsCompared = New Collection
 
-        Set first = snapshots.Item(snapshots.Count - 1)
-        Set last = snapshots.Item(snapshots.Count)
+    Set first = snapshots.Item(snapshots.Count - 1)
+    Set last = snapshots.Item(snapshots.Count)
 
-        Set objCode = New Code
-        Call objCode.AddCode(last.iSelection.compare("Application.ActiveWindow.Selection", first.iSelection))
-        Call objCode.AddCode(last.iPresentation.compare("Application.ActivePresentation", first.iPresentation))
+    Set objCode = New Code
+    Call objCode.AddCode(last.iSelection.compare("Application.ActiveWindow.Selection", first.iSelection))
+    Call objCode.AddCode(last.iPresentation.compare("Application.ActivePresentation", first.iPresentation))
 
-        If objCode.state = emptyContent Then
-            Exit Sub
-        End If
-
-        strCode = ""
-        strCode = strCode _
-            & "Sub " & macroName & "()" & Chr(13) _
-            & "'" & Chr(13) _
-            & "' " & macroName & " Macro" & Chr(13)
-        astrMacroDescription = Split(macroDescription, Chr(13))
-        For i = LBound(astrMacroDescription) To UBound(astrMacroDescription)
-            strCode = strCode & "' " & astrMacroDescription(i) & Chr(13)
-        Next
-            
-        strCode = strCode & "'" & Chr(13)
-
-        astrCode = objCode.astrCode
-        For i = LBound(astrCode) To UBound(astrCode)
-            strCode = strCode & Space(4) & astrCode(i) & Chr(13)
-        Next
-
-        strCode = strCode & "End Sub"
-
-        Call ExportCode(strCode)
-
-        ' Clear the collection (can we trust the garbage collection?)
-        Call snapshots.Remove(1)
-        Call snapshots.Remove(1)
-        Set snapshots = New Collection
-
+    If objCode.state = emptyContent Then
+        Exit Sub
     End If
+
+    strCode = ""
+    ' Macro start (Sub)
+    strCode = strCode _
+        & "Sub " & macroName & "()" & Chr(13) _
+        & "'" & Chr(13) _
+        & "' " & macroName & " Macro" & Chr(13)
+    ' Macro description
+    astrMacroDescription = Split(macroDescription, Chr(13))
+    For i = LBound(astrMacroDescription) To UBound(astrMacroDescription)
+        strCode = strCode & "' " & astrMacroDescription(i) & Chr(13)
+    Next
+    strCode = strCode & "'" & Chr(13)
+    ' Macro code
+    astrCode = objCode.astrCode
+    For i = LBound(astrCode) To UBound(astrCode)
+        strCode = strCode & Space(4) & astrCode(i) & Chr(13)
+    Next
+    ' Macro end (End Sub)
+    strCode = strCode & "End Sub"
+
+    Call ExportCode(strCode)
+
+    ' Clear the collection (can we trust the garbage collection?)
+    Call snapshots.Remove(1)
+    Call snapshots.Remove(1)
+    Set snapshots = New Collection
 
 End Sub
 
@@ -88,21 +124,23 @@ Function DialogStartRecorder() As enumAction
     Do While True
         MacroAlreadyExists = False
         For Each VBProject In Application.vbe.VBProjects
-            For Each VBComponent In VBProject.VBComponents
-                If VBComponent.Name = "NewMacros" Then
-                    Errnum = 0
-                End If
-                On Error Resume Next
-                countLines = VBComponent.CodeModule.ProcCountLines("Macro" & CStr(i), vbext_pk_Proc)
-                Errnum = err.number
-                On Error GoTo 0
-                If Errnum = 0 Then
-                    MacroAlreadyExists = True
+            If VBProject.Protection = vbext_pp_none Then
+                For Each VBComponent In VBProject.VBComponents
+                    If VBComponent.Name = "NewMacros" Then
+                        Errnum = 0
+                    End If
+                    On Error Resume Next
+                    countLines = VBComponent.CodeModule.ProcCountLines("Macro" & CStr(i), vbext_pk_Proc)
+                    Errnum = err.number
+                    On Error GoTo 0
+                    If Errnum = 0 Then
+                        MacroAlreadyExists = True
+                        Exit For
+                    End If
+                Next
+                If Not MacroAlreadyExists Then
                     Exit For
                 End If
-            Next
-            If Not MacroAlreadyExists Then
-                Exit For
             End If
         Next
         If Not MacroAlreadyExists Then
@@ -197,35 +235,6 @@ Function DetermineMacroName(PresentationName As String) As String
     DetermineMacroName = "Macro" & CStr(intMacroNumber + 1)
 
 End Function
-
-Sub please_delete_me()
-    macronumber = 0
-    i = 1
-    Do While True
-        MacroAlreadyExists = False
-        For Each VBComponent In Presentation.VBProject.VBComponents
-            If VBComponent.Name = "NewMacros" Then
-                Errnum = 0
-            End If
-            On Error Resume Next
-            countLines = VBComponent.CodeModule.ProcCountLines("Macro" & CStr(i), vbext_pk_Proc)
-            Errnum = err.number
-            On Error GoTo 0
-            If Errnum = 0 Then
-                MacroAlreadyExists = True
-                Exit For
-            End If
-        Next
-        If Not MacroAlreadyExists Then
-            macronumber = i
-            Exit Do
-        End If
-        i = i + 1
-    Loop
-
-    DetermineMacroName = "Macro" & CStr(macronumber)
-
-End Sub
 
 Sub ExportCode(Code As String)
 

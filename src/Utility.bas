@@ -61,7 +61,7 @@ Function CompareCollection( _
         If Not myObject1 Is Nothing Then
             Call objCode.AddCode(myObject2.compare(".Item(" & CStr(i) & ")", myObject1))
         Else
-            Call objCode.AddCode(myObject2.create(indent))
+            Call objCode.AddCode(myObject2.create())
         End If
     Next
 

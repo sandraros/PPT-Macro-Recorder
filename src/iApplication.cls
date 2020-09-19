@@ -61,7 +61,7 @@ Public WindowState As PpWindowState
 'Application.Path
 
 
-Sub class_initialize()
+Sub Class_Initialize()
     Value = "hhh"
 End Sub
 

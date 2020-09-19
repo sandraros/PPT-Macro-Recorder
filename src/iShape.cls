@@ -353,7 +353,7 @@ err_:
 End Sub
 
 
-Public Function create(indent) As Code
+Public Function create() As Code
 
     Dim myShape As iShape
     Dim objCode As Code
@@ -366,8 +366,8 @@ Public Function create(indent) As Code
     With Me
         Select Case .iType
             Case mso3DModel:
-                Call objCode.Add(Space(indent) _
-                            & "Set MyShape = .Add3DModel(" _
+                Call objCode.Add( _
+                              "Set MyShape = .Add3DModel(" _
                             & " FileName:=" & ToVBA("") & ", LinkToFile:=msoFalse, SaveWithDocument:=msoTrue," _
                             & " Left:=" & ToVBA(.Left) & "," _
                             & " Top:=" & ToVBA(.Top) & "," _
@@ -377,8 +377,8 @@ Public Function create(indent) As Code
                     .iType = mso3DModel
                 End With
             Case msoAutoShape:
-                Call objCode.Add(Space(indent) _
-                            & "Set MyShape = .AddShape(" _
+                Call objCode.Add( _
+                              "Set MyShape = .AddShape(" _
                             & " Type:=" & MsoAutoShapeType(.AutoShapeType) & "," _
                             & " Left:=" & ToVBA(.Left) & "," _
                             & " Top:=" & ToVBA(.Top) & "," _
