@@ -1,53 +1,94 @@
-This is a Microsoft Powerpoint add-in to "record" your actions while you change the PowerPoint presentation and generate a corresponding VBA macro, since Microsoft has removed the official Macro Recorder from PowerPoint since version 2007 (see [Microsoft MVP answer here](https://answers.microsoft.com/en-us/msoffice/forum/all/macro-recorder-for-powerpoint-2007) and Stack Overflow [question 1](https://stackoverflow.com/questions/34143374/vba-in-powerpoint-without-macrorecorder) and [question 2](https://stackoverflow.com/questions/381206/recording-vba-code-in-power-point-2007)).
+This is a Microsoft Powerpoint add-in to record your actions while you edit the PowerPoint presentation and generate a corresponding VBA macro. The add-in currently handles changes to basic shapes - See the restrictions.
 
-![](demo.gif)
+# How to use PPT Macro Recorder
 
-How to use the PPT Macro Recorder:
-- The user presses the START Recorder button
-  - A modal window opens up and asks the name of the macro
-  - What happens internally: all objects of the current Powerpoint instance are saved as "V1" variables in the global memory for later comparison
-- The user does some actions
-- The user presses the STOP Recorder button
-  - What happens internally: All objects of the current Powerpoint instance are saved as "V2" variables in the global memory. There is a comparison between the V1 and V2 variables, anything different produces VBA code to redo the action. For instance, changing the color of an object will produce this code:
-    ```
-    TODO
-    ```
-  - The code is saved to the macro in the Visual Basic Editor
-- The user may edit the macro (Alt + F11) or run it
+- Menu Add-Ins > Start recording > Dialog to choose the macro name
+- Edit your PowerPoint presentation
+- Menu Add-Ins > Stop recording
+- Menu Developer > Visual Basic Editor > module NewMacros
+  
+Sum-up in this animated GIF:
+
+![](images/demo.gif)
+
+# Example of generated code
+
+```
+Sub Macro1()
+'
+' Macro1 Macro
+'
+    With Application.ActivePresentation.Slides.Item(1).Shapes
+        Set MyShape = .AddShape(Type:=msoShapeRectangle, Left:=74.66669, Top:=19.33331, Width:=185.3333, Height:=164)
+        With MyShape
+            With .Fill
+                Call .Solid
+                .BackColor.RGB = RGB(255, 255, 255)
+                .ForeColor.ObjectThemeColor = Office.msoThemeColorAccent1
+            End With
+            With .Line
+                .BackColor.RGB = RGB(255, 255, 255)
+                .DashStyle = msoLineSolid
+                With .ForeColor
+                    .ObjectThemeColor = Office.msoThemeColorAccent1
+                    .TintAndShade = -0.5
+                End With
+                .Style = msoLineSingle
+                .Weight = 1
+            End With
+            .Name = "Rectangle 3"
+            With .TextFrame2
+                .HorizontalAnchor = Office.msoAnchorNone
+                .MarginBottom = 3.6
+                .MarginLeft = 7.2
+                .MarginRight = 7.2
+                .MarginTop = 3.6
+                .Orientation = Office.msoTextOrientationHorizontal
+                With .TextRange
+                    With .Font
+                        With .Fill
+                            .BackColor.RGB = RGB(255, 255, 255)
+                            .ForeColor.ObjectThemeColor = Office.msoThemeColorLight1
+                            .Visible = msoTrue
+                        End With
+                        .Kerning = 12
+                        .Name = "Calibri"
+                        .NameAscii = "Calibri"
+                        .NameComplexScript = "+mn-cs"
+                        .NameFarEast = "+mn-ea"
+                        .NameOther = "Calibri"
+                        .Size = 18
+                    End With
+                    .LanguageID = Office.msoLanguageIDFrench
+                End With
+                .VerticalAnchor = msoAnchorMiddle
+                .WordWrap = msoTrue
+            End With
+        End With
+    End With
+End Sub
+```
 
 # Installation
 
-Add xxxxxxxx.ppta as an "add-in":
-- xxxxxxxx
-- xxxxxxxx
+- Click the button DOWNLOAD CODE to get the ZIP of github repository
+- Open the ZIP file and extract the file `macro recorder.ppam` to any download directory
+- Start POWERPOINT
+- Menu File > Options > Trust Center > Parameters > Macro parameters > Allow access to VBA Project Object Model
+- Menu File > Options > Trust Center > Parameters > Add-Ins > uncheck "deactivation of all add-ins", uncheck "signature required"
+- Menu File > Options > Add-Ins > PowerPoint Add-Ins > Add new... > select `macro recorder.ppam` from the download directory
 
-So that the add-in can save VBA code, you must enable the option Centre de gestion de la confidentialité > Paramètres > Macros > Accès approuvé au modèle d'objet du projet VBA.
+You should now see the tab `Add-ins` with one button `Start recording`. It's a toggle button which can be either start or stop.
 
-# OLD
+# Supported elements
 
-What is a Macro Recorder for?
-- End users: save one or more user actions which are often used so that to repeat them in one click
-- Developers: fast way to determine the VBA code corresponding to a user action
-
-NB: Microsoft offers macro recorders in Word and Excel, only PowerPoint does not have one.
-
-3 projects in one (work in progress as of 2020/08/29 - Does not work yet)
-- **Macro Recorder for PowerPoint**
-  - It calculates the delta of all objects between start and stop, and generates the delta VBA code
-- Generate VBA code for a given PowerPoint presentation, which recreates the same PowerPoint presentation from scratch
-- Create a Powerpoint element manually, select it, run the macro which will re-create the same element (without the methods copy/paste). Useful for understanding how to create the element with VBA by debugging the macro. Maybe superseded by the Macro Recorder above.
-
-## PowerPoint Macro Recorder
-
-TODO
-
-## PPT-VBA-pseudo-recorder
-Microsoft has removed the macro recorder in PowerPoint 2007. The following macros can help you determine what VBA code is needed to produce given Powerpoint elements.
-
-## Macro recreate_selected_object
-Create a Powerpoint element manually, select it, run the macro which will re-create the same element (without the methods copy/paste).
-If the element is correct (i.e. your element doesn't have characteristics that VBA cannot generate), select the element again, run and debug the macro to see what VBA code is used to create the element.
-If you just want to generate the VBA code to create the element, use the macro **module** below.
-
-## Macro module
-Select any element in your PowerPoint presentation, run the macro, and it will create a file on your laptop containing the VBA code to generate the element.
+- General limits
+  - The tests are done on Office 365 version 16.0 build 13127.
+  - The add-in is written in VBA. VBA cannot read some elements and properties from the PowerPoint Object Model, like for instance the background textures. There are also a few VBA errors like gradient colors where the colors are rendered a little differently.
+  - To overcome these limits, the only possibility would be to read the saved PowerPoint file, which is not the goal of the add-in, so we have to live with that.
+- Supported elements
+  - Support of basic shapes: background color, transparence, lines (dash, solid), text.
+- Release changes
+  - 0.1.0 (initial)
+- Support
+  - Lots of elements are not supported yet, so please don't post issues concerning them. See this detailed list of [supported elements](supported elements.md).
