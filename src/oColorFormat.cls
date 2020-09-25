@@ -21,14 +21,14 @@ Public iType As MsoColorType ' Type
 ' ...GradientStops(1).Color
 '
 
-Public Function compare(propertyName As String, iColorFormat As oColorFormat) As Code
+Public Function Compare(ObjectName As String, iColorFormat As oColorFormat) As UDiff
 
-    Dim objCode As Code
+    Dim oCode As UDiff
 
     On Error GoTo err_
 
-    Set objCode = New Code
-    Set compare = objCode
+    Set oCode = New_UDiff(ObjectName, Me, iColorFormat)
+    Set Compare = oCode
 
     If IsCompared(Me) Then Exit Function
 
@@ -37,32 +37,32 @@ Public Function compare(propertyName As String, iColorFormat As oColorFormat) As
     With Me
         If .iType = msoColorTypeScheme And _
            .ObjectThemeColor <> iColorFormat.ObjectThemeColor Then
-            Call objCode.Add(".ObjectThemeColor = " & MsoThemeColorIndex(.ObjectThemeColor))
+            Call oCode.AddScalarProperty("ObjectThemeColor", MsoThemeColorIndex(.ObjectThemeColor))
         End If
         If .iType = msoColorTypeRGB And _
             (.iType <> iColorFormat.iType Or .RGB <> iColorFormat.RGB) Then
-            Call objCode.Add(".RGB = " & MsoRGBTypeToVBA(.RGB))
+            Call oCode.AddScalarProperty("RGB", MsoRGBTypeToVBA(.RGB))
         End If
         'If .iType = msoColorTypeScheme And _
         '    (.iType <> iColorFormat.iType Or .SchemeColor <> iColorFormat.SchemeColor) Then
         '    ' Not sure if there is an enumeration for SchemeColor values (class Office.ColorFormat)
-        '    Call objCode.Add(".SchemeColor = " & ToVBA(.SchemeColor))
+        '    Call oCode.AddScalarProperty("SchemeColor", ToVBA(.SchemeColor))
         'End If
         ' BRIGHTNESS must be applied after ObjectThemeColor which resets it
         If .Brightness <> iColorFormat.Brightness Then
-            Call objCode.Add(".Brightness = " & SingleToVBA(.Brightness))
+            Call oCode.AddScalarProperty("Brightness", SingleToVBA(.Brightness))
         End If
         If .TintAndShade <> iColorFormat.TintAndShade Then
-            Call objCode.Add(".TintAndShade = " & SingleToVBA(.TintAndShade))
+            Call oCode.AddScalarProperty("TintAndShade", SingleToVBA(.TintAndShade))
         End If
         'If .iType <> iColorFormat.iType Then
-        '    Call objCode.Add("'.Type = " & MsoColorType(.iType))
+        '    Call oCode.Add("'.Type", MsoColorType(.iType))
         'End If
     End With
 
-    Call objCode.Wrap(propertyName)
+    Call oCode.Wrap
 
-    Set compare = objCode
+    Set Compare = oCode
 
     Exit Function
 

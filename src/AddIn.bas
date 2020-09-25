@@ -5,17 +5,19 @@ Sub auto_open()
 
     ' Create the toolbar
     On Error Resume Next
-    Set oToolbar = CommandBars.Add(Name:=MyToolbar, Position:=msoBarFloating, Temporary:=True)
+    Set oToolbar = CommandBars.Add(Name:=MyToolbar, position:=msoBarFloating, Temporary:=True)
     If err.number <> 0 Then
         '' The toolbar's already there, so we have nothing to do
         'Exit Sub
         On Error GoTo ErrorHandler
         Set oToolbar = CommandBars(MyToolbar)
         Call oToolbar.delete
-        Set oToolbar = CommandBars.Add(Name:=MyToolbar, Position:=msoBarFloating, Temporary:=True)
+        Set oToolbar = CommandBars.Add(Name:=MyToolbar, position:=msoBarFloating, Temporary:=True)
     End If
 
     On Error GoTo ErrorHandler
+
+    recorderState = stopped
 
     'Add button START
     Set oStartStopButton = oToolbar.Controls.Add(Type:=msoControlButton)

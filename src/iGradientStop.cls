@@ -10,46 +10,46 @@ Attribute VB_Exposed = False
 Public Application As Object
 Public Color As oColorFormat
 Public Creator As Long
-Public Position As Single
+Public position As Single
 Public Transparency As Single
 
 
 'ActiveWindow.Selection.ShapeRange.Fill.GradientStops(1)
 
 
-Public Function compare(propertyName As String, iGradientStop As iGradientStop) As Code
+Public Function Compare(ObjectName As String, iGradientStop As iGradientStop) As UDiff
 
-    Dim objCode As Code
+    Dim oCode As UDiff
 
     On Error GoTo err_
 
-    Set objCode = New Code
-    Set compare = objCode
+    Set oCode = New_UDiff(ObjectName, Me, iGradientStop)
+    Set Compare = oCode
 
     If IsCompared(Me) Then Exit Function
 
     With Me
         'If Not .Application Is iGradientStop.Application Then
-        '    Call objCode.Add("'TODO Application")
+        '    Call oCode.Add("'TODO Application")
         'End If
-        Call objCode.AddCode(.Color.compare(".Color", iGradientStop.Color))
+        Call oCode.AddCode(.Color.Compare("Color", iGradientStop.Color))
         'If .Creator <> iGradientStop.Creator Then
-        '    Call objCode.Add(".Creator = " & LongToVBA(.Creator))
+        '    Call oCode.AddScalarProperty("Creator", LongToVBA(.Creator))
         'End If
         'If Not .Parent Is iGradientStop.Parent Then
-        '    Call objCode.Add("'TODO Parent")
+        '    Call oCode.Add("'TODO Parent")
         'End If
-        If .Position <> iGradientStop.Position Then
-            Call objCode.Add(".Position = " & ToVBA(.Position))
+        If .position <> iGradientStop.position Then
+            Call oCode.AddScalarProperty("Position", ToVBA(.position))
         End If
         If .Transparency <> iGradientStop.Transparency Then
-            Call objCode.Add(".Transparency = " & ToVBA(.Transparency))
+            Call oCode.AddScalarProperty("Transparency", ToVBA(.Transparency))
         End If
     End With
 
-    Call objCode.Wrap(propertyName)
+    Call oCode.Wrap
 
-    Set compare = objCode
+    Set Compare = oCode
 
     Exit Function
 
@@ -70,7 +70,7 @@ Public Sub init(iGradientStop As Office.GradientStop)
         Set .Application = iGradientStop.Application
         Set .Color = New_oColorFormat(iGradientStop.Color)
         .Creator = iGradientStop.Creator
-        .Position = iGradientStop.Position
+        .position = iGradientStop.position
         .Transparency = iGradientStop.Transparency
     End With
 
@@ -85,30 +85,30 @@ err_:
 
 End Sub
 
-Public Function create(indent) As Code
+Public Function create(indent) As UDiff
 
-    Set objCode = New Code
+    Set oCode = New_UDiff(ObjectName, Me, )
 
     With Me
-        Call objCode.Add(Space(indent) _
+        Call oCode.Add(Space(indent) _
                     & "Call .Insert2(" _
                     & " RGB:=" & MsoRGBTypeToVBA(.Color.RGB) & "," _
-                    & " Position:=" & ToVBA(.Position) & "," _
+                    & " Position:=" & ToVBA(.position) & "," _
                     & " Transparency:=" & ToVBA(.Transparency) & "," _
                     & " Index:=-1," _
                     & " Brightness:=" & ToVBA(.Color.Brightness) & ")")
     End With
 
-    Set create = objCode
+    Set create = oCode
 
 End Function
 
 Public Function delete(indent) As String
 
-    Set objCode = New Code
+    Set oCode = New_UDiff(ObjectName, Me, )
 
     With Me
-        Call objCode.Add(Space(indent) & "Call .Delete(1)")
+        Call oCode.Add(Space(indent) & "Call .Delete(1)")
     End With
 
     delete = Code

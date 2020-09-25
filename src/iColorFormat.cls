@@ -21,14 +21,14 @@ Public iType As MsoColorType ' Type
 'ActiveWindow.Selection.ShapeRange.TextFrame2.TextRange.Font.Fill.ForeColor
 
 
-Public Function compare(propertyName As String, iColorFormat As iColorFormat) As Code
+Public Function Compare(ObjectName As String, iColorFormat As iColorFormat) As UDiff
 
-    Dim objCode As Code
+    Dim oCode As UDiff
 
     On Error GoTo err_
 
-    Set objCode = New Code
-    Set compare = objCode
+    Set oCode = New_UDiff(ObjectName, Me, iColorFormat)
+    Set Compare = oCode
 
     If IsCompared(Me) Then Exit Function
 
@@ -37,31 +37,44 @@ Public Function compare(propertyName As String, iColorFormat As iColorFormat) As
     With Me
         If .iType = msoColorTypeScheme _
             And .ObjectThemeColor <> iColorFormat.ObjectThemeColor Then
-            Call objCode.Add(".ObjectThemeColor = " & MsoThemeColorIndex(.ObjectThemeColor))
+            ' set x = goStack.Push(iColorFormat,goStack.Top)
+            ' Call oCode.Add(iColorFormat.xxxx.Compare())
+            ' oCollection.Item(oCollection.Count).SelectionShapeRange =
+            ' If stack contains a Shape object and does not contain iSelection.iShapeRange, generate
+            ' code only if iSelection.iShapeRangeFill.ForeColor has different value for property ObjectThemeColor.
+            If stopSnapShot.iSelection.iType = ppSelectionShapes Then
+                Set obj1 = GetPptObject(stopSnapShot, stopSnapShot.iSelection.shapeRange.Fill.ForeColor)
+                Set obj2 = GetPptObject(stopSnapShot, Me)
+                If obj1 Is obj2 Then
+                    a = 1
+                End If
+            End If
+            Set oCode = New_UDiff(ObjectName, Me, iColorFormat)
+            Call oCode.AddScalarProperty("ObjectThemeColor", MsoThemeColorIndex(.ObjectThemeColor))
         End If
         If .iType = msoColorTypeRGB _
             And (.iType <> iColorFormat.iType Or .RGB <> iColorFormat.RGB) Then
-            Call objCode.Add(".RGB = " & MsoRGBTypeToVBA(.RGB))
+            Call oCode.AddScalarProperty("RGB", MsoRGBTypeToVBA(.RGB))
         End If
         'If .iType = msoColorTypeScheme And _
         '    (.iType <> iColorFormat.iType Or .SchemeColor <> iColorFormat.SchemeColor) Then
-        '    Call objCode.Add(".SchemeColor = " & PpColorSchemeIndex(.SchemeColor))
+        '    Call oCode.AddScalarProperty("SchemeColor", PpColorSchemeIndex(.SchemeColor))
         'End If
         ' BRIGHTNESS must be applied after ObjectThemeColor which resets it
         If .Brightness <> iColorFormat.Brightness Then
-            Call objCode.Add(".Brightness = " & SingleToVBA(.Brightness))
+            Call oCode.AddScalarProperty("Brightness", SingleToVBA(.Brightness))
         End If
         If .TintAndShade <> iColorFormat.TintAndShade Then
-            Call objCode.Add(".TintAndShade = " & SingleToVBA(.TintAndShade))
+            Call oCode.AddScalarProperty("TintAndShade", SingleToVBA(.TintAndShade))
         End If
         'If .iType <> iColorFormat.iType Then
-        '    Call objCode.Add("'.Type = " & MsoColorType(.iType))
+        '    Call oCode.Add("'.Type", MsoColorType(.iType))
         'End If
     End With
 
-    Call objCode.Wrap(propertyName)
+    Call oCode.Wrap
 
-    Set compare = objCode
+    Set Compare = oCode
 
     Exit Function
 

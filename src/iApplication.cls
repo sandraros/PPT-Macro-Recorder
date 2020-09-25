@@ -61,115 +61,115 @@ Public WindowState As PpWindowState
 'Application.Path
 
 
-Sub Class_Initialize()
+Sub class_initialize()
     Value = "hhh"
 End Sub
 
-Public Function compare(propertyName As String, iApplication As iApplication) As Code
+Public Function Compare(ObjectName As String, iApplication As iApplication) As UDiff
 
-    Dim objCode As Code
+    Dim oCode As UDiff
 
     On Error GoTo err_
 
-    Set objCode = New Code
-    Set compare = objCode
+    Set oCode = New_UDiff(ObjectName, Me, iApplication)
+    Set Compare = oCode
 
     If IsCompared(Me) Then Exit Function
 
     With Me
         If .Active <> iApplication.Active Then
-            Call objCode.Add(".Active = " & MsoTriState(.Active))
+            Call oCode.AddScalarProperty("Active", MsoTriState(.Active))
         End If
         If .ActiveEncryptionSession <> iApplication.ActiveEncryptionSession Then
-            Call objCode.Add(".ActiveEncryptionSession = " & LongToVBA(.ActiveEncryptionSession))
+            Call oCode.AddScalarProperty("ActiveEncryptionSession", LongToVBA(.ActiveEncryptionSession))
         End If
-        Call objCode.AddCode(.ActivePresentation.compare(".ActivePresentation", iApplication.ActivePresentation))
+        Call oCode.AddCode(.ActivePresentation.Compare("ActivePresentation", iApplication.ActivePresentation))
         If .ActivePrinter <> iApplication.ActivePrinter Then
-            Call objCode.Add(".ActivePrinter = " & iApplication.ActivePrinter)
+            Call oCode.AddScalarProperty("ActivePrinter", iApplication.ActivePrinter)
         End If
-        Call objCode.AddCode(.ActiveWindow.compare(".ActiveWindow", iApplication.ActiveWindow))
+        Call oCode.AddCode(.ActiveWindow.Compare("ActiveWindow", iApplication.ActiveWindow))
         If .AutomationSecurity <> iApplication.AutomationSecurity Then
-            Call objCode.Add(".AutomationSecurity = " & MsoAutomationSecurity(.AutomationSecurity))
+            Call oCode.AddScalarProperty("AutomationSecurity", MsoAutomationSecurity(.AutomationSecurity))
         End If
         If .Build <> iApplication.Build Then
-            Call objCode.Add(".Build = " & iApplication.Build)
+            Call oCode.AddScalarProperty("Build", iApplication.Build)
         End If
         If .Caption <> iApplication.Caption Then
-            Call objCode.Add(".Caption = " & iApplication.Caption)
+            Call oCode.AddScalarProperty("Caption", iApplication.Caption)
         End If
         If .ChartDataPointTrack <> iApplication.ChartDataPointTrack Then
-            Call objCode.Add(".ChartDataPointTrack = " & iApplication.ChartDataPointTrack)
+            Call oCode.AddScalarProperty("ChartDataPointTrack", iApplication.ChartDataPointTrack)
         End If
         If .Creator <> iApplication.Creator Then
-            Call objCode.Add(".Creator = " & LongToVBA(.Creator))
+            Call oCode.AddScalarProperty("Creator", LongToVBA(.Creator))
         End If
         If .DisplayAlerts <> iApplication.DisplayAlerts Then
-            Call objCode.Add(".DisplayAlerts = " & PpAlertLevel(.DisplayAlerts))
+            Call oCode.AddScalarProperty("DisplayAlerts", PpAlertLevel(.DisplayAlerts))
         End If
         If .DisplayDocumentInformationPanel <> iApplication.DisplayDocumentInformationPanel Then
-            Call objCode.Add(".DisplayDocumentInformationPanel = " & iApplication.DisplayDocumentInformationPanel)
+            Call oCode.AddScalarProperty("DisplayDocumentInformationPanel", iApplication.DisplayDocumentInformationPanel)
         End If
         If .DisplayGridLines <> iApplication.DisplayGridLines Then
-            Call objCode.Add(".DisplayGridLines = " & MsoTriState(.DisplayGridLines))
+            Call oCode.AddScalarProperty("DisplayGridLines", MsoTriState(.DisplayGridLines))
         End If
         If .DisplayGuides <> iApplication.DisplayGuides Then
-            Call objCode.Add(".DisplayGuides = " & MsoTriState(.DisplayGuides))
+            Call oCode.AddScalarProperty("DisplayGuides", MsoTriState(.DisplayGuides))
         End If
         If .FeatureInstall <> iApplication.FeatureInstall Then
-            Call objCode.Add(".FeatureInstall = " & MsoFeatureInstall(.FeatureInstall))
+            Call oCode.AddScalarProperty("FeatureInstall", MsoFeatureInstall(.FeatureInstall))
         End If
         If .FileValidation <> iApplication.FileValidation Then
-            Call objCode.Add(".FileValidation = " & MsoFileValidationMode(.FileValidation))
+            Call oCode.AddScalarProperty("FileValidation", MsoFileValidationMode(.FileValidation))
         End If
         If .Height <> iApplication.Height Then
-            Call objCode.Add(".Height = " & SingleToVBA(.Height))
+            Call oCode.AddScalarProperty("Height", SingleToVBA(.Height))
         End If
         If .IsSandboxed <> iApplication.IsSandboxed Then
-            Call objCode.Add(".IsSandboxed = " & iApplication.IsSandboxed)
+            Call oCode.AddScalarProperty("IsSandboxed", iApplication.IsSandboxed)
         End If
         If .Left <> iApplication.Left Then
-            Call objCode.Add(".Left = " & SingleToVBA(.Left))
+            Call oCode.AddScalarProperty("Left", SingleToVBA(.Left))
         End If
         If .Name <> iApplication.Name Then
-            Call objCode.Add(".Name = " & iApplication.Name)
+            Call oCode.AddScalarProperty("Name", iApplication.Name)
         End If
         If .OperatingSystem <> iApplication.OperatingSystem Then
-            Call objCode.Add(".OperatingSystem = " & iApplication.OperatingSystem)
+            Call oCode.AddScalarProperty("OperatingSystem", iApplication.OperatingSystem)
         End If
         If .Path <> iApplication.Path Then
-            Call objCode.Add(".Path = " & iApplication.Path)
+            Call oCode.AddScalarProperty("Path", iApplication.Path)
         End If
-        Call objCode.AddCode(.Presentations.compare(".Presentations", iApplication.Presentations))
+        Call oCode.AddCode(.Presentations.Compare("Presentations", iApplication.Presentations))
         If .ProductCode <> iApplication.ProductCode Then
-            Call objCode.Add(".ProductCode = " & iApplication.ProductCode)
+            Call oCode.AddScalarProperty("ProductCode", iApplication.ProductCode)
         End If
         If .ShowStartupDialog <> iApplication.ShowStartupDialog Then
-            Call objCode.Add(".ShowStartupDialog = " & MsoTriState(.ShowStartupDialog))
+            Call oCode.AddScalarProperty("ShowStartupDialog", MsoTriState(.ShowStartupDialog))
         End If
         'If .ShowWindowsInTaskbar <> iApplication.ShowWindowsInTaskbar Then
-        '    Call objCode.Add(".ShowWindowsInTaskbar = " & MsoTriState(.ShowWindowsInTaskbar))
+        '    Call oCode.AddScalarProperty("ShowWindowsInTaskbar", MsoTriState(.ShowWindowsInTaskbar))
         'End If
         If .Top <> iApplication.Top Then
-            Call objCode.Add(".Top = " & SingleToVBA(.Top))
+            Call oCode.AddScalarProperty("Top", SingleToVBA(.Top))
         End If
         If .Version <> iApplication.Version Then
-            Call objCode.Add(".Version = " & iApplication.Version)
+            Call oCode.AddScalarProperty("Version", iApplication.Version)
         End If
         If .Visible <> iApplication.Visible Then
-            Call objCode.Add(".Visible = " & MsoTriState(.Visible))
+            Call oCode.AddScalarProperty("Visible", MsoTriState(.Visible))
         End If
         If .Width <> iApplication.Width Then
-            Call objCode.Add(".Width = " & SingleToVBA(.Width))
+            Call oCode.AddScalarProperty("Width", SingleToVBA(.Width))
         End If
-        Call objCode.AddCode(.Windows.compare(".Windows", iApplication.Windows))
+        Call oCode.AddCode(.Windows.Compare("Windows", iApplication.Windows))
         If .WindowState <> iApplication.WindowState Then
-            Call objCode.Add(".WindowState = " & PpWindowState(.WindowState))
+            Call oCode.AddScalarProperty("WindowState", PpWindowState(.WindowState))
         End If
     End With
 
-    Call objCode.Wrap(propertyName)
+    Call oCode.Wrap
 
-    Set compare = objCode
+    Set Compare = oCode
 
     Exit Function
 

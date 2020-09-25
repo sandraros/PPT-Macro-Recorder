@@ -15,30 +15,30 @@ Public Transparency As Single
 '
 
 
-Public Function compare(propertyName As String, iGlowFormat As iGlowFormat) As Code
+Public Function Compare(ObjectName As String, iGlowFormat As iGlowFormat) As UDiff
 
-    Dim objCode As Code
+    Dim oCode As UDiff
 
     On Error GoTo err_
 
-    Set objCode = New Code
-    Set compare = objCode
+    Set oCode = New_UDiff(ObjectName, Me, iGlowFormat)
+    Set Compare = oCode
 
     If IsCompared(Me) Then Exit Function
 
     With Me
-        Call objCode.AddCode(.Color.compare(".Color", iGlowFormat.Color))
+        Call oCode.AddCode(.Color.Compare("Color", iGlowFormat.Color))
         If .Radius <> iGlowFormat.Radius Then
-            Call objCode.Add(".Radius = " & SingleToVBA(.Radius))
+            Call oCode.AddScalarProperty("Radius", SingleToVBA(.Radius))
         End If
         If .Transparency <> iGlowFormat.Transparency Then
-            Call objCode.Add(".Transparency = " & SingleToVBA(.Transparency))
+            Call oCode.AddScalarProperty("Transparency", SingleToVBA(.Transparency))
         End If
     End With
 
-    Call objCode.Wrap(propertyName)
+    Call oCode.Wrap
 
-    Set compare = objCode
+    Set Compare = oCode
 
     Exit Function
 

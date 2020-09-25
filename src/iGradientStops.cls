@@ -16,45 +16,45 @@ Public Items As Collection
 'ActiveWindow.Selection.ShapeRange.Fill.GradientStops
 
 
-Public Function compare(propertyName As String, iGradientStops As iGradientStops) As Code
+Public Function Compare(ObjectName As String, iGradientStops As iGradientStops) As UDiff
 
-    Dim objCode As Code
+    Dim oCode As UDiff
 
     On Error GoTo err_
 
-    Set objCode = New Code
-    Set compare = objCode
+    Set oCode = New_UDiff(ObjectName, Me, iGradientStops)
+    Set Compare = oCode
 
     If IsCompared(Me) Then Exit Function
 
     With Me
         'If Not .Application Is iGradientStops.Application Then
-        '    Call objCode.Add("'TODO Application")
+        '    Call oCode.Add("'TODO Application")
         'End If
         'If .Count <> iGradientStops.Count Then
-        '    Call objCode.Add(".Count = " & LongToVBA(.Count))
+        '    Call oCode.AddScalarProperty("Count", LongToVBA(.Count))
         'End If
         'If .Creator <> iGradientStops.Creator Then
-        '    Call objCode.Add(".Creator = " & LongToVBA(.Creator))
+        '    Call oCode.AddScalarProperty("Creator", LongToVBA(.Creator))
         'End If
         'If Not .Parent Is iGradientStops.Parent Then
-        '    Call objCode.Add("'TODO Parent")
+        '    Call oCode.Add("'TODO Parent")
         'End If
-        code2 = Utility.CompareCollection(.Items, iGradientStops.Items)
+        code2 = CompareCollection(.Items, iGradientStops.Items)
         If code2 <> "" Then
             Dim defaultGradientStops As iGradientStops
             Set defaultGradientStops = New iGradientStops
             Call defaultGradientStops.DefaultValues
-            Call objCode.Add("While .Count > 0")
-            Call objCode.Add("    Call .Delete(1)")
-            Call objCode.Add("Wend")
-            Call objCode.AddCode(Utility.CompareCollection(.Items, defaultGradientStops.Items))
+            Call oCode.Add("While .Count > 0")
+            Call oCode.Add("    Call .Delete(1)")
+            Call oCode.Add("Wend")
+            Call CompareCollection(oCode, .Items, defaultGradientStops.Items)
         End If
     End With
 
-    Call objCode.Wrap(propertyName)
+    Call oCode.Wrap
 
-    Set compare = objCode
+    Set Compare = oCode
 
     Exit Function
 

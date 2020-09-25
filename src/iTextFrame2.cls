@@ -30,64 +30,64 @@ Public WordWrap As MsoTriState
 'ActiveWindow.Selection.ShapeRange.TextFrame2.WordWrap
 
 
-Public Function compare(propertyName As String, iTextFrame2 As iTextFrame2) As Code
+Public Function Compare(ObjectName As String, iTextFrame2 As iTextFrame2) As UDiff
 
-    Dim objCode As Code
+    Dim oCode As UDiff
 
     On Error GoTo err_
 
-    Set objCode = New Code
-    Set compare = objCode
+    Set oCode = New_UDiff(ObjectName, Me, iTextFrame2)
+    Set Compare = oCode
 
     If IsCompared(Me) Then Exit Function
 
     With Me
         If .AutoSize <> iTextFrame2.AutoSize Then
-            Call objCode.Add(".AutoSize = " & MsoAutoSize(.AutoSize))
+            Call oCode.AddScalarProperty("AutoSize", MsoAutoSize(.AutoSize))
         End If
         'If .HasText <> iTextFrame2.HasText Then
-        '    Call objCode.Add(".HasText = " & MsoTriState(.HasText))
+        '    Call oCode.AddScalarProperty("HasText", MsoTriState(.HasText))
         'End If
         If .HorizontalAnchor <> iTextFrame2.HorizontalAnchor Then
-            Call objCode.Add(".HorizontalAnchor = " & MsoHorizontalAnchor(.HorizontalAnchor))
+            Call oCode.AddScalarProperty("HorizontalAnchor", MsoHorizontalAnchor(.HorizontalAnchor))
         End If
         If .MarginBottom <> iTextFrame2.MarginBottom Then
-            Call objCode.Add(".MarginBottom = " & SingleToVBA(.MarginBottom))
+            Call oCode.AddScalarProperty("MarginBottom", SingleToVBA(.MarginBottom))
         End If
         If .MarginLeft <> iTextFrame2.MarginLeft Then
-            Call objCode.Add(".MarginLeft = " & SingleToVBA(.MarginLeft))
+            Call oCode.AddScalarProperty("MarginLeft", SingleToVBA(.MarginLeft))
         End If
         If .MarginRight <> iTextFrame2.MarginRight Then
-            Call objCode.Add(".MarginRight = " & SingleToVBA(.MarginRight))
+            Call oCode.AddScalarProperty("MarginRight", SingleToVBA(.MarginRight))
         End If
         If .MarginTop <> iTextFrame2.MarginTop Then
-            Call objCode.Add(".MarginTop = " & SingleToVBA(.MarginTop))
+            Call oCode.AddScalarProperty("MarginTop", SingleToVBA(.MarginTop))
         End If
         If .Orientation <> iTextFrame2.Orientation Then
-            Call objCode.Add(".Orientation = " & MsoTextOrientation(.Orientation))
+            Call oCode.AddScalarProperty("Orientation", MsoTextOrientation(.Orientation))
         End If
         If .PathFormat <> iTextFrame2.PathFormat Then
-            Call objCode.Add(".PathFormat = " & MsoPathFormat(.PathFormat))
+            Call oCode.AddScalarProperty("PathFormat", MsoPathFormat(.PathFormat))
         End If
-        Call objCode.AddCode(.TextRange.compare(".TextRange", iTextFrame2.TextRange))
+        Call oCode.AddCode(.TextRange.Compare("TextRange", iTextFrame2.TextRange))
         If .VerticalAnchor <> iTextFrame2.VerticalAnchor Then
-            Call objCode.Add(".VerticalAnchor = " & MsoVerticalAnchor(.VerticalAnchor))
+            Call oCode.AddScalarProperty("VerticalAnchor", MsoVerticalAnchor(.VerticalAnchor))
         End If
         If .WarpFormat <> iTextFrame2.WarpFormat Then
-            Call objCode.Add(".WarpFormat = " & MsoWarpFormat(.WarpFormat))
+            Call oCode.AddScalarProperty("WarpFormat", MsoWarpFormat(.WarpFormat))
         End If
         'TODO
         'If .WordArtFormat <> iTextFrame2.WordArtFormat Then
-        '    Call objCode.Add("'.WordArtFormat = " & MsoPresetTextEffect(.WordArtFormat))
+        '    Call oCode.Add("'.WordArtFormat", MsoPresetTextEffect(.WordArtFormat))
         'End If
         If .WordWrap <> iTextFrame2.WordWrap Then
-            Call objCode.Add(".WordWrap = " & MsoTriState(.WordWrap))
+            Call oCode.AddScalarProperty("WordWrap", MsoTriState(.WordWrap))
         End If
     End With
 
-    Call objCode.Wrap(propertyName)
+    Call oCode.Wrap
 
-    Set compare = objCode
+    Set Compare = oCode
 
     Exit Function
 
@@ -104,9 +104,13 @@ Public Sub init(iTextFrame2 As TextFrame2)
 
     On Error GoTo err_
 
+    belongsToDefaultShape = (TypeName(iTextFrame2.Parent.Parent) = "Presentation")
+
     With Me
         .AutoSize = iTextFrame2.AutoSize
-        .HasText = iTextFrame2.HasText
+        If belongsToDefaultShape = False Then
+            .HasText = iTextFrame2.HasText
+        End If
         .HorizontalAnchor = iTextFrame2.HorizontalAnchor
         .MarginBottom = iTextFrame2.MarginBottom
         .MarginLeft = iTextFrame2.MarginLeft
@@ -114,15 +118,17 @@ Public Sub init(iTextFrame2 As TextFrame2)
         .MarginTop = iTextFrame2.MarginTop
         '??? .NoTextRotation = iTextFrame2.NoTextRotation ' Returns or sets a value that specifies if the text on a shape is rotated if the shape itself is being rotated. Read/write.
         .Orientation = iTextFrame2.Orientation
-        .PathFormat = iTextFrame2.PathFormat
-        '??? If iTextFrame2.HasText Then
-        Set .TextRange = New_iTextRange2(iTextFrame2.TextRange)
-        '??? Else
-        'Set .TextRange = New iTextRange2
-        '??? End If
+        If belongsToDefaultShape = False Then
+            .PathFormat = iTextFrame2.PathFormat
+            Set .TextRange = New_iTextRange2(iTextFrame2.TextRange)
+        Else
+            Set .TextRange = New_iTextRange2()
+        End If
         .VerticalAnchor = iTextFrame2.VerticalAnchor
-        .WarpFormat = iTextFrame2.WarpFormat
-        .WordArtFormat = iTextFrame2.WordArtFormat
+        If belongsToDefaultShape = False Then
+            .WarpFormat = iTextFrame2.WarpFormat
+            .WordArtFormat = iTextFrame2.WordArtFormat
+        End If
         .WordWrap = iTextFrame2.WordWrap
     End With
 
@@ -139,9 +145,23 @@ End Sub
 
 
 Sub DefaultValues()
+
+    Dim defaultTextFrame2 As iTextFrame2
+
+    Set defaultTextFrame2 = defaultShape.TextFrame2
+
     With Me
-        Set .TextRange = New iTextRange2
-        Call .TextRange.DefaultValues
+        .AutoSize = defaultTextFrame2.AutoSize
+        .HorizontalAnchor = defaultTextFrame2.HorizontalAnchor
+        .MarginBottom = defaultTextFrame2.MarginBottom
+        .MarginLeft = defaultTextFrame2.MarginLeft
+        .MarginRight = defaultTextFrame2.MarginRight
+        .MarginTop = defaultTextFrame2.MarginTop
+        .Orientation = defaultTextFrame2.Orientation
+        Set .TextRange = New_iTextRange2()
+        .VerticalAnchor = defaultTextFrame2.VerticalAnchor
+        .WordWrap = defaultTextFrame2.WordWrap
     End With
+
 End Sub
 

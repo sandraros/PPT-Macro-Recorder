@@ -22,7 +22,7 @@ Public CustomDocumentProperties As Object
 'Public CustomerData As iCustomerData
 'Public CustomXMLParts As iCustomXMLParts
 Public DefaultLanguageID As MsoLanguageID
-Public DefaultShape As iShape
+Public defaultShape As iShape
 'Public Designs As iDesigns
 Public DisplayComments As MsoTriState
 'Public DocumentInspectors As iDocumentInspectors
@@ -86,140 +86,140 @@ Public WritePassword As String
 'ActivePresentation.Parent
 
 
-Public Function compare(propertyName As String, iPresentation As iPresentation) As Code
+Public Function Compare(ObjectName As String, iPresentation As iPresentation) As UDiff
 
-    Dim objCode As Code
+    Dim oCode As UDiff
 
     On Error GoTo err_
 
-    Set objCode = New Code
-    Set compare = objCode
+    Set oCode = New_UDiff(ObjectName, Me, iPresentation)
+    Set Compare = oCode
 
     If IsCompared(Me) Then Exit Function
 
     With Me
-        'Call objCode.AddCode(.Application.compare("Application", iPresentation.Application)
+        'Call oCode.AddCode(.Application.compare("Application", iPresentation.Application)
         If .AutoSaveOn <> iPresentation.AutoSaveOn Then
-            Call objCode.Add(".AutoSaveOn = " & iPresentation.AutoSaveOn)
+            Call oCode.AddScalarProperty("AutoSaveOn", iPresentation.AutoSaveOn)
         End If
         'If Not .BuiltInDocumentProperties Is iPresentation.BuiltInDocumentProperties Then
-        '    Call objCode.Add("'TODO BuiltInDocumentProperties")
+        '    Call oCode.Add("'TODO BuiltInDocumentProperties")
         'End If
         If .CreateVideoStatus <> iPresentation.CreateVideoStatus Then
-            Call objCode.Add(".CreateVideoStatus = " & PpMediaTaskStatus(.CreateVideoStatus))
+            Call oCode.AddScalarProperty("CreateVideoStatus", PpMediaTaskStatus(.CreateVideoStatus))
         End If
         'If Not .CustomDocumentProperties Is iPresentation.CustomDocumentProperties Then
-        '    Call objCode.Add("'TODO CustomDocumentProperties")
+        '    Call oCode.Add("'TODO CustomDocumentProperties")
         'End If
         If .DefaultLanguageID <> iPresentation.DefaultLanguageID Then
-            Call objCode.Add(".DefaultLanguageID = " & MsoLanguageID(.DefaultLanguageID))
+            Call oCode.AddScalarProperty("DefaultLanguageID", MsoLanguageID(.DefaultLanguageID))
         End If
-        'TODO Call objCode.AddCode(.DefaultShape.compare("DefaultShape", iPresentation.DefaultShape)
+        'TODO Call oCode.AddCode(.DefaultShape.compare("DefaultShape", iPresentation.DefaultShape)
         If .DisplayComments <> iPresentation.DisplayComments Then
-            Call objCode.Add(".DisplayComments = " & MsoTriState(.DisplayComments))
+            Call oCode.AddScalarProperty("DisplayComments", MsoTriState(.DisplayComments))
         End If
         If .EncryptionProvider <> iPresentation.EncryptionProvider Then
-            Call objCode.Add(".EncryptionProvider = " & iPresentation.EncryptionProvider)
+            Call oCode.AddScalarProperty("EncryptionProvider", iPresentation.EncryptionProvider)
         End If
         If .EnvelopeVisible <> iPresentation.EnvelopeVisible Then
-            Call objCode.Add(".EnvelopeVisible = " & MsoTriState(.EnvelopeVisible))
+            Call oCode.AddScalarProperty("EnvelopeVisible", MsoTriState(.EnvelopeVisible))
         End If
         If .FarEastLineBreakLanguage <> iPresentation.FarEastLineBreakLanguage Then
-            Call objCode.Add(".FarEastLineBreakLanguage = " & MsoFarEastLineBreakLanguageID(.FarEastLineBreakLanguage))
+            Call oCode.AddScalarProperty("FarEastLineBreakLanguage", MsoFarEastLineBreakLanguageID(.FarEastLineBreakLanguage))
         End If
         If .FarEastLineBreakLevel <> iPresentation.FarEastLineBreakLevel Then
-            Call objCode.Add(".FarEastLineBreakLevel = " & PpFarEastLineBreakLevel(.FarEastLineBreakLevel))
+            Call oCode.AddScalarProperty("FarEastLineBreakLevel", PpFarEastLineBreakLevel(.FarEastLineBreakLevel))
         End If
         If .Final <> iPresentation.Final Then
-            Call objCode.Add(".Final = " & iPresentation.Final)
+            Call oCode.AddScalarProperty("Final", iPresentation.Final)
         End If
         If .FullName <> iPresentation.FullName Then
-            Call objCode.Add(".FullName = " & iPresentation.FullName)
+            Call oCode.AddScalarProperty("FullName", iPresentation.FullName)
         End If
         If .GridDistance <> iPresentation.GridDistance Then
-            Call objCode.Add(".GridDistance = " & SingleToVBA(.GridDistance))
+            Call oCode.AddScalarProperty("GridDistance", SingleToVBA(.GridDistance))
         End If
         If .HasHandoutMaster <> iPresentation.HasHandoutMaster Then
-            Call objCode.Add(".HasHandoutMaster = " & iPresentation.HasHandoutMaster)
+            Call oCode.AddScalarProperty("HasHandoutMaster", iPresentation.HasHandoutMaster)
         End If
         If .HasNotesMaster <> iPresentation.HasNotesMaster Then
-            Call objCode.Add(".HasNotesMaster = " & iPresentation.HasNotesMaster)
+            Call oCode.AddScalarProperty("HasNotesMaster", iPresentation.HasNotesMaster)
         End If
         If .HasTitleMaster <> iPresentation.HasTitleMaster Then
-            Call objCode.Add(".HasTitleMaster = " & MsoTriState(.HasTitleMaster))
+            Call oCode.AddScalarProperty("HasTitleMaster", MsoTriState(.HasTitleMaster))
         End If
         If .HasVBProject <> iPresentation.HasVBProject Then
-            Call objCode.Add(".HasVBProject = " & iPresentation.HasVBProject)
+            Call oCode.AddScalarProperty("HasVBProject", iPresentation.HasVBProject)
         End If
         If .InMergeMode <> iPresentation.InMergeMode Then
-            Call objCode.Add(".InMergeMode = " & iPresentation.InMergeMode)
+            Call oCode.AddScalarProperty("InMergeMode", iPresentation.InMergeMode)
         End If
         If .LayoutDirection <> iPresentation.LayoutDirection Then
-            Call objCode.Add(".LayoutDirection = " & PpDirection(.LayoutDirection))
+            Call oCode.AddScalarProperty("LayoutDirection", PpDirection(.LayoutDirection))
         End If
         If .Name <> iPresentation.Name Then
-            Call objCode.Add(".Name = " & iPresentation.Name)
+            Call oCode.AddScalarProperty("Name", iPresentation.Name)
         End If
         If .NoLineBreakAfter <> iPresentation.NoLineBreakAfter Then
-            Call objCode.Add(".NoLineBreakAfter = " & iPresentation.NoLineBreakAfter)
+            Call oCode.AddScalarProperty("NoLineBreakAfter", iPresentation.NoLineBreakAfter)
         End If
         If .NoLineBreakBefore <> iPresentation.NoLineBreakBefore Then
-            Call objCode.Add(".NoLineBreakBefore = " & iPresentation.NoLineBreakBefore)
+            Call oCode.AddScalarProperty("NoLineBreakBefore", iPresentation.NoLineBreakBefore)
         End If
         'If Not .Parent Is iPresentation.Parent Then
-        '    Call objCode.Add("'TODO Parent")
+        '    Call oCode.Add("'TODO Parent")
         'End If
         If .Password <> iPresentation.Password Then
-            Call objCode.Add(".Password = " & iPresentation.Password)
+            Call oCode.AddScalarProperty("Password", iPresentation.Password)
         End If
         If .PasswordEncryptionAlgorithm <> iPresentation.PasswordEncryptionAlgorithm Then
-            Call objCode.Add(".PasswordEncryptionAlgorithm = " & iPresentation.PasswordEncryptionAlgorithm)
+            Call oCode.AddScalarProperty("PasswordEncryptionAlgorithm", iPresentation.PasswordEncryptionAlgorithm)
         End If
         If .PasswordEncryptionFileProperties <> iPresentation.PasswordEncryptionFileProperties Then
-            Call objCode.Add(".PasswordEncryptionFileProperties = " & iPresentation.PasswordEncryptionFileProperties)
+            Call oCode.AddScalarProperty("PasswordEncryptionFileProperties", iPresentation.PasswordEncryptionFileProperties)
         End If
         If .PasswordEncryptionKeyLength <> iPresentation.PasswordEncryptionKeyLength Then
-            Call objCode.Add(".PasswordEncryptionKeyLength = " & LongToVBA(.PasswordEncryptionKeyLength))
+            Call oCode.AddScalarProperty("PasswordEncryptionKeyLength", LongToVBA(.PasswordEncryptionKeyLength))
         End If
         If .PasswordEncryptionProvider <> iPresentation.PasswordEncryptionProvider Then
-            Call objCode.Add(".PasswordEncryptionProvider = " & iPresentation.PasswordEncryptionProvider)
+            Call oCode.AddScalarProperty("PasswordEncryptionProvider", iPresentation.PasswordEncryptionProvider)
         End If
         If .Path <> iPresentation.Path Then
-            Call objCode.Add(".Path = " & iPresentation.Path)
+            Call oCode.AddScalarProperty("Path", iPresentation.Path)
         End If
         If .ReadOnly <> iPresentation.ReadOnly Then
-            Call objCode.Add(".ReadOnly = " & MsoTriState(.ReadOnly))
+            Call oCode.AddScalarProperty("ReadOnly", MsoTriState(.ReadOnly))
         End If
         If .ReadOnlyRecommended <> iPresentation.ReadOnlyRecommended Then
-            Call objCode.Add(".ReadOnlyRecommended = " & iPresentation.ReadOnlyRecommended)
+            Call oCode.AddScalarProperty("ReadOnlyRecommended", iPresentation.ReadOnlyRecommended)
         End If
         If .RemovePersonalInformation <> iPresentation.RemovePersonalInformation Then
-            Call objCode.Add(".RemovePersonalInformation = " & MsoTriState(.RemovePersonalInformation))
+            Call oCode.AddScalarProperty("RemovePersonalInformation", MsoTriState(.RemovePersonalInformation))
         End If
         'If .Saved <> iPresentation.Saved Then
-        '    Call objCode.Add(".Saved = " & MsoTriState(.Saved))
+        '    Call oCode.AddScalarProperty("Saved", MsoTriState(.Saved))
         'End If
-        Call objCode.AddCode(.Slides.compare(".Slides", iPresentation.Slides))
+        Call oCode.AddCode(.Slides.Compare("Slides", iPresentation.Slides))
         If .SnapToGrid <> iPresentation.SnapToGrid Then
-            Call objCode.Add(".SnapToGrid = " & MsoTriState(.SnapToGrid))
+            Call oCode.AddScalarProperty("SnapToGrid", MsoTriState(.SnapToGrid))
         End If
         If .TemplateName <> iPresentation.TemplateName Then
-            Call objCode.Add(".TemplateName = " & iPresentation.TemplateName)
+            Call oCode.AddScalarProperty("TemplateName", iPresentation.TemplateName)
         End If
         If .VBASigned <> iPresentation.VBASigned Then
-            Call objCode.Add(".VBASigned = " & MsoTriState(.VBASigned))
+            Call oCode.AddScalarProperty("VBASigned", MsoTriState(.VBASigned))
         End If
         If .WorkIdentity <> iPresentation.WorkIdentity Then
-            Call objCode.Add(".WorkIdentity = " & iPresentation.WorkIdentity)
+            Call oCode.AddScalarProperty("WorkIdentity", iPresentation.WorkIdentity)
         End If
         If .WritePassword <> iPresentation.WritePassword Then
-            Call objCode.Add(".WritePassword = " & iPresentation.WritePassword)
+            Call oCode.AddScalarProperty("WritePassword", iPresentation.WritePassword)
         End If
     End With
 
-    Call objCode.Wrap(propertyName)
+    Call oCode.Wrap
 
-    Set compare = objCode
+    Set Compare = oCode
 
     Exit Function
 
@@ -232,10 +232,10 @@ err_:
 
 End Function
 
-Public Sub init(iPresentation As Presentation)
-    
+Public Sub init(iPresentation As presentation)
+
     On Error GoTo err_
-    
+
     With Me
         Set .Application = New_iApplication(iPresentation.Application)
         .AutoSaveOn = iPresentation.AutoSaveOn
@@ -243,7 +243,7 @@ Public Sub init(iPresentation As Presentation)
         .CreateVideoStatus = iPresentation.CreateVideoStatus
         Set .CustomDocumentProperties = iPresentation.CustomDocumentProperties
         .DefaultLanguageID = iPresentation.DefaultLanguageID
-        'Set .DefaultShape = New_iShape(iPresentation.DefaultShape)
+        Set .defaultShape = New_iShape(iPresentation.defaultShape)
         .DisplayComments = iPresentation.DisplayComments
         .EncryptionProvider = iPresentation.EncryptionProvider
         .EnvelopeVisible = iPresentation.EnvelopeVisible
@@ -271,7 +271,9 @@ Public Sub init(iPresentation As Presentation)
         .PasswordEncryptionProvider = iPresentation.PasswordEncryptionProvider
         .Path = iPresentation.Path
         .ReadOnly = iPresentation.ReadOnly
+        On Error Resume Next ' ReadOnlyRecommended don't exist in PPT 2002 but exist in PPT 2008
         .ReadOnlyRecommended = iPresentation.ReadOnlyRecommended
+        On Error GoTo err_
         .RemovePersonalInformation = iPresentation.RemovePersonalInformation
         .Saved = iPresentation.Saved
         Set .Slides = New_iSlides(iPresentation.Slides)
@@ -292,4 +294,3 @@ err_:
     #End If
 
 End Sub
-

@@ -16,7 +16,7 @@ Public Height As Single
 Public Left As Single
 'Public Panes As iPanes
 Public Parent As Object
-Public Presentation As iPresentation
+Public presentation As iPresentation
 Public Selection As iSelection
 Public SplitHorizontal As Long
 Public SplitVertical As Long
@@ -30,23 +30,23 @@ Public WindowState As PpWindowState
 'ActivePresentation.Windows(1).WindowState
 
 
-Public Function compare(propertyName As String, iDocumentWindow As iDocumentWindow) As Code
+Public Function Compare(ObjectName As String, iDocumentWindow As iDocumentWindow) As UDiff
 
-    Dim objCode As Code
+    Dim oCode As UDiff
 
     On Error GoTo err_
 
-    Set objCode = New Code
-    Set compare = objCode
+    Set oCode = New_UDiff(ObjectName, Me, iDocumentWindow)
+    Set Compare = oCode
 
     If IsCompared(Me) Then Exit Function
 
     With Me
     End With
 
-    Call objCode.Wrap(propertyName)
+    Call oCode.Wrap
 
-    Set compare = objCode
+    Set Compare = oCode
 
     Exit Function
 
@@ -71,7 +71,7 @@ Public Sub init(iDocumentWindow As DocumentWindow)
         .Height = iDocumentWindow.Height
         .Left = iDocumentWindow.Left
         Set .Parent = iDocumentWindow.Parent
-        Set .Presentation = New_iPresentation(iDocumentWindow.Presentation)
+        Set .presentation = New_iPresentation(iDocumentWindow.presentation)
         Set .Selection = New_iSelection(iDocumentWindow.Selection)
         .SplitHorizontal = iDocumentWindow.SplitHorizontal
         .SplitVertical = iDocumentWindow.SplitVertical

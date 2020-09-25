@@ -79,149 +79,162 @@ Public Items As Collection
 'ActiveWindow.Selection.ShapeRange.ZOrderPosition
 
 
-Public Function compare(propertyName As String, iShapeRange As iShapeRange) As Code
+Public Function Compare(ObjectName As String, iShapeRange As iShapeRange) As UDiff
 
     Dim iShape As iShape
 
-    Dim objCode As Code
+    Dim oCode As UDiff
 
     On Error GoTo err_
 
-    Set objCode = New Code
-    Set compare = objCode
+    Set oCode = New_UDiff(ObjectName, Me, iShapeRange)
+    Set Compare = oCode
 
     If IsCompared(Me) Then Exit Function
 
-    If Me.Items.Count = 1 Then
-        Set iShape = Me.Items(1)
-        Call objCode.AddCode(Utility.CompareCollection(Me.Items, iShapeRange.Items))
-    Else
+    'If Me.Items.Count = 1 Then
+    '    Set iShape = Me.Items(1)
+    '    Call CompareCollection(oCode, Me.Items, iShapeRange.Items)
+    'Else
 
-        With Me
-            If .AlternativeText <> iShapeRange.AlternativeText Then
-                Call objCode.Add(".AlternativeText = " & iShapeRange.AlternativeText)
-            End If
-            'If .Application <> iShapeRange.Application Then
-            '    Call objCode.Add(".Application = " & iShapeRange.Application)
-            'End If
-            If .AutoShapeType <> iShapeRange.AutoShapeType Then
-                Call objCode.Add(".AutoShapeType = " & MsoAutoShapeType(.AutoShapeType))
-            End If
-            If .BackgroundStyle <> iShapeRange.BackgroundStyle Then
-                Call objCode.Add(".BackgroundStyle = " & MsoBackgroundStyleIndex(.BackgroundStyle))
-            End If
-            If .BlackWhiteMode <> iShapeRange.BlackWhiteMode Then
-                Call objCode.Add(".BlackWhiteMode = " & MsoBlackWhiteMode(.BlackWhiteMode))
-            End If
-            If .Child <> iShapeRange.Child Then
-                Call objCode.Add(".Child = " & MsoTriState(.Child))
-            End If
-            'If .ConnectionSiteCount <> iShapeRange.ConnectionSiteCount Then
-            '    Call objCode.Add(".ConnectionSiteCount = " & LongToVBA(.ConnectionSiteCount))
-            'End If
-            If .Connector <> iShapeRange.Connector Then
-                Call objCode.Add(".Connector = " & MsoTriState(.Connector))
-            End If
-            'If .Creator <> iShapeRange.Creator Then
-            '    Call objCode.Add(".Creator = " & LongToVBA(.Creator))
-            'End If
-            If .Decorative <> iShapeRange.Decorative Then
-                Call objCode.Add(".Decorative = " & MsoTriState(.Decorative))
-            End If
-            Call objCode.AddCode(.Fill.compare(".Fill", iShapeRange.Fill))
-            Call objCode.AddCode(.Glow.compare(".Glow", iShapeRange.Glow))
-            If .GraphicStyle <> iShapeRange.GraphicStyle Then
-                Call objCode.Add(".GraphicStyle = " & MsoGraphicStyleIndex(.GraphicStyle))
-            End If
-            If .HasChart <> iShapeRange.HasChart Then
-                Call objCode.Add(".HasChart = " & MsoTriState(.HasChart))
-            End If
-            If .HasInkXML <> iShapeRange.HasInkXML Then
-                Call objCode.Add(".HasInkXML = " & MsoTriState(.HasInkXML))
-            End If
-            If .HasSectionZoom <> iShapeRange.HasSectionZoom Then
-                Call objCode.Add(".HasSectionZoom = " & MsoTriState(.HasSectionZoom))
-            End If
-            If .HasSmartArt <> iShapeRange.HasSmartArt Then
-                Call objCode.Add(".HasSmartArt = " & MsoTriState(.HasSmartArt))
-            End If
-            If .HasTable <> iShapeRange.HasTable Then
-                Call objCode.Add(".HasTable = " & MsoTriState(.HasTable))
-            End If
-            If .HasTextFrame <> iShapeRange.HasTextFrame Then
-                Call objCode.Add(".HasTextFrame = " & MsoTriState(.HasTextFrame))
-            End If
-            If .Height <> iShapeRange.Height Then
-                Call objCode.Add(".Height = " & SingleToVBA(.Height))
-            End If
-            If .HorizontalFlip <> iShapeRange.HorizontalFlip Then
-                Call objCode.Add(".HorizontalFlip = " & MsoTriState(.HorizontalFlip))
-            End If
-            'If .Id <> iShapeRange.Id Then
-            '    Call objCode.Add(".Id = " & LongToVBA(.Id))
-            'End If
-            If .InkXML <> iShapeRange.InkXML Then
-                Call objCode.Add(".InkXML = " & iShapeRange.InkXML)
-            End If
-            If .IsNarration <> iShapeRange.IsNarration Then
-                Call objCode.Add(".IsNarration = " & MsoTriState(.IsNarration))
-            End If
-            If .Left <> iShapeRange.Left Then
-                Call objCode.Add(".Left = " & ToVBA(.Left))
-            End If
-            If .LockAspectRatio <> iShapeRange.LockAspectRatio Then
-                Call objCode.Add(".LockAspectRatio = " & MsoTriState(.LockAspectRatio))
-            End If
-            If .MediaType <> iShapeRange.MediaType Then
-                Call objCode.Add(".MediaType = " & PpMediaType(.MediaType))
-            End If
-            If .Name <> iShapeRange.Name Then
-                Call objCode.Add(".Name = " & ToVBA(.Name))
-            End If
-            If Not .ParentGroup Is Nothing Then
-                'TODO Call objCode.AddCode(.ParentGroup.compare("ParentGroup", iShapeRange.ParentGroup)
-            End If
-            Call objCode.AddCode(.Reflection.compare(".Reflection", iShapeRange.Reflection))
-            If .Rotation <> iShapeRange.Rotation Then
-                Call objCode.Add(".Rotation = " & SingleToVBA(.Rotation))
-            End If
-            Call objCode.AddCode(.Shadow.compare(".Shadow", iShapeRange.Shadow))
-            If .ShapeStyle <> iShapeRange.ShapeStyle Then
-                Call objCode.Add("'.ShapeStyle = " & MsoShapeStyleIndex(.ShapeStyle))
-            End If
-            Call objCode.AddCode(.TextFrame.compare(".TextFrame", iShapeRange.TextFrame))
-            Call objCode.AddCode(.TextFrame2.compare(".TextFrame2", iShapeRange.TextFrame2))
-            'Public ThreeD As iThreeDFormat
-            If .Title <> iShapeRange.Title Then
-                Call objCode.Add(".Title = " & .Title)
-            End If
-            If .Top <> iShapeRange.Top Then
-                Call objCode.Add(".Top = " & SingleToVBA(.Top))
-            End If
-            If .iType <> iShapeRange.iType Then
-                Call objCode.Add(".Type = " & MsoShapeType(.iType))
-            End If
-            If .VerticalFlip <> iShapeRange.VerticalFlip Then
-                Call objCode.Add(".VerticalFlip = " & MsoTriState(.VerticalFlip))
-            End If
-            If .Vertices <> iShapeRange.Vertices Then
-                Call objCode.Add(".Vertices = " & .Vertices)
-            End If
-            If .Visible <> iShapeRange.Visible Then
-                Call objCode.Add(".Visible = " & MsoTriState(.Visible))
-            End If
-            If .Width <> iShapeRange.Width Then
-                Call objCode.Add(".Width = " & SingleToVBA(.Width))
-            End If
-            'If .ZOrderPosition <> iShapeRange.ZOrderPosition Then
-            '    Call objCode.Add(".ZOrderPosition = " & LongToVBA(.ZOrderPosition))
-            'End If
-        End With
-    End If
+    With Me
+        If .AlternativeText <> iShapeRange.AlternativeText Then
+            Call oCode.AddScalarProperty("AlternativeText", iShapeRange.AlternativeText)
+        End If
+        'If .Application <> iShapeRange.Application Then
+        '    Call oCode.AddScalarProperty("Application", iShapeRange.Application)
+        'End If
+        If .AutoShapeType <> iShapeRange.AutoShapeType And .AutoShapeType <> msoShapeMixed Then
+            Call oCode.AddScalarProperty("AutoShapeType", MsoAutoShapeType(.AutoShapeType))
+        End If
+        If .BackgroundStyle <> iShapeRange.BackgroundStyle Then
+            Call oCode.AddScalarProperty("BackgroundStyle", MsoBackgroundStyleIndex(.BackgroundStyle))
+        End If
+        If .BlackWhiteMode <> iShapeRange.BlackWhiteMode Then
+            Call oCode.AddScalarProperty("BlackWhiteMode", MsoBlackWhiteMode(.BlackWhiteMode))
+        End If
+        If .Child <> iShapeRange.Child Then
+            Call oCode.AddScalarProperty("Child", MsoTriState(.Child))
+        End If
+        'If .ConnectionSiteCount <> iShapeRange.ConnectionSiteCount Then
+        '    Call oCode.AddScalarProperty("ConnectionSiteCount", LongToVBA(.ConnectionSiteCount))
+        'End If
+        If .Connector <> iShapeRange.Connector Then
+            Call oCode.AddScalarProperty("Connector", MsoTriState(.Connector))
+        End If
+        'If .Creator <> iShapeRange.Creator Then
+        '    Call oCode.AddScalarProperty("Creator", LongToVBA(.Creator))
+        'End If
+        If .Decorative <> iShapeRange.Decorative Then
+            Call oCode.AddScalarProperty("Decorative", MsoTriState(.Decorative))
+        End If
+        If Not .Fill Is Nothing And Not iShapeRange.Fill Is Nothing Then ' nothing if several shapes with different Fill are selected
+            Call oCode.AddCode(.Fill.Compare("Fill", iShapeRange.Fill))
+        End If
+        If Not .Glow Is Nothing And Not iShapeRange.Glow Is Nothing Then ' nothing if several shapes with different Glow are selected
+            Call oCode.AddCode(.Glow.Compare("Glow", iShapeRange.Glow))
+        End If
+        If .GraphicStyle <> iShapeRange.GraphicStyle Then
+            Call oCode.AddScalarProperty("GraphicStyle", MsoGraphicStyleIndex(.GraphicStyle))
+        End If
+        If .HasChart <> iShapeRange.HasChart Then
+            Call oCode.AddScalarProperty("HasChart", MsoTriState(.HasChart))
+        End If
+        If .HasInkXML <> iShapeRange.HasInkXML Then
+            Call oCode.AddScalarProperty("HasInkXML", MsoTriState(.HasInkXML))
+        End If
+        If .HasSectionZoom <> iShapeRange.HasSectionZoom Then
+            Call oCode.AddScalarProperty("HasSectionZoom", MsoTriState(.HasSectionZoom))
+        End If
+        If .HasSmartArt <> iShapeRange.HasSmartArt Then
+            Call oCode.AddScalarProperty("HasSmartArt", MsoTriState(.HasSmartArt))
+        End If
+        If .HasTable <> iShapeRange.HasTable Then
+            Call oCode.AddScalarProperty("HasTable", MsoTriState(.HasTable))
+        End If
+        If .HasTextFrame <> iShapeRange.HasTextFrame Then
+            Call oCode.AddScalarProperty("HasTextFrame", MsoTriState(.HasTextFrame))
+        End If
+        If .Height <> iShapeRange.Height And .Height <> SingleMixed Then
+            Call oCode.AddScalarProperty("Height", SingleToVBA(.Height))
+        End If
+        If .HorizontalFlip <> iShapeRange.HorizontalFlip Then
+            Call oCode.AddScalarProperty("HorizontalFlip", MsoTriState(.HorizontalFlip))
+        End If
+        'If .Id <> iShapeRange.Id Then
+        '    Call oCode.AddScalarProperty("Id", LongToVBA(.Id))
+        'End If
+        If .InkXML <> iShapeRange.InkXML Then
+            Call oCode.AddScalarProperty("InkXML", iShapeRange.InkXML)
+        End If
+        If .IsNarration <> iShapeRange.IsNarration Then
+            Call oCode.AddScalarProperty("IsNarration", MsoTriState(.IsNarration))
+        End If
+        If .Left <> iShapeRange.Left And .Left <> SingleMixed Then
+            Call oCode.AddScalarProperty("Left", ToVBA(.Left))
+        End If
+        If Not .Line Is Nothing And Not iShapeRange.Line Is Nothing Then ' nothing if several shapes with different Line are selected
+            Call oCode.AddCode(.Line.Compare("Line", iShapeRange.Line))
+        End If
+        If .LockAspectRatio <> iShapeRange.LockAspectRatio Then
+            Call oCode.AddScalarProperty("LockAspectRatio", MsoTriState(.LockAspectRatio))
+        End If
+        If .MediaType <> iShapeRange.MediaType Then
+            Call oCode.AddScalarProperty("MediaType", PpMediaType(.MediaType))
+        End If
+        If .Name <> iShapeRange.Name And .Name <> "" Then ' Name = "" if two shapes have different names
+            Call oCode.AddScalarProperty("Name", ToVBA(.Name))
+        End If
+        If Not .ParentGroup Is Nothing Then
+            'TODO Call oCode.AddCode(.ParentGroup.compare("ParentGroup", iShapeRange.ParentGroup)
+        End If
+        If Not .Reflection Is Nothing And Not iShapeRange.Reflection Is Nothing Then ' nothing if several shapes with different Reflection are selected
+            Call oCode.AddCode(.Reflection.Compare("Reflection", iShapeRange.Reflection))
+        End If
+        If .Rotation <> iShapeRange.Rotation Then
+            Call oCode.AddScalarProperty("Rotation", SingleToVBA(.Rotation))
+        End If
+        If Not .Shadow Is Nothing And Not iShapeRange.Shadow Is Nothing Then ' nothing if several shapes with different Shadow are selected
+            Call oCode.AddCode(.Shadow.Compare("Shadow", iShapeRange.Shadow))
+        End If
+        'If .ShapeStyle <> iShapeRange.ShapeStyle Then
+        '    Call oCode.Add("'.ShapeStyle", MsoShapeStyleIndex(.ShapeStyle))
+        'End If
+        'TEXTFRAME SUPERSEDED WITH TEXTFRAME2
+        'Call oCode.AddCode(.TextFrame.Compare("TextFrame", iShapeRange.TextFrame))
+        If Not .TextFrame2 Is Nothing And Not iShapeRange.TextFrame2 Is Nothing Then ' nothing if several shapes with different TextFrame2 are selected
+            Call oCode.AddCode(.TextFrame2.Compare("TextFrame2", iShapeRange.TextFrame2))
+        End If
+        'Public ThreeD As iThreeDFormat
+        If .Title <> iShapeRange.Title Then
+            Call oCode.AddScalarProperty("Title", .Title)
+        End If
+        If .Top <> iShapeRange.Top And .Top <> SingleMixed Then
+            Call oCode.AddScalarProperty("Top", SingleToVBA(.Top))
+        End If
+        'If .iType <> iShapeRange.iType Then
+        '    Call oCode.AddScalarProperty("Type", MsoShapeType(.iType))
+        'End If
+        If .VerticalFlip <> iShapeRange.VerticalFlip Then
+            Call oCode.AddScalarProperty("VerticalFlip", MsoTriState(.VerticalFlip))
+        End If
+        If .Vertices <> iShapeRange.Vertices Then
+            Call oCode.AddScalarProperty("Vertices", .Vertices)
+        End If
+        If .Visible <> iShapeRange.Visible Then
+            Call oCode.AddScalarProperty("Visible", MsoTriState(.Visible))
+        End If
+        If .Width <> iShapeRange.Width And .Width <> SingleMixed Then
+            Call oCode.AddScalarProperty("Width", SingleToVBA(.Width))
+        End If
+        'If .ZOrderPosition <> iShapeRange.ZOrderPosition Then
+        '    Call oCode.AddScalarProperty("ZOrderPosition", LongToVBA(.ZOrderPosition))
+        'End If
+    End With
 
-    Call objCode.Wrap(propertyName)
+    Call oCode.Wrap
 
-    Set compare = objCode
+    Set Compare = oCode
 
     Exit Function
 
@@ -234,11 +247,19 @@ err_:
 
 End Function
 
-Public Sub init(iShapeRange As ShapeRange)
+Public Sub init(iShapeRange As shapeRange)
 
     On Error GoTo err_
 
+    ' Several properties have the same error if Count > 1 (several objects grouped) :
+    '   "Invalid request.  Command cannot be applied to a shape range with multiple shapes."
+    '   These are the properties: AlternativeText, Decorative, GroupItems, Id, InkXML, Name, Tags, Title, Vertices, ZOrderPosition.
+    '   (ZOrderPosition has a different error text "is possible only for one shape")
+
     With Me
+        If iShapeRange.Count = 1 Then
+            .AlternativeText = iShapeRange.AlternativeText
+        End If
         If iShapeRange.Type = msoAutoShape Then
             .AutoShapeType = iShapeRange.AutoShapeType
         End If
@@ -260,12 +281,16 @@ Public Sub init(iShapeRange As ShapeRange)
         End If
         .Count = iShapeRange.Count
         .Creator = iShapeRange.Creator
-        .Decorative = iShapeRange.Decorative
+        If iShapeRange.Count = 1 Then
+            .Decorative = iShapeRange.Decorative
+        End If
         Set .Fill = New_iFillFormat(iShapeRange.Fill)
         Set .Glow = New_iGlowFormat(iShapeRange.Glow)
         .GraphicStyle = iShapeRange.GraphicStyle
-        If iShapeRange.Type = msoGroup Then
-          'TODO GroupShapes
+        If iShapeRange.Count = 1 Then
+            If iShapeRange.Type = msoGroup Then
+              'TODO GroupItems
+            End If
         End If
         .HasChart = iShapeRange.HasChart
         .HasInkXML = iShapeRange.HasInkXML
@@ -275,9 +300,13 @@ Public Sub init(iShapeRange As ShapeRange)
         .HasTextFrame = iShapeRange.HasTextFrame
         .Height = iShapeRange.Height
         .HorizontalFlip = iShapeRange.HorizontalFlip
-        .Id = iShapeRange.Id
+        If iShapeRange.Count = 1 Then
+            .Id = iShapeRange.Id
+        End If
         If iShapeRange.HasInkXML = msoTrue Then
-            .InkXML = iShapeRange.InkXML
+            If iShapeRange.Count = 1 Then
+                .InkXML = iShapeRange.InkXML
+            End If
         End If
         .IsNarration = iShapeRange.IsNarration
         Set .Items = New Collection
@@ -294,12 +323,17 @@ Public Sub init(iShapeRange As ShapeRange)
             'Call MediaFormat(iShapeRange.MediaFormat, oShape.MediaFormat)
             .MediaType = iShapeRange.MediaType
         End If
-        .Name = iShapeRange.Name
+        'Name, Tags, Title, Vertices, ZOrderPosition
+        If iShapeRange.Count = 1 Then
+            .Name = iShapeRange.Name
+        End If
         If iShapeRange.Type = msoOLEControlObject Then
           'TODO OLEFormat
         End If
-        If iShapeRange.Child Then
-            Set .ParentGroup = New_iShape(iShapeRange.ParentGroup)
+        If iShapeRange.Child Then ' Child seem to be always False when Count > 1
+            If iShapeRange.Count = 1 Then
+                Set .ParentGroup = New_iShape(iShapeRange.ParentGroup)
+            End If
         End If
         If iShapeRange.Type = msoPicture Then
             'TODO PictureFormat
@@ -321,21 +355,31 @@ Public Sub init(iShapeRange As ShapeRange)
         If iShapeRange.Type = msoTable Then
             'TODO Table
         End If
+        If iShapeRange.Count = 1 Then
+            ' TODO: TAGS
+        End If
         If iShapeRange.HasTextFrame Then
-            Set .TextFrame = New_iTextFrame(iShapeRange.TextFrame)
+            'TextFrame has been superseded with TextFrame2
+            'Set .TextFrame = New_iTextFrame(iShapeRange.TextFrame)
             Set .TextFrame2 = New_iTextFrame2(iShapeRange.TextFrame2)
         End If
         If iShapeRange.ThreeD.PresetThreeDFormat <> msoPresetThreeDFormatMixed Then
             'TODO ThreeD
         End If
-        .Title = iShapeRange.Title
+        If iShapeRange.Count = 1 Then
+            .Title = iShapeRange.Title
+        End If
         .Top = iShapeRange.Top
         .iType = iShapeRange.Type
         .VerticalFlip = iShapeRange.VerticalFlip
-        .Vertices = iShapeRange.Vertices
+        If iShapeRange.Count = 1 Then
+            .Vertices = iShapeRange.Vertices
+        End If
         .Visible = iShapeRange.Visible
         .Width = iShapeRange.Width
-        .ZOrderPosition = iShapeRange.ZOrderPosition
+        If iShapeRange.Count = 1 Then
+            .ZOrderPosition = iShapeRange.ZOrderPosition
+        End If
     End With
 
     Exit Sub

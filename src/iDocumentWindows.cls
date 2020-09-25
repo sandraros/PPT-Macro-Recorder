@@ -15,23 +15,23 @@ Public Parent As Object
 'ActivePresentation.Windows.Parent
 
 
-Public Function compare(propertyName As String, iDocumentWindows As iDocumentWindows) As Code
+Public Function Compare(ObjectName As String, iDocumentWindows As iDocumentWindows) As UDiff
 
-    Dim objCode As Code
+    Dim oCode As UDiff
 
     On Error GoTo err_
 
-    Set objCode = New Code
-    Set compare = objCode
+    Set oCode = New_UDiff(ObjectName, Me, iDocumentWindows)
+    Set Compare = oCode
 
     If IsCompared(Me) Then Exit Function
 
     With Me
     End With
 
-    Call objCode.Wrap(propertyName)
+    Call oCode.Wrap
 
-    Set compare = objCode
+    Set Compare = oCode
 
     Exit Function
 

@@ -15,7 +15,7 @@ Public Sub ExportVBProject()
         strFileURL = ActivePresentation.Path
     End If
 
-    For Each VBComponent In Application.vbe.VBProjects(1).VBComponents
+    For Each VBComponent In ActivePresentation.VBProject.VBComponents
 
         Select Case VBComponent.Type
             Case vbext_ct_ClassModule, vbext_ct_Document

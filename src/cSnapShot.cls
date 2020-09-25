@@ -12,6 +12,5 @@ Public iPresentation As New iPresentation
 'Public iApplication As New iApplication
 Public allObjects As New Collection
 Public allObjectClasses As New Collection
-Public MyObjPtrs As Collection
-Public PptObjPtrs As Collection
-
+Public MrsObjPtrs As Collection ' Macro Recorder Snapshot objects (pseudo PowerPoint objects)
+Public PptObjPtrs As Collection ' Native PowerPoint objects

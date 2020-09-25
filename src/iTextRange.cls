@@ -7,7 +7,7 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = False
-'SUPERSEDED WITH ITEXTRANGE2
+'OBSOLETE - TEXTRANGE SUPERSEDED WITH TEXTRANGE2
 
 'Public ActionSettings As iActionSettings
 Public BoundHeight As Single
@@ -18,32 +18,35 @@ Public Count As Long
 Public Font As iFont
 Public IndentLevel As Long
 Public LanguageID As MsoLanguageID
-Public length As Long
+Public Length As Long
 'Public ParagraphFormat As iParagraphFormat
 Public Start As Long
 Public Text As String
+
+Private Runs As Collection ' Collection of iTextRange
 
 
 'ActiveWindow.Selection.ShapeRange.TextFrame.TextRange.Start
 
 
-Public Function compare(propertyName As String, iTextRange As iTextRange) As Code
+Public Function Compare(ObjectName As String, iTextRange As iTextRange) As UDiff
 
-    Dim objCode As Code
+    Dim oCode As UDiff
 
     On Error GoTo err_
 
-    Set objCode = New Code
-    Set compare = objCode
+    Set oCode = New_UDiff(ObjectName, Me, iTextRange)
+    Set Compare = oCode
 
     If IsCompared(Me) Then Exit Function
 
     With Me
+    ' TODO
     End With
 
-    Call objCode.Wrap(propertyName)
+    Call oCode.Wrap
 
-    Set compare = objCode
+    Set Compare = oCode
 
     Exit Function
 
@@ -58,6 +61,8 @@ End Function
 
 Public Sub init(iTextRange As TextRange)
 
+    Dim run As TextRange
+
     On Error GoTo err_
 
     With Me
@@ -69,9 +74,18 @@ Public Sub init(iTextRange As TextRange)
         Set .Font = New_iFont(iTextRange.Font)
         .IndentLevel = iTextRange.IndentLevel
         .LanguageID = iTextRange.LanguageID
-        .length = iTextRange.length
-        .Start = iTextRange.Start
-        .Text = iTextRange.Text
+        If iTextRange.Runs.Count = 1 Then
+            .Length = iTextRange.Length
+        End If
+        'TODO ParagraphFormat
+        Set .Runs = New Collection
+        For Each run In iTextRange.Runs
+            Call .Runs.Add(New_iTextRange(run))
+        Next
+        If iTextRange.Runs.Count = 1 Then
+            .Start = iTextRange.Start
+            .Text = iTextRange.Text
+        End If
     End With
 
     Exit Sub

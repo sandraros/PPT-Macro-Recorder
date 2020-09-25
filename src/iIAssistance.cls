@@ -13,23 +13,23 @@ Attribute VB_Exposed = False
 'Application.Assistance
 
 
-Public Function compare(propertyName As String, iIAssistance As iIAssistance) As Code
+Public Function Compare(ObjectName As String, iIAssistance As iIAssistance) As UDiff
 
-    Dim objCode As Code
+    Dim oCode As UDiff
 
     On Error GoTo err_
 
-    Set objCode = New Code
-    Set compare = objCode
+    Set oCode = New_UDiff(ObjectName, Me, iIAssistance)
+    Set Compare = oCode
 
     If IsCompared(Me) Then Exit Function
 
     With Me
     End With
 
-    Call objCode.Wrap(propertyName)
+    Call oCode.Wrap
 
-    Set compare = objCode
+    Set Compare = oCode
 
     Exit Function
 

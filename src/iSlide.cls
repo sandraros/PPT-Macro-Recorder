@@ -39,61 +39,61 @@ Public SlideNumber As Long
 'ActivePresentation.Slides(1).Parent
 
 
-Public Function compare(propertyName As String, iSlide As iSlide) As Code
+Public Function Compare(ObjectName As String, iSlide As iSlide) As UDiff
 
-    Dim objCode As Code
+    Dim oCode As UDiff
 
     On Error GoTo err_
 
-    Set objCode = New Code
-    Set compare = objCode
+    Set oCode = New_UDiff(ObjectName, Me, iSlide)
+    Set Compare = oCode
 
     If IsCompared(Me) Then Exit Function
 
     With Me
-        'TODO Call objCode.AddCode(.Background.compare("Background", iSlide.Background)
+        'TODO Call oCode.AddCode(.Background.compare("Background", iSlide.Background)
         If .BackgroundStyle <> iSlide.BackgroundStyle Then
-            Call objCode.Add(".BackgroundStyle = " & MsoBackgroundStyleIndex(.BackgroundStyle))
+            Call oCode.AddScalarProperty("BackgroundStyle", MsoBackgroundStyleIndex(.BackgroundStyle))
         End If
         If .DisplayMasterShapes <> iSlide.DisplayMasterShapes Then
-            Call objCode.Add(".DisplayMasterShapes = " & MsoTriState(.DisplayMasterShapes))
+            Call oCode.AddScalarProperty("DisplayMasterShapes", MsoTriState(.DisplayMasterShapes))
         End If
         If .FollowMasterBackground <> iSlide.FollowMasterBackground Then
-            Call objCode.Add(".FollowMasterBackground = " & MsoTriState(.FollowMasterBackground))
+            Call oCode.AddScalarProperty("FollowMasterBackground", MsoTriState(.FollowMasterBackground))
         End If
         If .HasNotesPage <> iSlide.HasNotesPage Then
-            Call objCode.Add(".HasNotesPage = " & MsoTriState(.HasNotesPage))
+            Call oCode.AddScalarProperty("HasNotesPage", MsoTriState(.HasNotesPage))
         End If
         If .Layout <> iSlide.Layout Then
-            Call objCode.Add(".Layout = " & PpSlideLayout(.Layout))
+            Call oCode.AddScalarProperty("Layout", PpSlideLayout(.Layout))
         End If
         If .Name <> iSlide.Name Then
-            Call objCode.Add(".Name = " & iSlide.Name)
+            Call oCode.AddScalarProperty("Name", iSlide.Name)
         End If
         'If Not .NotesPage Is Nothing Then
-        Call objCode.AddCode(.NotesPage.compare(".NotesPage", iSlide.NotesPage))
+        Call oCode.AddCode(.NotesPage.Compare("NotesPage", iSlide.NotesPage))
         'End If
         If .PrintSteps <> iSlide.PrintSteps Then
-            Call objCode.Add(".PrintSteps = " & LongToVBA(.PrintSteps))
+            Call oCode.AddScalarProperty("PrintSteps", LongToVBA(.PrintSteps))
         End If
         If .SectionIndex <> iSlide.SectionIndex Then
-            Call objCode.Add(".SectionIndex = " & LongToVBA(.SectionIndex))
+            Call oCode.AddScalarProperty("SectionIndex", LongToVBA(.SectionIndex))
         End If
-        Call objCode.AddCode(.Shapes.compare(".Shapes", iSlide.Shapes))
+        Call oCode.AddCode(.Shapes.Compare("Shapes", iSlide.Shapes))
         If .SlideID <> iSlide.SlideID Then
-            Call objCode.Add(".SlideID = " & LongToVBA(.SlideID))
+            Call oCode.AddScalarProperty("SlideID", LongToVBA(.SlideID))
         End If
         If .SlideIndex <> iSlide.SlideIndex Then
-            Call objCode.Add(".SlideIndex = " & LongToVBA(.SlideIndex))
+            Call oCode.AddScalarProperty("SlideIndex", LongToVBA(.SlideIndex))
         End If
         If .SlideNumber <> iSlide.SlideNumber Then
-            Call objCode.Add(".SlideNumber = " & LongToVBA(.SlideNumber))
+            Call oCode.AddScalarProperty("SlideNumber", LongToVBA(.SlideNumber))
         End If
     End With
 
-    Call objCode.Wrap(propertyName)
+    Call oCode.Wrap
 
-    Set compare = objCode
+    Set Compare = oCode
 
     Exit Function
 

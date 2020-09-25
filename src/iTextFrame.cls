@@ -7,7 +7,7 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = False
-'SUPERSEDED WITH ITEXTFRAME2
+'OBSOLETE - TEXTFRAME SUPERSEDED WITH TEXTFRAME2
 
 Public AutoSize As PpAutoSize
 Public Creator As Long
@@ -27,23 +27,23 @@ Public WordWrap As MsoTriState
 'ActiveWindow.Selection.ShapeRange.TextFrame.WordWrap
 
 
-Public Function compare(propertyName As String, iTextFrame As iTextFrame) As Code
+Public Function Compare(ObjectName As String, iTextFrame As iTextFrame) As UDiff
 
-    Dim objCode As Code
+    Dim oCode As UDiff
 
     On Error GoTo err_
 
-    Set objCode = New Code
-    Set compare = objCode
+    Set oCode = New_UDiff(ObjectName, Me, iTextFrame)
+    Set Compare = oCode
 
     If IsCompared(Me) Then Exit Function
 
     With Me
     End With
 
-    Call objCode.Wrap(propertyName)
+    Call oCode.Wrap
 
-    Set compare = objCode
+    Set Compare = oCode
 
     Exit Function
 
@@ -60,17 +60,25 @@ Public Sub init(iTextFrame As TextFrame)
 
     On Error GoTo err_
 
+    belongsToDefaultShape = (TypeName(iTextFrame.Parent.Parent) = "Presentation")
+
     With Me
         .AutoSize = iTextFrame.AutoSize
         .Creator = iTextFrame.Creator
-        .HasText = iTextFrame.HasText
+        If belongsToDefaultShape = False Then
+            .HasText = iTextFrame.HasText
+        End If
         .HorizontalAnchor = iTextFrame.HorizontalAnchor
         .MarginBottom = iTextFrame.MarginBottom
         .MarginLeft = iTextFrame.MarginLeft
         .MarginRight = iTextFrame.MarginRight
         .MarginTop = iTextFrame.MarginTop
         .Orientation = iTextFrame.Orientation
-        Set .TextRange = New_iTextRange(iTextFrame.TextRange)
+        If belongsToDefaultShape = False Then
+            Set .TextRange = New_iTextRange(iTextFrame.TextRange)
+        Else
+            Set .TextRange = New iTextRange
+        End If
         .VerticalAnchor = iTextFrame.VerticalAnchor
         .WordWrap = iTextFrame.WordWrap
     End With

@@ -35,28 +35,28 @@ Public SlideNumber As Long
 'Public ThemeColorScheme As iThemeColorScheme
 'public TimeLine as iTimeLine
 
-
+Public Items As Collection
 
 'ActiveWindow.Selection.SlideRange.TimeLine
 
 
-Public Function compare(propertyName As String, iSlideRange As iSlideRange) As Code
+Public Function Compare(ObjectName As String, iSlideRange As iSlideRange) As UDiff
 
-    Dim objCode As Code
+    Dim oCode As UDiff
 
     On Error GoTo err_
 
-    Set objCode = New Code
-    Set compare = objCode
+    Set oCode = New_UDiff(ObjectName, Me, iSlideRange)
+    Set Compare = oCode
 
     If IsCompared(Me) Then Exit Function
 
     With Me
     End With
 
-    Call objCode.Wrap(propertyName)
+    Call oCode.Wrap
 
-    Set compare = objCode
+    Set Compare = oCode
 
     Exit Function
 
@@ -80,6 +80,10 @@ Public Sub init(iSlideRange As SlideRange)
         .DisplayMasterShapes = iSlideRange.DisplayMasterShapes
         .FollowMasterBackground = iSlideRange.FollowMasterBackground
         .HasNotesPage = iSlideRange.HasNotesPage
+        Set .Items = New Collection
+        For i = 1 To iSlideRange.Count
+            Call .Items.Add(New_iSlide(iSlideRange.Item(i)))
+        Next
         .Layout = iSlideRange.Layout
         .Name = iSlideRange.Name
         If iSlideRange.HasNotesPage = msoTrue Then

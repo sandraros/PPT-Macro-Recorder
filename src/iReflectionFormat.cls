@@ -14,14 +14,14 @@ Public Transparency As Single
 Public iType As MsoReflectionType
 
 
-Public Function compare(propertyName As String, iReflectionFormat As iReflectionFormat) As Code
+Public Function Compare(ObjectName As String, iReflectionFormat As iReflectionFormat) As UDiff
 
-    Dim objCode As Code
+    Dim oCode As UDiff
 
     On Error GoTo err_
 
-    Set objCode = New Code
-    Set compare = objCode
+    Set oCode = New_UDiff(ObjectName, Me, iReflectionFormat)
+    Set Compare = oCode
 
     If IsCompared(Me) Then Exit Function
 
@@ -32,25 +32,25 @@ Public Function compare(propertyName As String, iReflectionFormat As iReflection
 
     With Me
         If .Blur <> iReflectionFormat.Blur Then
-            Call objCode.Add(".Blur = " & SingleToVBA(.Blur))
+            Call oCode.AddScalarProperty("Blur", SingleToVBA(.Blur))
         End If
         If .Offset <> iReflectionFormat.Offset Then
-            Call objCode.Add(".Offset = " & SingleToVBA(.Offset))
+            Call oCode.AddScalarProperty("Offset", SingleToVBA(.Offset))
         End If
         If .Size <> iReflectionFormat.Size Then
-            Call objCode.Add(".Size = " & SingleToVBA(.Size))
+            Call oCode.AddScalarProperty("Size", SingleToVBA(.Size))
         End If
         If .Transparency <> iReflectionFormat.Transparency Then
-            Call objCode.Add(".Transparency = " & SingleToVBA(.Transparency))
+            Call oCode.AddScalarProperty("Transparency", SingleToVBA(.Transparency))
         End If
         If .iType <> iReflectionFormat.iType Then
-            Call objCode.Add(".Type = " & MsoReflectionType(.iType))
+            Call oCode.AddScalarProperty("Type", MsoReflectionType(.iType))
         End If
     End With
 
-    Call objCode.Wrap(propertyName)
+    Call oCode.Wrap
 
-    Set compare = objCode
+    Set Compare = oCode
     Exit Function
 
 err_:

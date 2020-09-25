@@ -7,11 +7,11 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = False
-Public Application As iApplication
+'Public Application As iApplication
 Public ChildShapeRange As iShapeRange
 Public HasChildShapeRange As Boolean
-Public Parent As Object
-Public ShapeRange As iShapeRange
+'Public Parent As Object
+Public shapeRange As iShapeRange
 Public SlideRange As iSlideRange
 'Public TextRange As iTextRange
 Public TextRange2 As iTextRange2
@@ -21,14 +21,14 @@ Public iType As PpSelectionType ' Type
 'ActiveWindow.Selection.Parent
 
 
-Public Function compare(propertyName As String, iSelection As iSelection) As Code
+Public Function Compare(ObjectName As String, iSelection As iSelection) As UDiff
 
-    Dim objCode As Code
+    Dim oCode As UDiff
 
     On Error GoTo err_
 
-    Set objCode = New Code
-    Set compare = objCode
+    Set oCode = New_UDiff(ObjectName, Me, iSelection)
+    Set Compare = oCode
 
     If IsCompared(Me) Then Exit Function
 
@@ -43,18 +43,20 @@ Public Function compare(propertyName As String, iSelection As iSelection) As Cod
         'If .iType = iSelection.iType Then
         Select Case .iType
             Case ppSelectionShapes:
-                Call objCode.AddCode(.ShapeRange.compare(".ShapeRange", iSelection.ShapeRange))
+                Call oCode.AddCode(.shapeRange.Compare("ShapeRange", iSelection.shapeRange))
             Case ppSelectionSlides:
-                'Set .SlideRange = New_iSlideRange(iSelection.SlideRange)
+                'TODO Set .SlideRange = New_iSlideRange(iSelection.SlideRange)
             Case ppSelectionText:
-                Call objCode.AddCode(.TextRange2.compare(".TextRange2", iSelection.TextRange2))
+                Call oCode.AddCode(.TextRange2.Compare("TextRange2", iSelection.TextRange2))
         End Select
+        'If .iType <> iSelection.iType And .iType = ppSelectionNone Then
+        '    Call oCode.Add("Call .Unselect")
         'End If
     End With
 
-    Call objCode.Wrap(propertyName)
+    Call oCode.Wrap
 
-    Set compare = objCode
+    Set Compare = oCode
 
     Exit Function
 
@@ -72,18 +74,18 @@ Public Sub init(iSelection As Selection)
     On Error GoTo err_
 
     With Me
-        Set .Application = New_iApplication(iSelection.Application)
+        'Set .Application = New_iApplication(iSelection.Application)
         If iSelection.HasChildShapeRange = True Then
             Set .ChildShapeRange = New_iShapeRange(iSelection.ChildShapeRange)
         Else
             Set .ChildShapeRange = New iShapeRange
         End If
         .HasChildShapeRange = iSelection.HasChildShapeRange
-        Set .Parent = iSelection.Parent
+        'Set .Parent = iSelection.Parent
         If iSelection.Type = ppSelectionShapes Then
-            Set .ShapeRange = New_iShapeRange(iSelection.ShapeRange)
+            Set .shapeRange = New_iShapeRange(iSelection.shapeRange)
         Else
-            Set .ShapeRange = New iShapeRange
+            Set .shapeRange = New iShapeRange
         End If
         If iSelection.Type = ppSelectionSlides Then
             Set .SlideRange = New_iSlideRange(iSelection.SlideRange)
