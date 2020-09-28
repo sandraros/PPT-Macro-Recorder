@@ -17,14 +17,14 @@ Public Transparency As Single
 'ActiveWindow.Selection.ShapeRange.Fill.GradientStops(1)
 
 
-Public Function Compare(ObjectName As String, iGradientStop As iGradientStop) As UDiff
+Public Function MR_Compare(ObjectName As String, iGradientStop As iGradientStop) As MR_Diff
 
-    Dim oCode As UDiff
+    Dim oDiff As MR_Diff
 
     On Error GoTo err_
 
-    Set oCode = New_UDiff(ObjectName, Me, iGradientStop)
-    Set Compare = oCode
+    Set oDiff = New_MR_Diff(ObjectName, Me, iGradientStop)
+    Set MR_Compare = oDiff
 
     If IsCompared(Me) Then Exit Function
 
@@ -32,24 +32,24 @@ Public Function Compare(ObjectName As String, iGradientStop As iGradientStop) As
         'If Not .Application Is iGradientStop.Application Then
         '    Call oCode.Add("'TODO Application")
         'End If
-        Call oCode.AddCode(.Color.Compare("Color", iGradientStop.Color))
+        Call oDiff.AddDiff(.Color.MR_Compare("Color", iGradientStop.Color))
         'If .Creator <> iGradientStop.Creator Then
-        '    Call oCode.AddScalarProperty("Creator", LongToVBA(.Creator))
+        '    Call oDiff.AddScalarProperty("Creator", LongToVBA(.Creator))
         'End If
         'If Not .Parent Is iGradientStop.Parent Then
         '    Call oCode.Add("'TODO Parent")
         'End If
         If .position <> iGradientStop.position Then
-            Call oCode.AddScalarProperty("Position", ToVBA(.position))
+            Call oDiff.AddScalarProperty("Position", ToVBA(.position))
         End If
         If .Transparency <> iGradientStop.Transparency Then
-            Call oCode.AddScalarProperty("Transparency", ToVBA(.Transparency))
+            Call oDiff.AddScalarProperty("Transparency", ToVBA(.Transparency))
         End If
     End With
 
-    Call oCode.Wrap
+    Call oDiff.Wrap
 
-    Set Compare = oCode
+    Set MR_Compare = oDiff
 
     Exit Function
 
@@ -85,9 +85,9 @@ err_:
 
 End Sub
 
-Public Function create(indent) As UDiff
+Public Function create() As MR_Diff
 
-    Set oCode = New_UDiff(ObjectName, Me, )
+    Set oDiff = New_MR_Diff(ObjectName, Me, )
 
     With Me
         Call oCode.Add(Space(indent) _
@@ -103,9 +103,9 @@ Public Function create(indent) As UDiff
 
 End Function
 
-Public Function delete(indent) As String
+Public Function delete() As String
 
-    Set oCode = New_UDiff(ObjectName, Me, )
+    Set oDiff = New_MR_Diff(ObjectName, Me, )
 
     With Me
         Call oCode.Add(Space(indent) & "Call .Delete(1)")
@@ -116,10 +116,19 @@ Public Function delete(indent) As String
 End Function
 
 Sub DefaultValues()
-    
+
+    On Error GoTo err_
+
     With Me
-        Set .Color = New oColorFormat
-        Call .Color.DefaultValues
     End With
+
+    Exit Sub
+
+err_:
+    #If DEBUG_MODE = 1 Then
+        Stop
+    #Else
+        err.Raise err.number 'rethrows with same source and description
+    #End If
 
 End Sub

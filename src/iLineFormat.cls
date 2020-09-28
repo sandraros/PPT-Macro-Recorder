@@ -29,14 +29,14 @@ Public Weight As Single
 '
 
 
-Public Function Compare(ObjectName As String, iLineFormat As iLineFormat) As UDiff
+Public Function MR_Compare(ObjectName As String, iLineFormat As iLineFormat) As MR_Diff
 
-    Dim oCode As UDiff
+    Dim oDiff As MR_Diff
 
     On Error GoTo err_
 
-    Set oCode = New_UDiff(ObjectName, Me, iLineFormat)
-    Set Compare = oCode
+    Set oDiff = New_MR_Diff(ObjectName, Me, iLineFormat)
+    Set MR_Compare = oDiff
 
     If IsCompared(Me) Then Exit Function
 
@@ -45,54 +45,54 @@ Public Function Compare(ObjectName As String, iLineFormat As iLineFormat) As UDi
         '    ' If invisible, other properties cannot be accessed
         '    Exit Function
         'End If
-        Call oCode.AddCode(.BackColor.Compare("BackColor", iLineFormat.BackColor))
+        Call oDiff.AddDiff(.BackColor.MR_Compare("BackColor", iLineFormat.BackColor))
         If TypeName(Me.Parent) = "Line" Then
             If .BeginArrowheadLength <> iLineFormat.BeginArrowheadLength Then
-                Call oCode.AddScalarProperty("BeginArrowheadLength", MsoArrowheadLength(.BeginArrowheadLength))
+                Call oDiff.AddScalarProperty("BeginArrowheadLength", MsoArrowheadLength(.BeginArrowheadLength))
             End If
             If .BeginArrowheadStyle <> iLineFormat.BeginArrowheadStyle Then
-                Call oCode.AddScalarProperty("BeginArrowheadStyle", MsoArrowheadStyle(.BeginArrowheadStyle))
+                Call oDiff.AddScalarProperty("BeginArrowheadStyle", MsoArrowheadStyle(.BeginArrowheadStyle))
             End If
             If .BeginArrowheadWidth <> iLineFormat.BeginArrowheadWidth Then
-                Call oCode.AddScalarProperty("BeginArrowheadWidth", MsoArrowheadWidth(.BeginArrowheadWidth))
+                Call oDiff.AddScalarProperty("BeginArrowheadWidth", MsoArrowheadWidth(.BeginArrowheadWidth))
             End If
             If .EndArrowheadLength <> iLineFormat.EndArrowheadLength Then
-                Call oCode.AddScalarProperty("EndArrowheadLength", MsoArrowheadLength(.EndArrowheadLength))
+                Call oDiff.AddScalarProperty("EndArrowheadLength", MsoArrowheadLength(.EndArrowheadLength))
             End If
             If .EndArrowheadStyle <> iLineFormat.EndArrowheadStyle Then
-                Call oCode.AddScalarProperty("EndArrowheadStyle", MsoArrowheadStyle(.EndArrowheadStyle))
+                Call oDiff.AddScalarProperty("EndArrowheadStyle", MsoArrowheadStyle(.EndArrowheadStyle))
             End If
             If .EndArrowheadWidth <> iLineFormat.EndArrowheadWidth Then
-                Call oCode.AddScalarProperty("EndArrowheadWidth", MsoArrowheadWidth(.EndArrowheadWidth))
+                Call oDiff.AddScalarProperty("EndArrowheadWidth", MsoArrowheadWidth(.EndArrowheadWidth))
             End If
         End If
         If .DashStyle <> iLineFormat.DashStyle Then
-            Call oCode.AddScalarProperty("DashStyle", MsoLineDashStyle(.DashStyle))
+            Call oDiff.AddScalarProperty("DashStyle", MsoLineDashStyle(.DashStyle))
         End If
-        Call oCode.AddCode(.ForeColor.Compare("ForeColor", iLineFormat.ForeColor))
+        Call oDiff.AddDiff(.ForeColor.MR_Compare("ForeColor", iLineFormat.ForeColor))
         If .InsetPen <> iLineFormat.InsetPen Then
-            Call oCode.AddScalarProperty("InsetPen", MsoTriState(.InsetPen))
+            Call oDiff.AddScalarProperty("InsetPen", MsoTriState(.InsetPen))
         End If
         If .Pattern <> iLineFormat.Pattern And .Pattern <> msoPatternMixed Then
-            Call oCode.AddScalarProperty("Pattern", MsoPatternType(.Pattern))
+            Call oDiff.AddScalarProperty("Pattern", MsoPatternType(.Pattern))
         End If
         If .Style <> iLineFormat.Style And .Style <> msoLineStyleMixed Then
-            Call oCode.AddScalarProperty("Style", MsoLineStyle(.Style))
+            Call oDiff.AddScalarProperty("Style", MsoLineStyle(.Style))
         End If
         If .Transparency <> iLineFormat.Transparency Then
-            Call oCode.AddScalarProperty("Transparency", SingleToVBA(.Transparency))
+            Call oDiff.AddScalarProperty("Transparency", SingleToVBA(.Transparency))
         End If
         If .Visible <> iLineFormat.Visible Then
-            Call oCode.AddScalarProperty("Visible", MsoTriState(.Visible))
+            Call oDiff.AddScalarProperty("Visible", MsoTriState(.Visible))
         End If
         If .Weight <> iLineFormat.Weight Then
-            Call oCode.AddScalarProperty("Weight", SingleToVBA(.Weight))
+            Call oDiff.AddScalarProperty("Weight", SingleToVBA(.Weight))
         End If
     End With
 
-    Call oCode.Wrap
+    Call oDiff.Wrap
 
-    Set Compare = oCode
+    Set MR_Compare = oDiff
 
     Exit Function
 
@@ -143,7 +143,9 @@ Sub DefaultValues()
 
     Dim defaultLine As iLineFormat
 
-    Set defaultLine = stopSnapShot.iPresentation.defaultShape.Line
+    On Error GoTo err_
+
+    Set defaultLine = goStopSnapshot.iPresentation.defaultShape.Line
 
     With Me
         Set .BackColor = defaultLine.BackColor
@@ -155,5 +157,14 @@ Sub DefaultValues()
         .Visible = defaultLine.Visible
         .Weight = defaultLine.Weight
     End With
+
+    Exit Sub
+
+err_:
+    #If DEBUG_MODE = 1 Then
+        Stop
+    #Else
+        err.Raise err.number 'rethrows with same source and description
+    #End If
 
 End Sub

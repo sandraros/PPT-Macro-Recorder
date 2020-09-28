@@ -1,20 +1,20 @@
 Attribute VB_Name = "UtilityFunctions"
 ' Get Macro Recorder Snapshot object
-Function GetMrsObject(PptObject As Object) As Object
+Function GetMRObject(PptObject As Object) As Object
 
     Dim currentObjectPair As cObjectPair
-    Dim oMrsObject As Object
+    Dim oMRObject As Object
 
     On Error GoTo err_
 
     For Each currentObjectPair In Snapshot.allObjects
         If currentObjectPair.PptObject Is PptObject Then
-            Set oMrsObject = currentObjectPair.MrsObject
+            Set oMRObject = currentObjectPair.MRObject
             Exit For
         End If
     Next
 
-    Set GetMrsObject = oMrsObject
+    Set GetMRObject = oMRObject
 
     Exit Function
 
@@ -27,7 +27,7 @@ err_:
 
 End Function
 
-Function GetPptObject(Snapshot As cSnapShot, MrsObject As Object) As Object
+Function GetPptObject(Snapshot As MR_Snapshot, MRObject As Object) As Object
 
     Dim currentObjectPair As cObjectPair
     Dim oPptObject As Object
@@ -35,8 +35,8 @@ Function GetPptObject(Snapshot As cSnapShot, MrsObject As Object) As Object
     On Error GoTo err_
 
     For Each currentObjectPair In Snapshot.allObjects
-        'If TypeName(currentObjectPair.MrsObject) = TypeName(MrsObject) Then
-        If currentObjectPair.MrsObject Is MrsObject Then
+        'If TypeName(currentObjectPair.MRObject) = TypeName(MRObject) Then
+        If currentObjectPair.MRObject Is MRObject Then
             Set oPptObject = currentObjectPair.PptObject
             Exit For
         End If
@@ -59,22 +59,22 @@ End Function
 Sub BuildObjectIndexes()
 
     Dim snapshots As Collection
-    Dim aSnapshot As cSnapShot
+    Dim aSnapshot As MR_Snapshot
     Dim anObjectPair As cObjectPair
 
     On Error GoTo err_
 
     Set snapshots = New Collection
-    snapshots.Add startSnapShot
-    snapshots.Add stopSnapShot
+    snapshots.Add goStartSnapshot
+    snapshots.Add goStopSnapshot
 
     For Each aSnapshot In snapshots
 
-        Set aSnapshot.MrsObjPtrs = New Collection
+        Set aSnapshot.MRObjPtrs = New Collection
         Set aSnapshot.PptObjPtrs = New Collection
         For i = 1 To aSnapshot.allObjects.Count
             Set anObjectPair = aSnapshot.allObjects.Item(i)
-            Call aSnapshot.MrsObjPtrs.Add(anObjectPair, CStr(ObjPtr(anObjectPair.MrsObject)))
+            Call aSnapshot.MRObjPtrs.Add(anObjectPair, CStr(ObjPtr(anObjectPair.MRObject)))
             Call aSnapshot.PptObjPtrs.Add(anObjectPair, CStr(ObjPtr(anObjectPair.PptObject)))
         Next
 
@@ -92,29 +92,29 @@ err_:
 End Sub
 
 Sub CompareCollection( _
-        oDiff As UDiff, _
+        oDiff As MR_Diff, _
         collection2 As Collection, _
         collection1 As Collection _
-        ) 'As UDiff
+        )
 
-    Dim MrsObject1 As Object
-    Dim MrsObject2 As Object
-    'Dim oDiff As UDiff
+    Dim oMRObject1 As Object
+    Dim oMRObject2 As Object
     Dim rangeObject As Object
 
     On Error GoTo err_
 
-    'Set oDiff = New_UDiff("", collection2, collection1)
-
     For i = 1 To collection2.Count
-        Set MrsObject2 = collection2.Item(i)
-        Set MrsObject1 = FindMrsObjectInTargetSnapshot(stopSnapShot, MrsObject2, startSnapShot)
-        If Not MrsObject1 Is Nothing Then
-            'IMPORTANT TO USE .ITEM(X) RATHER THAN (X) TO HANDLE BOTH CASES
-            '   Case 1: DOES COMPILE
-            '       Application.ActivePresentation.Slides(1).Shapes.Item(3).Fill.ForeColor
+        Set oMRObject2 = collection2.Item(i)
+        Set oMRObject1 = FindMRObjectInTargetSnapshot(goStopSnapshot, oMRObject2, goStartSnapshot)
+        If oMRObject1 Is Nothing Then
+            Call oDiff.AddNewObject(oMRObject2)
+            'Set oMRObject1 = oMRObject2.ComparisonBase(oMRObject2)
+        Else
+            'IMPORTANT TO USE ".ITEM(X)" RATHER THAN "(X)" TO HANDLE BOTH CASES
+            '   Case 1:
+            '       Application.ActivePresentation.Slides.Item(1).Shapes.Item(3).Fill.ForeColor
             '   Case 2: DOES COMPILE
-            '       With Application.ActivePresentation.Slides(1).Shapes
+            '       With Application.ActivePresentation.Slides.Item(1).Shapes
             '           With .Item(3).Fill.ForeColor
             '               .ObjectThemeColor = Office.msoThemeColorBackground2
             '           End With
@@ -122,43 +122,26 @@ Sub CompareCollection( _
             '               .ObjectThemeColor = Office.msoThemeColorBackground2
             '           End With
             '       End With
-            'COMPARED TO (X) AS "WITH (X)" WOULD NOT COMPILE:
+            'BECAUSE "(X)" WOULD NOT COMPILE IN CASE 2:
             '   Case 1: DOES COMPILE
-            '       Application.ActivePresentation.Slides(1).Shapes.Item(3).Fill.ForeColor
+            '       Application.ActivePresentation.Slides(1).Shapes(3).Fill.ForeColor
             '   Case 2:   ####   DOES NOT COMPILE !   ####
             '       With Application.ActivePresentation.Slides(1).Shapes
             '           With (3).Fill.ForeColor
             '           ...
-            If 0 = 1 Then
-                Select Case TypeName(MrsObject1)
-                    Case "iShape"
-                        If stopSnapShot.iSelection.iType = ppSelectionShapes Then
-                            Set rangeObject = stopSnapShot.iSelection.shapeRange
-                        Else
-                            Set rangeObject = CreateDummyShapeRange(MrsObject1)
-                        End If
-                    Case Else
-                        Set rangeObject = MrsObject1
-                End Select
-            End If
-            'If TypeName(MrsObject2) = "iShape" And IsObjectPartOfSelection(MrsObject2, stopSnapShot) Then
-            '    a = 1
-            'Else
-            Call oDiff.AddCode(MrsObject2.Compare("Item(" & CStr(i) & ")", MrsObject1))
-            'End If
-            'Call oDiff.AddCode(MrsObject2.Compare("(" & CStr(i) & ")", MrsObject1))
-        Else
-            Call oDiff.AddNewObject(MrsObject2)
+            '           With (4).Fill.ForeColor
+            '           ...
+            Call oDiff.AddDiff(oMRObject2.MR_Compare("Item(" & CStr(i) & ")", oMRObject1))
         End If
     Next
 
     ' For instance, Selection.ShapeRange may be Nothing if there was nothing then stop recorder after selection
     If Not collection1 Is Nothing Then
     For i = 1 To collection1.Count
-        Set MrsObject1 = collection1.Item(i)
-        Set MrsObject2 = FindMrsObjectInTargetSnapshot(startSnapShot, MrsObject1, stopSnapShot)
-        If MrsObject2 Is Nothing Then
-            Call oDiff.AddCode(MrsObject1.delete(indent))
+        Set oMRObject1 = collection1.Item(i)
+        Set oMRObject2 = FindMRObjectInTargetSnapshot(goStartSnapshot, oMRObject1, goStopSnapshot)
+        If oMRObject2 Is Nothing Then
+            Call oDiff.AddDiff(oMRObject1.delete())
         End If
     Next
     End If
@@ -204,7 +187,7 @@ Function CreateDummyShapeRange(iShape As iShape) As iShapeRange
     oShapeRange.HorizontalFlip = iShape.HorizontalFlip
     oShapeRange.InkXML = iShape.InkXML
     oShapeRange.IsNarration = iShape.IsNarration
-    oShapeRange.iType = iShape.iType
+    oShapeRange.Type_ = iShape.Type_
     oShapeRange.Left = iShape.Left
     Set oShapeRange.Line = iShape.Line
     oShapeRange.LockAspectRatio = iShape.LockAspectRatio
@@ -238,29 +221,29 @@ err_:
 
 End Function
 
-Function FindMrsObjectInTargetSnapshot( _
-        sourceSnapshot As cSnapShot, _
-        sourceMrsObject As Object, _
-        targetSnapshot As cSnapShot _
+Function FindMRObjectInTargetSnapshot( _
+        sourceSnapshot As MR_Snapshot, _
+        sourceMRObject As Object, _
+        targetSnapshot As MR_Snapshot _
         ) As Object
 
     Dim sourceObjectPair As cObjectPair
-    Dim tarGetMrsObjectPair As cObjectPair
+    Dim tarGetMRObjectPair As cObjectPair
     Dim sourcePptObject As Object
-    Dim targetMrsObject As Object
+    Dim tarGetMRObject As Object
 
     On Error GoTo err_
 
-    If ExistsInCollection(sourceSnapshot.MrsObjPtrs, CStr(ObjPtr(sourceMrsObject))) Then
-        Set sourceObjectPair = sourceSnapshot.MrsObjPtrs(CStr(ObjPtr(sourceMrsObject)))
+    If ExistsInCollection(sourceSnapshot.MRObjPtrs, CStr(ObjPtr(sourceMRObject))) Then
+        Set sourceObjectPair = sourceSnapshot.MRObjPtrs(CStr(ObjPtr(sourceMRObject)))
         Set sourcePptObject = sourceObjectPair.PptObject
         If ExistsInCollection(targetSnapshot.PptObjPtrs, CStr(ObjPtr(sourcePptObject))) Then
-            Set tarGetMrsObjectPair = targetSnapshot.PptObjPtrs(CStr(ObjPtr(sourcePptObject)))
-            Set targetMrsObject = tarGetMrsObjectPair.MrsObject
+            Set tarGetMRObjectPair = targetSnapshot.PptObjPtrs(CStr(ObjPtr(sourcePptObject)))
+            Set tarGetMRObject = tarGetMRObjectPair.MRObject
         End If
     End If
 
-    Set FindMrsObjectInTargetSnapshot = targetMrsObject
+    Set FindMRObjectInTargetSnapshot = tarGetMRObject
 
     Exit Function
 
@@ -273,19 +256,19 @@ err_:
 
 End Function
 
-Function AddObject(PptObject As Object, MrsObject As Object) As Object
+Function AddObject(ioPptObject As Object, ioMRObject As Object) As Object
 
     Dim objectPair As cObjectPair
 
     On Error GoTo err_
 
     Set objectPair = New cObjectPair
-    Set objectPair.MrsObject = MrsObject
-    Set objectPair.PptObject = PptObject
+    Set objectPair.MRObject = ioMRObject
+    Set objectPair.PptObject = ioPptObject
     Call Snapshot.allObjects.Add(objectPair)
-    Call Snapshot.allObjectClasses.Add(TypeName(PptObject))
-    Call MrsObject.init(PptObject)
-    Set AddObject = MrsObject
+    Call Snapshot.allObjectClasses.Add(TypeName(ioPptObject))
+    Call ioMRObject.init(ioPptObject)
+    Set AddObject = ioMRObject
 
     Exit Function
 
@@ -390,8 +373,8 @@ Function IsObjectNewlySelected(ioAnyPptObject As Object) As Boolean
             Call err.Raise(9999)
     End Select
 
-    IsObjectNewlySelected = (Not IsObjectPartOfSelection(ioAnyPptObject, startSnapShot) _
-                    And IsObjectPartOfSelection(ioAnyPptObject, stopSnapShot))
+    IsObjectNewlySelected = (Not IsObjectPartOfSelection(ioAnyPptObject, goStartSnapshot) _
+                    And IsObjectPartOfSelection(ioAnyPptObject, goStopSnapshot))
 
     Exit Function
 
@@ -404,7 +387,7 @@ err_:
 
 End Function
 
-Function IsObjectPartOfSelection(ioAnyPptObject As Object, ioSnapshot As cSnapShot) As Boolean
+Function IsObjectPartOfSelection(ioAnyPptObject As Object, ioSnapshot As MR_Snapshot) As Boolean
 
     Dim oItem As Object
 
@@ -412,7 +395,7 @@ Function IsObjectPartOfSelection(ioAnyPptObject As Object, ioSnapshot As cSnapSh
 
     IsObjectPartOfSelection = True
 
-    Select Case ioSnapshot.iSelection.iType
+    Select Case ioSnapshot.iSelection.Type_
         Case ppSelectionShapes
             If TypeName(ioAnyPptObject) = "Shape" Then
                 For Each oItem In ioSnapshot.iSelection.shapeRange.Items
@@ -480,11 +463,11 @@ Function IsPropertyAssignedByShapeRange(isPropertyName As String) As Boolean
 
     bPropertyAssigned = True
 
-    If stopSnapShot.iSelection.iType <> ppSelectionShapes Then
+    If goStopSnapshot.iSelection.Type_ <> ppSelectionShapes Then
         bPropertyAssigned = False
     Else
         ' TODO
-        'For Each Item In stopSnapShot.iSelection.shapeRange
+        'For Each Item In goStopSnapshot.iSelection.shapeRange
         '    If CallByName(Item, isPropertyName, VbGet) <> x Then
         '        Exit For
         '    End If

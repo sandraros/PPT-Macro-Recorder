@@ -26,14 +26,14 @@ Public Runs As Collection ' Collection of iTextRange2
 'ActiveWindow.Selection.ShapeRange.TextFrame2.TextRange.Start
 
 
-Public Function Compare(ObjectName As String, iTextRange2 As iTextRange2) As UDiff
+Public Function MR_Compare(ObjectName As String, iTextRange2 As iTextRange2) As MR_Diff
 
-    Dim oCode As UDiff
+    Dim oDiff As MR_Diff
 
     On Error GoTo err_
 
-    Set oCode = New_UDiff(ObjectName, Me, iTextRange2)
-    Set Compare = oCode
+    Set oDiff = New_MR_Diff(ObjectName, Me, iTextRange2)
+    Set MR_Compare = oDiff
 
     If IsCompared(Me) Then Exit Function
 
@@ -42,40 +42,40 @@ Public Function Compare(ObjectName As String, iTextRange2 As iTextRange2) As UDi
             ' A length of 0 represents the Selection object if there's just the caret inside the "text frame",
             ' i.e. no text selected, in that case Bound* properties cannot be accessed.
             If .BoundHeight <> iTextRange2.BoundHeight Then
-                Call oCode.AddScalarProperty("BoundHeight", SingleToVBA(.BoundHeight))
+                Call oDiff.AddScalarProperty("BoundHeight", SingleToVBA(.BoundHeight))
             End If
             If .BoundLeft <> iTextRange2.BoundLeft Then
-                Call oCode.AddScalarProperty("BoundLeft", SingleToVBA(.BoundLeft))
+                Call oDiff.AddScalarProperty("BoundLeft", SingleToVBA(.BoundLeft))
             End If
             If .BoundTop <> iTextRange2.BoundTop Then
-                Call oCode.AddScalarProperty("BoundTop", SingleToVBA(.BoundTop))
+                Call oDiff.AddScalarProperty("BoundTop", SingleToVBA(.BoundTop))
             End If
             If .BoundWidth <> iTextRange2.BoundWidth Then
-                Call oCode.AddScalarProperty("BoundWidth", SingleToVBA(.BoundWidth))
+                Call oDiff.AddScalarProperty("BoundWidth", SingleToVBA(.BoundWidth))
             End If
         End If
         'If .Count <> iTextRange2.Count Then
-        '    Call oCode.AddScalarProperty("Count", LongToVBA(.Count))
+        '    Call oDiff.AddScalarProperty("Count", LongToVBA(.Count))
         'End If
-        Call oCode.AddCode(.Font.Compare("Font", iTextRange2.Font))
+        Call oDiff.AddDiff(.Font.MR_Compare("Font", iTextRange2.Font))
         If .LanguageID <> iTextRange2.LanguageID Then
-            Call oCode.AddScalarProperty("LanguageID", MsoLanguageID(.LanguageID))
+            Call oDiff.AddScalarProperty("LanguageID", MsoLanguageID(.LanguageID))
         End If
         'If .length <> iTextRange2.length Then
-        '    Call oCode.AddScalarProperty("length", LongToVBA(.length))
+        '    Call oDiff.AddScalarProperty("length", LongToVBA(.length))
         'End If
         'TODO Runs
         'If .Start <> iTextRange2.Start Then
-        '    Call oCode.AddScalarProperty("Start", LongToVBA(.Start))
+        '    Call oDiff.AddScalarProperty("Start", LongToVBA(.Start))
         'End If
         If .Text <> iTextRange2.Text Then
-            Call oCode.AddScalarProperty("Text", ToVBA(.Text))
+            Call oDiff.AddScalarProperty("Text", ToVBA(.Text))
         End If
     End With
 
-    Call oCode.Wrap
+    Call oDiff.Wrap
 
-    Set Compare = oCode
+    Set MR_Compare = oDiff
 
     Exit Function
 
@@ -90,7 +90,7 @@ End Function
 
 Public Sub init(iTextRange2 As TextRange2)
 
-    Dim run As TextRange
+    Dim oRun As TextRange2
 
     On Error GoTo err_
 
@@ -113,10 +113,17 @@ Public Sub init(iTextRange2 As TextRange2)
         'TODO ParagraphFormat
         Set .Parent = iTextRange2.Parent
         Set Runs = New Collection
-        If iTextRange2.Count = 1 Then
-            For Each run In iTextRange2.Runs
-                Call Runs.Add(New_iTextRange2(run))
-            Next
+        If iTextRange2.Count = 1 Then ' make sure there is a text otherwise Runs, Start and Text are invalid
+            ' Prevent endless loop (to avoid circular reference because smallest Run refers to itself)
+            If iTextRange2.Runs.Count = 1 Then
+                If Not (iTextRange2.Runs(1).Start = iTextRange2.Start And iTextRange2.Runs(1).Length = iTextRange2.Length) Then
+                    Call Runs.Add(New_iTextRange2(iTextRange2.Runs(1)))
+                End If
+            Else
+                For Each oRun In iTextRange2.Runs
+                    Call Runs.Add(New_iTextRange2(oRun))
+                Next
+            End If
             .Start = iTextRange2.Start
             .Text = iTextRange2.Text
         End If
@@ -133,10 +140,11 @@ err_:
 
 End Sub
 
-
 Sub DefaultValues()
 
     Dim defaultTextRange2 As iTextRange2
+
+    On Error GoTo err_
 
     Set defaultTextRange2 = defaultShape.TextFrame2.TextRange
 
@@ -144,5 +152,14 @@ Sub DefaultValues()
         Set .Font = defaultTextRange2.Font
         .LanguageID = defaultTextRange2.LanguageID
     End With
+
+    Exit Sub
+
+err_:
+    #If DEBUG_MODE = 1 Then
+        Stop
+    #Else
+        err.Raise err.number 'rethrows with same source and description
+    #End If
 
 End Sub

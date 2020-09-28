@@ -30,64 +30,64 @@ Public WordWrap As MsoTriState
 'ActiveWindow.Selection.ShapeRange.TextFrame2.WordWrap
 
 
-Public Function Compare(ObjectName As String, iTextFrame2 As iTextFrame2) As UDiff
+Public Function MR_Compare(ObjectName As String, iTextFrame2 As iTextFrame2) As MR_Diff
 
-    Dim oCode As UDiff
+    Dim oDiff As MR_Diff
 
     On Error GoTo err_
 
-    Set oCode = New_UDiff(ObjectName, Me, iTextFrame2)
-    Set Compare = oCode
+    Set oDiff = New_MR_Diff(ObjectName, Me, iTextFrame2)
+    Set MR_Compare = oDiff
 
     If IsCompared(Me) Then Exit Function
 
     With Me
         If .AutoSize <> iTextFrame2.AutoSize Then
-            Call oCode.AddScalarProperty("AutoSize", MsoAutoSize(.AutoSize))
+            Call oDiff.AddScalarProperty("AutoSize", MsoAutoSize(.AutoSize))
         End If
         'If .HasText <> iTextFrame2.HasText Then
-        '    Call oCode.AddScalarProperty("HasText", MsoTriState(.HasText))
+        '    Call oDiff.AddScalarProperty("HasText", MsoTriState(.HasText))
         'End If
         If .HorizontalAnchor <> iTextFrame2.HorizontalAnchor Then
-            Call oCode.AddScalarProperty("HorizontalAnchor", MsoHorizontalAnchor(.HorizontalAnchor))
+            Call oDiff.AddScalarProperty("HorizontalAnchor", MsoHorizontalAnchor(.HorizontalAnchor))
         End If
         If .MarginBottom <> iTextFrame2.MarginBottom Then
-            Call oCode.AddScalarProperty("MarginBottom", SingleToVBA(.MarginBottom))
+            Call oDiff.AddScalarProperty("MarginBottom", SingleToVBA(.MarginBottom))
         End If
         If .MarginLeft <> iTextFrame2.MarginLeft Then
-            Call oCode.AddScalarProperty("MarginLeft", SingleToVBA(.MarginLeft))
+            Call oDiff.AddScalarProperty("MarginLeft", SingleToVBA(.MarginLeft))
         End If
         If .MarginRight <> iTextFrame2.MarginRight Then
-            Call oCode.AddScalarProperty("MarginRight", SingleToVBA(.MarginRight))
+            Call oDiff.AddScalarProperty("MarginRight", SingleToVBA(.MarginRight))
         End If
         If .MarginTop <> iTextFrame2.MarginTop Then
-            Call oCode.AddScalarProperty("MarginTop", SingleToVBA(.MarginTop))
+            Call oDiff.AddScalarProperty("MarginTop", SingleToVBA(.MarginTop))
         End If
         If .Orientation <> iTextFrame2.Orientation Then
-            Call oCode.AddScalarProperty("Orientation", MsoTextOrientation(.Orientation))
+            Call oDiff.AddScalarProperty("Orientation", MsoTextOrientation(.Orientation))
         End If
         If .PathFormat <> iTextFrame2.PathFormat Then
-            Call oCode.AddScalarProperty("PathFormat", MsoPathFormat(.PathFormat))
+            Call oDiff.AddScalarProperty("PathFormat", MsoPathFormat(.PathFormat))
         End If
-        Call oCode.AddCode(.TextRange.Compare("TextRange", iTextFrame2.TextRange))
+        Call oDiff.AddDiff(.TextRange.MR_Compare("TextRange", iTextFrame2.TextRange))
         If .VerticalAnchor <> iTextFrame2.VerticalAnchor Then
-            Call oCode.AddScalarProperty("VerticalAnchor", MsoVerticalAnchor(.VerticalAnchor))
+            Call oDiff.AddScalarProperty("VerticalAnchor", MsoVerticalAnchor(.VerticalAnchor))
         End If
         If .WarpFormat <> iTextFrame2.WarpFormat Then
-            Call oCode.AddScalarProperty("WarpFormat", MsoWarpFormat(.WarpFormat))
+            Call oDiff.AddScalarProperty("WarpFormat", MsoWarpFormat(.WarpFormat))
         End If
         'TODO
         'If .WordArtFormat <> iTextFrame2.WordArtFormat Then
         '    Call oCode.Add("'.WordArtFormat", MsoPresetTextEffect(.WordArtFormat))
         'End If
         If .WordWrap <> iTextFrame2.WordWrap Then
-            Call oCode.AddScalarProperty("WordWrap", MsoTriState(.WordWrap))
+            Call oDiff.AddScalarProperty("WordWrap", MsoTriState(.WordWrap))
         End If
     End With
 
-    Call oCode.Wrap
+    Call oDiff.Wrap
 
-    Set Compare = oCode
+    Set MR_Compare = oDiff
 
     Exit Function
 
@@ -148,6 +148,8 @@ Sub DefaultValues()
 
     Dim defaultTextFrame2 As iTextFrame2
 
+    On Error GoTo err_
+
     Set defaultTextFrame2 = defaultShape.TextFrame2
 
     With Me
@@ -163,5 +165,13 @@ Sub DefaultValues()
         .WordWrap = defaultTextFrame2.WordWrap
     End With
 
-End Sub
+    Exit Sub
 
+err_:
+    #If DEBUG_MODE = 1 Then
+        Stop
+    #Else
+        err.Raise err.number 'rethrows with same source and description
+    #End If
+
+End Sub

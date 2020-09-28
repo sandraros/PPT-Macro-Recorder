@@ -1,7 +1,46 @@
 Attribute VB_Name = "GenerateCodeFunctions"
-Function GenerateCode(ioDiff As UDiff, ioStartSelection As iSelection, ioStopSelection As iSelection, ioDiffSelection As UDiff) As String
+Function WrapCodeIntoMacro(isCode As String) As String
 
-    'Dim oCode As cCode
+    Dim strCode As String
+
+    On Error GoTo err_
+
+    strCode = ""
+    ' Macro start (Sub)
+    strCode = strCode _
+        & "Sub " & macroName & "()" & Chr(13) _
+        & "'" & Chr(13) _
+        & "' " & macroName & " Macro" & Chr(13)
+
+    ' Macro description
+    astrMacroDescription = Split(macroDescription, Chr(13))
+    For i = LBound(astrMacroDescription) To UBound(astrMacroDescription)
+        strCode = strCode & "' " & astrMacroDescription(i) & Chr(13)
+    Next
+    strCode = strCode & "'" & Chr(13)
+
+    ' Macro code
+    strCode = strCode & isCode
+
+    ' Macro end (End Sub)
+    strCode = strCode & "End Sub"
+
+    WrapCodeIntoMacro = strCode
+
+    Exit Function
+
+err_:
+    #If DEBUG_MODE = 1 Then
+        Stop
+    #Else
+        err.Raise err.number 'rethrows with same source and description
+    #End If
+
+End Function
+
+Function GenerateCode(ioDiff As MR_Diff, ioStartSelection As iSelection, ioStopSelection As iSelection, ioDiffSelection As MR_Diff) As String
+
+    'Dim oCode As MR_Code
     Dim strCode As String
 
     On Error GoTo err_
@@ -10,12 +49,12 @@ Function GenerateCode(ioDiff As UDiff, ioStartSelection As iSelection, ioStopSel
     '     Application.ActiveWindow.Selection.ShapeRange(1).Fill.BackColor = RGB(17, 15, 150)
     ' rather than
     '     Application.ActivePresentation.Shapes(27).Fill.BackColor = RGB(17, 15, 150)
-    'Set oCode = New cCode
-    'Call oCode.AddCode(CallUnselectAndSelectIfSelectionChanged())
-    'Call oCode.AddCode(stopSnapShot.iSelection.Compare("ActiveWindow.Selection", startSnapShot.iSelection))
-    'Call oCode.AddCode(stopSnapShot.iPresentation.Compare("ActivePresentation", startSnapShot.iPresentation))
+    'Set oCode = New MR_Code
+    'Call oDiff.AddDiff(CallUnselectAndSelectIfSelectionChanged())
+    'Call oDiff.AddDiff(goStopSnapshot.iSelection.MR_Compare("ActiveWindow.Selection", goStartSnapshot.iSelection))
+    'Call oDiff.AddDiff(goStopSnapshot.iPresentation.MR_Compare("ActivePresentation", goStartSnapshot.iPresentation))
     '' In the future, propose to record actions on several presentations
-    'Call oCode.AddCode(stopSnapShot.iPresentation.compare("Application", startSnapShot.iApplication))
+    'Call oDiff.AddDiff(goStopSnapshot.iPresentation.MR_Compare("Application", goStartSnapshot.iApplication))
 
     '============================
     ' SOURCE CODE AROUND
@@ -36,7 +75,7 @@ Function GenerateCode(ioDiff As UDiff, ioStartSelection As iSelection, ioStopSel
     ' Macro code
     strCode = strCode & GetCodeForAddedObjects(ioDiff, "ActivePresentation").ConvertToString()
     strCode = strCode & GetCodeToSelectObjects(ioStartSelection, ioStopSelection).ConvertToString()
-    If ioStopSelection.iType <> ppSelectionNone Then
+    If ioStopSelection.Type_ <> ppSelectionNone Then
         strCode = strCode & GetCodeForAllChangedElements(ioDiffSelection, "ActiveWindow.Selection").ConvertToString()
     End If
     strCode = strCode & GetCodeForUnselectedObjects(ioDiff, "ActivePresentation", ioStopSelection).ConvertToString()
@@ -57,9 +96,9 @@ err_:
 
 End Function
 
-Function GetCodeForAddedObjects(ioDiff As UDiff, ObjectName As String) As cCode
+Function GetCodeForAddedObjects(ioDiff As MR_Diff, ObjectName As String) As MR_Code
 
-    Dim oCode As cCode
+    Dim oCode As MR_Code
     Dim oAddedObject As UDiffAddedObject
     Dim oRemovedObject As UDiffRemovedObject
     Dim oScalarProperty As UDiffScalarProperty
@@ -68,11 +107,11 @@ Function GetCodeForAddedObjects(ioDiff As UDiff, ObjectName As String) As cCode
 
     On Error GoTo err_
 
-    Set oCode = New cCode
+    Set oCode = New MR_Code
 
     For Each oItem In ioDiff.AddedObjects
         Set oAddedObject = oItem
-        Call oCode.AddCode(oAddedObject.Object.create())
+        Call oCode.AddCode(oAddedObject.MRObject.create())
     Next
 
     For Each oItem In ioDiff.ObjectProperties
@@ -95,8 +134,9 @@ err_:
 
 End Function
 
-Function GetCodeToSelectObjects(ioStartSelection As iSelection, ioStopSelection As iSelection) As cCode
+Function GetCodeToSelectObjects(ioStartSelection As iSelection, ioStopSelection As iSelection) As MR_Code
 
+    Dim oCode As MR_Code
     Dim bObjectIsUnselected As Boolean
     Dim oShape As iShape
     Dim oPresentation As iPresentation
@@ -106,25 +146,25 @@ Function GetCodeToSelectObjects(ioStartSelection As iSelection, ioStopSelection 
 
     On Error GoTo err_
 
-    Set oCode = New cCode
+    Set oCode = New MR_Code
 
     ' Do "call activewindow.selection.unselect" if at least one selected object became unselected
     bObjectIsUnselected = False
-    If ioStopSelection.iType = ppSelectionNone _
-                And ioStartSelection.iType <> ppSelectionNone Then
+    If ioStopSelection.Type_ = ppSelectionNone _
+                And ioStartSelection.Type_ <> ppSelectionNone Then
         bObjectIsUnselected = True
     Else
-        Select Case ioStartSelection.iType
+        Select Case ioStartSelection.Type_
             Case ppSelectionShapes
                 For Each oShape In ioStartSelection.shapeRange.Items
-                    If Not IsObjectPartOfSelection(GetPptObject(startSnapShot, oShape), stopSnapShot) Then
+                    If Not IsObjectPartOfSelection(GetPptObject(goStartSnapshot, oShape), goStopSnapshot) Then
                         bObjectIsUnselected = True
                         Exit For
                     End If
                 Next
             Case ppSelectionSlides
                 For Each oSlide In ioStartSelection.SlideRange.Items
-                    If Not IsObjectPartOfSelection(GetPptObject(startSnapShot, oSlide), stopSnapShot) Then
+                    If Not IsObjectPartOfSelection(GetPptObject(goStartSnapshot, oSlide), goStopSnapshot) Then
                         bObjectIsUnselected = True
                         Exit For
                     End If
@@ -138,7 +178,7 @@ Function GetCodeToSelectObjects(ioStartSelection As iSelection, ioStopSelection 
     End If
 
     ' Process newly selected objects
-    Select Case ioStopSelection.iType
+    Select Case ioStopSelection.Type_
         Case ppSelectionShapes
             Set oSelectedSlide = ioStopSelection.shapeRange.Items(1).Parent
             For i = 1 To ActivePresentation.Slides.Count
@@ -148,8 +188,8 @@ Function GetCodeToSelectObjects(ioStartSelection As iSelection, ioStopSelection 
                 End If
             Next
             For i = 1 To ioStopSelection.shapeRange.Items.Count 'oSelectedSlide.Shapes.Count
-                Set oShape = ioStopSelection.shapeRange.Items(i) 'GetMrsObject(oSelectedSlide.Shapes(i))
-                If IsObjectNewlySelected(GetPptObject(stopSnapShot, oShape)) Then
+                Set oShape = ioStopSelection.shapeRange.Items(i) 'GetMRObject(oSelectedSlide.Shapes(i))
+                If IsObjectNewlySelected(GetPptObject(goStopSnapshot, oShape)) Then
                     Call oCode.Add("Call ActivePresentation.Slides(" & CStr(lSlideId) & ").Shapes(" & CStr(i) & ").Select")
                     Exit For
                 End If
@@ -173,16 +213,22 @@ err_:
 
 End Function
 
-Function GetCodeForAllChangedElements(ioDiff As UDiff, ObjectName As String) As cCode
+Function GetCodeForAllChangedElements(ioDiff As MR_Diff, ObjectName As String) As MR_Code
 
-    Dim oCode As cCode
+    Dim oCode As MR_Code
+    Dim oAddedObject As UDiffAddedObject
     Dim oScalarProperty As UDiffScalarProperty
     Dim oObjectProperty As UDiffObjectProperty
     Dim oMethodCall As UDiffMethodCall
 
     On Error GoTo err_
 
-    Set oCode = New cCode
+    Set oCode = New MR_Code
+
+    For Each oItem In ioDiff.AddedObjects
+        Set oAddedObject = oItem
+        Call oCode.AddCode(oAddedObject.MRObject.create())
+    Next
 
     For Each oItem In ioDiff.ScalarProperties
         Set oScalarProperty = oItem
@@ -214,16 +260,16 @@ err_:
 
 End Function
 
-Function GetCodeForUnselectedObjects(ioDiff As UDiff, ObjectName As String, ioStopSelection As iSelection) As cCode
+Function GetCodeForUnselectedObjects(ioDiff As MR_Diff, ObjectName As String, ioStopSelection As iSelection) As MR_Code
 
-    Dim oCode As cCode
+    Dim oCode As MR_Code
     Dim oScalarProperty As UDiffScalarProperty
     Dim oObjectProperty As UDiffObjectProperty
     Dim oMethodCall As UDiffMethodCall
 
     On Error GoTo err_
 
-    Set oCode = New cCode
+    Set oCode = New MR_Code
 
     For Each oItem In ioDiff.ScalarProperties
         Set oScalarProperty = oItem
@@ -235,7 +281,7 @@ Function GetCodeForUnselectedObjects(ioDiff As UDiff, ObjectName As String, ioSt
         bIsObjectSelected = False
         Select Case TypeName(oObjectProperty.Diff.StopObject)
         Case "iShape"
-        bIsObjectSelected = (IsObjectPartOfSelection(GetPptObject(stopSnapShot, oObjectProperty.Diff.StopObject), stopSnapShot))
+        bIsObjectSelected = (IsObjectPartOfSelection(GetPptObject(goStopSnapshot, oObjectProperty.Diff.StopObject), goStopSnapshot))
         End Select
         If bIsObjectSelected = False Then
             Call oCode.AddCode(GetCodeForUnselectedObjects(oObjectProperty.Diff, "." & oObjectProperty.Diff.ObjectName, ioStopSelection))

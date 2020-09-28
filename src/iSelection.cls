@@ -15,20 +15,20 @@ Public shapeRange As iShapeRange
 Public SlideRange As iSlideRange
 'Public TextRange As iTextRange
 Public TextRange2 As iTextRange2
-Public iType As PpSelectionType ' Type
+Public Type_ As PpSelectionType ' Type
 
 
 'ActiveWindow.Selection.Parent
 
 
-Public Function Compare(ObjectName As String, iSelection As iSelection) As UDiff
+Public Function MR_Compare(ObjectName As String, iSelection As iSelection) As MR_Diff
 
-    Dim oCode As UDiff
+    Dim oDiff As MR_Diff
 
     On Error GoTo err_
 
-    Set oCode = New_UDiff(ObjectName, Me, iSelection)
-    Set Compare = oCode
+    Set oDiff = New_MR_Diff(ObjectName, Me, iSelection)
+    Set MR_Compare = oDiff
 
     If IsCompared(Me) Then Exit Function
 
@@ -40,23 +40,23 @@ Public Function Compare(ObjectName As String, iSelection As iSelection) As UDiff
         End If
         '.HasChildShapeRange = iSelection.HasChildShapeRange
         'Set .Parent = iSelection.Parent
-        'If .iType = iSelection.iType Then
-        Select Case .iType
+        'If .Type_ = iSelection.Type_ Then
+        Select Case .Type_
             Case ppSelectionShapes:
-                Call oCode.AddCode(.shapeRange.Compare("ShapeRange", iSelection.shapeRange))
+                Call oDiff.AddDiff(.shapeRange.MR_Compare("ShapeRange", iSelection.shapeRange))
             Case ppSelectionSlides:
                 'TODO Set .SlideRange = New_iSlideRange(iSelection.SlideRange)
             Case ppSelectionText:
-                Call oCode.AddCode(.TextRange2.Compare("TextRange2", iSelection.TextRange2))
+                Call oDiff.AddDiff(.TextRange2.MR_Compare("TextRange2", iSelection.TextRange2))
         End Select
-        'If .iType <> iSelection.iType And .iType = ppSelectionNone Then
+        'If .Type_ <> iSelection.Type_ And .Type_ = ppSelectionNone Then
         '    Call oCode.Add("Call .Unselect")
         'End If
     End With
 
-    Call oCode.Wrap
+    Call oDiff.Wrap
 
-    Set Compare = oCode
+    Set MR_Compare = oDiff
 
     Exit Function
 
@@ -97,7 +97,7 @@ Public Sub init(iSelection As Selection)
         Else
             Set .TextRange2 = New iTextRange2
         End If
-        .iType = iSelection.Type
+        .Type_ = iSelection.Type
     End With
 
     Exit Sub
@@ -111,4 +111,20 @@ err_:
 
 End Sub
 
+Sub DefaultValues()
 
+    On Error GoTo err_
+
+    With Me
+    End With
+
+    Exit Sub
+
+err_:
+    #If DEBUG_MODE = 1 Then
+        Stop
+    #Else
+        err.Raise err.number 'rethrows with same source and description
+    #End If
+
+End Sub

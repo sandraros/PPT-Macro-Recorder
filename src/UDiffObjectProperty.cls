@@ -7,5 +7,5 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = False
-Public Diff As UDiff
+Public Diff As MR_Diff
 Public ObjectName As String

@@ -15,54 +15,54 @@ Public RGB As MsoRGBType
 ' Is SchemeColor obsolete?
 Public SchemeColor As Long
 Public TintAndShade As Single
-Public iType As MsoColorType ' Type
+Public Type_ As MsoColorType ' Type
 
 
 ' ...GradientStops(1).Color
 '
 
-Public Function Compare(ObjectName As String, iColorFormat As oColorFormat) As UDiff
+Public Function MR_Compare(ObjectName As String, iColorFormat As oColorFormat) As MR_Diff
 
-    Dim oCode As UDiff
+    Dim oDiff As MR_Diff
 
     On Error GoTo err_
 
-    Set oCode = New_UDiff(ObjectName, Me, iColorFormat)
-    Set Compare = oCode
+    Set oDiff = New_MR_Diff(ObjectName, Me, iColorFormat)
+    Set MR_Compare = oDiff
 
     If IsCompared(Me) Then Exit Function
 
-    If iColorFormat.iType = msoColorTypeMixed Then Exit Function
+    If iColorFormat.Type_ = msoColorTypeMixed Then Exit Function
 
     With Me
-        If .iType = msoColorTypeScheme And _
+        If .Type_ = msoColorTypeScheme And _
            .ObjectThemeColor <> iColorFormat.ObjectThemeColor Then
-            Call oCode.AddScalarProperty("ObjectThemeColor", MsoThemeColorIndex(.ObjectThemeColor))
+            Call oDiff.AddScalarProperty("ObjectThemeColor", MsoThemeColorIndex(.ObjectThemeColor))
         End If
-        If .iType = msoColorTypeRGB And _
-            (.iType <> iColorFormat.iType Or .RGB <> iColorFormat.RGB) Then
-            Call oCode.AddScalarProperty("RGB", MsoRGBTypeToVBA(.RGB))
+        If .Type_ = msoColorTypeRGB And _
+            (.Type_ <> iColorFormat.Type_ Or .RGB <> iColorFormat.RGB) Then
+            Call oDiff.AddScalarProperty("RGB", MsoRGBTypeToVBA(.RGB))
         End If
-        'If .iType = msoColorTypeScheme And _
-        '    (.iType <> iColorFormat.iType Or .SchemeColor <> iColorFormat.SchemeColor) Then
+        'If .Type_ = msoColorTypeScheme And _
+        '    (.Type_ <> iColorFormat.Type_ Or .SchemeColor <> iColorFormat.SchemeColor) Then
         '    ' Not sure if there is an enumeration for SchemeColor values (class Office.ColorFormat)
-        '    Call oCode.AddScalarProperty("SchemeColor", ToVBA(.SchemeColor))
+        '    Call oDiff.AddScalarProperty("SchemeColor", ToVBA(.SchemeColor))
         'End If
         ' BRIGHTNESS must be applied after ObjectThemeColor which resets it
         If .Brightness <> iColorFormat.Brightness Then
-            Call oCode.AddScalarProperty("Brightness", SingleToVBA(.Brightness))
+            Call oDiff.AddScalarProperty("Brightness", SingleToVBA(.Brightness))
         End If
         If .TintAndShade <> iColorFormat.TintAndShade Then
-            Call oCode.AddScalarProperty("TintAndShade", SingleToVBA(.TintAndShade))
+            Call oDiff.AddScalarProperty("TintAndShade", SingleToVBA(.TintAndShade))
         End If
-        'If .iType <> iColorFormat.iType Then
-        '    Call oCode.Add("'.Type", MsoColorType(.iType))
+        'If .Type_ <> iColorFormat.Type_ Then
+        '    Call oCode.Add("'.Type", MsoColorType(.Type_))
         'End If
     End With
 
-    Call oCode.Wrap
+    Call oDiff.Wrap
 
-    Set Compare = oCode
+    Set MR_Compare = oDiff
 
     Exit Function
 
@@ -97,7 +97,7 @@ Public Sub init(iColorFormat As Office.ColorFormat)
         '    .SchemeColor = iColorFormat.SchemeColor
         'End If
         .TintAndShade = iColorFormat.TintAndShade
-        .iType = iColorFormat.Type
+        .Type_ = iColorFormat.Type
     End With
 
     Exit Sub
@@ -112,7 +112,19 @@ err_:
 End Sub
 
 Sub DefaultValues()
+
+    On Error GoTo err_
+
     With Me
     End With
-End Sub
 
+    Exit Sub
+
+err_:
+    #If DEBUG_MODE = 1 Then
+        Stop
+    #Else
+        err.Raise err.number 'rethrows with same source and description
+    #End If
+
+End Sub

@@ -65,111 +65,111 @@ Sub class_initialize()
     Value = "hhh"
 End Sub
 
-Public Function Compare(ObjectName As String, iApplication As iApplication) As UDiff
+Public Function MR_Compare(ObjectName As String, iApplication As iApplication) As MR_Diff
 
-    Dim oCode As UDiff
+    Dim oDiff As MR_Diff
 
     On Error GoTo err_
 
-    Set oCode = New_UDiff(ObjectName, Me, iApplication)
-    Set Compare = oCode
+    Set oDiff = New_MR_Diff(ObjectName, Me, iApplication)
+    Set MR_Compare = oDiff
 
     If IsCompared(Me) Then Exit Function
 
     With Me
         If .Active <> iApplication.Active Then
-            Call oCode.AddScalarProperty("Active", MsoTriState(.Active))
+            Call oDiff.AddScalarProperty("Active", MsoTriState(.Active))
         End If
         If .ActiveEncryptionSession <> iApplication.ActiveEncryptionSession Then
-            Call oCode.AddScalarProperty("ActiveEncryptionSession", LongToVBA(.ActiveEncryptionSession))
+            Call oDiff.AddScalarProperty("ActiveEncryptionSession", LongToVBA(.ActiveEncryptionSession))
         End If
-        Call oCode.AddCode(.ActivePresentation.Compare("ActivePresentation", iApplication.ActivePresentation))
+        Call oDiff.AddDiff(.ActivePresentation.MR_Compare("ActivePresentation", iApplication.ActivePresentation))
         If .ActivePrinter <> iApplication.ActivePrinter Then
-            Call oCode.AddScalarProperty("ActivePrinter", iApplication.ActivePrinter)
+            Call oDiff.AddScalarProperty("ActivePrinter", iApplication.ActivePrinter)
         End If
-        Call oCode.AddCode(.ActiveWindow.Compare("ActiveWindow", iApplication.ActiveWindow))
+        Call oDiff.AddDiff(.ActiveWindow.MR_Compare("ActiveWindow", iApplication.ActiveWindow))
         If .AutomationSecurity <> iApplication.AutomationSecurity Then
-            Call oCode.AddScalarProperty("AutomationSecurity", MsoAutomationSecurity(.AutomationSecurity))
+            Call oDiff.AddScalarProperty("AutomationSecurity", MsoAutomationSecurity(.AutomationSecurity))
         End If
         If .Build <> iApplication.Build Then
-            Call oCode.AddScalarProperty("Build", iApplication.Build)
+            Call oDiff.AddScalarProperty("Build", iApplication.Build)
         End If
         If .Caption <> iApplication.Caption Then
-            Call oCode.AddScalarProperty("Caption", iApplication.Caption)
+            Call oDiff.AddScalarProperty("Caption", iApplication.Caption)
         End If
         If .ChartDataPointTrack <> iApplication.ChartDataPointTrack Then
-            Call oCode.AddScalarProperty("ChartDataPointTrack", iApplication.ChartDataPointTrack)
+            Call oDiff.AddScalarProperty("ChartDataPointTrack", iApplication.ChartDataPointTrack)
         End If
         If .Creator <> iApplication.Creator Then
-            Call oCode.AddScalarProperty("Creator", LongToVBA(.Creator))
+            Call oDiff.AddScalarProperty("Creator", LongToVBA(.Creator))
         End If
         If .DisplayAlerts <> iApplication.DisplayAlerts Then
-            Call oCode.AddScalarProperty("DisplayAlerts", PpAlertLevel(.DisplayAlerts))
+            Call oDiff.AddScalarProperty("DisplayAlerts", PpAlertLevel(.DisplayAlerts))
         End If
         If .DisplayDocumentInformationPanel <> iApplication.DisplayDocumentInformationPanel Then
-            Call oCode.AddScalarProperty("DisplayDocumentInformationPanel", iApplication.DisplayDocumentInformationPanel)
+            Call oDiff.AddScalarProperty("DisplayDocumentInformationPanel", iApplication.DisplayDocumentInformationPanel)
         End If
         If .DisplayGridLines <> iApplication.DisplayGridLines Then
-            Call oCode.AddScalarProperty("DisplayGridLines", MsoTriState(.DisplayGridLines))
+            Call oDiff.AddScalarProperty("DisplayGridLines", MsoTriState(.DisplayGridLines))
         End If
         If .DisplayGuides <> iApplication.DisplayGuides Then
-            Call oCode.AddScalarProperty("DisplayGuides", MsoTriState(.DisplayGuides))
+            Call oDiff.AddScalarProperty("DisplayGuides", MsoTriState(.DisplayGuides))
         End If
         If .FeatureInstall <> iApplication.FeatureInstall Then
-            Call oCode.AddScalarProperty("FeatureInstall", MsoFeatureInstall(.FeatureInstall))
+            Call oDiff.AddScalarProperty("FeatureInstall", MsoFeatureInstall(.FeatureInstall))
         End If
         If .FileValidation <> iApplication.FileValidation Then
-            Call oCode.AddScalarProperty("FileValidation", MsoFileValidationMode(.FileValidation))
+            Call oDiff.AddScalarProperty("FileValidation", MsoFileValidationMode(.FileValidation))
         End If
         If .Height <> iApplication.Height Then
-            Call oCode.AddScalarProperty("Height", SingleToVBA(.Height))
+            Call oDiff.AddScalarProperty("Height", SingleToVBA(.Height))
         End If
         If .IsSandboxed <> iApplication.IsSandboxed Then
-            Call oCode.AddScalarProperty("IsSandboxed", iApplication.IsSandboxed)
+            Call oDiff.AddScalarProperty("IsSandboxed", iApplication.IsSandboxed)
         End If
         If .Left <> iApplication.Left Then
-            Call oCode.AddScalarProperty("Left", SingleToVBA(.Left))
+            Call oDiff.AddScalarProperty("Left", SingleToVBA(.Left))
         End If
         If .Name <> iApplication.Name Then
-            Call oCode.AddScalarProperty("Name", iApplication.Name)
+            Call oDiff.AddScalarProperty("Name", iApplication.Name)
         End If
         If .OperatingSystem <> iApplication.OperatingSystem Then
-            Call oCode.AddScalarProperty("OperatingSystem", iApplication.OperatingSystem)
+            Call oDiff.AddScalarProperty("OperatingSystem", iApplication.OperatingSystem)
         End If
         If .Path <> iApplication.Path Then
-            Call oCode.AddScalarProperty("Path", iApplication.Path)
+            Call oDiff.AddScalarProperty("Path", iApplication.Path)
         End If
-        Call oCode.AddCode(.Presentations.Compare("Presentations", iApplication.Presentations))
+        Call oDiff.AddDiff(.Presentations.MR_Compare("Presentations", iApplication.Presentations))
         If .ProductCode <> iApplication.ProductCode Then
-            Call oCode.AddScalarProperty("ProductCode", iApplication.ProductCode)
+            Call oDiff.AddScalarProperty("ProductCode", iApplication.ProductCode)
         End If
         If .ShowStartupDialog <> iApplication.ShowStartupDialog Then
-            Call oCode.AddScalarProperty("ShowStartupDialog", MsoTriState(.ShowStartupDialog))
+            Call oDiff.AddScalarProperty("ShowStartupDialog", MsoTriState(.ShowStartupDialog))
         End If
         'If .ShowWindowsInTaskbar <> iApplication.ShowWindowsInTaskbar Then
-        '    Call oCode.AddScalarProperty("ShowWindowsInTaskbar", MsoTriState(.ShowWindowsInTaskbar))
+        '    Call oDiff.AddScalarProperty("ShowWindowsInTaskbar", MsoTriState(.ShowWindowsInTaskbar))
         'End If
         If .Top <> iApplication.Top Then
-            Call oCode.AddScalarProperty("Top", SingleToVBA(.Top))
+            Call oDiff.AddScalarProperty("Top", SingleToVBA(.Top))
         End If
         If .Version <> iApplication.Version Then
-            Call oCode.AddScalarProperty("Version", iApplication.Version)
+            Call oDiff.AddScalarProperty("Version", iApplication.Version)
         End If
         If .Visible <> iApplication.Visible Then
-            Call oCode.AddScalarProperty("Visible", MsoTriState(.Visible))
+            Call oDiff.AddScalarProperty("Visible", MsoTriState(.Visible))
         End If
         If .Width <> iApplication.Width Then
-            Call oCode.AddScalarProperty("Width", SingleToVBA(.Width))
+            Call oDiff.AddScalarProperty("Width", SingleToVBA(.Width))
         End If
-        Call oCode.AddCode(.Windows.Compare("Windows", iApplication.Windows))
+        Call oDiff.AddDiff(.Windows.MR_Compare("Windows", iApplication.Windows))
         If .WindowState <> iApplication.WindowState Then
-            Call oCode.AddScalarProperty("WindowState", PpWindowState(.WindowState))
+            Call oDiff.AddScalarProperty("WindowState", PpWindowState(.WindowState))
         End If
     End With
 
-    Call oCode.Wrap
+    Call oDiff.Wrap
 
-    Set Compare = oCode
+    Set MR_Compare = oDiff
 
     Exit Function
 
@@ -232,3 +232,20 @@ err_:
 
 End Sub
 
+Sub DefaultValues()
+
+    On Error GoTo err_
+
+    With Me
+    End With
+
+    Exit Sub
+
+err_:
+    #If DEBUG_MODE = 1 Then
+        Stop
+    #Else
+        err.Raise err.number 'rethrows with same source and description
+    #End If
+
+End Sub

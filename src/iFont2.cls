@@ -42,102 +42,102 @@ Public WordArtFormat As MsoPresetTextEffect
 'ActiveWindow.Selection.ShapeRange.TextFrame2.TextRange.Font
 
 
-Public Function Compare(ObjectName As String, iFont2 As iFont2) As UDiff
+Public Function MR_Compare(ObjectName As String, iFont2 As iFont2) As MR_Diff
 
-    Dim oCode As UDiff
+    Dim oDiff As MR_Diff
 
     On Error GoTo err_
 
-    Set oCode = New_UDiff(ObjectName, Me, iFont2)
-    Set Compare = oCode
+    Set oDiff = New_MR_Diff(ObjectName, Me, iFont2)
+    Set MR_Compare = oDiff
 
     If IsCompared(Me) Then Exit Function
 
     With Me
         If .Allcaps <> iFont2.Allcaps Then
-            Call oCode.AddScalarProperty("AllCaps", MsoTriState(.Allcaps))
+            Call oDiff.AddScalarProperty("AllCaps", MsoTriState(.Allcaps))
         End If
         If .AutoRotateNumbers <> iFont2.AutoRotateNumbers Then
-            Call oCode.AddScalarProperty("AutoRotateNumbers", MsoTriState(.AutoRotateNumbers))
+            Call oDiff.AddScalarProperty("AutoRotateNumbers", MsoTriState(.AutoRotateNumbers))
         End If
         If .BaselineOffset <> iFont2.BaselineOffset Then
-            Call oCode.AddScalarProperty("BaselineOffset", SingleToVBA(.BaselineOffset))
+            Call oDiff.AddScalarProperty("BaselineOffset", SingleToVBA(.BaselineOffset))
         End If
         If .Bold <> iFont2.Bold Then
-            Call oCode.AddScalarProperty("Bold", MsoTriState(.Bold))
+            Call oDiff.AddScalarProperty("Bold", MsoTriState(.Bold))
         End If
         If .Caps <> iFont2.Caps Then
-            Call oCode.AddScalarProperty("Caps", MsoTextCaps(.Caps))
+            Call oDiff.AddScalarProperty("Caps", MsoTextCaps(.Caps))
         End If
         If .DoubleStrikeThrough <> iFont2.DoubleStrikeThrough Then
-            Call oCode.AddScalarProperty("DoubleStrikeThrough", MsoTriState(.DoubleStrikeThrough))
+            Call oDiff.AddScalarProperty("DoubleStrikeThrough", MsoTriState(.DoubleStrikeThrough))
         End If
         If .Equalize <> iFont2.Equalize Then
-            Call oCode.AddScalarProperty("Equalize", MsoTriState(.Equalize))
+            Call oDiff.AddScalarProperty("Equalize", MsoTriState(.Equalize))
         End If
-        Call oCode.AddCode(.Fill.Compare("Fill", iFont2.Fill))
-        Call oCode.AddCode(.Glow.Compare("Glow", iFont2.Glow))
-        Call oCode.AddCode(.Highlight.Compare("Highlight", iFont2.Highlight))
+        Call oDiff.AddDiff(.Fill.MR_Compare("Fill", iFont2.Fill))
+        Call oDiff.AddDiff(.Glow.MR_Compare("Glow", iFont2.Glow))
+        Call oDiff.AddDiff(.Highlight.MR_Compare("Highlight", iFont2.Highlight))
         If .Italic <> iFont2.Italic Then
-            Call oCode.AddScalarProperty("Italic", MsoTriState(.Italic))
+            Call oDiff.AddScalarProperty("Italic", MsoTriState(.Italic))
         End If
         If .Kerning <> iFont2.Kerning Then
-            Call oCode.AddScalarProperty("Kerning", SingleToVBA(.Kerning))
+            Call oDiff.AddScalarProperty("Kerning", SingleToVBA(.Kerning))
         End If
         If .Name <> iFont2.Name Then
-            Call oCode.AddScalarProperty("Name", ToVBA(.Name))
+            Call oDiff.AddScalarProperty("Name", ToVBA(.Name))
         End If
         If .NameAscii <> iFont2.NameAscii Then
-            Call oCode.AddScalarProperty("NameAscii", ToVBA(.NameAscii))
+            Call oDiff.AddScalarProperty("NameAscii", ToVBA(.NameAscii))
         End If
         If .NameComplexScript <> iFont2.NameComplexScript Then
-            Call oCode.AddScalarProperty("NameComplexScript", ToVBA(.NameComplexScript))
+            Call oDiff.AddScalarProperty("NameComplexScript", ToVBA(.NameComplexScript))
         End If
         If .NameFarEast <> iFont2.NameFarEast Then
-            Call oCode.AddScalarProperty("NameFarEast", ToVBA(.NameFarEast))
+            Call oDiff.AddScalarProperty("NameFarEast", ToVBA(.NameFarEast))
         End If
         If .NameOther <> iFont2.NameOther Then
-            Call oCode.AddScalarProperty("NameOther", ToVBA(.NameOther))
+            Call oDiff.AddScalarProperty("NameOther", ToVBA(.NameOther))
         End If
-        Call oCode.AddCode(.Reflection.Compare("Reflection", iFont2.Reflection))
-        Call oCode.AddCode(.Shadow.Compare("Shadow", iFont2.Shadow))
+        Call oDiff.AddDiff(.Reflection.MR_Compare("Reflection", iFont2.Reflection))
+        Call oDiff.AddDiff(.Shadow.MR_Compare("Shadow", iFont2.Shadow))
         If .Size <> iFont2.Size Then
-            Call oCode.AddScalarProperty("Size", SingleToVBA(.Size))
+            Call oDiff.AddScalarProperty("Size", SingleToVBA(.Size))
         End If
         If .Smallcaps <> iFont2.Smallcaps Then
-            Call oCode.AddScalarProperty("Smallcaps", MsoTriState(.Smallcaps))
+            Call oDiff.AddScalarProperty("Smallcaps", MsoTriState(.Smallcaps))
         End If
         If .SoftEdgeFormat <> iFont2.SoftEdgeFormat Then
-            Call oCode.AddScalarProperty("SoftEdgeFormat", MsoSoftEdgeType(.SoftEdgeFormat))
+            Call oDiff.AddScalarProperty("SoftEdgeFormat", MsoSoftEdgeType(.SoftEdgeFormat))
         End If
         If .Spacing <> iFont2.Spacing Then
-            Call oCode.AddScalarProperty("Spacing", SingleToVBA(.Spacing))
+            Call oDiff.AddScalarProperty("Spacing", SingleToVBA(.Spacing))
         End If
         If .Strike <> iFont2.Strike Then
-            Call oCode.AddScalarProperty("Strike", MsoTextStrike(.Strike))
+            Call oDiff.AddScalarProperty("Strike", MsoTextStrike(.Strike))
         End If
         If .Strikethrough <> iFont2.Strikethrough Then
-            Call oCode.AddScalarProperty("Strikethrough", MsoTriState(.Strikethrough))
+            Call oDiff.AddScalarProperty("Strikethrough", MsoTriState(.Strikethrough))
         End If
         If .Subscript <> iFont2.Subscript Then
-            Call oCode.AddScalarProperty("Subscript", MsoTriState(.Subscript))
+            Call oDiff.AddScalarProperty("Subscript", MsoTriState(.Subscript))
         End If
         If .Superscript <> iFont2.Superscript Then
-            Call oCode.AddScalarProperty("Superscript", MsoTriState(.Superscript))
+            Call oDiff.AddScalarProperty("Superscript", MsoTriState(.Superscript))
         End If
-        Call oCode.AddCode(.UnderlineColor.Compare("UnderlineColor", iFont2.UnderlineColor))
+        Call oDiff.AddDiff(.UnderlineColor.MR_Compare("UnderlineColor", iFont2.UnderlineColor))
         If .UnderlineStyle <> iFont2.UnderlineStyle Then
-            Call oCode.AddScalarProperty("UnderlineStyle", MsoTextUnderlineType(.UnderlineStyle))
+            Call oDiff.AddScalarProperty("UnderlineStyle", MsoTextUnderlineType(.UnderlineStyle))
         End If
         If .WordArtFormat <> iFont2.WordArtFormat Then
-            Call oCode.AddScalarProperty("WordArtFormat", MsoPresetTextEffect(.WordArtFormat))
+            Call oDiff.AddScalarProperty("WordArtFormat", MsoPresetTextEffect(.WordArtFormat))
         End If
     End With
 
-    Call oCode.Wrap
+    Call oDiff.Wrap
 
 
-    Set Compare = oCode
+    Set MR_Compare = oDiff
 
     Exit Function
 
@@ -208,6 +208,8 @@ Sub DefaultValues()
     
     Dim defaultFont2 As iFont2
 
+    On Error GoTo err_
+
     If comparisonRunning = False Then
 
         With Me
@@ -244,6 +246,14 @@ Sub DefaultValues()
 
     End If
 
-End Sub
+    Exit Sub
 
+err_:
+    #If DEBUG_MODE = 1 Then
+        Stop
+    #Else
+        err.Raise err.number 'rethrows with same source and description
+    #End If
+
+End Sub
 

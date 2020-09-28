@@ -8,5 +8,5 @@ Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = False
 Public PptObject As Object
-Public MrsObject As Object
+Public MRObject As Object
 

@@ -15,66 +15,66 @@ Public RGB As MsoRGBType
 ' Is SchemeColor obsolete?
 Public SchemeColor As PpColorSchemeIndex
 Public TintAndShade As Single
-Public iType As MsoColorType ' Type
+Public Type_ As MsoColorType ' Type
 
 
 'ActiveWindow.Selection.ShapeRange.TextFrame2.TextRange.Font.Fill.ForeColor
 
 
-Public Function Compare(ObjectName As String, iColorFormat As iColorFormat) As UDiff
+Public Function MR_Compare(ObjectName As String, iColorFormat As iColorFormat) As MR_Diff
 
-    Dim oCode As UDiff
+    Dim oDiff As MR_Diff
 
     On Error GoTo err_
 
-    Set oCode = New_UDiff(ObjectName, Me, iColorFormat)
-    Set Compare = oCode
+    Set oDiff = New_MR_Diff(ObjectName, Me, iColorFormat)
+    Set MR_Compare = oDiff
 
     If IsCompared(Me) Then Exit Function
 
-    If iColorFormat.iType = msoColorTypeMixed Then Exit Function
+    If iColorFormat.Type_ = msoColorTypeMixed Then Exit Function
 
     With Me
-        If .iType = msoColorTypeScheme _
+        If .Type_ = msoColorTypeScheme _
             And .ObjectThemeColor <> iColorFormat.ObjectThemeColor Then
             ' set x = goStack.Push(iColorFormat,goStack.Top)
-            ' Call oCode.Add(iColorFormat.xxxx.Compare())
+            ' Call oCode.Add(iColorFormat.xxxx.MR_Compare())
             ' oCollection.Item(oCollection.Count).SelectionShapeRange =
             ' If stack contains a Shape object and does not contain iSelection.iShapeRange, generate
             ' code only if iSelection.iShapeRangeFill.ForeColor has different value for property ObjectThemeColor.
-            If stopSnapShot.iSelection.iType = ppSelectionShapes Then
-                Set obj1 = GetPptObject(stopSnapShot, stopSnapShot.iSelection.shapeRange.Fill.ForeColor)
-                Set obj2 = GetPptObject(stopSnapShot, Me)
+            If goStopSnapshot.iSelection.Type_ = ppSelectionShapes Then
+                Set obj1 = GetPptObject(goStopSnapshot, goStopSnapshot.iSelection.shapeRange.Fill.ForeColor)
+                Set obj2 = GetPptObject(goStopSnapshot, Me)
                 If obj1 Is obj2 Then
                     a = 1
                 End If
             End If
-            Set oCode = New_UDiff(ObjectName, Me, iColorFormat)
-            Call oCode.AddScalarProperty("ObjectThemeColor", MsoThemeColorIndex(.ObjectThemeColor))
+            Set oDiff = New_MR_Diff(ObjectName, Me, iColorFormat)
+            Call oDiff.AddScalarProperty("ObjectThemeColor", MsoThemeColorIndex(.ObjectThemeColor))
         End If
-        If .iType = msoColorTypeRGB _
-            And (.iType <> iColorFormat.iType Or .RGB <> iColorFormat.RGB) Then
-            Call oCode.AddScalarProperty("RGB", MsoRGBTypeToVBA(.RGB))
+        If .Type_ = msoColorTypeRGB _
+            And (.Type_ <> iColorFormat.Type_ Or .RGB <> iColorFormat.RGB) Then
+            Call oDiff.AddScalarProperty("RGB", MsoRGBTypeToVBA(.RGB))
         End If
-        'If .iType = msoColorTypeScheme And _
-        '    (.iType <> iColorFormat.iType Or .SchemeColor <> iColorFormat.SchemeColor) Then
-        '    Call oCode.AddScalarProperty("SchemeColor", PpColorSchemeIndex(.SchemeColor))
+        'If .Type_ = msoColorTypeScheme And _
+        '    (.Type_ <> iColorFormat.Type_ Or .SchemeColor <> iColorFormat.SchemeColor) Then
+        '    Call oDiff.AddScalarProperty("SchemeColor", PpColorSchemeIndex(.SchemeColor))
         'End If
         ' BRIGHTNESS must be applied after ObjectThemeColor which resets it
         If .Brightness <> iColorFormat.Brightness Then
-            Call oCode.AddScalarProperty("Brightness", SingleToVBA(.Brightness))
+            Call oDiff.AddScalarProperty("Brightness", SingleToVBA(.Brightness))
         End If
         If .TintAndShade <> iColorFormat.TintAndShade Then
-            Call oCode.AddScalarProperty("TintAndShade", SingleToVBA(.TintAndShade))
+            Call oDiff.AddScalarProperty("TintAndShade", SingleToVBA(.TintAndShade))
         End If
-        'If .iType <> iColorFormat.iType Then
-        '    Call oCode.Add("'.Type", MsoColorType(.iType))
+        'If .Type_ <> iColorFormat.Type_ Then
+        '    Call oCode.Add("'.Type", MsoColorType(.Type_))
         'End If
     End With
 
-    Call oCode.Wrap
+    Call oDiff.Wrap
 
-    Set Compare = oCode
+    Set MR_Compare = oDiff
 
     Exit Function
 
@@ -107,7 +107,7 @@ Public Sub init(iColorFormat As PowerPoint.ColorFormat)
         '    .SchemeColor = iColorFormat.SchemeColor
         'End If
         .TintAndShade = iColorFormat.TintAndShade
-        .iType = iColorFormat.Type
+        .Type_ = iColorFormat.Type
     End With
 
     Exit Sub
@@ -122,7 +122,19 @@ err_:
 End Sub
 
 Sub DefaultValues()
+
+    On Error GoTo err_
+
     With Me
     End With
-End Sub
 
+    Exit Sub
+
+err_:
+    #If DEBUG_MODE = 1 Then
+        Stop
+    #Else
+        err.Raise err.number 'rethrows with same source and description
+    #End If
+
+End Sub

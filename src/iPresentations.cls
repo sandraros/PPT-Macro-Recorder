@@ -16,14 +16,14 @@ Public Items As Collection
 'Application.Presentations.Count
 
 
-Public Function Compare(ObjectName As String, iPresentations As iPresentations) As UDiff
+Public Function MR_Compare(ObjectName As String, iPresentations As iPresentations) As MR_Diff
 
-    Dim oCode As UDiff
+    Dim oDiff As MR_Diff
 
     On Error GoTo err_
 
-    Set oCode = New_UDiff(ObjectName, Me, iPresentations)
-    Set Compare = oCode
+    Set oDiff = New_MR_Diff(ObjectName, Me, iPresentations)
+    Set MR_Compare = oDiff
 
     If IsCompared(Me) Then Exit Function
 
@@ -32,17 +32,17 @@ Public Function Compare(ObjectName As String, iPresentations As iPresentations) 
         '    Call oCode.Add("'TODO Application")
         'End If
         'If .Count <> iPresentations.Count Then
-        '    Call oCode.AddScalarProperty("Count", LongToVBA(.Count))
+        '    Call oDiff.AddScalarProperty("Count", LongToVBA(.Count))
         'End If
         'If Not .Parent Is iPresentations.Parent Then
         '    Call oCode.Add("'TODO Parent")
         'End If
-        'Call CompareCollection(oCode, .Items, iPresentations.Items)
+        'Call CompareCollection(oDiff, .Items, iPresentations.Items)
     End With
 
-    Call oCode.Wrap
+    Call oDiff.Wrap
 
-    Set Compare = oCode
+    Set MR_Compare = oDiff
 
     Exit Function
 
@@ -80,4 +80,20 @@ err_:
 
 End Sub
 
+Sub DefaultValues()
 
+    On Error GoTo err_
+
+    With Me
+    End With
+
+    Exit Sub
+
+err_:
+    #If DEBUG_MODE = 1 Then
+        Stop
+    #Else
+        err.Raise err.number 'rethrows with same source and description
+    #End If
+
+End Sub

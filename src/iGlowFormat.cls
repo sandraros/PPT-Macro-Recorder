@@ -15,30 +15,30 @@ Public Transparency As Single
 '
 
 
-Public Function Compare(ObjectName As String, iGlowFormat As iGlowFormat) As UDiff
+Public Function MR_Compare(ObjectName As String, iGlowFormat As iGlowFormat) As MR_Diff
 
-    Dim oCode As UDiff
+    Dim oDiff As MR_Diff
 
     On Error GoTo err_
 
-    Set oCode = New_UDiff(ObjectName, Me, iGlowFormat)
-    Set Compare = oCode
+    Set oDiff = New_MR_Diff(ObjectName, Me, iGlowFormat)
+    Set MR_Compare = oDiff
 
     If IsCompared(Me) Then Exit Function
 
     With Me
-        Call oCode.AddCode(.Color.Compare("Color", iGlowFormat.Color))
+        Call oDiff.AddDiff(.Color.MR_Compare("Color", iGlowFormat.Color))
         If .Radius <> iGlowFormat.Radius Then
-            Call oCode.AddScalarProperty("Radius", SingleToVBA(.Radius))
+            Call oDiff.AddScalarProperty("Radius", SingleToVBA(.Radius))
         End If
         If .Transparency <> iGlowFormat.Transparency Then
-            Call oCode.AddScalarProperty("Transparency", SingleToVBA(.Transparency))
+            Call oDiff.AddScalarProperty("Transparency", SingleToVBA(.Transparency))
         End If
     End With
 
-    Call oCode.Wrap
+    Call oDiff.Wrap
 
-    Set Compare = oCode
+    Set MR_Compare = oDiff
 
     Exit Function
 
@@ -77,11 +77,22 @@ err_:
 
 End Sub
 
-
 Sub DefaultValues()
+
+    On Error GoTo err_
+
     With Me
         Set .Color = New oColorFormat
         Call .Color.DefaultValues
     End With
-End Sub
 
+    Exit Sub
+
+err_:
+    #If DEBUG_MODE = 1 Then
+        Stop
+    #Else
+        err.Raise err.number 'rethrows with same source and description
+    #End If
+
+End Sub

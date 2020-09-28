@@ -15,15 +15,18 @@ Global macroPresentation As String
 Global macroName As String
 Global macroDescription As String
 Global AllObjectsCompared As Collection
-Global Snapshot As cSnapShot ' snapshot start or stop during TakeSnapshot
-Global startSnapShot As cSnapShot
-Global stopSnapShot As cSnapShot
+Global Snapshot As MR_Snapshot ' snapshot start or stop during TakeSnapshot
+Global goStartSnapshot As MR_Snapshot
+Global goStopSnapshot As MR_Snapshot
 Global stopRequested As Boolean ' recovery to avoid start thinks recording runs after failed stop
 Global comparisonRunning As Boolean ' needed by DefaultValues for distinguishing DefaultShape
 Global defaultShape As iShape
-Global goStack As cStack ' code in iShape.Create generates AddShape only if previous on stack is a "Shapes" object because AddShape is only valid for Shapes, not ShapeRange
+'Global goStack As cStack ' code in iShape.Create generates AddShape only if previous on stack is a "Shapes" object because AddShape is only valid for Shapes, not ShapeRange
 Global firstSelectedObjectIsProcessed As Boolean
 Global recorderState As enumRecorderState
+Global goApplication As iApplication
+Global goEventHandler As MR_EventHandler
+Global goCode As MR_Code
 
 Sub start_stop_recording()
 
@@ -64,7 +67,7 @@ Sub start_recording()
         If defaultShape Is Nothing Then
             Dim dummyShape As Shape
             Set dummyShape = ActivePresentation.Slides(1).Shapes.AddShape(msoShapeRectangle, 1, 1, 1, 1)
-            Set Snapshot = New cSnapShot ' dummy snapshot needed by New_i* methods
+            Set Snapshot = New MR_Snapshot ' dummy snapshot needed by New_i* methods
             Set defaultShape = New_iShape(dummyShape)
             Call dummyShape.delete
             Set Snapshot = Nothing
@@ -73,13 +76,20 @@ Sub start_recording()
             Call setRecorderState(recording)
 
             '==================
-            '  START > SNAPSHOT
+            '  TAKE SNAPSHOT
             '==================
             recorderState = recording
             comparisonRunning = False
-            Set startSnapShot = TakeSnapshot()
-            Set stopSnapShot = Nothing
+            Set goStopSnapshot = Nothing
+            Set goStartSnapshot = TakeSnapshot()
 
+            '==================
+            '  INTERCEPT EVENTS
+            '==================
+            Set goCode = New MR_Code
+            Set goEventHandler = New MR_EventHandler
+            Set goEventHandler.pptapp = Application
+        
         End If
     Else
         MsgBox "Macro Recorder is already running"
@@ -99,14 +109,16 @@ End Sub
 Sub stop_recording()
 
     Dim strCode As String
-    Dim oDiff As UDiff
-    Dim oDiffSelection As UDiff
+    Dim oDiff As MR_Diff
+    Dim oDiffSelection As MR_Diff
     Dim oStartSelection As iSelection
     Dim oStopSelection As iSelection
     Dim astrMacroDescription() As String
     Dim astrCode() As String
 
     On Error GoTo err_
+
+    Set goEventHandler = Nothing
 
     stopRequested = True
 
@@ -121,24 +133,27 @@ Sub stop_recording()
     '  SNAPSHOT
     '==================
     comparisonRunning = False
-    Set stopSnapShot = TakeSnapshot()
+    Set goStopSnapshot = TakeSnapshot()
 
     '==================
-    '  COMPARE
+    '  MR_Compare
     '==================
-    Call CompareSnapshots(oDiff, oDiffSelection)
+    ' It builds goCode at the same time
+    Set oDiff = CompareSnapshots()
 
     '==================
     '  GENERATE CODE
     '==================
-    Set oStartSelection = startSnapShot.iSelection
-    Set oStopSelection = stopSnapShot.iSelection
-    ' note that GetCodeForUnselectedObjects is still using startSnapShot and stopSnapShot
-    strCode = GenerateCode(oDiff, oStartSelection, oStopSelection, oDiffSelection)
+    'Set oStartSelection = goStartSnapshot.iSelection
+    'Set oStopSelection = goStopSnapshot.iSelection
+    '' note that GetCodeForUnselectedObjects is still using goStartSnapshot and goStopSnapshot
+    'strCode = GenerateCode(oDiff, oStartSelection, oStopSelection, oDiffSelection)
 
     '==================
     '  WRITE CODE (NewMacros)
     '==================
+    strCode = goCode.ConvertToString()
+    strCode = WrapCodeIntoMacro(strCode)
     Call ExportCode(strCode)
 
     stopRequested = False

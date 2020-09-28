@@ -27,23 +27,23 @@ Public WordWrap As MsoTriState
 'ActiveWindow.Selection.ShapeRange.TextFrame.WordWrap
 
 
-Public Function Compare(ObjectName As String, iTextFrame As iTextFrame) As UDiff
+Public Function MR_Compare(ObjectName As String, iTextFrame As iTextFrame) As MR_Diff
 
-    Dim oCode As UDiff
+    Dim oDiff As MR_Diff
 
     On Error GoTo err_
 
-    Set oCode = New_UDiff(ObjectName, Me, iTextFrame)
-    Set Compare = oCode
+    Set oDiff = New_MR_Diff(ObjectName, Me, iTextFrame)
+    Set MR_Compare = oDiff
 
     If IsCompared(Me) Then Exit Function
 
     With Me
     End With
 
-    Call oCode.Wrap
+    Call oDiff.Wrap
 
-    Set Compare = oCode
+    Set MR_Compare = oDiff
 
     Exit Function
 
@@ -81,6 +81,24 @@ Public Sub init(iTextFrame As TextFrame)
         End If
         .VerticalAnchor = iTextFrame.VerticalAnchor
         .WordWrap = iTextFrame.WordWrap
+    End With
+
+    Exit Sub
+
+err_:
+    #If DEBUG_MODE = 1 Then
+        Stop
+    #Else
+        err.Raise err.number 'rethrows with same source and description
+    #End If
+
+End Sub
+
+Sub DefaultValues()
+
+    On Error GoTo err_
+
+    With Me
     End With
 
     Exit Sub

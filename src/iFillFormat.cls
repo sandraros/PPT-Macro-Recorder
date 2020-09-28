@@ -28,28 +28,28 @@ Public TextureTile As MsoTriState
 Public TextureType As MsoTextureType
 Public TextureVerticalScale As Single
 Public Transparency As Single
-Public iType As MsoFillType ' Type
+Public Type_ As MsoFillType ' Type
 Public Visible As MsoTriState
 
 
 'ActiveWindow.Selection.ShapeRange.TextFrame2.TextRange.Font.Fill.BackColor
 
 
-Public Function Compare(ObjectName As String, iFillFormat As iFillFormat) As UDiff
+Public Function MR_Compare(ObjectName As String, iFillFormat As iFillFormat) As MR_Diff
 
-    Dim oCode As UDiff
+    Dim oDiff As MR_Diff
 
     On Error GoTo err_
 
-    Set oCode = New_UDiff(ObjectName, Me, iFillFormat)
-    Set Compare = oCode
+    Set oDiff = New_MR_Diff(ObjectName, Me, iFillFormat)
+    Set MR_Compare = oDiff
 
     If IsCompared(Me) Then Exit Function
 
-    If iFillFormat.iType = msoFillMixed Then Exit Function
+    If iFillFormat.Type_ = msoFillMixed Then Exit Function
 
     With Me
-        Select Case .iType
+        Select Case .Type_
             Case msoFillBackground
             Case msoFillGradient
                 ' Can't make "TwoColor" gradient with three colors work like manual set, the final
@@ -82,21 +82,21 @@ Public Function Compare(ObjectName As String, iFillFormat As iFillFormat) As UDi
                 ' (didn't try other Gradient possibilities)
                 If .GradientStyle = msoGradientMixed Then
                     ' Choose any Gradient (arbitrary choice), what is important is to later set the GradientStops
-                    Call oCode.AddMethodCall("TwoColorGradient", "Style:=msoGradientDiagonalDown, Variant:=1")
+                    Call oDiff.AddMethodCall("TwoColorGradient", "Style:=msoGradientDiagonalDown, Variant:=1")
                 Else
                     Select Case .GradientColorType
                         Case msoGradientMultiColor
-                            Call oCode.AddMethodCall("TwoColorGradient", "Style:=" & MsoGradientStyle(.GradientStyle) _
+                            Call oDiff.AddMethodCall("TwoColorGradient", "Style:=" & MsoGradientStyle(.GradientStyle) _
                                 & ", Variant:=" & ToVBA(.GradientVariant))
                         Case msoGradientOneColor
-                            Call oCode.AddMethodCall("OneColorGradient", "Style:=" & MsoGradientStyle(.GradientStyle) _
+                            Call oDiff.AddMethodCall("OneColorGradient", "Style:=" & MsoGradientStyle(.GradientStyle) _
                                 & ", Variant:=" & ToVBA(.GradientVariant) _
                                 & ", Degree:=" & ToVBA(.GradientDegree))
                         Case msoGradientTwoColors
-                            Call oCode.AddMethodCall("TwoColorGradient", "Style:=" & MsoGradientStyle(.GradientStyle) _
+                            Call oDiff.AddMethodCall("TwoColorGradient", "Style:=" & MsoGradientStyle(.GradientStyle) _
                                 & ", Variant:=" & ToVBA(.GradientVariant))
                         Case msoGradientPresetColors
-                            Call oCode.AddMethodCall("PresetGradient", "Style:=" & MsoGradientStyle(.GradientStyle) _
+                            Call oDiff.AddMethodCall("PresetGradient", "Style:=" & MsoGradientStyle(.GradientStyle) _
                                 & ", Variant:=" & ToVBA(.GradientVariant) _
                                 & ", PresetGradientType:=" & MsoPresetGradientType(.PresetGradientType))
                         Case msoGradientMixed
@@ -142,11 +142,11 @@ Public Function Compare(ObjectName As String, iFillFormat As iFillFormat) As UDi
                 'End With
                 '-----------------SOLUTION 2-----------------
                 '------------(not implemented yet)-----------
-                'Do the classic comparison and compare the number of generated lines
+                'Do the classic comparison and MR_Compare the number of generated lines
                 'with those in solution 1. Take the code with the lowest number of lines.
                 'With .GradientStops
-                    'Dim objCode2 As UDiff
-                    'Set objCode2 = New_UDiff(ObjectName, Me, iFillFormat)
+                    'Dim objCode2 As MR_Diff
+                    'Set objCode2 = New_MR_Diff(ObjectName, Me, iFillFormat)
                     'Call objCode2.Add("numberOfGradientStops", .Count & " - .Count")
                     'Call objCode2.Add("For i = 1 To numberOfGradientStops")
                     'Call objCode2.Add("    Call .Insert2(RGB:=0, Position:=0)")
@@ -163,22 +163,22 @@ Public Function Compare(ObjectName As String, iFillFormat As iFillFormat) As UDi
                     'For i = 1 To .Count
                     '    Dim myGradientStop As iGradientStop
                     '    Set myGradientStop = .Items(i)
-                    '    Call objCode2.Add(myGradientStop.Compare("Item(" & CStr(i) & ")", defaultGradientStop))
+                    '    Call objCode2.Add(myGradientStop.MR_Compare("Item(" & CStr(i) & ")", defaultGradientStop))
                     'Next
-                    'Call oCode.Wrap(".GradientStops")
+                    'Call oDiff.Wrap(".GradientStops")
                 'End With
                 'Call oCode.Add(objCode2.strCode)
-                'Call oCode.AddCode(.GradientStops.Compare("GradientStops", .Me)
+                'Call oDiff.AddDiff(.GradientStops.MR_Compare("GradientStops", .Me)
             Case msoFillPatterned
-                Call oCode.AddMethodCall("Patterned", "Pattern:=" & MsoPatternType(.Pattern))
+                Call oDiff.AddMethodCall("Patterned", "Pattern:=" & MsoPatternType(.Pattern))
             Case msoFillPicture
                 Select Case iFillFormat.TextureType
                     Case msoTextureUserDefined
                         ' VBA PPT doesn't provide a way to retrieve the PresetTexture, the only solution is to extract it directly from PPTX
-                        Call oCode.AddMethodCall("PresetTextured", "PresetTexture:=msoTextureDenim) ' arbitrary choice")
+                        Call oDiff.AddMethodCall("PresetTextured", "PresetTexture:=msoTextureDenim) ' arbitrary choice")
                     Case msoTextureTypeMixed
                         ' VBA PPT doesn't provide a way to retrieve the original file name, the only solution is to extract it directly from PPTX
-                        Call oCode.AddMethodCall("UserPicture", "PictureFile:=""C:\cannot be determined""")
+                        Call oDiff.AddMethodCall("UserPicture", "PictureFile:=""C:\cannot be determined""")
                     Case msoTexturePreset
                         err.Raise 9999
                     Case Else
@@ -189,8 +189,8 @@ Public Function Compare(ObjectName As String, iFillFormat As iFillFormat) As UDi
                 ' (3) is <Relationships...><Relationship Target='../media/image1.jpg' Type=... Id='rId3'/>
                 'TODO Call PictureEffects(iFillFormat.PictureEffects, oFillFormat.PictureEffects)
             Case msoFillSolid
-                If iFillFormat.iType <> msoFillSolid Then
-                    Call oCode.AddMethodCall("Solid")
+                If iFillFormat.Type_ <> msoFillSolid Then
+                    Call oDiff.AddMethodCall("Solid")
                 End If
             Case msoFillTextured
                 ' 1) Bug VBA which stores a preset texture like msoPresetTextureMixed instead of
@@ -200,76 +200,76 @@ Public Function Compare(ObjectName As String, iFillFormat As iFillFormat) As UDi
                 Case msoPresetTextureMixed
                     ' VBA does not propose a solution to work with the Texture File of an existing object
                     ' (same issue as with msoFillPicture)
-                    Call oCode.AddMethodCall("UserTextured", "TextureFile:=""C:\cannot be determined""")
+                    Call oDiff.AddMethodCall("UserTextured", "TextureFile:=""C:\cannot be determined""")
                 Case Else:
-                    Call oCode.AddMethodCall("PresetTextured", MsoPresetTexture(iFillFormat.PresetTexture))
+                    Call oDiff.AddMethodCall("PresetTextured", MsoPresetTexture(iFillFormat.PresetTexture))
                 End Select
         End Select
 
-        Call oCode.AddCode(.BackColor.Compare("BackColor", iFillFormat.BackColor))
-        Call oCode.AddCode(.ForeColor.Compare("ForeColor", iFillFormat.ForeColor))
+        Call oDiff.AddDiff(.BackColor.MR_Compare("BackColor", iFillFormat.BackColor))
+        Call oDiff.AddDiff(.ForeColor.MR_Compare("ForeColor", iFillFormat.ForeColor))
 
         'If .GradientColorType <> iFillFormat.GradientColorType Then
-        '    Call oCode.AddScalarProperty("GradientColorType", MsoGradientColorType(.GradientColorType))
+        '    Call oDiff.AddScalarProperty("GradientColorType", MsoGradientColorType(.GradientColorType))
         'End If
         'If .GradientDegree <> iFillFormat.GradientDegree Then
-        '    Call oCode.AddScalarProperty("GradientDegree", SingleToVBA(.GradientDegree))
+        '    Call oDiff.AddScalarProperty("GradientDegree", SingleToVBA(.GradientDegree))
         'End If
         'If .GradientStyle <> iFillFormat.GradientStyle Then
-        '    Call oCode.AddScalarProperty("GradientStyle", MsoGradientStyle(.GradientStyle))
+        '    Call oDiff.AddScalarProperty("GradientStyle", MsoGradientStyle(.GradientStyle))
         'End If
         'If .GradientVariant <> iFillFormat.GradientVariant Then
-        '    Call oCode.AddScalarProperty("GradientVariant", LongToVBA(.GradientVariant))
+        '    Call oDiff.AddScalarProperty("GradientVariant", LongToVBA(.GradientVariant))
         'End If
         'If .PresetGradientType <> iFillFormat.PresetGradientType Then
-        '    Call oCode.AddScalarProperty("PresetGradientType", MsoPresetGradientType(.PresetGradientType))
+        '    Call oDiff.AddScalarProperty("PresetGradientType", MsoPresetGradientType(.PresetGradientType))
         'End If
         If .PresetTexture <> iFillFormat.PresetTexture Then
-            Call oCode.AddScalarProperty("PresetTexture", MsoPresetTexture(.PresetTexture))
+            Call oDiff.AddScalarProperty("PresetTexture", MsoPresetTexture(.PresetTexture))
         End If
 
         'If .RotateWithObject <> iFillFormat.RotateWithObject Then
-        '    Call oCode.AddScalarProperty("RotateWithObject", MsoTriState(.RotateWithObject))
+        '    Call oDiff.AddScalarProperty("RotateWithObject", MsoTriState(.RotateWithObject))
         'End If
 
-        If iFillFormat.iType = msoFillTextured Then
+        If iFillFormat.Type_ = msoFillTextured Then
             If .TextureAlignment <> iFillFormat.TextureAlignment Then
-                Call oCode.AddScalarProperty("TextureAlignment", MsoTextureAlignment(.TextureAlignment))
+                Call oDiff.AddScalarProperty("TextureAlignment", MsoTextureAlignment(.TextureAlignment))
             End If
             If .TextureHorizontalScale <> iFillFormat.TextureHorizontalScale Then
-                Call oCode.AddScalarProperty("TextureHorizontalScale", SingleToVBA(.TextureHorizontalScale))
+                Call oDiff.AddScalarProperty("TextureHorizontalScale", SingleToVBA(.TextureHorizontalScale))
             End If
             If .TextureOffsetX <> iFillFormat.TextureOffsetX Then
-                Call oCode.AddScalarProperty("TextureOffsetX", SingleToVBA(.TextureOffsetX))
+                Call oDiff.AddScalarProperty("TextureOffsetX", SingleToVBA(.TextureOffsetX))
             End If
             If .TextureOffsetY <> iFillFormat.TextureOffsetY Then
-                Call oCode.AddScalarProperty("TextureOffsetY", SingleToVBA(.TextureOffsetY))
+                Call oDiff.AddScalarProperty("TextureOffsetY", SingleToVBA(.TextureOffsetY))
             End If
             If .TextureTile <> iFillFormat.TextureTile Then
-                Call oCode.AddScalarProperty("TextureTile", MsoTriState(.TextureTile))
+                Call oDiff.AddScalarProperty("TextureTile", MsoTriState(.TextureTile))
             End If
             'If .TextureType <> iFillFormat.TextureType Then
-            '    Call oCode.AddScalarProperty("TextureType", MsoTextureType(.TextureType))
+            '    Call oDiff.AddScalarProperty("TextureType", MsoTextureType(.TextureType))
             'End If
             If .TextureVerticalScale <> iFillFormat.TextureVerticalScale Then
-                Call oCode.AddScalarProperty("TextureVerticalScale", SingleToVBA(.TextureVerticalScale))
+                Call oDiff.AddScalarProperty("TextureVerticalScale", SingleToVBA(.TextureVerticalScale))
             End If
         End If
 
         If .Transparency <> iFillFormat.Transparency Then
-            Call oCode.AddScalarProperty("Transparency", SingleToVBA(.Transparency))
+            Call oDiff.AddScalarProperty("Transparency", SingleToVBA(.Transparency))
         End If
-        'If .iType <> iFillFormat.iType Then
-        '    Call oCode.Add("'.Type", MsoFillType(.iType))
+        'If .Type_ <> iFillFormat.Type_ Then
+        '    Call oCode.Add("'.Type", MsoFillType(.Type_))
         'End If
         If .Visible <> iFillFormat.Visible Then
-            Call oCode.AddScalarProperty("Visible", MsoTriState(.Visible))
+            Call oDiff.AddScalarProperty("Visible", MsoTriState(.Visible))
         End If
     End With
 
-    Call oCode.Wrap
+    Call oDiff.Wrap
 
-    Set Compare = oCode
+    Set MR_Compare = oDiff
 
     Exit Function
 
@@ -286,7 +286,7 @@ Public Sub init(ByVal iFillFormat As PowerPoint.FillFormat)
 
     On Error GoTo err_
 
-    Me.iType = iFillFormat.Type
+    Me.Type_ = iFillFormat.Type
 
     With Me
 
@@ -400,6 +400,8 @@ Sub DefaultValues()
 
     Dim defaultFill As iFillFormat
 
+    On Error GoTo err_
+
     Set defaultFill = defaultShape.Fill
 
     With Me
@@ -408,5 +410,14 @@ Sub DefaultValues()
         .RotateWithObject = defaultFill.RotateWithObject
         .Visible = defaultFill.Visible
     End With
+
+    Exit Sub
+
+err_:
+    #If DEBUG_MODE = 1 Then
+        Stop
+    #Else
+        err.Raise err.number 'rethrows with same source and description
+    #End If
 
 End Sub

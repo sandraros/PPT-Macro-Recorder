@@ -18,63 +18,63 @@ Public RotateWithShape As MsoTriState
 Public Size As Single
 Public Style As MsoShadowStyle
 Public Transparency As Single
-Public iType As MsoShadowType
+Public Type_ As MsoShadowType
 Public Visible As MsoTriState
 
 
 
-Public Function Compare(ObjectName As String, iShadowFormat As oShadowFormat) As UDiff
+Public Function MR_Compare(ObjectName As String, iShadowFormat As oShadowFormat) As MR_Diff
 
-    Dim oCode As UDiff
+    Dim oDiff As MR_Diff
 
     On Error GoTo err_
 
-    Set oCode = New_UDiff(ObjectName, Me, iShadowFormat)
-    Set Compare = oCode
+    Set oDiff = New_MR_Diff(ObjectName, Me, iShadowFormat)
+    Set MR_Compare = oDiff
 
     If IsCompared(Me) Then Exit Function
 
     With Me
-        If iShadowFormat.iType = msoShadowMixed _
+        If iShadowFormat.Type_ = msoShadowMixed _
                 Or iShadowFormat.Style = msoShadowStyleMixed _
-                Or .iType = msoShadowMixed _
+                Or .Type_ = msoShadowMixed _
                 Or .Style = msoShadowStyleMixed Then
             Exit Function
         End If
 
         If .Blur <> iShadowFormat.Blur Then
-            Call oCode.AddScalarProperty("Blur", SingleToVBA(.Blur))
+            Call oDiff.AddScalarProperty("Blur", SingleToVBA(.Blur))
         End If
-        Call oCode.AddCode(.ForeColor.Compare("ForeColor", iShadowFormat.ForeColor))
+        Call oDiff.AddDiff(.ForeColor.MR_Compare("ForeColor", iShadowFormat.ForeColor))
         If .Obscured <> iShadowFormat.Obscured Then
-            Call oCode.AddScalarProperty("Obscured", MsoTriState(.Obscured))
+            Call oDiff.AddScalarProperty("Obscured", MsoTriState(.Obscured))
         End If
         If .OffsetX <> iShadowFormat.OffsetX Then
-            Call oCode.AddScalarProperty("OffsetX", SingleToVBA(.OffsetX))
+            Call oDiff.AddScalarProperty("OffsetX", SingleToVBA(.OffsetX))
         End If
         If .OffsetY <> iShadowFormat.OffsetY Then
-            Call oCode.AddScalarProperty("OffsetY", SingleToVBA(.OffsetY))
+            Call oDiff.AddScalarProperty("OffsetY", SingleToVBA(.OffsetY))
         End If
         If .RotateWithShape <> iShadowFormat.RotateWithShape Then
-            Call oCode.AddScalarProperty("RotateWithShape", MsoTriState(.RotateWithShape))
+            Call oDiff.AddScalarProperty("RotateWithShape", MsoTriState(.RotateWithShape))
         End If
         If .Size <> iShadowFormat.Size Then
-            Call oCode.AddScalarProperty("Size", SingleToVBA(.Size))
+            Call oDiff.AddScalarProperty("Size", SingleToVBA(.Size))
         End If
         If .Style <> iShadowFormat.Style Then
-            Call oCode.AddScalarProperty("Style", MsoShadowStyle(.Style))
+            Call oDiff.AddScalarProperty("Style", MsoShadowStyle(.Style))
         End If
         If .Transparency <> iShadowFormat.Transparency Then
-            Call oCode.AddScalarProperty("Transparency", SingleToVBA(.Transparency))
+            Call oDiff.AddScalarProperty("Transparency", SingleToVBA(.Transparency))
         End If
         If .Visible <> iShadowFormat.Visible Then
-            Call oCode.AddScalarProperty("Visible", MsoTriState(.Visible))
+            Call oDiff.AddScalarProperty("Visible", MsoTriState(.Visible))
         End If
     End With
 
-    Call oCode.Wrap
+    Call oDiff.Wrap
 
-    Set Compare = oCode
+    Set MR_Compare = oDiff
 
     Exit Function
 
@@ -95,7 +95,7 @@ Public Sub init(iShadowFormat As Office.ShadowFormat)
         If iShadowFormat.Type = msoShadowMixed _
                 Or iShadowFormat.Style = msoShadowStyleMixed Then
             .Style = iShadowFormat.Style
-            .iType = iShadowFormat.Type
+            .Type_ = iShadowFormat.Type
             Set .ForeColor = New oColorFormat
             Exit Sub
         End If
@@ -109,7 +109,7 @@ Public Sub init(iShadowFormat As Office.ShadowFormat)
         .Size = iShadowFormat.Size
         .Style = iShadowFormat.Style
         .Transparency = iShadowFormat.Transparency
-        .iType = iShadowFormat.Type
+        .Type_ = iShadowFormat.Type
         .Visible = iShadowFormat.Visible
     End With
 
@@ -124,10 +124,21 @@ err_:
 
 End Sub
 
-
 Sub DefaultValues()
+
+    On Error GoTo err_
+
     With Me
-        Set .ForeColor = New oColorFormat
-        Call .ForeColor.DefaultValues
+        Set .ForeColor = New_oColorFormat()
     End With
+
+    Exit Sub
+
+err_:
+    #If DEBUG_MODE = 1 Then
+        Stop
+    #Else
+        err.Raise err.number 'rethrows with same source and description
+    #End If
+
 End Sub

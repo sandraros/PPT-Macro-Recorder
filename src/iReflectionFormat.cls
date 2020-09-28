@@ -11,46 +11,46 @@ Public Blur As Single
 Public Offset As Single
 Public Size As Single
 Public Transparency As Single
-Public iType As MsoReflectionType
+Public Type_ As MsoReflectionType
 
 
-Public Function Compare(ObjectName As String, iReflectionFormat As iReflectionFormat) As UDiff
+Public Function MR_Compare(ObjectName As String, iReflectionFormat As iReflectionFormat) As MR_Diff
 
-    Dim oCode As UDiff
+    Dim oDiff As MR_Diff
 
     On Error GoTo err_
 
-    Set oCode = New_UDiff(ObjectName, Me, iReflectionFormat)
-    Set Compare = oCode
+    Set oDiff = New_MR_Diff(ObjectName, Me, iReflectionFormat)
+    Set MR_Compare = oDiff
 
     If IsCompared(Me) Then Exit Function
 
-    If iReflectionFormat.iType = msoReflectionTypeNone _
-            Or iReflectionFormat.iType = msoReflectionTypeMixed Then
+    If iReflectionFormat.Type_ = msoReflectionTypeNone _
+            Or iReflectionFormat.Type_ = msoReflectionTypeMixed Then
         Exit Function
     End If
 
     With Me
         If .Blur <> iReflectionFormat.Blur Then
-            Call oCode.AddScalarProperty("Blur", SingleToVBA(.Blur))
+            Call oDiff.AddScalarProperty("Blur", SingleToVBA(.Blur))
         End If
         If .Offset <> iReflectionFormat.Offset Then
-            Call oCode.AddScalarProperty("Offset", SingleToVBA(.Offset))
+            Call oDiff.AddScalarProperty("Offset", SingleToVBA(.Offset))
         End If
         If .Size <> iReflectionFormat.Size Then
-            Call oCode.AddScalarProperty("Size", SingleToVBA(.Size))
+            Call oDiff.AddScalarProperty("Size", SingleToVBA(.Size))
         End If
         If .Transparency <> iReflectionFormat.Transparency Then
-            Call oCode.AddScalarProperty("Transparency", SingleToVBA(.Transparency))
+            Call oDiff.AddScalarProperty("Transparency", SingleToVBA(.Transparency))
         End If
-        If .iType <> iReflectionFormat.iType Then
-            Call oCode.AddScalarProperty("Type", MsoReflectionType(.iType))
+        If .Type_ <> iReflectionFormat.Type_ Then
+            Call oDiff.AddScalarProperty("Type", MsoReflectionType(.Type_))
         End If
     End With
 
-    Call oCode.Wrap
+    Call oDiff.Wrap
 
-    Set Compare = oCode
+    Set MR_Compare = oDiff
     Exit Function
 
 err_:
@@ -71,7 +71,7 @@ Public Sub init(iReflectionFormat As ReflectionFormat)
         .Offset = iReflectionFormat.Offset
         .Size = iReflectionFormat.Size
         .Transparency = iReflectionFormat.Transparency
-        .iType = iReflectionFormat.Type
+        .Type_ = iReflectionFormat.Type
     End With
 
     Exit Sub
@@ -85,9 +85,20 @@ err_:
 
 End Sub
 
-
 Sub DefaultValues()
+
+    On Error GoTo err_
+
     With Me
     End With
-End Sub
 
+    Exit Sub
+
+err_:
+    #If DEBUG_MODE = 1 Then
+        Stop
+    #Else
+        err.Raise err.number 'rethrows with same source and description
+    #End If
+
+End Sub

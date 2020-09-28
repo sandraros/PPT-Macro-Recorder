@@ -12,7 +12,7 @@ Public BackgroundStyle As MsoBackgroundStyleIndex
 'Public ColorScheme As iColorScheme
 'Public Comments As iComments
 'Public CustomerData As iCustomerData
-'Public CustomLayout As iCustomLayout
+Public CustomLayout As iCustomLayout
 'Public Design As iDesign
 Public DisplayMasterShapes As MsoTriState
 Public FollowMasterBackground As MsoTriState
@@ -23,6 +23,7 @@ Public Layout As PpSlideLayout
 'Public Master As iMaster
 Public Name As String
 Public NotesPage As iSlideRange
+Public Parent As Object
 Public PrintSteps As Long
 Public SectionIndex As Long
 Public Shapes As iShapes
@@ -39,61 +40,61 @@ Public SlideNumber As Long
 'ActivePresentation.Slides(1).Parent
 
 
-Public Function Compare(ObjectName As String, iSlide As iSlide) As UDiff
+Public Function MR_Compare(ObjectName As String, iSlide As iSlide) As MR_Diff
 
-    Dim oCode As UDiff
+    Dim oDiff As MR_Diff
 
     On Error GoTo err_
 
-    Set oCode = New_UDiff(ObjectName, Me, iSlide)
-    Set Compare = oCode
+    Set oDiff = New_MR_Diff(ObjectName, Me, iSlide)
+    Set MR_Compare = oDiff
 
     If IsCompared(Me) Then Exit Function
 
     With Me
-        'TODO Call oCode.AddCode(.Background.compare("Background", iSlide.Background)
+        'TODO Call oDiff.AddDiff(.Background.MR_Compare("Background", iSlide.Background)
         If .BackgroundStyle <> iSlide.BackgroundStyle Then
-            Call oCode.AddScalarProperty("BackgroundStyle", MsoBackgroundStyleIndex(.BackgroundStyle))
+            Call oDiff.AddScalarProperty("BackgroundStyle", MsoBackgroundStyleIndex(.BackgroundStyle))
         End If
         If .DisplayMasterShapes <> iSlide.DisplayMasterShapes Then
-            Call oCode.AddScalarProperty("DisplayMasterShapes", MsoTriState(.DisplayMasterShapes))
+            Call oDiff.AddScalarProperty("DisplayMasterShapes", MsoTriState(.DisplayMasterShapes))
         End If
         If .FollowMasterBackground <> iSlide.FollowMasterBackground Then
-            Call oCode.AddScalarProperty("FollowMasterBackground", MsoTriState(.FollowMasterBackground))
+            Call oDiff.AddScalarProperty("FollowMasterBackground", MsoTriState(.FollowMasterBackground))
         End If
         If .HasNotesPage <> iSlide.HasNotesPage Then
-            Call oCode.AddScalarProperty("HasNotesPage", MsoTriState(.HasNotesPage))
+            Call oDiff.AddScalarProperty("HasNotesPage", MsoTriState(.HasNotesPage))
         End If
         If .Layout <> iSlide.Layout Then
-            Call oCode.AddScalarProperty("Layout", PpSlideLayout(.Layout))
+            Call oDiff.AddScalarProperty("Layout", PpSlideLayout(.Layout))
         End If
         If .Name <> iSlide.Name Then
-            Call oCode.AddScalarProperty("Name", iSlide.Name)
+            Call oDiff.AddScalarProperty("Name", iSlide.Name)
         End If
         'If Not .NotesPage Is Nothing Then
-        Call oCode.AddCode(.NotesPage.Compare("NotesPage", iSlide.NotesPage))
+        Call oDiff.AddDiff(.NotesPage.MR_Compare("NotesPage", iSlide.NotesPage))
         'End If
         If .PrintSteps <> iSlide.PrintSteps Then
-            Call oCode.AddScalarProperty("PrintSteps", LongToVBA(.PrintSteps))
+            Call oDiff.AddScalarProperty("PrintSteps", LongToVBA(.PrintSteps))
         End If
         If .SectionIndex <> iSlide.SectionIndex Then
-            Call oCode.AddScalarProperty("SectionIndex", LongToVBA(.SectionIndex))
+            Call oDiff.AddScalarProperty("SectionIndex", LongToVBA(.SectionIndex))
         End If
-        Call oCode.AddCode(.Shapes.Compare("Shapes", iSlide.Shapes))
+        Call oDiff.AddDiff(.Shapes.MR_Compare("Shapes", iSlide.Shapes))
         If .SlideID <> iSlide.SlideID Then
-            Call oCode.AddScalarProperty("SlideID", LongToVBA(.SlideID))
+            Call oDiff.AddScalarProperty("SlideID", LongToVBA(.SlideID))
         End If
         If .SlideIndex <> iSlide.SlideIndex Then
-            Call oCode.AddScalarProperty("SlideIndex", LongToVBA(.SlideIndex))
+            Call oDiff.AddScalarProperty("SlideIndex", LongToVBA(.SlideIndex))
         End If
         If .SlideNumber <> iSlide.SlideNumber Then
-            Call oCode.AddScalarProperty("SlideNumber", LongToVBA(.SlideNumber))
+            Call oDiff.AddScalarProperty("SlideNumber", LongToVBA(.SlideNumber))
         End If
     End With
 
-    Call oCode.Wrap
+    Call oDiff.Wrap
 
-    Set Compare = oCode
+    Set MR_Compare = oDiff
 
     Exit Function
 
@@ -114,17 +115,18 @@ Public Sub init(iSlide As Slide)
         'Set .Background = New_iShapeRange(iSlide.Background)
         Set .Background = New iShapeRange
         .BackgroundStyle = iSlide.BackgroundStyle
+        Set .CustomLayout = New_iCustomLayout(iSlide.CustomLayout)
         .DisplayMasterShapes = iSlide.DisplayMasterShapes
         .FollowMasterBackground = iSlide.FollowMasterBackground
         .HasNotesPage = iSlide.HasNotesPage
         .Layout = iSlide.Layout
         .Name = iSlide.Name
         If iSlide.HasNotesPage = msoTrue Then
-            'Set .NotesPage = New_iSlideRange(iSlide.NotesPage)
             Set .NotesPage = New iSlideRange
         Else
             Set .NotesPage = New iSlideRange
         End If
+        Set .Parent = GetMRObject(iSlide.Parent)
         .PrintSteps = iSlide.PrintSteps
         .SectionIndex = iSlide.SectionIndex
         Set .Shapes = New_iShapes(iSlide.Shapes)
@@ -132,6 +134,24 @@ Public Sub init(iSlide As Slide)
         .SlideIndex = iSlide.SlideIndex
         .SlideNumber = iSlide.SlideNumber
         'Set .Tags = New_iTags(iSlide.Tags)
+    End With
+
+    Exit Sub
+
+err_:
+    #If DEBUG_MODE = 1 Then
+        Stop
+    #Else
+        err.Raise err.number 'rethrows with same source and description
+    #End If
+
+End Sub
+
+Sub DefaultValues()
+
+    On Error GoTo err_
+
+    With Me
     End With
 
     Exit Sub
