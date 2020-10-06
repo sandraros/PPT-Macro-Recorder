@@ -232,7 +232,7 @@ err_:
 
 End Function
 
-Public Sub init(iPresentation As presentation)
+Public Sub init(iPresentation As Presentation)
 
     On Error GoTo err_
 
@@ -243,7 +243,17 @@ Public Sub init(iPresentation As presentation)
         .CreateVideoStatus = iPresentation.CreateVideoStatus
         Set .CustomDocumentProperties = iPresentation.CustomDocumentProperties
         .DefaultLanguageID = iPresentation.DefaultLanguageID
-        Set .defaultShape = New_iShape(iPresentation.defaultShape)
+
+        'Set .defaultShape = New_iShape(iPresentation.defaultShape)
+        'If defaultShape Is Nothing Then
+        Dim dummyShape As Shape
+        Set dummyShape = ActivePresentation.Slides(1).Shapes.AddShape(msoShapeRectangle, 1, 1, 1, 1)
+        'Set Snapshot = New MR_Snapshot ' dummy snapshot needed by New_i* methods
+        Set .defaultShape = New_iShape(dummyShape)
+        Call dummyShape.Delete
+        'Set Snapshot = Nothing
+        'End If
+
         .DisplayComments = iPresentation.DisplayComments
         .EncryptionProvider = iPresentation.EncryptionProvider
         .EnvelopeVisible = iPresentation.EnvelopeVisible
@@ -314,9 +324,9 @@ err_:
 
 End Sub
 
-Function NewWindow() As iDocumentWindow
+Function OBSOLETE_NewWindow() As iDocumentWindow
 
-    Set NewWindow = New_iDocumentWindow()
-    Call NewWindow.Activate
+    Set OBSOLETE_NewWindow = New_iDocumentWindow()
+    'Call OBSOLETE_NewWindow.Activate
 
 End Function

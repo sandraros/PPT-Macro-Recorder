@@ -69,6 +69,31 @@ err_:
 
 End Function
 
+Function New_iCustomLayout(Optional iCustomLayout As CustomLayout = Nothing) As iCustomLayout
+
+    On Error GoTo err_
+
+    If iCustomLayout Is Nothing Then
+        Set New_iCustomLayout = New iCustomLayout
+        Call New_iCustomLayout.DefaultValues
+    Else
+        Set New_iCustomLayout = GetMRObject(iCustomLayout)
+        If New_iCustomLayout Is Nothing Then
+            Set New_iCustomLayout = AddObject(iCustomLayout, New iCustomLayout)
+        End If
+    End If
+
+    Exit Function
+
+err_:
+    #If DEBUG_MODE = 1 Then
+        Stop
+    #Else
+        err.Raise err.number 'rethrows with same source and description
+    #End If
+
+End Function
+
 Function New_iDocumentWindow(Optional iDocumentWindow As DocumentWindow = Nothing) As iDocumentWindow
 
     On Error GoTo err_
@@ -294,7 +319,7 @@ err_:
 
 End Function
 
-Function New_iPresentation(Optional iPresentation As presentation = Nothing) As iPresentation
+Function New_iPresentation(Optional iPresentation As Presentation = Nothing) As iPresentation
 
     On Error GoTo err_
 
@@ -730,31 +755,6 @@ Function New_oShadowFormat(Optional oShadowFormat As Office.ShadowFormat = Nothi
         Set New_oShadowFormat = GetMRObject(oShadowFormat)
         If New_oShadowFormat Is Nothing Then
             Set New_oShadowFormat = AddObject(oShadowFormat, New oShadowFormat)
-        End If
-    End If
-
-    Exit Function
-
-err_:
-    #If DEBUG_MODE = 1 Then
-        Stop
-    #Else
-        err.Raise err.number 'rethrows with same source and description
-    #End If
-
-End Function
-
-Function New_iCustomLayout(Optional iCustomLayout As CustomLayout = Nothing) As iCustomLayout
-
-    On Error GoTo err_
-
-    If iCustomLayout Is Nothing Then
-        Set New_iCustomLayout = New iCustomLayout
-        Call New_iCustomLayout.DefaultValues
-    Else
-        Set New_iCustomLayout = GetMRObject(iCustomLayout)
-        If New_iCustomLayout Is Nothing Then
-            Set New_iCustomLayout = AddObject(iCustomLayout, New iCustomLayout)
         End If
     End If
 

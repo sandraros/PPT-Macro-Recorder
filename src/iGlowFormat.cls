@@ -82,8 +82,7 @@ Sub DefaultValues()
     On Error GoTo err_
 
     With Me
-        Set .Color = New oColorFormat
-        Call .Color.DefaultValues
+        Set .Color = New_oColorFormat()
     End With
 
     Exit Sub

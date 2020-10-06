@@ -111,7 +111,7 @@ err_:
 
 End Sub
 
-Public Function AddShape(Type_ As MsoAutoShapeType, Left As Single, Top As Single, Width As Single, Height As Single) As iShape
+Public Function OBSOLETE_AddShape(Type_ As MsoAutoShapeType, Left As Single, Top As Single, Width As Single, Height As Single) As iShape
 
     Dim oShape As iShape
 
@@ -125,10 +125,10 @@ Public Function AddShape(Type_ As MsoAutoShapeType, Left As Single, Top As Singl
         .Top = Top
         .Width = Width
         .Height = Height
-        Call .Select(Replace:=True)
+        'Call .Select(Replace:=True)
     End With
 
-    Set AddShape = oShape
+    Set OBSOLETE_AddShape = oShape
 
     Exit Function
 

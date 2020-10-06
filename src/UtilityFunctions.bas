@@ -56,7 +56,7 @@ err_:
 
 End Function
 
-Sub BuildObjectIndexes()
+Sub OBSOLETE_BuildObjectIndexes()
 
     Dim snapshots As Collection
     Dim aSnapshot As MR_Snapshot
@@ -141,7 +141,7 @@ Sub CompareCollection( _
         Set oMRObject1 = collection1.Item(i)
         Set oMRObject2 = FindMRObjectInTargetSnapshot(goStartSnapshot, oMRObject1, goStopSnapshot)
         If oMRObject2 Is Nothing Then
-            Call oDiff.AddDiff(oMRObject1.delete())
+            Call oDiff.AddDiff(oMRObject1.Delete())
         End If
     Next
     End If
@@ -257,6 +257,7 @@ err_:
 End Function
 
 Function AddObject(ioPptObject As Object, ioMRObject As Object) As Object
+    ' Called by Factory methods of all MR objects
 
     Dim objectPair As cObjectPair
 
@@ -390,39 +391,42 @@ End Function
 Function IsObjectPartOfSelection(ioAnyPptObject As Object, ioSnapshot As MR_Snapshot) As Boolean
 
     Dim oItem As Object
+    Dim oSelection As iSelection
 
     On Error GoTo err_
 
     IsObjectPartOfSelection = True
 
-    Select Case ioSnapshot.iSelection.Type_
-        Case ppSelectionShapes
-            If TypeName(ioAnyPptObject) = "Shape" Then
-                For Each oItem In ioSnapshot.iSelection.shapeRange.Items
-                    If ioAnyPptObject Is GetPptObject(ioSnapshot, oItem) Then
-                        Exit Function
-                    End If
-                Next
-            End If
-        Case ppSelectionSlides
-            If TypeName(ioAnyPptObject) = "Slide" Then
-                For Each oItem In ioSnapshot.iSelection.SlideRange.Items
-                    If ioAnyPptObject Is GetPptObject(ioSnapshot, oItem) Then
-                        Exit Function
-                    End If
-                Next
-            End If
-        Case ppSelectionText
-            If TypeName(ioAnyPptObject) = "TextRange2" Then
-                For Each oItem In ioSnapshot.iSelection.TextRange2.Runs
-                    If ioAnyPptObject Is GetPptObject(ioSnapshot, oItem) Then
-                        Exit Function
-                    End If
-                Next
-            End If
-        Case ppSelectionNone
-            IsObjectPartOfSelection = False
-    End Select
+    With ioSnapshot.iApplication.ActiveWindow.Selection
+        Select Case .Type_
+            Case ppSelectionShapes
+                If TypeName(ioAnyPptObject) = "Shape" Then
+                    For Each oItem In .shapeRange.Items
+                        If ioAnyPptObject Is GetPptObject(ioSnapshot, oItem) Then
+                            Exit Function
+                        End If
+                    Next
+                End If
+            Case ppSelectionSlides
+                If TypeName(ioAnyPptObject) = "Slide" Then
+                    For Each oItem In .SlideRange.Items
+                        If ioAnyPptObject Is GetPptObject(ioSnapshot, oItem) Then
+                            Exit Function
+                        End If
+                    Next
+                End If
+            Case ppSelectionText
+                If TypeName(ioAnyPptObject) = "TextRange2" Then
+                    For Each oItem In .TextRange2.Runs
+                        If ioAnyPptObject Is GetPptObject(ioSnapshot, oItem) Then
+                            Exit Function
+                        End If
+                    Next
+                End If
+            Case ppSelectionNone
+                IsObjectPartOfSelection = False
+        End Select
+    End With
 
     IsObjectPartOfSelection = False
 
@@ -437,7 +441,7 @@ err_:
 
 End Function
 
-Function IsPropertyAssignedByShapeRange(isPropertyName As String) As Boolean
+Function OBSOLETE_IsPropertyAssignedByShapeRange(isPropertyName As String) As Boolean
 
     Dim bPropertyAssigned As Boolean
 
@@ -463,7 +467,8 @@ Function IsPropertyAssignedByShapeRange(isPropertyName As String) As Boolean
 
     bPropertyAssigned = True
 
-    If goStopSnapshot.iSelection.Type_ <> ppSelectionShapes Then
+    'If goStopSnapshot.iSelection.Type_ <> ppSelectionShapes Then
+    If 0 Then
         bPropertyAssigned = False
     Else
         ' TODO
@@ -474,7 +479,25 @@ Function IsPropertyAssignedByShapeRange(isPropertyName As String) As Boolean
         'Next
     End If
 
-    IsPropertyAssignedByShapeRange = bPropertyAssigned
+    OBSOLETE_IsPropertyAssignedByShapeRange = bPropertyAssigned
 
 End Function
 
+Function GetDefaultShape(oAnyMRObject As Object) As iShape
+
+    Dim oPresentation As iPresentation
+    Dim oShape As iShape
+
+    Set oParent = oAnyMRObject
+    Do While Not oParent Is Nothing
+        If TypeName(oParent) = "iPresentation" Then
+            Set oPresentation = oParent
+            Set oShape = oPresentation.defaultShape
+            Exit Do
+        End If
+        Set oParent = oParent.Parent
+    Loop
+
+    Set GetDefaultShape = oShape
+
+End Function

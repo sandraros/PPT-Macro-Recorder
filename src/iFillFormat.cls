@@ -402,7 +402,7 @@ Sub DefaultValues()
 
     On Error GoTo err_
 
-    Set defaultFill = defaultShape.Fill
+    Set defaultFill = GetDefaultShape(Me).Fill
 
     With Me
         Set .BackColor = defaultFill.BackColor

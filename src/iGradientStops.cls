@@ -40,16 +40,20 @@ Public Function MR_Compare(ObjectName As String, iGradientStops As iGradientStop
         'If Not .Parent Is iGradientStops.Parent Then
         '    Call oCode.Add("'TODO Parent")
         'End If
-        code2 = CompareCollection(.Items, iGradientStops.Items)
-        If code2 <> "" Then
-            Dim defaultGradientStops As iGradientStops
-            Set defaultGradientStops = New iGradientStops
-            Call defaultGradientStops.DefaultValues
-            Call oCode.Add("While .Count > 0")
-            Call oCode.Add("    Call .Delete(1)")
-            Call oCode.Add("Wend")
-            Call CompareCollection(oDiff, .Items, defaultGradientStops.Items)
-        End If
+        
+        ' TODO
+        
+        'Set oDiff2 = ...
+        'Call CompareCollection(oDiff.Items, iGradientStops.Items)
+        'If code2 <> "" Then
+        '    Dim defaultGradientStops As iGradientStops
+        '    Set defaultGradientStops = New iGradientStops
+        '    Call defaultGradientStops.DefaultValues
+        '    Call oCode.Add("While .Count > 0")
+        '    Call oCode.Add("    Call .Delete(1)")
+        '    Call oCode.Add("Wend")
+        '    Call CompareCollection(oDiff, .Items, defaultGradientStops.Items)
+        'End If
     End With
 
     Call oDiff.Wrap

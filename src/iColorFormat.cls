@@ -37,18 +37,18 @@ Public Function MR_Compare(ObjectName As String, iColorFormat As iColorFormat) A
     With Me
         If .Type_ = msoColorTypeScheme _
             And .ObjectThemeColor <> iColorFormat.ObjectThemeColor Then
-            ' set x = goStack.Push(iColorFormat,goStack.Top)
-            ' Call oCode.Add(iColorFormat.xxxx.MR_Compare())
-            ' oCollection.Item(oCollection.Count).SelectionShapeRange =
-            ' If stack contains a Shape object and does not contain iSelection.iShapeRange, generate
-            ' code only if iSelection.iShapeRangeFill.ForeColor has different value for property ObjectThemeColor.
-            If goStopSnapshot.iSelection.Type_ = ppSelectionShapes Then
-                Set obj1 = GetPptObject(goStopSnapshot, goStopSnapshot.iSelection.shapeRange.Fill.ForeColor)
-                Set obj2 = GetPptObject(goStopSnapshot, Me)
-                If obj1 Is obj2 Then
-                    a = 1
-                End If
-            End If
+            '' set x = goStack.Push(iColorFormat,goStack.Top)
+            '' Call oCode.Add(iColorFormat.xxxx.MR_Compare())
+            '' oCollection.Item(oCollection.Count).SelectionShapeRange =
+            '' If stack contains a Shape object and does not contain iSelection.iShapeRange, generate
+            '' code only if iSelection.iShapeRangeFill.ForeColor has different value for property ObjectThemeColor.
+            'If goStopSnapshot.iSelection.Type_ = ppSelectionShapes Then
+            '    Set obj1 = GetPptObject(goStopSnapshot, goStopSnapshot.iSelection.shapeRange.Fill.ForeColor)
+            '    Set obj2 = GetPptObject(goStopSnapshot, Me)
+            '    If obj1 Is obj2 Then
+            '        a = 1
+            '    End If
+            'End If
             Set oDiff = New_MR_Diff(ObjectName, Me, iColorFormat)
             Call oDiff.AddScalarProperty("ObjectThemeColor", MsoThemeColorIndex(.ObjectThemeColor))
         End If

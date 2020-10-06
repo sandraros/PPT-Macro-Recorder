@@ -1,7 +1,7 @@
 Attribute VB_Name = "DialogStartRecording"
 Function DialogStartRecorder() As enumAction
 
-    Dim oPresentation As presentation
+    Dim oPresentation As Presentation
 
     On Error GoTo err_
 
@@ -41,14 +41,14 @@ err_:
 
 End Function
 
-Function GetPresentationName(presentation As presentation) As String
+Function GetPresentationName(Presentation As Presentation) As String
         
     On Error GoTo err_
 
-    If presentation.Path <> "" Then
-        GetPresentationName = presentation.Name & " (in " & presentation.Path & ")"
+    If Presentation.Path <> "" Then
+        GetPresentationName = Presentation.Name & " (in " & Presentation.Path & ")"
     Else
-        GetPresentationName = presentation.Name
+        GetPresentationName = Presentation.Name
     End If
 
 
@@ -63,19 +63,19 @@ err_:
 
 End Function
 
-Function GetPresentation(PresentationName As String) As presentation
+Function GetPresentation(PresentationName As String) As Presentation
 
-    Dim presentation As presentation
+    Dim Presentation As Presentation
 
     On Error GoTo err_
 
-    For Each presentation In Application.Presentations
-        If GetPresentationName(presentation) = PresentationName Then
+    For Each Presentation In Application.Presentations
+        If GetPresentationName(Presentation) = PresentationName Then
             Exit For
         End If
     Next
 
-    Set GetPresentation = presentation
+    Set GetPresentation = Presentation
 
 
     Exit Function
@@ -93,7 +93,7 @@ Function DetermineMacroName(PresentationName As String) As String
 
     Dim objVBProject As VBProject
     Dim objVBComponent As VBComponent
-    Dim objPresentation As presentation
+    Dim objPresentation As Presentation
     Dim intMacroNumber As Integer
     Dim strProcName As String
     Dim enumProcKind As vbext_ProcKind
@@ -104,10 +104,10 @@ Function DetermineMacroName(PresentationName As String) As String
 
     On Error Resume Next
     Set objVBComponent = objPresentation.VBProject.VBComponents("NewMacros")
-    Errnum = err.number
+    errnum = err.number
     On Error GoTo 0
 
-    If Errnum <> 0 Then
+    If errnum <> 0 Then
         DetermineMacroName = "Macro1"
         Exit Function
     End If

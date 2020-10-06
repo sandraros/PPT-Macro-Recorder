@@ -87,7 +87,8 @@ End Sub
 
 Public Function create() As MR_Diff
 
-    Set oDiff = New_MR_Diff(ObjectName, Me, )
+    Stop
+    'Set oDiff = New_MR_Diff(ObjectName, Me, )
 
     With Me
         Call oCode.Add(Space(indent) _
@@ -103,15 +104,16 @@ Public Function create() As MR_Diff
 
 End Function
 
-Public Function delete() As String
+Public Function Delete() As String
 
-    Set oDiff = New_MR_Diff(ObjectName, Me, )
+    Stop
+    'Set oDiff = New_MR_Diff(ObjectName, Me, )
 
-    With Me
-        Call oCode.Add(Space(indent) & "Call .Delete(1)")
-    End With
+    'With Me
+    '    Call oCode.Add(Space(indent) & "Call .Delete(1)")
+    'End With
 
-    delete = Code
+    'Delete = Code
 
 End Function
 

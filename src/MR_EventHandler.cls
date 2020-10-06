@@ -17,13 +17,7 @@ Sub ProcessEvent()
 
     On Error GoTo err_
 
-    Set goStopSnapshot = TakeSnapshot()
-
-    Set oDiff = CompareSnapshots()
-
-    Call goCode.AddCode(GetCodeForAllChangedElements(oDiff, "ActivePresentation"))
-    Set goStartSnapshot = goStopSnapshot
-    Set goStopSnapshot = Nothing
+    Call TakeSnapshotCompareAndGenerateCode
 
     Exit Sub
 
@@ -40,11 +34,11 @@ Private Sub pptapp_AfterDragDropOnSlide(ByVal Sld As Slide, ByVal X As Single, B
     ProcessEvent
 End Sub
 
-Private Sub pptapp_AfterNewPresentation(ByVal Pres As presentation)
+Private Sub pptapp_AfterNewPresentation(ByVal Pres As Presentation)
     ProcessEvent
 End Sub
 
-Private Sub pptapp_AfterPresentationOpen(ByVal Pres As presentation)
+Private Sub pptapp_AfterPresentationOpen(ByVal Pres As Presentation)
     ProcessEvent
 End Sub
 
@@ -56,23 +50,23 @@ Private Sub pptapp_ColorSchemeChanged(ByVal SldRange As SlideRange)
     ProcessEvent
 End Sub
 
-Private Sub pptapp_NewPresentation(ByVal Pres As presentation)
+Private Sub pptapp_NewPresentation(ByVal Pres As Presentation)
     ProcessEvent
 End Sub
 
-Private Sub pptapp_PresentationBeforeClose(ByVal Pres As presentation, cancel As Boolean)
+Private Sub pptapp_PresentationBeforeClose(ByVal Pres As Presentation, cancel As Boolean)
     ProcessEvent
 End Sub
 
-Private Sub pptapp_PresentationBeforeSave(ByVal Pres As presentation, cancel As Boolean)
+Private Sub pptapp_PresentationBeforeSave(ByVal Pres As Presentation, cancel As Boolean)
     ProcessEvent
 End Sub
 
-Private Sub pptapp_PresentationClose(ByVal Pres As presentation)
+Private Sub pptapp_PresentationClose(ByVal Pres As Presentation)
     ProcessEvent
 End Sub
 
-Private Sub pptapp_PresentationCloseFinal(ByVal Pres As presentation)
+Private Sub pptapp_PresentationCloseFinal(ByVal Pres As Presentation)
     ProcessEvent
 End Sub
 
@@ -80,19 +74,19 @@ Private Sub pptapp_PresentationNewSlide(ByVal Sld As Slide)
     ProcessEvent
 End Sub
 
-Private Sub pptapp_PresentationOpen(ByVal Pres As presentation)
+Private Sub pptapp_PresentationOpen(ByVal Pres As Presentation)
     ProcessEvent
 End Sub
 
-Private Sub pptapp_PresentationPrint(ByVal Pres As presentation)
+Private Sub pptapp_PresentationPrint(ByVal Pres As Presentation)
     ProcessEvent
 End Sub
 
-Private Sub pptapp_PresentationSave(ByVal Pres As presentation)
+Private Sub pptapp_PresentationSave(ByVal Pres As Presentation)
     ProcessEvent
 End Sub
 
-Private Sub pptapp_PresentationSync(ByVal Pres As presentation, ByVal SyncEventType As Office.MsoSyncEventType)
+Private Sub pptapp_PresentationSync(ByVal Pres As Presentation, ByVal SyncEventType As Office.MsoSyncEventType)
     ProcessEvent
 End Sub
 
@@ -124,7 +118,7 @@ Private Sub pptapp_SlideShowBegin(ByVal Wn As SlideShowWindow)
     ProcessEvent
 End Sub
 
-Private Sub pptapp_SlideShowEnd(ByVal Pres As presentation)
+Private Sub pptapp_SlideShowEnd(ByVal Pres As Presentation)
     ProcessEvent
 End Sub
 
@@ -148,7 +142,7 @@ Private Sub pptapp_SlideShowOnPrevious(ByVal Wn As SlideShowWindow)
     ProcessEvent
 End Sub
 
-Private Sub pptapp_WindowActivate(ByVal Pres As presentation, ByVal Wn As DocumentWindow)
+Private Sub pptapp_WindowActivate(ByVal Pres As Presentation, ByVal Wn As DocumentWindow)
     ProcessEvent
 End Sub
 
@@ -160,7 +154,7 @@ Private Sub pptapp_WindowBeforeRightClick(ByVal Sel As Selection, cancel As Bool
     ProcessEvent
 End Sub
 
-Private Sub pptapp_WindowDeactivate(ByVal Pres As presentation, ByVal Wn As DocumentWindow)
+Private Sub pptapp_WindowDeactivate(ByVal Pres As Presentation, ByVal Wn As DocumentWindow)
     ProcessEvent
 End Sub
 

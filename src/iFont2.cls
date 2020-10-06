@@ -213,35 +213,25 @@ Sub DefaultValues()
     If comparisonRunning = False Then
 
         With Me
-            Set .Fill = New oFillFormat
-            Call .Fill.DefaultValues
-            Set .Glow = New iGlowFormat
-            Call .Glow.DefaultValues
-            Set .Highlight = New iColorFormat
-            Call .Highlight.DefaultValues
-            Set .Reflection = New iReflectionFormat
-            Call .Reflection.DefaultValues
-            Set .Shadow = New oShadowFormat
-            Call .Shadow.DefaultValues
-            Set .UnderlineColor = New oColorFormat
-            Call .UnderlineColor.DefaultValues
+            Set .Fill = New_oFillFormat()
+            Set .Glow = New_iGlowFormat()
+            Set .Highlight = New_iColorFormat()
+            Set .Reflection = New_iReflectionFormat()
+            Set .Shadow = New_oShadowFormat()
+            Set .UnderlineColor = New_oColorFormat()
         End With
 
     Else
 
-        Set defaultFont2 = defaultShape.TextFrame2.TextRange.Font
+        Set defaultFont2 = GetDefaultShape(Me).TextFrame2.TextRange.Font
 
         With Me
             Set .Fill = defaultFont2.Fill
             Set .Glow = defaultFont2.Glow
-            Set .Highlight = New iColorFormat
-            Call .Highlight.DefaultValues
-            Set .Reflection = New iReflectionFormat
-            Call .Reflection.DefaultValues
-            Set .Shadow = New oShadowFormat
-            Call .Shadow.DefaultValues
-            Set .UnderlineColor = New oColorFormat
-            Call .UnderlineColor.DefaultValues
+            Set .Highlight = New_iColorFormat()
+            Set .Reflection = New_iReflectionFormat()
+            Set .Shadow = New_oShadowFormat()
+            Set .UnderlineColor = New_oColorFormat()
         End With
 
     End If

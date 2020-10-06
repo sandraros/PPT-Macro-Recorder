@@ -18,7 +18,6 @@ Public Enum enumState
 Private mastrCode() As String
 Private mState As enumState
 Private mintLBound As Integer
-'Private oDiff As MR_Diff
 
 Sub class_initialize()
     ReDim Preserve mastrCode(1)

@@ -150,7 +150,7 @@ Sub DefaultValues()
 
     On Error GoTo err_
 
-    Set defaultTextFrame2 = defaultShape.TextFrame2
+    Set defaultTextFrame2 = GetDefaultShape(Me).TextFrame2
 
     With Me
         .AutoSize = defaultTextFrame2.AutoSize

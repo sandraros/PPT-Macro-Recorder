@@ -465,6 +465,29 @@ err_:
 
 End Function
 
+Public Function Delete() As MR_Code
+
+    Dim oCode As MR_Code
+
+    On Error GoTo err_
+
+    Set oCode = New MR_Code
+
+    Call oCode.Add("Call .Delete")
+
+    Set Delete = oCode
+
+    Exit Function
+
+err_:
+    #If DEBUG_MODE = 1 Then
+        Stop
+    #Else
+        err.Raise err.number 'rethrows with same source and description
+    #End If
+
+End Function
+
 Function ComparisonBase(iShape As iShape) As iShape
 
     On Error GoTo err_
@@ -553,6 +576,8 @@ Sub DefaultValues()
 
     On Error GoTo err_
 
+    Set defaultShape = GetDefaultShape(Me)
+
     With Me
         'Public ActionSettings As iActionSettings
         'Public Adjustments As iAdjustments
@@ -631,7 +656,7 @@ err_:
 
 End Sub
 
-Public Sub Select_(Optional Replace As MsoTriState = msoTrue)
+Public Sub OBSOLETE_Select_(Optional Replace As MsoTriState = msoTrue)
 
     Dim oSlide As iSlide
     Dim oPresentation As iPresentation
@@ -647,7 +672,7 @@ Public Sub Select_(Optional Replace As MsoTriState = msoTrue)
     Set oPresentation = oSlide.Parent
     If goApplication.ActiveWindow.ViewType <> ppViewSlide _
         Or IsObjectPartOfSelection(oSlide, goStartSnapshot) _
-        Or goApplication.ActiveWindow.presentation Is Not oPresentation Then
+        Or goApplication.ActiveWindow.Presentation Is Not oPresentation Then
         ' -2147188160 (80048240)
         Call err.Raise(-2147188160, , "To select a shape its view must be active")
     End If
@@ -665,7 +690,7 @@ Public Sub Select_(Optional Replace As MsoTriState = msoTrue)
                     While .SlideRange.Count <> 0
                         .SlideRange.Items.Remove 1
                     Wend
-            End If
+            End Select
         End If
         .Type_ = ppSelectionShapes
     End With
@@ -678,10 +703,10 @@ Public Sub Select_(Optional Replace As MsoTriState = msoTrue)
             Set oWindow = Nothing
         Next
         If oWindow Is Nothing Then
-            Set oWindow = oPresentation.NewWindow()
+            Set oWindow = oPresentation.OBSOLETE_NewWindow()
             oWindow.ViewType = ppViewNormal
         ElseIf oWindow.Active = msoFalse Then
-            Call oWindow.Activate
+            'Call oWindow.Activate
         End If
     End If
     

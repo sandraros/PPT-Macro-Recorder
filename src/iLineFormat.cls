@@ -141,21 +141,21 @@ End Sub
 
 Sub DefaultValues()
 
-    Dim defaultLine As iLineFormat
+    Dim oDefaultLine As iLineFormat
 
     On Error GoTo err_
 
-    Set defaultLine = goStopSnapshot.iPresentation.defaultShape.Line
+    Set oDefaultLine = GetDefaultShape(Me).Line
 
     With Me
-        Set .BackColor = defaultLine.BackColor
-        .DashStyle = defaultLine.DashStyle
-        Set .ForeColor = defaultLine.ForeColor
-        .InsetPen = defaultLine.InsetPen
-        .Style = defaultLine.Style
-        .Transparency = defaultLine.Transparency
-        .Visible = defaultLine.Visible
-        .Weight = defaultLine.Weight
+        Set .BackColor = oDefaultLine.BackColor
+        .DashStyle = oDefaultLine.DashStyle
+        Set .ForeColor = oDefaultLine.ForeColor
+        .InsetPen = oDefaultLine.InsetPen
+        .Style = oDefaultLine.Style
+        .Transparency = oDefaultLine.Transparency
+        .Visible = oDefaultLine.Visible
+        .Weight = oDefaultLine.Weight
     End With
 
     Exit Sub

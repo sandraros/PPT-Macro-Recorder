@@ -90,8 +90,8 @@ err_:
 
 End Sub
 
-Function Item(Index As Long) As iDocumentWindow
+Function OBSOLETE_Item(Index As Long) As iDocumentWindow
 
-    Set Item = Me.Items(Index)
+    'Set OBSOLETE_Item = Me.Items(Index)
 
 End Function

@@ -16,7 +16,7 @@ Public Height As Single
 Public Left As Single
 'Public Panes As iPanes
 Public Parent As Object
-Public presentation As iPresentation
+Public Presentation As iPresentation
 Public Selection As iSelection
 Public SplitHorizontal As Long
 Public SplitVertical As Long
@@ -42,6 +42,38 @@ Public Function MR_Compare(ObjectName As String, iDocumentWindow As iDocumentWin
     If IsCompared(Me) Then Exit Function
 
     With Me
+        If .BlackAndWhite <> iDocumentWindow.BlackAndWhite Then
+            Call oDiff.AddScalarProperty("BlackAndWhite", iDocumentWindow.BlackAndWhite)
+        End If
+        If .Caption <> iDocumentWindow.Caption Then
+            Call oDiff.AddScalarProperty("Caption", iDocumentWindow.Caption)
+        End If
+        If .Height <> iDocumentWindow.Height Then
+            Call oDiff.AddScalarProperty("Height", iDocumentWindow.Height)
+        End If
+        If .Left <> iDocumentWindow.Left Then
+            Call oDiff.AddScalarProperty("Left", iDocumentWindow.Left)
+        End If
+        Call oDiff.AddDiff(.Presentation.MR_Compare("Presentation", iDocumentWindow.Presentation))
+        Call oDiff.AddDiff(.Selection.MR_Compare("Selection", iDocumentWindow.Selection))
+        If .SplitHorizontal <> iDocumentWindow.SplitHorizontal Then
+            Call oDiff.AddScalarProperty("SplitHorizontal", iDocumentWindow.SplitHorizontal)
+        End If
+        If .SplitVertical <> iDocumentWindow.SplitVertical Then
+            Call oDiff.AddScalarProperty("SplitVertical", iDocumentWindow.SplitVertical)
+        End If
+        If .Top <> iDocumentWindow.Top Then
+            Call oDiff.AddScalarProperty("Top", iDocumentWindow.Top)
+        End If
+        If .ViewType <> iDocumentWindow.ViewType Then
+            Call oDiff.AddScalarProperty("ViewType", iDocumentWindow.ViewType)
+        End If
+        If .Width <> iDocumentWindow.Width Then
+            Call oDiff.AddScalarProperty("Width", iDocumentWindow.Width)
+        End If
+        If .WindowState <> iDocumentWindow.WindowState Then
+            Call oDiff.AddScalarProperty("WindowState", iDocumentWindow.WindowState)
+        End If
     End With
 
     Call oDiff.Wrap
@@ -71,7 +103,7 @@ Public Sub init(iDocumentWindow As DocumentWindow)
         .Height = iDocumentWindow.Height
         .Left = iDocumentWindow.Left
         Set .Parent = iDocumentWindow.Parent
-        Set .presentation = New_iPresentation(iDocumentWindow.presentation)
+        Set .Presentation = New_iPresentation(iDocumentWindow.Presentation)
         Set .Selection = New_iSelection(iDocumentWindow.Selection)
         .SplitHorizontal = iDocumentWindow.SplitHorizontal
         .SplitVertical = iDocumentWindow.SplitVertical

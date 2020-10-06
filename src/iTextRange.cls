@@ -78,9 +78,9 @@ Public Sub init(iTextRange As TextRange)
             .Length = iTextRange.Length
         End If
         'TODO ParagraphFormat
-        Set .Runs = New Collection
+        Set Runs = New Collection
         For Each run In iTextRange.Runs
-            Call .Runs.Add(New_iTextRange(run))
+            Call Runs.Add(New_iTextRange(run))
         Next
         If iTextRange.Runs.Count = 1 Then
             .Start = iTextRange.Start
