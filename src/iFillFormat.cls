@@ -35,13 +35,13 @@ Public Visible As MsoTriState
 'ActiveWindow.Selection.ShapeRange.TextFrame2.TextRange.Font.Fill.BackColor
 
 
-Public Function MR_Compare(ObjectName As String, iFillFormat As iFillFormat) As MR_Diff
+Public Function MR_Compare(iFillFormat As iFillFormat) As MR_Diff
 
     Dim oDiff As MR_Diff
 
     On Error GoTo err_
 
-    Set oDiff = New_MR_Diff(ObjectName, Me, iFillFormat)
+    Set oDiff = New_MR_Diff(Me, iFillFormat)
     Set MR_Compare = oDiff
 
     If IsCompared(Me) Then Exit Function
@@ -146,7 +146,7 @@ Public Function MR_Compare(ObjectName As String, iFillFormat As iFillFormat) As 
                 'with those in solution 1. Take the code with the lowest number of lines.
                 'With .GradientStops
                     'Dim objCode2 As MR_Diff
-                    'Set objCode2 = New_MR_Diff(ObjectName, Me, iFillFormat)
+                    'Set objCode2 = New_MR_Diff(Me, iFillFormat)
                     'Call objCode2.Add("numberOfGradientStops", .Count & " - .Count")
                     'Call objCode2.Add("For i = 1 To numberOfGradientStops")
                     'Call objCode2.Add("    Call .Insert2(RGB:=0, Position:=0)")
@@ -163,12 +163,12 @@ Public Function MR_Compare(ObjectName As String, iFillFormat As iFillFormat) As 
                     'For i = 1 To .Count
                     '    Dim myGradientStop As iGradientStop
                     '    Set myGradientStop = .Items(i)
-                    '    Call objCode2.Add(myGradientStop.MR_Compare("Item(" & CStr(i) & ")", defaultGradientStop))
+                    '    Call objCode2.AddCode("Item(" & CStr(i) & ")", myGradientStop.MR_Compare(defaultGradientStop))
                     'Next
                     'Call oDiff.Wrap(".GradientStops")
                 'End With
                 'Call oCode.Add(objCode2.strCode)
-                'Call oDiff.AddDiff(.GradientStops.MR_Compare("GradientStops", .Me)
+                'Call oDiff.AddDiff("GradientStops", .GradientStops.MR_Compare(.Me)
             Case msoFillPatterned
                 Call oDiff.AddMethodCall("Patterned", "Pattern:=" & MsoPatternType(.Pattern))
             Case msoFillPicture
@@ -206,8 +206,8 @@ Public Function MR_Compare(ObjectName As String, iFillFormat As iFillFormat) As 
                 End Select
         End Select
 
-        Call oDiff.AddDiff(.BackColor.MR_Compare("BackColor", iFillFormat.BackColor))
-        Call oDiff.AddDiff(.ForeColor.MR_Compare("ForeColor", iFillFormat.ForeColor))
+        Call oDiff.AddDiff("BackColor", .BackColor.MR_Compare(iFillFormat.BackColor))
+        Call oDiff.AddDiff("ForeColor", .ForeColor.MR_Compare(iFillFormat.ForeColor))
 
         'If .GradientColorType <> iFillFormat.GradientColorType Then
         '    Call oDiff.AddScalarProperty("GradientColorType", MsoGradientColorType(.GradientColorType))

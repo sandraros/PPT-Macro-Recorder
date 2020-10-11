@@ -65,13 +65,13 @@ Sub class_initialize()
     Value = "hhh"
 End Sub
 
-Public Function MR_Compare(ObjectName As String, iApplication As iApplication) As MR_Diff
+Public Function MR_Compare(iApplication As iApplication) As MR_Diff
 
     Dim oDiff As MR_Diff
 
     On Error GoTo err_
 
-    Set oDiff = New_MR_Diff(ObjectName, Me, iApplication)
+    Set oDiff = New_MR_Diff(Me, iApplication)
     Set MR_Compare = oDiff
 
     If IsCompared(Me) Then Exit Function
@@ -83,11 +83,11 @@ Public Function MR_Compare(ObjectName As String, iApplication As iApplication) A
         If .ActiveEncryptionSession <> iApplication.ActiveEncryptionSession Then
             Call oDiff.AddScalarProperty("ActiveEncryptionSession", LongToVBA(.ActiveEncryptionSession))
         End If
-        Call oDiff.AddDiff(.ActivePresentation.MR_Compare("ActivePresentation", iApplication.ActivePresentation))
+        Call oDiff.AddDiff("ActivePresentation", .ActivePresentation.MR_Compare(iApplication.ActivePresentation))
         If .ActivePrinter <> iApplication.ActivePrinter Then
             Call oDiff.AddScalarProperty("ActivePrinter", iApplication.ActivePrinter)
         End If
-        Call oDiff.AddDiff(.ActiveWindow.MR_Compare("ActiveWindow", iApplication.ActiveWindow))
+        Call oDiff.AddDiff("ActiveWindow", .ActiveWindow.MR_Compare(iApplication.ActiveWindow))
         If .AutomationSecurity <> iApplication.AutomationSecurity Then
             Call oDiff.AddScalarProperty("AutomationSecurity", MsoAutomationSecurity(.AutomationSecurity))
         End If
@@ -139,7 +139,7 @@ Public Function MR_Compare(ObjectName As String, iApplication As iApplication) A
         If .Path <> iApplication.Path Then
             Call oDiff.AddScalarProperty("Path", iApplication.Path)
         End If
-        Call oDiff.AddDiff(.Presentations.MR_Compare("Presentations", iApplication.Presentations))
+        Call oDiff.AddDiff("Presentations", .Presentations.MR_Compare(iApplication.Presentations))
         If .ProductCode <> iApplication.ProductCode Then
             Call oDiff.AddScalarProperty("ProductCode", iApplication.ProductCode)
         End If
@@ -161,7 +161,7 @@ Public Function MR_Compare(ObjectName As String, iApplication As iApplication) A
         If .Width <> iApplication.Width Then
             Call oDiff.AddScalarProperty("Width", SingleToVBA(.Width))
         End If
-        Call oDiff.AddDiff(.Windows.MR_Compare("Windows", iApplication.Windows))
+        Call oDiff.AddDiff("Windows", .Windows.MR_Compare(iApplication.Windows))
         If .WindowState <> iApplication.WindowState Then
             Call oDiff.AddScalarProperty("WindowState", PpWindowState(.WindowState))
         End If

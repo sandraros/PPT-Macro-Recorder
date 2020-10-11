@@ -29,13 +29,13 @@ Public Weight As Single
 '
 
 
-Public Function MR_Compare(ObjectName As String, iLineFormat As iLineFormat) As MR_Diff
+Public Function MR_Compare(iLineFormat As iLineFormat) As MR_Diff
 
     Dim oDiff As MR_Diff
 
     On Error GoTo err_
 
-    Set oDiff = New_MR_Diff(ObjectName, Me, iLineFormat)
+    Set oDiff = New_MR_Diff(Me, iLineFormat)
     Set MR_Compare = oDiff
 
     If IsCompared(Me) Then Exit Function
@@ -45,7 +45,7 @@ Public Function MR_Compare(ObjectName As String, iLineFormat As iLineFormat) As 
         '    ' If invisible, other properties cannot be accessed
         '    Exit Function
         'End If
-        Call oDiff.AddDiff(.BackColor.MR_Compare("BackColor", iLineFormat.BackColor))
+        Call oDiff.AddDiff("BackColor", .BackColor.MR_Compare(iLineFormat.BackColor))
         If TypeName(Me.Parent) = "Line" Then
             If .BeginArrowheadLength <> iLineFormat.BeginArrowheadLength Then
                 Call oDiff.AddScalarProperty("BeginArrowheadLength", MsoArrowheadLength(.BeginArrowheadLength))
@@ -69,7 +69,7 @@ Public Function MR_Compare(ObjectName As String, iLineFormat As iLineFormat) As 
         If .DashStyle <> iLineFormat.DashStyle Then
             Call oDiff.AddScalarProperty("DashStyle", MsoLineDashStyle(.DashStyle))
         End If
-        Call oDiff.AddDiff(.ForeColor.MR_Compare("ForeColor", iLineFormat.ForeColor))
+        Call oDiff.AddDiff("ForeColor", .ForeColor.MR_Compare(iLineFormat.ForeColor))
         If .InsetPen <> iLineFormat.InsetPen Then
             Call oDiff.AddScalarProperty("InsetPen", MsoTriState(.InsetPen))
         End If

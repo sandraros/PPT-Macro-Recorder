@@ -16,13 +16,13 @@ Private Items As Collection
 'ActivePresentation.Windows.Parent
 
 
-Public Function MR_Compare(ObjectName As String, iDocumentWindows As iDocumentWindows) As MR_Diff
+Public Function MR_Compare(iDocumentWindows As iDocumentWindows) As MR_Diff
 
     Dim oDiff As MR_Diff
 
     On Error GoTo err_
 
-    Set oDiff = New_MR_Diff(ObjectName, Me, iDocumentWindows)
+    Set oDiff = New_MR_Diff(Me, iDocumentWindows)
     Set MR_Compare = oDiff
 
     If IsCompared(Me) Then Exit Function

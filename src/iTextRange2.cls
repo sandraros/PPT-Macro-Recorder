@@ -26,13 +26,13 @@ Public Runs As Collection ' Collection of iTextRange2
 'ActiveWindow.Selection.ShapeRange.TextFrame2.TextRange.Start
 
 
-Public Function MR_Compare(ObjectName As String, iTextRange2 As iTextRange2) As MR_Diff
+Public Function MR_Compare(iTextRange2 As iTextRange2) As MR_Diff
 
     Dim oDiff As MR_Diff
 
     On Error GoTo err_
 
-    Set oDiff = New_MR_Diff(ObjectName, Me, iTextRange2)
+    Set oDiff = New_MR_Diff(Me, iTextRange2)
     Set MR_Compare = oDiff
 
     If IsCompared(Me) Then Exit Function
@@ -57,7 +57,7 @@ Public Function MR_Compare(ObjectName As String, iTextRange2 As iTextRange2) As 
         'If .Count <> iTextRange2.Count Then
         '    Call oDiff.AddScalarProperty("Count", LongToVBA(.Count))
         'End If
-        Call oDiff.AddDiff(.Font.MR_Compare("Font", iTextRange2.Font))
+        Call oDiff.AddDiff("Font", .Font.MR_Compare(iTextRange2.Font))
         If .LanguageID <> iTextRange2.LanguageID Then
             Call oDiff.AddScalarProperty("LanguageID", MsoLanguageID(.LanguageID))
         End If

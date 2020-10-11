@@ -16,13 +16,13 @@ Public Items As Collection
 'Application.Presentations.Count
 
 
-Public Function MR_Compare(ObjectName As String, iPresentations As iPresentations) As MR_Diff
+Public Function MR_Compare(iPresentations As iPresentations) As MR_Diff
 
     Dim oDiff As MR_Diff
 
     On Error GoTo err_
 
-    Set oDiff = New_MR_Diff(ObjectName, Me, iPresentations)
+    Set oDiff = New_MR_Diff(Me, iPresentations)
     Set MR_Compare = oDiff
 
     If IsCompared(Me) Then Exit Function

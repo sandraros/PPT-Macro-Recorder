@@ -19,7 +19,7 @@ Sub BuildObjectIndexes()
     ' Called by TakeSnapshot
     ' Can't it be done by AddObject, at same time allObjects is built?
 
-    Dim oObjectPair As cObjectPair
+    Dim oObjectPair As MR_ObjectPair
 
     On Error GoTo err_
 

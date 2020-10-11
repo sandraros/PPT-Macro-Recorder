@@ -30,13 +30,13 @@ Public WordWrap As MsoTriState
 'ActiveWindow.Selection.ShapeRange.TextFrame2.WordWrap
 
 
-Public Function MR_Compare(ObjectName As String, iTextFrame2 As iTextFrame2) As MR_Diff
+Public Function MR_Compare(iTextFrame2 As iTextFrame2) As MR_Diff
 
     Dim oDiff As MR_Diff
 
     On Error GoTo err_
 
-    Set oDiff = New_MR_Diff(ObjectName, Me, iTextFrame2)
+    Set oDiff = New_MR_Diff(Me, iTextFrame2)
     Set MR_Compare = oDiff
 
     If IsCompared(Me) Then Exit Function
@@ -69,7 +69,7 @@ Public Function MR_Compare(ObjectName As String, iTextFrame2 As iTextFrame2) As 
         If .PathFormat <> iTextFrame2.PathFormat Then
             Call oDiff.AddScalarProperty("PathFormat", MsoPathFormat(.PathFormat))
         End If
-        Call oDiff.AddDiff(.TextRange.MR_Compare("TextRange", iTextFrame2.TextRange))
+        Call oDiff.AddDiff("TextRange", .TextRange.MR_Compare(iTextFrame2.TextRange))
         If .VerticalAnchor <> iTextFrame2.VerticalAnchor Then
             Call oDiff.AddScalarProperty("VerticalAnchor", MsoVerticalAnchor(.VerticalAnchor))
         End If

@@ -29,13 +29,13 @@ Private Runs As Collection ' Collection of iTextRange
 'ActiveWindow.Selection.ShapeRange.TextFrame.TextRange.Start
 
 
-Public Function MR_Compare(ObjectName As String, iTextRange As iTextRange) As MR_Diff
+Public Function MR_Compare(iTextRange As iTextRange) As MR_Diff
 
     Dim oDiff As MR_Diff
 
     On Error GoTo err_
 
-    Set oDiff = New_MR_Diff(ObjectName, Me, iTextRange)
+    Set oDiff = New_MR_Diff(Me, iTextRange)
     Set MR_Compare = oDiff
 
     If IsCompared(Me) Then Exit Function

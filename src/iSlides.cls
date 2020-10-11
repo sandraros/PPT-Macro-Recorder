@@ -14,13 +14,13 @@ Public Items As Collection
 'ActivePresentation.Slides.Parent
 
 
-Public Function MR_Compare(ObjectName As String, iSlides As iSlides) As MR_Diff
+Public Function MR_Compare(iSlides As iSlides) As MR_Diff
 
     Dim oDiff As MR_Diff
 
     On Error GoTo err_
 
-    Set oDiff = New_MR_Diff(ObjectName, Me, iSlides)
+    Set oDiff = New_MR_Diff(Me, iSlides)
     Set MR_Compare = oDiff
 
     If IsCompared(Me) Then Exit Function

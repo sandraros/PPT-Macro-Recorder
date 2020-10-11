@@ -33,20 +33,20 @@ Public Visible As MsoTriState
 'ActiveWindow.Selection.ShapeRange.TextFrame2.TextRange.Font.Fill
 
 
-Public Function MR_Compare(ObjectName As String, iFillFormat As oFillFormat) As MR_Diff
+Public Function MR_Compare(iFillFormat As oFillFormat) As MR_Diff
 
     Dim oDiff As MR_Diff
 
     On Error GoTo err_
 
-    Set oDiff = New_MR_Diff(ObjectName, Me, iFillFormat)
+    Set oDiff = New_MR_Diff(Me, iFillFormat)
     Set MR_Compare = oDiff
 
     If IsCompared(Me) Then Exit Function
 
     With Me
-        Call oDiff.AddDiff(.BackColor.MR_Compare("BackColor", iFillFormat.BackColor))
-        Call oDiff.AddDiff(.ForeColor.MR_Compare("ForeColor", iFillFormat.ForeColor))
+        Call oDiff.AddDiff("BackColor", .BackColor.MR_Compare(iFillFormat.BackColor))
+        Call oDiff.AddDiff("ForeColor", .ForeColor.MR_Compare(iFillFormat.ForeColor))
         If .GradientColorType <> iFillFormat.GradientColorType Then
             Call oDiff.AddScalarProperty("GradientColorType", MsoGradientColorType(.GradientColorType))
         End If

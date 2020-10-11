@@ -77,14 +77,16 @@ Public ZOrderPosition As Long
 'ActiveWindow.Selection.ShapeRange.item(1)
 
 
-Public Function MR_Compare(ObjectName As String, iShape As iShape) As MR_Diff
+Public Function MR_Compare(iShape As iShape) As MR_Diff
 
     Dim oDiff As MR_Diff
 
     On Error GoTo err_
 
-    Set oDiff = New_MR_Diff(ObjectName, Me, iShape)
+    Set oDiff = New_MR_Diff(Me, iShape)
     Set MR_Compare = oDiff
+
+    If IsCompared(Me) Then Exit Function
 
     'If IsCompared(Me) Then
 
@@ -152,9 +154,9 @@ Public Function MR_Compare(ObjectName As String, iShape As iShape) As MR_Diff
                 Call oDiff.AddScalarProperty("Decorative", MsoTriState(.Decorative))
             End If
             'If Not .Fill Is oShapeRange.Fill Then
-            Call oDiff.AddDiff(.Fill.MR_Compare("Fill", iShape.Fill))
+            Call oDiff.AddDiff("Fill", .Fill.MR_Compare(iShape.Fill))
             'End If
-            Call oDiff.AddDiff(.Glow.MR_Compare("Glow", iShape.Glow))
+            Call oDiff.AddDiff("Glow", .Glow.MR_Compare(iShape.Glow))
             If .GraphicStyle <> iShape.GraphicStyle Then
                 Call oDiff.AddScalarProperty("GraphicStyle", MsoGraphicStyleIndex(.GraphicStyle))
             End If
@@ -194,7 +196,7 @@ Public Function MR_Compare(ObjectName As String, iShape As iShape) As MR_Diff
             If .Left <> iShape.Left Then
                 Call oDiff.AddScalarProperty("Left", ToVBA(.Left))
             End If
-            Call oDiff.AddDiff(.Line.MR_Compare("Line", iShape.Line))
+            Call oDiff.AddDiff("Line", .Line.MR_Compare(iShape.Line))
             If .LockAspectRatio <> iShape.LockAspectRatio Then
                 Call oDiff.AddScalarProperty("LockAspectRatio", MsoTriState(.LockAspectRatio))
             End If
@@ -205,19 +207,19 @@ Public Function MR_Compare(ObjectName As String, iShape As iShape) As MR_Diff
                 Call oDiff.AddScalarProperty("Name", ToVBA(.Name))
             End If
             If Not .ParentGroup Is Nothing Then
-                'TODO Call oDiff.AddDiff(.ParentGroup.MR_Compare("ParentGroup", iShape.ParentGroup)
+                'TODO Call oDiff.AddDiff("ParentGroup", .ParentGroup.MR_Compare(iShape.ParentGroup)
             End If
-            Call oDiff.AddDiff(.Reflection.MR_Compare("Reflection", iShape.Reflection))
+            Call oDiff.AddDiff("Reflection", .Reflection.MR_Compare(iShape.Reflection))
             If .Rotation <> iShape.Rotation Then
                 Call oDiff.AddScalarProperty("Rotation", SingleToVBA(.Rotation))
             End If
-            Call oDiff.AddDiff(.Shadow.MR_Compare("Shadow", iShape.Shadow))
+            Call oDiff.AddDiff("Shadow", .Shadow.MR_Compare(iShape.Shadow))
             'If .ShapeStyle <> iShape.ShapeStyle Then
             '    Call oCode.Add("'.ShapeStyle", MsoShapeStyleIndex(.ShapeStyle))
             'End If
             'TEXTFRAME SUPERSEDED WITH TEXTFRAME2
-            'Call oDiff.AddDiff(.TextFrame.MR_Compare("TextFrame", iShape.TextFrame))
-            Call oDiff.AddDiff(.TextFrame2.MR_Compare("TextFrame2", iShape.TextFrame2))
+            'Call oDiff.AddDiff("TextFrame", .TextFrame.MR_Compare(iShape.TextFrame))
+            Call oDiff.AddDiff("TextFrame2", .TextFrame2.MR_Compare(iShape.TextFrame2))
             'Public ThreeD As iThreeDFormat
             If .Title <> iShape.Title Then
                 Call oDiff.AddScalarProperty("Title", .Title)
@@ -436,7 +438,8 @@ Public Function create() As MR_Code
                             & " Left:=" & ToVBA(.Left) & "," _
                             & " Top:=" & ToVBA(.Top) & "," _
                             & " Width:=" & ToVBA(.Width) & "," _
-                            & " Height:=" & ToVBA(.Height) & ")")
+                            & " Height:=" & ToVBA(.Height) & ")" _
+                            & ".Select")
                 With myShape
                     .Type_ = mso3DModel
                 End With
@@ -446,7 +449,8 @@ Public Function create() As MR_Code
                             & " Left:=" & ToVBA(.Left) & "," _
                             & " Top:=" & ToVBA(.Top) & "," _
                             & " Width:=" & ToVBA(.Width) & "," _
-                            & " Height:=" & ToVBA(.Height) & ")")
+                            & " Height:=" & ToVBA(.Height) & ")" _
+                            & ".Select")
             Case Else:
                 err.Raise 9999, , "TODO iShape.Create"
         End Select
@@ -577,6 +581,11 @@ Sub DefaultValues()
     On Error GoTo err_
 
     Set defaultShape = GetDefaultShape(Me)
+
+    ' Special case with Shapes.Title (Shape), impossible to get the Default Shape if Shapes.Title Is Nothing.
+    If defaultShape Is Nothing Then
+        Exit Sub
+    End If
 
     With Me
         'Public ActionSettings As iActionSettings

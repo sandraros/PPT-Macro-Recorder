@@ -40,19 +40,19 @@ Public SlideNumber As Long
 'ActivePresentation.Slides(1).Parent
 
 
-Public Function MR_Compare(ObjectName As String, iSlide As iSlide) As MR_Diff
+Public Function MR_Compare(iSlide As iSlide) As MR_Diff
 
     Dim oDiff As MR_Diff
 
     On Error GoTo err_
 
-    Set oDiff = New_MR_Diff(ObjectName, Me, iSlide)
+    Set oDiff = New_MR_Diff(Me, iSlide)
     Set MR_Compare = oDiff
 
     If IsCompared(Me) Then Exit Function
 
     With Me
-        'TODO Call oDiff.AddDiff(.Background.MR_Compare("Background", iSlide.Background)
+        'TODO Call oDiff.AddDiff("Background", .Background.MR_Compare(iSlide.Background)
         If .BackgroundStyle <> iSlide.BackgroundStyle Then
             Call oDiff.AddScalarProperty("BackgroundStyle", MsoBackgroundStyleIndex(.BackgroundStyle))
         End If
@@ -72,7 +72,7 @@ Public Function MR_Compare(ObjectName As String, iSlide As iSlide) As MR_Diff
             Call oDiff.AddScalarProperty("Name", iSlide.Name)
         End If
         'If Not .NotesPage Is Nothing Then
-        Call oDiff.AddDiff(.NotesPage.MR_Compare("NotesPage", iSlide.NotesPage))
+        Call oDiff.AddDiff("NotesPage", .NotesPage.MR_Compare(iSlide.NotesPage))
         'End If
         If .PrintSteps <> iSlide.PrintSteps Then
             Call oDiff.AddScalarProperty("PrintSteps", LongToVBA(.PrintSteps))
@@ -80,7 +80,7 @@ Public Function MR_Compare(ObjectName As String, iSlide As iSlide) As MR_Diff
         If .SectionIndex <> iSlide.SectionIndex Then
             Call oDiff.AddScalarProperty("SectionIndex", LongToVBA(.SectionIndex))
         End If
-        Call oDiff.AddDiff(.Shapes.MR_Compare("Shapes", iSlide.Shapes))
+        Call oDiff.AddDiff("Shapes", .Shapes.MR_Compare(iSlide.Shapes))
         If .SlideID <> iSlide.SlideID Then
             Call oDiff.AddScalarProperty("SlideID", LongToVBA(.SlideID))
         End If

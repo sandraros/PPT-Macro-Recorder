@@ -2,7 +2,7 @@ Attribute VB_Name = "UtilityFunctions"
 ' Get Macro Recorder Snapshot object
 Function GetMRObject(PptObject As Object) As Object
 
-    Dim currentObjectPair As cObjectPair
+    Dim currentObjectPair As MR_ObjectPair
     Dim oMRObject As Object
 
     On Error GoTo err_
@@ -29,18 +29,16 @@ End Function
 
 Function GetPptObject(Snapshot As MR_Snapshot, MRObject As Object) As Object
 
-    Dim currentObjectPair As cObjectPair
+    Dim currentObjectPair As MR_ObjectPair
     Dim oPptObject As Object
 
     On Error GoTo err_
 
     For Each currentObjectPair In Snapshot.allObjects
-        'If TypeName(currentObjectPair.MRObject) = TypeName(MRObject) Then
         If currentObjectPair.MRObject Is MRObject Then
             Set oPptObject = currentObjectPair.PptObject
             Exit For
         End If
-        'End If
     Next
 
     Set GetPptObject = oPptObject
@@ -60,7 +58,7 @@ Sub OBSOLETE_BuildObjectIndexes()
 
     Dim snapshots As Collection
     Dim aSnapshot As MR_Snapshot
-    Dim anObjectPair As cObjectPair
+    Dim anObjectPair As MR_ObjectPair
 
     On Error GoTo err_
 
@@ -108,7 +106,6 @@ Sub CompareCollection( _
         Set oMRObject1 = FindMRObjectInTargetSnapshot(goStopSnapshot, oMRObject2, goStartSnapshot)
         If oMRObject1 Is Nothing Then
             Call oDiff.AddNewObject(oMRObject2)
-            'Set oMRObject1 = oMRObject2.ComparisonBase(oMRObject2)
         Else
             'IMPORTANT TO USE ".ITEM(X)" RATHER THAN "(X)" TO HANDLE BOTH CASES
             '   Case 1:
@@ -131,7 +128,7 @@ Sub CompareCollection( _
             '           ...
             '           With (4).Fill.ForeColor
             '           ...
-            Call oDiff.AddDiff(oMRObject2.MR_Compare("Item(" & CStr(i) & ")", oMRObject1))
+            Call oDiff.AddDiff("Item(" & CStr(i) & ")", oMRObject2.MR_Compare(oMRObject1))
         End If
     Next
 
@@ -141,12 +138,10 @@ Sub CompareCollection( _
         Set oMRObject1 = collection1.Item(i)
         Set oMRObject2 = FindMRObjectInTargetSnapshot(goStartSnapshot, oMRObject1, goStopSnapshot)
         If oMRObject2 Is Nothing Then
-            Call oDiff.AddDiff(oMRObject1.Delete())
+            Call oDiff.AddDiff("TODO", oMRObject1.Delete())
         End If
     Next
     End If
-
-    'Set CompareCollection = oCode
 
     Exit Sub
 
@@ -227,8 +222,8 @@ Function FindMRObjectInTargetSnapshot( _
         targetSnapshot As MR_Snapshot _
         ) As Object
 
-    Dim sourceObjectPair As cObjectPair
-    Dim tarGetMRObjectPair As cObjectPair
+    Dim sourceObjectPair As MR_ObjectPair
+    Dim tarGetMRObjectPair As MR_ObjectPair
     Dim sourcePptObject As Object
     Dim tarGetMRObject As Object
 
@@ -259,11 +254,11 @@ End Function
 Function AddObject(ioPptObject As Object, ioMRObject As Object) As Object
     ' Called by Factory methods of all MR objects
 
-    Dim objectPair As cObjectPair
+    Dim objectPair As MR_ObjectPair
 
     On Error GoTo err_
 
-    Set objectPair = New cObjectPair
+    Set objectPair = New MR_ObjectPair
     Set objectPair.MRObject = ioMRObject
     Set objectPair.PptObject = ioPptObject
     Call Snapshot.allObjects.Add(objectPair)
@@ -309,58 +304,56 @@ End Function
 Function ToVBA(iAny) As String
 
     Select Case TypeName(iAny)
-        Case "String":
-            ToVBA = StringToVBA(iAny)
-        Case "Single":
-            ToVBA = SingleToVBA(iAny)
+        Case "Boolean":
+            ToVBA = BooleanToVBA(iAny)
         Case "Long":
             ToVBA = LongToVBA(iAny)
+        Case "Single":
+            ToVBA = SingleToVBA(iAny)
+        Case "String":
+            ToVBA = StringToVBA(iAny)
     End Select
 
 End Function
 
-Function StringToVBA(iString) As String
+Function BooleanToVBA(ibBoolean) As String
 
-    StringToVBA = """" & Replace(iString, """", """""") & """"
-
-End Function
-
-Function SingleToVBA(iNumber) As String
-
-    SingleToVBA = Replace(CStr(iNumber), ",", ".")
+    If ibBoolean Then
+        BooleanToVBA = "True"
+    Else
+        BooleanToVBA = "False"
+    End If
 
 End Function
 
-Function LongToVBA(iNumber) As String
+Function StringToVBA(isString) As String
 
-    LongToVBA = Replace(CStr(iNumber), ",", ".")
+    StringToVBA = """" & Replace(isString, """", """""") & """"
+
+End Function
+
+Function SingleToVBA(isngNumber) As String
+
+    SingleToVBA = Replace(CStr(isngNumber), ",", ".")
+
+End Function
+
+Function LongToVBA(ilNumber) As String
+
+    LongToVBA = Replace(CStr(ilNumber), ",", ".")
 
 End Function
 
 Function MsoRGBTypeToVBA(iMsoRGBType As MsoRGBType) As String
 
-    If iMsoRGBType = -2147483648# Then err.Raise 9999
-'        RGBcolor = "transparent?"
-'    Else
+    If iMsoRGBType = -2147483648# Then
+        ' Function should not be called - This value happens (?) for a ShapeRange, it means "several values"
+        err.Raise 9999
+    End If
     high = Int(iMsoRGBType / 65536)
     low = iMsoRGBType Mod 65536
     HexRGBcolor = Replace(Format(Hex(high), "@@") & Format(Hex(low), "@@@@"), " ", "0")
     MsoRGBTypeToVBA = "RGB(" & Val("&H" & Mid(HexRGBcolor, 5, 2)) & "," & Val("&H" & Mid(HexRGBcolor, 3, 2)) & "," & Val("&H" & Mid(HexRGBcolor, 1, 2)) & ")"
-'        End If
-
-End Function
-
-Public Function ExistsInCollection(col As Collection, key As Variant) As Boolean
-
-    On Error GoTo err_
-
-    ExistsInCollection = True
-    IsObject (col.Item(key))
-
-    Exit Function
-
-err_:
-    ExistsInCollection = False
 
 End Function
 
@@ -376,6 +369,30 @@ Function IsObjectNewlySelected(ioAnyPptObject As Object) As Boolean
 
     IsObjectNewlySelected = (Not IsObjectPartOfSelection(ioAnyPptObject, goStartSnapshot) _
                     And IsObjectPartOfSelection(ioAnyPptObject, goStopSnapshot))
+
+    Exit Function
+
+err_:
+    #If DEBUG_MODE = 1 Then
+        Stop
+    #Else
+        err.Raise err.number 'rethrows with same source and description
+    #End If
+
+End Function
+
+Function IsObjectNewlyUnselected(ioAnyPptObject As Object) As Boolean
+
+    On Error GoTo err_
+
+    Select Case TypeName(ioAnyPptObject)
+        Case "Slide", "Shape", "TextRange2"
+        Case Else
+            Call err.Raise(9999)
+    End Select
+
+    IsObjectNewlyUnselected = (IsObjectPartOfSelection(ioAnyPptObject, goStartSnapshot) _
+                    And Not IsObjectPartOfSelection(ioAnyPptObject, goStopSnapshot))
 
     Exit Function
 

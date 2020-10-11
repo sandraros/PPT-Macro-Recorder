@@ -98,6 +98,7 @@ Public Sub Wrap(ObjectName As String)
             '                 .DashStyle = msoLineSysDot
             '                 .ForeColor.RGB = RGB(0, 176, 240)
             '             End With
+            If ObjectName <> "Application" Then
             ReDim Preserve mastrCode(UBound(mastrCode) + 2)
             For i = UBound(mastrCode) - 2 To LBound(mastrCode) Step -1
                 mastrCode(i + 1) = Space(4) & mastrCode(i)
@@ -105,6 +106,7 @@ Public Sub Wrap(ObjectName As String)
             mastrCode(LBound(mastrCode)) = "With " & ObjectName
             mastrCode(UBound(mastrCode)) = "End With"
             mState = oneBlockWith
+            End If
 
         Case oneBlockWith
             ' code before: With .Line

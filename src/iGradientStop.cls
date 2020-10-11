@@ -17,13 +17,13 @@ Public Transparency As Single
 'ActiveWindow.Selection.ShapeRange.Fill.GradientStops(1)
 
 
-Public Function MR_Compare(ObjectName As String, iGradientStop As iGradientStop) As MR_Diff
+Public Function MR_Compare(iGradientStop As iGradientStop) As MR_Diff
 
     Dim oDiff As MR_Diff
 
     On Error GoTo err_
 
-    Set oDiff = New_MR_Diff(ObjectName, Me, iGradientStop)
+    Set oDiff = New_MR_Diff(Me, iGradientStop)
     Set MR_Compare = oDiff
 
     If IsCompared(Me) Then Exit Function
@@ -32,7 +32,7 @@ Public Function MR_Compare(ObjectName As String, iGradientStop As iGradientStop)
         'If Not .Application Is iGradientStop.Application Then
         '    Call oCode.Add("'TODO Application")
         'End If
-        Call oDiff.AddDiff(.Color.MR_Compare("Color", iGradientStop.Color))
+        Call oDiff.AddDiff("Color", .Color.MR_Compare(iGradientStop.Color))
         'If .Creator <> iGradientStop.Creator Then
         '    Call oDiff.AddScalarProperty("Creator", LongToVBA(.Creator))
         'End If
@@ -88,7 +88,7 @@ End Sub
 Public Function create() As MR_Diff
 
     Stop
-    'Set oDiff = New_MR_Diff(ObjectName, Me, )
+    'Set oDiff = New_MR_Diff(Me, )
 
     With Me
         Call oCode.Add(Space(indent) _
@@ -107,7 +107,7 @@ End Function
 Public Function Delete() As String
 
     Stop
-    'Set oDiff = New_MR_Diff(ObjectName, Me, )
+    'Set oDiff = New_MR_Diff(Me, )
 
     'With Me
     '    Call oCode.Add(Space(indent) & "Call .Delete(1)")

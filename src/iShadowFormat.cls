@@ -26,13 +26,13 @@ Public Visible As MsoTriState
 'ActiveWindow.Selection.ShapeRange.TextFrame2.TextRange.Font.Shadow.Application
 
 
-Public Function MR_Compare(ObjectName As String, iShadowFormat As iShadowFormat) As MR_Diff
+Public Function MR_Compare(iShadowFormat As iShadowFormat) As MR_Diff
 
     Dim oDiff As MR_Diff
 
     On Error GoTo err_
 
-    Set oDiff = New_MR_Diff(ObjectName, Me, iShadowFormat)
+    Set oDiff = New_MR_Diff(Me, iShadowFormat)
     Set MR_Compare = oDiff
 
     If IsCompared(Me) Then Exit Function
@@ -48,7 +48,7 @@ Public Function MR_Compare(ObjectName As String, iShadowFormat As iShadowFormat)
         If .Blur <> iShadowFormat.Blur Then
             Call oDiff.AddScalarProperty("Blur", SingleToVBA(.Blur))
         End If
-        Call oDiff.AddDiff(.ForeColor.MR_Compare("ForeColor", iShadowFormat.ForeColor))
+        Call oDiff.AddDiff("ForeColor", .ForeColor.MR_Compare(iShadowFormat.ForeColor))
         If .Obscured <> iShadowFormat.Obscured Then
             Call oDiff.AddScalarProperty("Obscured", MsoTriState(.Obscured))
         End If

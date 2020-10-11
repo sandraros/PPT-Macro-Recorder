@@ -31,13 +31,13 @@ Public Underline As MsoTriState
 'ActiveWindow.Selection.ShapeRange.TextFrame.TextRange.Font.AutoRotateNumbers
 
 
-Public Function MR_Compare(ObjectName As String, iFont As iFont) As MR_Diff
+Public Function MR_Compare(iFont As iFont) As MR_Diff
 
     Dim oDiff As MR_Diff
 
     On Error GoTo err_
 
-    Set oDiff = New_MR_Diff(ObjectName, Me, iFont)
+    Set oDiff = New_MR_Diff(Me, iFont)
     Set MR_Compare = oDiff
 
     If IsCompared(Me) Then Exit Function
@@ -52,7 +52,7 @@ Public Function MR_Compare(ObjectName As String, iFont As iFont) As MR_Diff
         If .Bold <> iFont.Bold Then
             Call oDiff.AddScalarProperty("Bold", MsoTriState(.Bold))
         End If
-        Call oDiff.AddDiff(.Color.MR_Compare("Color", iFont.Color))
+        Call oDiff.AddDiff("Color", .Color.MR_Compare(iFont.Color))
         If .Embeddable <> iFont.Embeddable Then
             Call oDiff.AddScalarProperty("Embeddable", MsoTriState(.Embeddable))
         End If

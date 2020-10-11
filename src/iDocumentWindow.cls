@@ -30,13 +30,13 @@ Public WindowState As PpWindowState
 'ActivePresentation.Windows(1).WindowState
 
 
-Public Function MR_Compare(ObjectName As String, iDocumentWindow As iDocumentWindow) As MR_Diff
+Public Function MR_Compare(iDocumentWindow As iDocumentWindow) As MR_Diff
 
     Dim oDiff As MR_Diff
 
     On Error GoTo err_
 
-    Set oDiff = New_MR_Diff(ObjectName, Me, iDocumentWindow)
+    Set oDiff = New_MR_Diff(Me, iDocumentWindow)
     Set MR_Compare = oDiff
 
     If IsCompared(Me) Then Exit Function
@@ -54,8 +54,8 @@ Public Function MR_Compare(ObjectName As String, iDocumentWindow As iDocumentWin
         If .Left <> iDocumentWindow.Left Then
             Call oDiff.AddScalarProperty("Left", iDocumentWindow.Left)
         End If
-        Call oDiff.AddDiff(.Presentation.MR_Compare("Presentation", iDocumentWindow.Presentation))
-        Call oDiff.AddDiff(.Selection.MR_Compare("Selection", iDocumentWindow.Selection))
+        Call oDiff.AddDiff("Presentation", .Presentation.MR_Compare(iDocumentWindow.Presentation))
+        Call oDiff.AddDiff("Selection", .Selection.MR_Compare(iDocumentWindow.Selection))
         If .SplitHorizontal <> iDocumentWindow.SplitHorizontal Then
             Call oDiff.AddScalarProperty("SplitHorizontal", iDocumentWindow.SplitHorizontal)
         End If

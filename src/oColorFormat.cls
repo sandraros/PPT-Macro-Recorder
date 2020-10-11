@@ -21,13 +21,13 @@ Public Type_ As MsoColorType ' Type
 ' ...GradientStops(1).Color
 '
 
-Public Function MR_Compare(ObjectName As String, iColorFormat As oColorFormat) As MR_Diff
+Public Function MR_Compare(iColorFormat As oColorFormat) As MR_Diff
 
     Dim oDiff As MR_Diff
 
     On Error GoTo err_
 
-    Set oDiff = New_MR_Diff(ObjectName, Me, iColorFormat)
+    Set oDiff = New_MR_Diff(Me, iColorFormat)
     Set MR_Compare = oDiff
 
     If IsCompared(Me) Then Exit Function

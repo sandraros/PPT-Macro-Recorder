@@ -9,47 +9,26 @@ Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = False
 Public StartObject As Object
 Public StopObject As Object
-Public ObjectName As String
+'Public ObjectName As String
 Public AddedObjects As Collection
 Public RemovedObjects As Collection
 Public ScalarProperties As Collection
 Public ObjectProperties As Collection
 Public MethodCalls As Collection
-Public AllCollectionsCount As Long
-
-Sub class_initialize()
-
-    On Error GoTo err_
-
-    Set AddedObjects = New Collection
-    Set RemovedObjects = New Collection
-    Set ScalarProperties = New Collection
-    Set ObjectProperties = New Collection
-    Set MethodCalls = New Collection
-
-    Exit Sub
-
-err_:
-    #If DEBUG_MODE = 1 Then
-        Stop
-    #Else
-        err.Raise err.number 'rethrows with same source and description
-    #End If
-
-End Sub
+Public DiffCount As Long
 
 Sub AddNewObject(ioMRObject As Object)
 
-    Dim oAddedObject As UDiffAddedObject
+    Dim oAddedObject As MR_DiffAddedObject
 
     On Error GoTo err_
 
-    Set oAddedObject = New UDiffAddedObject
+    Set oAddedObject = New MR_DiffAddedObject
     Set oAddedObject.MRObject = ioMRObject
 
     Call AddedObjects.Add(oAddedObject)
 
-    AllCollectionsCount = AllCollectionsCount + 1
+    DiffCount = DiffCount + 1
 
     Exit Sub
 
@@ -62,21 +41,21 @@ err_:
 
 End Sub
 
-Sub AddDiff(ioDiff As MR_Diff)
+Sub AddDiff(isObjectName As String, ioDiff As MR_Diff)
 
-    Dim oObjectProperty As UDiffObjectProperty
+    Dim oObjectProperty As MR_DiffObjectProperty
 
     On Error GoTo err_
 
-    If ioDiff.AllCollectionsCount > 0 Then
+    If ioDiff.DiffCount > 0 Then
     
-        Set oObjectProperty = New UDiffObjectProperty
+        Set oObjectProperty = New MR_DiffObjectProperty
         Set oObjectProperty.Diff = ioDiff
-        oObjectProperty.ObjectName = ioDiff.ObjectName
+        oObjectProperty.ObjectName = isObjectName
 
         Call ObjectProperties.Add(oObjectProperty)
         
-        AllCollectionsCount = AllCollectionsCount + 1
+        DiffCount = DiffCount + 1
 
     End If
 
@@ -110,17 +89,17 @@ End Sub
 
 Sub AddMethodCall(ProcName As String, Optional Arguments As String = "")
 
-    Dim oMethodCall As UDiffMethodCall
+    Dim oMethodCall As MR_DiffMethodCall
 
     On Error GoTo err_
 
-    Set oMethodCall = New UDiffMethodCall
+    Set oMethodCall = New MR_DiffMethodCall
     oMethodCall.ProcName = ProcName
     oMethodCall.Arguments = Arguments
 
     Call MethodCalls.Add(oMethodCall)
 
-    AllCollectionsCount = AllCollectionsCount + 1
+    DiffCount = DiffCount + 1
 
     Exit Sub
 
@@ -135,17 +114,17 @@ End Sub
 
 Sub AddScalarProperty(Name As String, Value As Variant)
 
-    Dim oScalarProperty As UDiffScalarProperty
+    Dim oScalarProperty As MR_DiffScalarProperty
 
     On Error GoTo err_
 
-    Set oScalarProperty = New UDiffScalarProperty
+    Set oScalarProperty = New MR_DiffScalarProperty
     oScalarProperty.Name = Name
     oScalarProperty.Value = Value
 
     Call ScalarProperties.Add(oScalarProperty)
 
-    AllCollectionsCount = AllCollectionsCount + 1
+    DiffCount = DiffCount + 1
 
     Exit Sub
 

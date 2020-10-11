@@ -19,7 +19,7 @@ Public Function Compare(ObjectName As String, iIAssistance As iIAssistance) As M
 
     On Error GoTo err_
 
-    Set oDiff = New_MR_Diff(ObjectName, Me, iIAssistance)
+    Set oDiff = New_MR_Diff(Me, iIAssistance)
     Set Compare = oDiff
 
     If IsCompared(Me) Then Exit Function

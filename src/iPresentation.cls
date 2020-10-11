@@ -86,19 +86,19 @@ Public WritePassword As String
 'ActivePresentation.Parent
 
 
-Public Function MR_Compare(ObjectName As String, iPresentation As iPresentation) As MR_Diff
+Public Function MR_Compare(iPresentation As iPresentation) As MR_Diff
 
     Dim oDiff As MR_Diff
 
     On Error GoTo err_
 
-    Set oDiff = New_MR_Diff(ObjectName, Me, iPresentation)
+    Set oDiff = New_MR_Diff(Me, iPresentation)
     Set MR_Compare = oDiff
 
     If IsCompared(Me) Then Exit Function
 
     With Me
-        'Call oDiff.AddDiff(.Application.MR_Compare("Application", iPresentation.Application)
+        'Call oDiff.AddDiff("Application", .Application.MR_Compare(iPresentation.Application)
         If .AutoSaveOn <> iPresentation.AutoSaveOn Then
             Call oDiff.AddScalarProperty("AutoSaveOn", iPresentation.AutoSaveOn)
         End If
@@ -114,7 +114,7 @@ Public Function MR_Compare(ObjectName As String, iPresentation As iPresentation)
         If .DefaultLanguageID <> iPresentation.DefaultLanguageID Then
             Call oDiff.AddScalarProperty("DefaultLanguageID", MsoLanguageID(.DefaultLanguageID))
         End If
-        'TODO Call oDiff.AddDiff(.DefaultShape.MR_Compare("DefaultShape", iPresentation.DefaultShape)
+        'TODO Call oDiff.AddDiff("DefaultShape", .DefaultShape.MR_Compare(iPresentation.DefaultShape)
         If .DisplayComments <> iPresentation.DisplayComments Then
             Call oDiff.AddScalarProperty("DisplayComments", MsoTriState(.DisplayComments))
         End If
@@ -199,7 +199,7 @@ Public Function MR_Compare(ObjectName As String, iPresentation As iPresentation)
         'If .Saved <> iPresentation.Saved Then
         '    Call oDiff.AddScalarProperty("Saved", MsoTriState(.Saved))
         'End If
-        Call oDiff.AddDiff(.Slides.MR_Compare("Slides", iPresentation.Slides))
+        Call oDiff.AddDiff("Slides", .Slides.MR_Compare(iPresentation.Slides))
         If .SnapToGrid <> iPresentation.SnapToGrid Then
             Call oDiff.AddScalarProperty("SnapToGrid", MsoTriState(.SnapToGrid))
         End If

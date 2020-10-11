@@ -18,7 +18,7 @@ Public Title As iShape
 'ActivePresentation.Slides(1).Shapes.Parent
 
 
-Public Function MR_Compare(ObjectName As String, iShapes As iShapes) As MR_Diff
+Public Function MR_Compare(iShapes As iShapes) As MR_Diff
 
     Dim oDiff As MR_Diff
 
@@ -26,7 +26,7 @@ Public Function MR_Compare(ObjectName As String, iShapes As iShapes) As MR_Diff
 
     'Call goStack.Push(iShapes)
 
-    Set oDiff = New_MR_Diff(ObjectName, Me, iShapes)
+    Set oDiff = New_MR_Diff(Me, iShapes)
     Set MR_Compare = oDiff
 
     If IsCompared(Me) Then Exit Function
@@ -41,7 +41,9 @@ Public Function MR_Compare(ObjectName As String, iShapes As iShapes) As MR_Diff
         'If .HasTitle <> iShapes.HasTitle Then
         '    Call oDiff.AddScalarProperty("HasTitle", MsoTriState(.HasTitle))
         'End If
-        Call oDiff.AddDiff(.Title.MR_Compare("Title", iShapes.Title))
+        If iShapes.HasTitle Then
+            Call oDiff.AddDiff("Title", .Title.MR_Compare(iShapes.Title))
+        End If
         Call CompareCollection(oDiff, .Items, iShapes.Items)
     End With
 

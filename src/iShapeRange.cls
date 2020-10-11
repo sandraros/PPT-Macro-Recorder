@@ -79,7 +79,7 @@ Public Items As Collection
 'ActiveWindow.Selection.ShapeRange.ZOrderPosition
 
 
-Public Function MR_Compare(ObjectName As String, iShapeRange As iShapeRange) As MR_Diff
+Public Function MR_Compare(iShapeRange As iShapeRange) As MR_Diff
 
     Dim iShape As iShape
 
@@ -87,7 +87,7 @@ Public Function MR_Compare(ObjectName As String, iShapeRange As iShapeRange) As 
 
     On Error GoTo err_
 
-    Set oDiff = New_MR_Diff(ObjectName, Me, iShapeRange)
+    Set oDiff = New_MR_Diff(Me, iShapeRange)
     Set MR_Compare = oDiff
 
     If IsCompared(Me) Then Exit Function
@@ -129,10 +129,10 @@ Public Function MR_Compare(ObjectName As String, iShapeRange As iShapeRange) As 
             Call oDiff.AddScalarProperty("Decorative", MsoTriState(.Decorative))
         End If
         If Not .Fill Is Nothing And Not iShapeRange.Fill Is Nothing Then ' nothing if several shapes with different Fill are selected
-            Call oDiff.AddDiff(.Fill.MR_Compare("Fill", iShapeRange.Fill))
+            Call oDiff.AddDiff("Fill", .Fill.MR_Compare(iShapeRange.Fill))
         End If
         If Not .Glow Is Nothing And Not iShapeRange.Glow Is Nothing Then ' nothing if several shapes with different Glow are selected
-            Call oDiff.AddDiff(.Glow.MR_Compare("Glow", iShapeRange.Glow))
+            Call oDiff.AddDiff("Glow", .Glow.MR_Compare(iShapeRange.Glow))
         End If
         If .GraphicStyle <> iShapeRange.GraphicStyle Then
             Call oDiff.AddScalarProperty("GraphicStyle", MsoGraphicStyleIndex(.GraphicStyle))
@@ -174,7 +174,7 @@ Public Function MR_Compare(ObjectName As String, iShapeRange As iShapeRange) As 
             Call oDiff.AddScalarProperty("Left", ToVBA(.Left))
         End If
         If Not .Line Is Nothing And Not iShapeRange.Line Is Nothing Then ' nothing if several shapes with different Line are selected
-            Call oDiff.AddDiff(.Line.MR_Compare("Line", iShapeRange.Line))
+            Call oDiff.AddDiff("Line", .Line.MR_Compare(iShapeRange.Line))
         End If
         If .LockAspectRatio <> iShapeRange.LockAspectRatio Then
             Call oDiff.AddScalarProperty("LockAspectRatio", MsoTriState(.LockAspectRatio))
@@ -186,24 +186,24 @@ Public Function MR_Compare(ObjectName As String, iShapeRange As iShapeRange) As 
             Call oDiff.AddScalarProperty("Name", ToVBA(.Name))
         End If
         If Not .ParentGroup Is Nothing Then
-            'TODO Call oDiff.AddDiff(.ParentGroup.MR_Compare("ParentGroup", iShapeRange.ParentGroup)
+            'TODO Call oDiff.AddDiff("ParentGroup", .ParentGroup.MR_Compare(iShapeRange.ParentGroup)
         End If
         If Not .Reflection Is Nothing And Not iShapeRange.Reflection Is Nothing Then ' nothing if several shapes with different Reflection are selected
-            Call oDiff.AddDiff(.Reflection.MR_Compare("Reflection", iShapeRange.Reflection))
+            Call oDiff.AddDiff("Reflection", .Reflection.MR_Compare(iShapeRange.Reflection))
         End If
         If .Rotation <> iShapeRange.Rotation Then
             Call oDiff.AddScalarProperty("Rotation", SingleToVBA(.Rotation))
         End If
         If Not .Shadow Is Nothing And Not iShapeRange.Shadow Is Nothing Then ' nothing if several shapes with different Shadow are selected
-            Call oDiff.AddDiff(.Shadow.MR_Compare("Shadow", iShapeRange.Shadow))
+            Call oDiff.AddDiff("Shadow", .Shadow.MR_Compare(iShapeRange.Shadow))
         End If
         'If .ShapeStyle <> iShapeRange.ShapeStyle Then
         '    Call oCode.Add("'.ShapeStyle", MsoShapeStyleIndex(.ShapeStyle))
         'End If
         'TEXTFRAME SUPERSEDED WITH TEXTFRAME2
-        'Call oDiff.AddDiff(.TextFrame.MR_Compare("TextFrame", iShapeRange.TextFrame))
+        'Call oDiff.AddDiff("TextFrame", .TextFrame.MR_Compare(iShapeRange.TextFrame))
         If Not .TextFrame2 Is Nothing And Not iShapeRange.TextFrame2 Is Nothing Then ' nothing if several shapes with different TextFrame2 are selected
-            Call oDiff.AddDiff(.TextFrame2.MR_Compare("TextFrame2", iShapeRange.TextFrame2))
+            Call oDiff.AddDiff("TextFrame2", .TextFrame2.MR_Compare(iShapeRange.TextFrame2))
         End If
         'Public ThreeD As iThreeDFormat
         If .Title <> iShapeRange.Title Then

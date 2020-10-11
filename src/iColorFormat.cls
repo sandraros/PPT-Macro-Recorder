@@ -21,13 +21,13 @@ Public Type_ As MsoColorType ' Type
 'ActiveWindow.Selection.ShapeRange.TextFrame2.TextRange.Font.Fill.ForeColor
 
 
-Public Function MR_Compare(ObjectName As String, iColorFormat As iColorFormat) As MR_Diff
+Public Function MR_Compare(iColorFormat As iColorFormat) As MR_Diff
 
     Dim oDiff As MR_Diff
 
     On Error GoTo err_
 
-    Set oDiff = New_MR_Diff(ObjectName, Me, iColorFormat)
+    Set oDiff = New_MR_Diff(Me, iColorFormat)
     Set MR_Compare = oDiff
 
     If IsCompared(Me) Then Exit Function
@@ -49,7 +49,7 @@ Public Function MR_Compare(ObjectName As String, iColorFormat As iColorFormat) A
             '        a = 1
             '    End If
             'End If
-            Set oDiff = New_MR_Diff(ObjectName, Me, iColorFormat)
+            Set oDiff = New_MR_Diff(Me, iColorFormat)
             Call oDiff.AddScalarProperty("ObjectThemeColor", MsoThemeColorIndex(.ObjectThemeColor))
         End If
         If .Type_ = msoColorTypeRGB _

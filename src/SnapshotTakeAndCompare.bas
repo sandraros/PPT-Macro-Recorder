@@ -34,6 +34,8 @@ Sub TakeSnapshotCompareAndGenerateCode()
     Dim oStopSelection As iSelection
 
     Set goStopSnapshot = TakeSnapshot()
+    Set goDiffPtrs = New Collection
+    Set goCollObjectsWithCodeGenerated = New Collection
 
     Set oDiff = CompareSnapshots()
 
@@ -57,12 +59,16 @@ Sub TakeSnapshotCompareAndGenerateCode()
     Set oStopSelection = goStopSnapshot.iApplication.ActiveWindow.Selection
 
     Call goCode.AddCode(GetCodeForInitiallySelectedObjects(oDiff))
-    Call goCode.AddCode(GetCodeForUnselectedObjects(oDiff))
+    'Call goCode.AddCode(GetCodeForUnselectedObjects("Application", oDiff))
     Call goCode.AddCode(GetCodeForAddedObjects(oDiff))
+    ' Select / Unselect
     Call goCode.AddCode(GetCodeForChangedSelection(oDiff, oStartSelection, oStopSelection))
 
     Set goStartSnapshot = goStopSnapshot
+
     Set goStopSnapshot = Nothing
+    Set goDiffPtrs = Nothing
+    Set goCollObjectsWithCodeGenerated = Nothing
 
 End Sub
 
@@ -74,7 +80,7 @@ Function CompareSnapshots() As MR_Diff
 
     Set AllObjectsCompared = New Collection ' To not compare one object twice -- still needed?
 
-    Set CompareSnapshots = goStopSnapshot.iApplication.MR_Compare("Application", goStartSnapshot.iApplication)
+    Set CompareSnapshots = goStopSnapshot.iApplication.MR_Compare(goStartSnapshot.iApplication)
 
     Exit Function
 
@@ -86,49 +92,4 @@ err_:
     #End If
 
 End Function
-
-Sub OBSOLETE_GetCodeForAddedObjects()
-
-    Dim oStartSlide As iSlide
-    Dim oStopShape As iShape
-
-    On Error GoTo err_
-
-    'With goStopSnapshot.iPresentation.Slides
-    '    For i = 1 To .Count
-    '        Set oStopSlide = .Items(i)
-    '        Set oStartSlide = GetObjectInStartSnapshot(oStopSlide)
-    '        If oStartSlide Is Nothing Then
-    '            Set oStartSlide = goStartSnapshot.iPresentation.Slides.AddSlide(oStopSlide.SlideIndex, oStopSlide.CustomLayout)
-    '        End If
-    '        With .Shapes
-    '            For j = 1 To .Count
-    '                Set oStopShape = .Items(j)
-    '                If GetObjectInStartSnapshot(oStopShape) Is Nothing Then
-    '                    Select Case oStopShape.Type_
-    '                        Case msoAutoShape
-    '                            Call oStartSlide.Shapes.AddShape(Type_:=oStopSlide.AutoShapeType, _
-    '                                        Left:=oStopSlide.Left, _
-    '                                        Top:=oStopSlide.Top, _
-    '                                        Width:=oStopSlide.Width, _
-    '                                        Height:=oStopSlide.Height).Select
-    '                        Case Else
-    '                            err.Raise 9999, , "TODO iShape.Create"
-    '                    End Select
-    '                End If
-    '            Next
-    '        End With
-    '    Next
-    'End With
-
-    Exit Sub
-
-err_:
-    #If DEBUG_MODE = 1 Then
-        Stop
-    #Else
-        err.Raise err.number 'rethrows with same source and description
-    #End If
-
-End Sub
 

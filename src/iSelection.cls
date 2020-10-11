@@ -21,13 +21,13 @@ Public Type_ As PpSelectionType ' Type
 'ActiveWindow.Selection.Parent
 
 
-Public Function MR_Compare(ObjectName As String, iSelection As iSelection) As MR_Diff
+Public Function MR_Compare(iSelection As iSelection) As MR_Diff
 
     Dim oDiff As MR_Diff
 
     On Error GoTo err_
 
-    Set oDiff = New_MR_Diff(ObjectName, Me, iSelection)
+    Set oDiff = New_MR_Diff(Me, iSelection)
     Set MR_Compare = oDiff
 
     If IsCompared(Me) Then Exit Function
@@ -42,12 +42,12 @@ Public Function MR_Compare(ObjectName As String, iSelection As iSelection) As MR
         'Set .Parent = iSelection.Parent
         'If .Type_ = iSelection.Type_ Then
         Select Case .Type_
-            Case ppSelectionShapes:
-                Call oDiff.AddDiff(.shapeRange.MR_Compare("ShapeRange", iSelection.shapeRange))
-            Case ppSelectionSlides:
-                'TODO Set .SlideRange = New_iSlideRange(iSelection.SlideRange)
-            Case ppSelectionText:
-                Call oDiff.AddDiff(.TextRange2.MR_Compare("TextRange2", iSelection.TextRange2))
+            Case ppSelectionShapes
+                Call oDiff.AddDiff("ShapeRange", .shapeRange.MR_Compare(iSelection.shapeRange))
+            Case ppSelectionSlides
+                'TODO Call oDiff.AddDiff("SlideRange", .SlideRange.MR_Compare(iSelection.SlideRange)
+            Case ppSelectionText
+                Call oDiff.AddDiff("TextRange2", .TextRange2.MR_Compare(iSelection.TextRange2))
         End Select
         'If .Type_ <> iSelection.Type_ And .Type_ = ppSelectionNone Then
         '    Call oCode.Add("Call .Unselect")

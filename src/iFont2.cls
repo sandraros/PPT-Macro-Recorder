@@ -42,13 +42,13 @@ Public WordArtFormat As MsoPresetTextEffect
 'ActiveWindow.Selection.ShapeRange.TextFrame2.TextRange.Font
 
 
-Public Function MR_Compare(ObjectName As String, iFont2 As iFont2) As MR_Diff
+Public Function MR_Compare(iFont2 As iFont2) As MR_Diff
 
     Dim oDiff As MR_Diff
 
     On Error GoTo err_
 
-    Set oDiff = New_MR_Diff(ObjectName, Me, iFont2)
+    Set oDiff = New_MR_Diff(Me, iFont2)
     Set MR_Compare = oDiff
 
     If IsCompared(Me) Then Exit Function
@@ -75,9 +75,9 @@ Public Function MR_Compare(ObjectName As String, iFont2 As iFont2) As MR_Diff
         If .Equalize <> iFont2.Equalize Then
             Call oDiff.AddScalarProperty("Equalize", MsoTriState(.Equalize))
         End If
-        Call oDiff.AddDiff(.Fill.MR_Compare("Fill", iFont2.Fill))
-        Call oDiff.AddDiff(.Glow.MR_Compare("Glow", iFont2.Glow))
-        Call oDiff.AddDiff(.Highlight.MR_Compare("Highlight", iFont2.Highlight))
+        Call oDiff.AddDiff("Fill", .Fill.MR_Compare(iFont2.Fill))
+        Call oDiff.AddDiff("Glow", .Glow.MR_Compare(iFont2.Glow))
+        Call oDiff.AddDiff("Highlight", .Highlight.MR_Compare(iFont2.Highlight))
         If .Italic <> iFont2.Italic Then
             Call oDiff.AddScalarProperty("Italic", MsoTriState(.Italic))
         End If
@@ -99,8 +99,8 @@ Public Function MR_Compare(ObjectName As String, iFont2 As iFont2) As MR_Diff
         If .NameOther <> iFont2.NameOther Then
             Call oDiff.AddScalarProperty("NameOther", ToVBA(.NameOther))
         End If
-        Call oDiff.AddDiff(.Reflection.MR_Compare("Reflection", iFont2.Reflection))
-        Call oDiff.AddDiff(.Shadow.MR_Compare("Shadow", iFont2.Shadow))
+        Call oDiff.AddDiff("Reflection", .Reflection.MR_Compare(iFont2.Reflection))
+        Call oDiff.AddDiff("Shadow", .Shadow.MR_Compare(iFont2.Shadow))
         If .Size <> iFont2.Size Then
             Call oDiff.AddScalarProperty("Size", SingleToVBA(.Size))
         End If
@@ -125,7 +125,7 @@ Public Function MR_Compare(ObjectName As String, iFont2 As iFont2) As MR_Diff
         If .Superscript <> iFont2.Superscript Then
             Call oDiff.AddScalarProperty("Superscript", MsoTriState(.Superscript))
         End If
-        Call oDiff.AddDiff(.UnderlineColor.MR_Compare("UnderlineColor", iFont2.UnderlineColor))
+        Call oDiff.AddDiff("UnderlineColor", .UnderlineColor.MR_Compare(iFont2.UnderlineColor))
         If .UnderlineStyle <> iFont2.UnderlineStyle Then
             Call oDiff.AddScalarProperty("UnderlineStyle", MsoTextUnderlineType(.UnderlineStyle))
         End If

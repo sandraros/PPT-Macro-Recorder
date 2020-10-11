@@ -15,19 +15,19 @@ Public Transparency As Single
 '
 
 
-Public Function MR_Compare(ObjectName As String, iGlowFormat As iGlowFormat) As MR_Diff
+Public Function MR_Compare(iGlowFormat As iGlowFormat) As MR_Diff
 
     Dim oDiff As MR_Diff
 
     On Error GoTo err_
 
-    Set oDiff = New_MR_Diff(ObjectName, Me, iGlowFormat)
+    Set oDiff = New_MR_Diff(Me, iGlowFormat)
     Set MR_Compare = oDiff
 
     If IsCompared(Me) Then Exit Function
 
     With Me
-        Call oDiff.AddDiff(.Color.MR_Compare("Color", iGlowFormat.Color))
+        Call oDiff.AddDiff("Color", .Color.MR_Compare(iGlowFormat.Color))
         If .Radius <> iGlowFormat.Radius Then
             Call oDiff.AddScalarProperty("Radius", SingleToVBA(.Radius))
         End If

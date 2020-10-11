@@ -14,13 +14,13 @@ Public Transparency As Single
 Public Type_ As MsoReflectionType
 
 
-Public Function MR_Compare(ObjectName As String, iReflectionFormat As iReflectionFormat) As MR_Diff
+Public Function MR_Compare(iReflectionFormat As iReflectionFormat) As MR_Diff
 
     Dim oDiff As MR_Diff
 
     On Error GoTo err_
 
-    Set oDiff = New_MR_Diff(ObjectName, Me, iReflectionFormat)
+    Set oDiff = New_MR_Diff(Me, iReflectionFormat)
     Set MR_Compare = oDiff
 
     If IsCompared(Me) Then Exit Function
